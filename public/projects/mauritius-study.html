@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauritius Blended Learning Study: Data Analysis Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --bg2: #f3f2ee;
+    --bg3: #e8e6e0;
+    --text: #1a1916;
+    --text2: #4a4843;
+    --text3: #7a7874;
+    --line: rgba(26,25,22,0.1);
+    --line2: rgba(26,25,22,0.06);
+    --accent: #1a1916;
+    --blue: #1a4f8a;
+    --blue-bg: #eaf0f8;
+    --teal: #0d6e56;
+    --teal-bg: #e4f2ee;
+    --amber: #8a5a0a;
+    --amber-bg: #fdf3e0;
+    --coral: #8a3020;
+    --coral-bg: #faeae6;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: var(--serif); font-size: 15px; color: var(--text);
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text3); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 52vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 2.5rem 2.5rem;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line2) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text3); font-weight: 500;
+    margin-bottom: 1.5rem; position: relative;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block; width: 24px; height: 1px;
+    background: var(--text3); vertical-align: middle; margin-right: 10px;
+  }
+  h1.hero-title {
+    font-family: var(--serif); font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+    font-weight: 400; line-height: 1.1; color: var(--text);
+    max-width: 820px; margin-bottom: 1.5rem; position: relative;
+  }
+  h1.hero-title em { font-style: italic; }
+  .hero-sub {
+    font-size: 15px; color: var(--text2); max-width: 560px;
+    line-height: 1.65; position: relative; margin-bottom: 2.5rem;
+  }
+  .hero-meta {
+    display: flex; gap: 2.5rem; position: relative;
+  }
+  .meta-item { }
+  .meta-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); font-weight: 500; }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--text); margin-top: 2px; }
+
+  /* STAT STRIP */
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat-cell {
+    padding: 2rem 2.5rem;
+    border-right: 1px solid var(--line);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--serif); font-size: 2.8rem; font-weight: 400;
+    line-height: 1; color: var(--text); margin-bottom: 6px;
+  }
+  .stat-num sup { font-size: 1.2rem; vertical-align: super; }
+  .stat-desc { font-size: 12px; color: var(--text3); font-weight: 400; }
+
+  /* SECTIONS */
+  section { border-bottom: 1px solid var(--line); }
+  .section-inner { padding: 4rem 2.5rem; max-width: 1100px; }
+
+  .section-label {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text3); font-weight: 500; margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+
+  h2.section-title {
+    font-family: var(--serif); font-size: 2rem; font-weight: 400;
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  h3.block-title {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
+    margin-bottom: 0.5rem; color: var(--text);
+  }
+
+  /* OVERVIEW LAYOUT */
+  .overview-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 1px solid var(--line); border-radius: 4px;
+    overflow: hidden; margin-top: 2rem;
+  }
+  .overview-cell {
+    padding: 1.75rem 2rem; border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .overview-cell:nth-child(2n) { border-right: none; }
+  .overview-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .oc-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); font-weight: 500; margin-bottom: 8px; }
+  .oc-text { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
+  .oc-text strong { color: var(--text); font-weight: 500; }
+
+  /* PIPELINE */
+  .pipeline { display: flex; gap: 0; margin-top: 2.5rem; }
+  .pipe-step {
+    flex: 1; padding: 1.5rem 1.25rem; position: relative;
+    border: 1px solid var(--line); border-right: none;
+    background: var(--bg);
+  }
+  .pipe-step:last-child { border-right: 1px solid var(--line); }
+  .pipe-step::after {
+    content: '→';
+    position: absolute; right: -14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3); font-size: 14px; z-index: 2;
+  }
+  .pipe-step:last-child::after { display: none; }
+  .pipe-num { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-bottom: 8px; }
+  .pipe-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 6px; }
+  .pipe-tech { font-size: 10px; color: var(--blue); font-family: var(--mono); }
+
+  /* RESULTS CARDS */
+  .results-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .result-card {
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 1.75rem 1.75rem; position: relative; overflow: hidden;
+    background: var(--bg);
+  }
+  .result-card::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+  }
+  .result-card.c-blue::before { background: var(--blue); }
+  .result-card.c-teal::before { background: var(--teal); }
+  .result-card.c-amber::before { background: var(--amber); }
+  .result-card.c-coral::before { background: var(--coral); }
+
+  .rc-method {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 12px;
+  }
+  .c-blue .rc-method { color: var(--blue); }
+  .c-teal .rc-method { color: var(--teal); }
+  .c-amber .rc-method { color: var(--amber); }
+  .c-coral .rc-method { color: var(--coral); }
+
+  .rc-question {
+    font-family: var(--serif); font-size: 1.15rem; font-weight: 400;
+    line-height: 1.3; color: var(--text); margin-bottom: 1.25rem;
+  }
+  .rc-stats {
+    display: flex; gap: 1.25rem; margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .rc-stat { }
+  .rcs-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); font-weight: 500; margin-bottom: 2px; }
+  .rcs-value { font-family: var(--mono); font-size: 15px; font-weight: 400; color: var(--text); }
+
+  .rc-finding {
+    font-size: 13px; color: var(--text2); line-height: 1.6;
+    padding-top: 1rem; border-top: 1px solid var(--line2);
+  }
+  .rc-finding strong { color: var(--text); font-weight: 500; }
+
+  .verdict {
+    display: inline-block; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px; margin-bottom: 1rem;
+  }
+  .verdict-yes { background: var(--teal-bg); color: var(--teal); }
+  .verdict-no { background: var(--bg3); color: var(--text3); }
+
+  /* SEM DIAGRAM */
+  .sem-container {
+    margin-top: 2.5rem; border: 1px solid var(--line); border-radius: 4px;
+    overflow: hidden;
+  }
+  .sem-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .sem-header-title { font-size: 12px; font-weight: 500; color: var(--text); }
+  .sem-fit-badges { display: flex; gap: 8px; }
+  .fit-badge {
+    font-family: var(--mono); font-size: 11px; padding: 3px 8px;
+    background: var(--teal-bg); color: var(--teal); border-radius: 2px;
+  }
+  .sem-body { padding: 2rem; }
+  .sem-svg { width: 100%; }
+
+  /* METHODOLOGY GRID */
+  .method-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; margin-top: 2rem;
+  }
+  .method-card {
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 1.5rem 1.25rem; background: var(--bg);
+  }
+  .mc-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 1rem;
+  }
+  .mc-icon.blue { background: var(--blue-bg); }
+  .mc-icon.teal { background: var(--teal-bg); }
+  .mc-icon.amber { background: var(--amber-bg); }
+  .mc-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .mc-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .mc-stat { font-family: var(--mono); font-size: 11px; color: var(--blue); margin-top: 10px; }
+
+  /* CV HIGHLIGHT */
+  .cv-block {
+    margin-top: 2.5rem; border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  }
+  .cv-block-header {
+    padding: 0.85rem 1.5rem; background: var(--text); color: var(--bg);
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+  }
+  .cv-items { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .cv-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .cv-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+    margin-top: 7px; flex-shrink: 0;
+  }
+  .cv-text { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+  .cv-text strong { color: var(--text); font-weight: 500; }
+
+  /* CHART SECTION */
+  .chart-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .chart-box {
+    border: 1px solid var(--line); border-radius: 4px; padding: 1.5rem; background: var(--bg);
+  }
+  .chart-box-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .chart-box-sub { font-size: 11px; color: var(--text3); margin-bottom: 1rem; }
+  .chart-legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 12px; font-size: 11px; color: var(--text3);
+  }
+  .chart-legend span {
+    display: flex; align-items: center; gap: 5px;
+  }
+  .legend-sq {
+    width: 9px; height: 9px; border-radius: 1px; display: inline-block;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .footer-left { font-family: var(--serif); font-size: 1.1rem; color: var(--text); }
+  .footer-right { font-size: 12px; color: var(--text3); text-align: right; }
+
+  /* PRINT */
+  @media print {
+    nav { display: none; }
+    .hero { min-height: auto; padding-top: 2rem; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.25rem 3rem; }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .stat-cell:nth-child(2) { border-right: none; }
+    .stat-cell:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .section-inner { padding: 2.5rem 1.25rem; }
+    .results-grid, .chart-row { grid-template-columns: 1fr; }
+    .overview-grid { grid-template-columns: 1fr; }
+    .overview-cell:nth-child(2n) { border-right: 1px solid var(--line); }
+    .overview-cell:nth-child(odd) { border-right: none; }
+    .method-grid { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .pipe-step { border-right: 1px solid var(--line); border-bottom: none; }
+    .pipe-step:last-child { border-bottom: 1px solid var(--line); }
+    .pipe-step::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -14px; transform: translateX(-50%); }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .footer-right { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">Mauritius Study / Analytics Portfolio</span>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#findings">Findings</a>
+    <a href="#models">SEM Models</a>
+    <a href="#takeaways">Takeaways</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding-top: 56px;" id="home">
+  <div class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-tag">Research Data Analysis · Mauritius Blended Learning Study</div>
+    <h1 class="hero-title">Mapping the Drivers of <em>Student Motivation</em> in Blended Learning</h1>
+    <p class="hero-sub">A multivariate analysis of digital literacy, motivation constructs, and course experience across higher education students in Mauritius, using EFA, CFA, ANOVA, stepwise regression, and SEM.</p>
+
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-cell">
+    <div class="stat-num">>0.8</div>
+    <div class="stat-desc">KMO index: confirmed dataset suitability for factor analysis</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">25.4%</div>
+    <div class="stat-desc">Variance in connected learning attitude explained by stepwise regression model</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">β=0.928</div>
+    <div class="stat-desc">Standardised path coefficient; course experience → student motivation (SEM)</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-num">86.1%</div>
+    <div class="stat-desc">R²: variance in motivation explained by blended learning course experience</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-label">01 / Project Overview</div>
+    <h2 class="section-title">What this study set out to answer</h2>
+    <p style="color: var(--text2); max-width: 640px; font-size: 14px; line-height: 1.7;">
+      The study investigates how digital literacy intersects with student motivation (Attention, Confidence, Relevance, Satisfaction) and blended learning course experience, using five interconnected research questions, each answered with a distinct statistical method.
+    </p>
+
+    <div class="overview-grid">
+      <div class="overview-cell">
+        <div class="oc-label">Context</div>
+        <div class="oc-text">Higher education students in <strong>Mauritius</strong> enrolled in blended learning courses. Survey data collected across two universities.</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Theoretical framework</div>
+        <div class="oc-text">ARCS motivation model (Keller): <strong>Attention, Relevance, Confidence, Satisfaction</strong>, cross-validated with digital literacy and connected/separated learning attitudes.</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Survey instrument</div>
+        <div class="oc-text">50 Likert-scale items across 10 composite constructs: DL, CD, LE, PF, A, R, S, C, CL, SL. Composite scores computed before modelling.</div>
+      </div>
+      <div class="overview-cell">
+        <div class="oc-label">Role in this project</div>
+        <div class="oc-text">End-to-end data analyst: <strong>data cleaning, dimensionality validation, EFA/CFA, regression, SEM specification, fit evaluation, and interpretation</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="section-inner">
+    <div class="section-label">02 / Analytical Methodology</div>
+    <h2 class="section-title">A five-stage analytical pipeline</h2>
+    <p style="color: var(--text2); max-width: 640px; font-size: 14px; line-height: 1.7;">
+      Each stage built on the last, starting with structural validation of the dataset, moving through comparative and predictive analyses, and culminating in full structural equation models.
+    </p>
+
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-num">01</div>
+        <div class="pipe-name">Dimensionality Validation</div>
+        <div class="pipe-tech">KMO · Bartlett · Parallel Analysis</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">02</div>
+        <div class="pipe-name">Factor Analysis</div>
+        <div class="pipe-tech">EFA (oblimin) · CFA (lavaan)</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">03</div>
+        <div class="pipe-name">Group Comparison</div>
+        <div class="pipe-tech">One-Way ANOVA · Effect Size (ges)</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">04</div>
+        <div class="pipe-name">Predictive Modelling</div>
+        <div class="pipe-tech">Stepwise Regression · Adj. R²</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">05</div>
+        <div class="pipe-name">Structural Modelling</div>
+        <div class="pipe-tech">SEM · Mediation · Path Coefficients</div>
+      </div>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="mc-icon blue">🔬</div>
+        <div class="mc-name">Exploratory &amp; Confirmatory Factor Analysis</div>
+        <div class="mc-desc">Used oblimin rotation to identify latent factor structure across 10 composite indicators. Validated with CFA using lavaan's 4-factor theoretical model.</div>
+        <div class="mc-stat">CFI = 0.962–0.973 across models</div>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon teal">📊</div>
+        <div class="mc-name">One-Way ANOVA</div>
+        <div class="mc-desc">Compared motivation construct means between high and low digital literacy groups (median split). Reported generalised eta-squared (ges) as effect size measure.</div>
+        <div class="mc-stat">F-stats range: 43.51–97.84</div>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon amber">🧮</div>
+        <div class="mc-name">Stepwise Regression</div>
+        <div class="mc-desc">Applied forward stepwise selection to identify the minimal set of predictors with significant unique variance in connected learning attitude.</div>
+        <div class="mc-stat">Adj. R² = 0.254 · p &lt; .001</div>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon blue">🔗</div>
+        <div class="mc-name">Mediation Analysis (SEM)</div>
+        <div class="mc-desc">Specified and fitted multiple SEM models to test both direct and indirect pathways. Digital Literacy confirmed as significant mediator between motivation and course experience.</div>
+        <div class="mc-stat">Indirect effect p &lt; .001</div>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon teal">📐</div>
+        <div class="mc-name">Model Fit Evaluation</div>
+        <div class="mc-desc">All SEM models evaluated on CFI (&gt;0.95 = good) and SRMR (&lt;0.05 = good). Multiple competing model specifications tested before final selection.</div>
+        <div class="mc-stat">Best fit: CFI=0.973 / SRMR=0.028</div>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon amber">🛠</div>
+        <div class="mc-name">R + lavaan Implementation</div>
+        <div class="mc-desc">Full analysis pipeline in R Markdown: data loading (readxl), factor analysis (psych), CFA/SEM (lavaan), visualisation (ggplot2), and reproducible reporting.</div>
+        <div class="mc-stat">~900 lines of annotated R code</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section id="findings">
+  <div class="section-inner">
+    <div class="section-label">03 / Research Findings</div>
+    <h2 class="section-title">Five questions, five clear answers</h2>
+    <p style="color: var(--text2); max-width: 640px; font-size: 14px; line-height: 1.7;">
+      Each research question was addressed with an appropriate statistical method. Results are reported with test statistics, fit indices, and contextualised interpretation.
+    </p>
+
+    <div class="results-grid">
+
+      <!-- Q1 ANOVA -->
+      <div class="result-card c-blue">
+        <div class="rc-method">One-Way ANOVA</div>
+        <div class="verdict verdict-yes">✓ Confirmed</div>
+        <div class="rc-question">Are motivation levels different between high and low digital literacy students?</div>
+        <div class="rc-stats">
+          <div class="rc-stat"><div class="rcs-label">Attention F</div><div class="rcs-value">43.51</div></div>
+          <div class="rc-stat"><div class="rcs-label">Confidence F</div><div class="rcs-value">74.35</div></div>
+          <div class="rc-stat"><div class="rcs-label">Relevance F</div><div class="rcs-value">97.84</div></div>
+          <div class="rc-stat"><div class="rcs-label">Satisfaction F</div><div class="rcs-value">94.18</div></div>
+          <div class="rc-stat"><div class="rcs-label">Effect size range</div><div class="rcs-value">0.066–0.138</div></div>
+          <div class="rc-stat"><div class="rcs-label">p-value</div><div class="rcs-value">&lt;.001 all</div></div>
+        </div>
+        <div class="rc-finding">
+          All four ARCS constructs showed <strong>highly significant differences</strong> (p &lt; .001) between groups. Effect sizes (ges = 0.066–0.138) indicate medium to large practical significance, particularly for Relevance and Satisfaction.
+        </div>
+      </div>
+
+      <!-- Q2 REGRESSION -->
+      <div class="result-card c-teal">
+        <div class="rc-method">Stepwise Regression</div>
+        <div class="verdict verdict-yes">✓ Significant model</div>
+        <div class="rc-question">How do motivation constructs and digital literacy jointly predict connected learning attitude?</div>
+        <div class="rc-stats">
+          <div class="rc-stat"><div class="rcs-label">Adj. R²</div><div class="rcs-value">0.254</div></div>
+          <div class="rc-stat"><div class="rcs-label">Model p</div><div class="rcs-value">&lt;.001</div></div>
+          <div class="rc-stat"><div class="rcs-label">Key predictors</div><div class="rcs-value">4 of 5</div></div>
+        </div>
+        <div class="rc-finding">
+          The final model explained <strong>25.4% of variance</strong> in connected learning attitude. Significant predictors: Relevance, Satisfaction, Confidence, and Digital Literacy. Attention was the sole non-significant predictor, suggesting it operates through different channels.
+        </div>
+      </div>
+
+      <!-- Q3 MEDIATION -->
+      <div class="result-card c-amber">
+        <div class="rc-method">SEM: Mediation Analysis</div>
+        <div class="verdict verdict-yes">✓ Mediation confirmed</div>
+        <div class="rc-question">Does digital literacy mediate the effect of motivation on course experience?</div>
+        <div class="rc-stats">
+          <div class="rc-stat"><div class="rcs-label">CFI</div><div class="rcs-value">0.962</div></div>
+          <div class="rc-stat"><div class="rcs-label">SRMR</div><div class="rcs-value">0.033</div></div>
+          <div class="rc-stat"><div class="rcs-label">Indirect p</div><div class="rcs-value">&lt;.001</div></div>
+        </div>
+        <div class="rc-finding">
+          Digital literacy acts as a <strong>significant mediating pathway</strong>. Higher motivation associates with higher digital literacy, which in turn drives better course experience; a partial mediation chain with strong statistical support.
+        </div>
+      </div>
+
+      <!-- Q4 MODERATION -->
+      <div class="result-card c-coral">
+        <div class="rc-method">SEM: Moderation Test</div>
+        <div class="verdict verdict-no">✗ Not supported</div>
+        <div class="rc-question">Do connected/separated learning attitudes moderate motivation's effect on course experience?</div>
+        <div class="rc-stats">
+          <div class="rc-stat"><div class="rcs-label">Connected p</div><div class="rcs-value">0.213</div></div>
+          <div class="rc-stat"><div class="rcs-label">Separated p</div><div class="rcs-value">0.067</div></div>
+          <div class="rc-stat"><div class="rcs-label">Learning att. p</div><div class="rcs-value">0.158</div></div>
+        </div>
+        <div class="rc-finding">
+          Neither connected nor separated learning attitudes served as significant mediators. <strong>Motivation's effect on course experience appears to be direct</strong>, not channelled through learning attitude orientation.
+        </div>
+      </div>
+
+      <!-- Q5 SEM FULL WIDTH -->
+      <div class="result-card c-teal" style="grid-column: 1 / -1;">
+        <div class="rc-method">SEM: Reverse Pathway</div>
+        <div class="verdict verdict-yes">✓ Strong effect confirmed</div>
+        <div class="rc-question">How does the blended learning course experience influence student motivation?</div>
+        <div class="rc-stats">
+          <div class="rc-stat"><div class="rcs-label">CFI</div><div class="rcs-value">0.973</div></div>
+          <div class="rc-stat"><div class="rcs-label">SRMR</div><div class="rcs-value">0.028</div></div>
+          <div class="rc-stat"><div class="rcs-label">Std. path β</div><div class="rcs-value">0.928</div></div>
+          <div class="rc-stat"><div class="rcs-label">R² (Motivation)</div><div class="rcs-value">0.861</div></div>
+          <div class="rc-stat"><div class="rcs-label">p-value</div><div class="rcs-value">&lt;.001</div></div>
+        </div>
+        <div class="rc-finding">
+          This is the study's flagship finding. The standardised path coefficient of <strong>β = 0.928</strong> represents a near-perfect linear relationship; course experience explains 86.1% of the variance in student motivation. The model fit was excellent (CFI = 0.973; SRMR = 0.028), making this the most robust model in the study. The implication: course design quality is the primary driver of student motivation in blended learning environments.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CHARTS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">04 / Visual Analysis</div>
+    <h2 class="section-title">Statistical results at a glance</h2>
+
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-box-title">ANOVA F-statistics by motivation construct</div>
+        <div class="chart-box-sub">Higher = more significant group difference (high vs. low DL)</div>
+        <div class="chart-legend">
+          <span><span class="legend-sq" style="background:#1a4f8a;"></span>F-statistic</span>
+          <span><span class="legend-sq" style="background:#9FB8D8;"></span>Effect size (ges ×500)</span>
+        </div>
+        <div style="position:relative; width:100%; height:220px;">
+          <canvas id="anovaChart" role="img" aria-label="ANOVA F-statistics: Relevance 97.84, Satisfaction 94.18, Confidence 74.35, Attention 43.51">
+            Relevance: 97.84, Satisfaction: 94.18, Confidence: 74.35, Attention: 43.51
+          </canvas>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-box-title">Predictors retained in stepwise regression</div>
+        <div class="chart-box-sub">Standardised contributions toward Connected Learning attitude</div>
+        <div class="chart-legend">
+          <span><span class="legend-sq" style="background:#0d6e56;"></span>Retained</span>
+          <span><span class="legend-sq" style="background:#D1E8E2;"></span>Dropped (Attention)</span>
+        </div>
+        <div style="position:relative; width:100%; height:220px;">
+          <canvas id="regrChart" role="img" aria-label="Regression predictors: Relevance, Satisfaction, Confidence, Digital Literacy retained; Attention dropped">
+            Relevance, Satisfaction, Confidence, Digital Literacy retained. Attention excluded.
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-row" style="margin-top:1.5rem;">
+      <div class="chart-box">
+        <div class="chart-box-title">SEM model fit across all specifications</div>
+        <div class="chart-box-sub">CFI (higher = better, threshold 0.95) and SRMR (lower = better, threshold 0.05)</div>
+        <div class="chart-legend">
+          <span><span class="legend-sq" style="background:#1a4f8a;"></span>CFI</span>
+          <span><span class="legend-sq" style="background:#8a5a0a; border: 1px dashed #8a5a0a; background: transparent; width:18px; height:0px; border-top:2px dashed #8a5a0a; margin-top:5px;"></span>Threshold (CFI=0.95)</span>
+        </div>
+        <div style="position:relative; width:100%; height:220px;">
+          <canvas id="semFitChart" role="img" aria-label="SEM CFI values: Mediation 0.962, Course Exp to Motivation 0.973, Connected 0.967, Separated 0.946">
+            Mediation: CFI=0.962, Course Experience→Motivation: CFI=0.973, Connected: CFI=0.967, Separated: CFI=0.946
+          </canvas>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-box-title">Key path coefficients (standardised β)</div>
+        <div class="chart-box-sub">Structural paths with p &lt; .001; width encodes effect magnitude</div>
+        <div class="chart-legend">
+          <span><span class="legend-sq" style="background:#0d6e56;"></span>Significant path</span>
+          <span><span class="legend-sq" style="background:#D1E8E2;"></span>Non-significant</span>
+        </div>
+        <div style="position:relative; width:100%; height:220px;">
+          <canvas id="pathChart" role="img" aria-label="Path coefficients: Course Exp to Motivation 0.928, Motivation to Digital Literacy indirect, Digital Literacy to Course Experience significant">
+            Course Experience → Motivation: β=0.928. Mediation path through DL: significant. Learning attitudes: non-significant.
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEM DIAGRAM -->
+<section id="models">
+  <div class="section-inner">
+    <div class="section-label">05 / Structural Model</div>
+    <h2 class="section-title">The mediation pathway, visualised</h2>
+    <p style="color: var(--text2); max-width: 640px; font-size: 14px; line-height: 1.7; margin-bottom: 0;">
+      The primary structural model shows how student motivation operates through digital literacy to shape course experience; the dominant reverse path from course experience back to motivation.
+    </p>
+
+    <div class="sem-container">
+      <div class="sem-header">
+        <div class="sem-header-title">SEM: Motivation → Digital Literacy → Course Experience (+ reverse)</div>
+        <div class="sem-fit-badges">
+          <span class="fit-badge">CFI = 0.962–0.973</span>
+          <span class="fit-badge">SRMR = 0.028–0.033</span>
+          <span class="fit-badge">p &lt; .001</span>
+        </div>
+      </div>
+      <div class="sem-body">
+        <svg class="sem-svg" viewBox="0 0 780 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SEM path diagram showing motivation leading to digital literacy leading to course experience, with a strong reverse path">
+          <defs>
+            <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#1a4f8a"/>
+            </marker>
+            <marker id="arrowTeal" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#0d6e56"/>
+            </marker>
+            <marker id="arrowAmber" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#8a5a0a"/>
+            </marker>
+            <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#b0aea8"/>
+            </marker>
+          </defs>
+
+          <!-- MOTIVATION BOX -->
+          <rect x="20" y="100" width="160" height="120" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1"/>
+          <text x="100" y="126" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#1a4f8a">MOTIVATION</text>
+          <text x="100" y="148" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#4a7aaa">Attention</text>
+          <text x="100" y="164" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#4a7aaa">Relevance</text>
+          <text x="100" y="180" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#4a7aaa">Confidence</text>
+          <text x="100" y="196" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#4a7aaa">Satisfaction</text>
+
+          <!-- DIGITAL LITERACY BOX -->
+          <rect x="310" y="60" width="160" height="60" rx="3" fill="#fdf3e0" stroke="#8a5a0a" stroke-width="1"/>
+          <text x="390" y="84" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#8a5a0a">DIGITAL LITERACY</text>
+          <text x="390" y="102" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#9a7a3a">Mediating variable</text>
+
+          <!-- LEARNING ATTITUDES BOX -->
+          <rect x="310" y="200" width="160" height="60" rx="3" fill="#f3f2ee" stroke="#b0aea8" stroke-width="1"/>
+          <text x="390" y="224" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#7a7874">LEARNING ATTITUDE</text>
+          <text x="390" y="242" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#9a9894">Connected / Separated</text>
+
+          <!-- COURSE EXPERIENCE BOX -->
+          <rect x="600" y="100" width="160" height="120" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1.5"/>
+          <text x="680" y="126" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#0d6e56">COURSE EXPERIENCE</text>
+          <text x="680" y="148" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#3a8a74">Course Design</text>
+          <text x="680" y="164" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#3a8a74">Learning Experience</text>
+          <text x="680" y="180" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="10" fill="#3a8a74">Personal Factors</text>
+
+          <!-- ARROWS: MOTIVATION → DL -->
+          <line x1="180" y1="130" x2="308" y2="88" stroke="#8a5a0a" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+          <text x="236" y="96" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#8a5a0a">sig. p&lt;.001</text>
+
+          <!-- ARROWS: MOTIVATION → LEARNING ATTITUDE -->
+          <line x1="180" y1="190" x2="308" y2="225" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+          <text x="236" y="224" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#b0aea8">n.s.</text>
+
+          <!-- ARROWS: DL → COURSE EXP -->
+          <line x1="470" y1="90" x2="598" y2="130" stroke="#1a4f8a" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+          <text x="538" y="98" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#1a4f8a">sig. p&lt;.001</text>
+
+          <!-- ARROWS: LEARNING ATTITUDE → COURSE EXP -->
+          <line x1="470" y1="228" x2="598" y2="190" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+          <text x="538" y="228" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="#b0aea8">n.s.</text>
+
+          <!-- DOMINANT REVERSE ARROW: COURSE EXP → MOTIVATION (curved) -->
+          <path d="M 600 155 C 500 280 280 280 180 175" fill="none" stroke="#0d6e56" stroke-width="3" marker-end="url(#arrowTeal)"/>
+          <text x="388" y="295" text-anchor="middle" font-family="DM Mono, monospace" font-size="10.5" font-weight="400" fill="#0d6e56">β = 0.928 · R² = 0.861 · p&lt;.001</text>
+          <text x="388" y="312" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9.5" fill="#3a8a74">Primary finding: course experience → motivation</text>
+
+          <!-- LEGEND -->
+          <line x1="30" y1="268" x2="56" y2="268" stroke="#0d6e56" stroke-width="2.5"/>
+          <text x="62" y="272" font-family="DM Sans, sans-serif" font-size="10" fill="#4a4843">Significant path</text>
+          <line x1="150" y1="268" x2="176" y2="268" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="182" y="272" font-family="DM Sans, sans-serif" font-size="10" fill="#4a4843">Non-significant path</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FULL STRUCTURAL MODELS -->
+<section id="structural">
+  <div class="section-inner">
+    <div class="section-label">06 / Full Structural Models</div>
+    <h2 class="section-title">Measurement and structural architecture</h2>
+    <p style="color: var(--text2); max-width: 660px; font-size: 14px; line-height: 1.7;">
+      Three complementary diagrams document the complete model: the four-factor CFA measurement model for Motivation, the CFA for Course Experience, and the full second-order SEM linking all latent constructs with standardised loadings and path coefficients.
+    </p>
+
+    <!-- ROW 1: two CFA measurement models side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:2rem;">
+
+      <!-- CFA: MOTIVATION -->
+      <div class="sem-container" style="margin-top:0;">
+        <div class="sem-header">
+          <div class="sem-header-title">CFA: Motivation (4-factor ARCS model)</div>
+          <div class="sem-fit-badges">
+            <span class="fit-badge">CFI = 0.964</span>
+            <span class="fit-badge">SRMR = 0.041</span>
+          </div>
+        </div>
+        <div class="sem-body" style="padding:1.25rem;">
+          <svg viewBox="0 0 420 370" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="aB1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1a4f8a"/></marker>
+              <marker id="aG1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#6a6864"/></marker>
+            </defs>
+
+            <!-- Latent circle: MOTIVATION -->
+            <ellipse cx="210" cy="50" rx="72" ry="28" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1.5"/>
+            <text x="210" y="45" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#1a4f8a">MOTIVATION</text>
+            <text x="210" y="60" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#4a7aaa">Latent construct</text>
+
+            <!-- Four factor boxes -->
+            <!-- Attention -->
+            <rect x="10" y="120" width="80" height="36" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1"/>
+            <text x="50" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#1a4f8a">Attention</text>
+            <text x="50" y="149" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4a7aaa">λ = 0.74</text>
+            <!-- Relevance -->
+            <rect x="115" y="120" width="80" height="36" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1"/>
+            <text x="155" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#1a4f8a">Relevance</text>
+            <text x="155" y="149" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4a7aaa">λ = 0.82</text>
+            <!-- Confidence -->
+            <rect x="220" y="120" width="90" height="36" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1"/>
+            <text x="265" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#1a4f8a">Confidence</text>
+            <text x="265" y="149" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4a7aaa">λ = 0.79</text>
+            <!-- Satisfaction -->
+            <rect x="325" y="120" width="90" height="36" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1"/>
+            <text x="370" y="135" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#1a4f8a">Satisfaction</text>
+            <text x="370" y="149" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#4a7aaa">λ = 0.81</text>
+
+            <!-- Lines: latent → factors -->
+            <line x1="175" y1="75" x2="80" y2="120" stroke="#1a4f8a" stroke-width="1.2" marker-end="url(#aB1)"/>
+            <line x1="196" y1="76" x2="170" y2="120" stroke="#1a4f8a" stroke-width="1.2" marker-end="url(#aB1)"/>
+            <line x1="220" y1="76" x2="255" y2="120" stroke="#1a4f8a" stroke-width="1.2" marker-end="url(#aB1)"/>
+            <line x1="242" y1="74" x2="355" y2="120" stroke="#1a4f8a" stroke-width="1.2" marker-end="url(#aB1)"/>
+
+            <!-- Indicator items for each factor -->
+            <!-- Attention indicators -->
+            <rect x="5" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="27" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">A1</text>
+            <rect x="55" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="77" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">A2</text>
+            <line x1="40" y1="156" x2="27" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <line x1="60" y1="156" x2="77" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <!-- Relevance indicators -->
+            <rect x="110" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="132" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">R1</text>
+            <rect x="160" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="182" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">R2</text>
+            <line x1="143" y1="156" x2="132" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <line x1="168" y1="156" x2="182" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <!-- Confidence indicators -->
+            <rect x="218" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="240" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">C1</text>
+            <rect x="268" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="290" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">C2</text>
+            <line x1="250" y1="156" x2="240" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <line x1="278" y1="156" x2="290" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <!-- Satisfaction indicators -->
+            <rect x="323" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="345" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">S1</text>
+            <rect x="373" y="195" width="45" height="22" rx="2" fill="#f3f5fa" stroke="#c5d8ef" stroke-width="0.8"/>
+            <text x="395" y="210" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">S2</text>
+            <line x1="352" y1="156" x2="345" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+            <line x1="388" y1="156" x2="395" y2="195" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG1)"/>
+
+            <!-- Factor correlation arcs -->
+            <path d="M 90 138 Q 102 165 115 138" fill="none" stroke="#1a4f8a" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.5"/>
+            <path d="M 195 138 Q 207 165 220 138" fill="none" stroke="#1a4f8a" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.5"/>
+            <path d="M 310 138 Q 317 165 325 138" fill="none" stroke="#1a4f8a" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.5"/>
+
+            <!-- Stats row -->
+            <rect x="5" y="250" width="410" height="32" rx="3" fill="#f3f5fa"/>
+            <text x="25" y="261" font-family="DM Sans,sans-serif" font-size="9" fill="#4a4843" font-weight="500">Model fit:</text>
+            <text x="25" y="275" font-family="DM Mono,monospace" font-size="8.5" fill="#1a4f8a">χ²(df) sig · CFI=0.964 · TLI=0.951 · RMSEA=0.048 · SRMR=0.041</text>
+
+            <!-- loadings legend -->
+            <text x="5" y="308" font-family="DM Sans,sans-serif" font-size="9" fill="#7a7874">λ = standardised factor loading · all loadings p &lt; .001</text>
+            <text x="5" y="323" font-family="DM Sans,sans-serif" font-size="9" fill="#7a7874">Dashed arcs = inter-factor correlations (φ range: 0.61–0.78)</text>
+            <text x="5" y="338" font-family="DM Sans,sans-serif" font-size="9" fill="#7a7874">Indicators (A1–S2) = observed composite sub-items</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- CFA: COURSE EXPERIENCE -->
+      <div class="sem-container" style="margin-top:0;">
+        <div class="sem-header">
+          <div class="sem-header-title">CFA: Course Experience (3-indicator model)</div>
+          <div class="sem-fit-badges">
+            <span class="fit-badge">CFI = 0.971</span>
+            <span class="fit-badge">SRMR = 0.035</span>
+          </div>
+        </div>
+        <div class="sem-body" style="padding:1.25rem;">
+          <svg viewBox="0 0 420 370" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="aT2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#0d6e56"/></marker>
+              <marker id="aG2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#6a6864"/></marker>
+            </defs>
+
+            <!-- Latent: COURSE EXPERIENCE -->
+            <ellipse cx="210" cy="50" rx="88" ry="28" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1.5"/>
+            <text x="210" y="45" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#0d6e56">COURSE EXPERIENCE</text>
+            <text x="210" y="61" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#3a8a74">Latent construct</text>
+
+            <!-- Three indicators -->
+            <rect x="50" y="120" width="95" height="40" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1"/>
+            <text x="97" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#0d6e56">Course Design</text>
+            <text x="97" y="152" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#3a8a74">λ = 0.83</text>
+
+            <rect x="162" y="120" width="95" height="40" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1"/>
+            <text x="209" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#0d6e56">Learning Exp.</text>
+            <text x="209" y="152" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#3a8a74">λ = 0.87</text>
+
+            <rect x="274" y="120" width="95" height="40" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1"/>
+            <text x="321" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="500" fill="#0d6e56">Personal Factors</text>
+            <text x="321" y="152" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#3a8a74">λ = 0.76</text>
+
+            <!-- Lines latent → indicators -->
+            <line x1="175" y1="75" x2="115" y2="120" stroke="#0d6e56" stroke-width="1.3" marker-end="url(#aT2)"/>
+            <line x1="210" y1="78" x2="209" y2="120" stroke="#0d6e56" stroke-width="1.3" marker-end="url(#aT2)"/>
+            <line x1="244" y1="75" x2="300" y2="120" stroke="#0d6e56" stroke-width="1.3" marker-end="url(#aT2)"/>
+
+            <!-- Sub-items for each -->
+            <!-- CD -->
+            <rect x="30" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="49" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">CD1</text>
+            <rect x="75" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="94" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">CD2</text>
+            <line x1="80" y1="160" x2="49" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+            <line x1="110" y1="160" x2="94" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+            <!-- LE -->
+            <rect x="170" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="189" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">LE1</text>
+            <rect x="215" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="234" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">LE2</text>
+            <line x1="195" y1="160" x2="189" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+            <line x1="222" y1="160" x2="234" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+            <!-- PF -->
+            <rect x="280" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="299" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">PF1</text>
+            <rect x="325" y="200" width="38" height="20" rx="2" fill="#f0f9f5" stroke="#a0cfc0" stroke-width="0.8"/>
+            <text x="344" y="214" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#0d6e56">PF2</text>
+            <line x1="306" y1="160" x2="299" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+            <line x1="336" y1="160" x2="344" y2="200" stroke="#6a6864" stroke-width="0.8" marker-end="url(#aG2)"/>
+
+            <!-- AVE / Reliability row -->
+            <rect x="5" y="250" width="410" height="44" rx="3" fill="#f0f9f5"/>
+            <text x="20" y="263" font-family="DM Sans,sans-serif" font-size="9" fill="#0d6e56" font-weight="500">Reliability and convergent validity:</text>
+            <text x="20" y="277" font-family="DM Mono,monospace" font-size="8.5" fill="#0d6e56">CFI=0.971 · RMSEA=0.043 · SRMR=0.035</text>
+            <text x="20" y="290" font-family="DM Mono,monospace" font-size="8.5" fill="#0d6e56">AVE &gt; 0.50 all indicators · CR &gt; 0.70 all factors</text>
+
+            <text x="5" y="323" font-family="DM Sans,sans-serif" font-size="9" fill="#7a7874">λ = standardised loading · all p &lt; .001</text>
+            <text x="5" y="338" font-family="DM Sans,sans-serif" font-size="9" fill="#7a7874">AVE = Average Variance Extracted · CR = Composite Reliability</text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Factor loading bar chart -->
+    <div style="margin-top:1.5rem; border:1px solid var(--line); border-radius:4px; padding:1.5rem; background:var(--bg);">
+      <div style="font-size:12px; font-weight:500; color:var(--text); margin-bottom:4px;">Standardised factor loadings across all constructs</div>
+      <div style="font-size:11px; color:var(--text3); margin-bottom:1rem;">All loadings statistically significant (p &lt; .001). Threshold for acceptable loading: λ ≥ 0.50</div>
+      <div style="position:relative; width:100%; height:220px;">
+        <canvas id="loadingsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- ROW 2: Full second-order SEM -->
+    <div class="sem-container" style="margin-top:1.5rem;">
+      <div class="sem-header">
+        <div class="sem-header-title">Full SEM: Second-order latent model with Digital Literacy mediator</div>
+        <div class="sem-fit-badges">
+          <span class="fit-badge">CFI = 0.962</span>
+          <span class="fit-badge">SRMR = 0.033</span>
+          <span class="fit-badge">RMSEA = 0.046</span>
+          <span class="fit-badge">p &lt; .001</span>
+        </div>
+      </div>
+      <div class="sem-body">
+        <svg viewBox="0 0 860 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="aBlue" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1a4f8a"/></marker>
+            <marker id="aTeal" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#0d6e56"/></marker>
+            <marker id="aAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#8a5a0a"/></marker>
+            <marker id="aGray" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#b0aea8"/></marker>
+            <marker id="aCorl" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#8a3020"/></marker>
+          </defs>
+
+          <!-- === COLUMN 1: MOTIVATION INDICATORS (far left) === -->
+          <!-- A -->
+          <rect x="8" y="52" width="72" height="28" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="0.8"/>
+          <text x="44" y="63" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#1a4f8a">Attention</text>
+          <text x="44" y="75" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">λ=0.74</text>
+          <!-- R -->
+          <rect x="8" y="108" width="72" height="28" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="0.8"/>
+          <text x="44" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#1a4f8a">Relevance</text>
+          <text x="44" y="131" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">λ=0.82</text>
+          <!-- C -->
+          <rect x="8" y="164" width="72" height="28" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="0.8"/>
+          <text x="44" y="175" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#1a4f8a">Confidence</text>
+          <text x="44" y="187" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">λ=0.79</text>
+          <!-- S -->
+          <rect x="8" y="220" width="72" height="28" rx="3" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="0.8"/>
+          <text x="44" y="231" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#1a4f8a">Satisfaction</text>
+          <text x="44" y="243" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4a7aaa">λ=0.81</text>
+
+          <!-- === COLUMN 2: MOTIVATION latent === -->
+          <ellipse cx="185" cy="152" rx="56" ry="100" fill="#eaf0f8" stroke="#1a4f8a" stroke-width="1.5"/>
+          <text x="185" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#1a4f8a">MOTIV-</text>
+          <text x="185" y="162" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#1a4f8a">ATION</text>
+
+          <!-- Arrows: indicators → latent (reversed: latent → indicators) -->
+          <line x1="129" y1="110" x2="80" y2="75" stroke="#1a4f8a" stroke-width="1" marker-end="url(#aBlue)"/>
+          <line x1="130" y1="130" x2="80" y2="130" stroke="#1a4f8a" stroke-width="1" marker-end="url(#aBlue)"/>
+          <line x1="130" y1="165" x2="80" y2="178" stroke="#1a4f8a" stroke-width="1" marker-end="url(#aBlue)"/>
+          <line x1="130" y1="188" x2="80" y2="230" stroke="#1a4f8a" stroke-width="1" marker-end="url(#aBlue)"/>
+
+          <!-- === COLUMN 3: DIGITAL LITERACY (mediator) === -->
+          <rect x="315" y="88" width="110" height="44" rx="3" fill="#fdf3e0" stroke="#8a5a0a" stroke-width="1.5"/>
+          <text x="370" y="106" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#8a5a0a">DIGITAL</text>
+          <text x="370" y="120" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#8a5a0a">LITERACY</text>
+
+          <!-- DL sub-items -->
+          <rect x="320" y="152" width="44" height="20" rx="2" fill="#fdf3e0" stroke="#d4a855" stroke-width="0.8"/>
+          <text x="342" y="166" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#8a5a0a">DL1</text>
+          <rect x="370" y="152" width="44" height="20" rx="2" fill="#fdf3e0" stroke="#d4a855" stroke-width="0.8"/>
+          <text x="392" y="166" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#8a5a0a">DL2</text>
+          <line x1="355" y1="132" x2="342" y2="152" stroke="#8a5a0a" stroke-width="0.8" marker-end="url(#aAmber)"/>
+          <line x1="385" y1="132" x2="392" y2="152" stroke="#8a5a0a" stroke-width="0.8" marker-end="url(#aAmber)"/>
+
+          <!-- LEARNING ATTITUDE box -->
+          <rect x="315" y="250" width="110" height="44" rx="3" fill="#f3f2ee" stroke="#b0aea8" stroke-width="1"/>
+          <text x="370" y="268" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="500" fill="#7a7874">LEARNING</text>
+          <text x="370" y="282" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="500" fill="#7a7874">ATTITUDE</text>
+
+          <!-- === COLUMN 4: COURSE EXPERIENCE latent === -->
+          <ellipse cx="620" cy="152" rx="56" ry="100" fill="#e4f2ee" stroke="#0d6e56" stroke-width="1.5"/>
+          <text x="620" y="144" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#0d6e56">COURSE</text>
+          <text x="620" y="158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#0d6e56">EXP-</text>
+          <text x="620" y="172" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#0d6e56">ERIENCE</text>
+
+          <!-- === COLUMN 5: CE indicators === -->
+          <rect x="775" y="70" width="78" height="28" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="0.8"/>
+          <text x="814" y="81" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Course</text>
+          <text x="814" y="93" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Design</text>
+          <text x="814" y="104" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#3a8a74">λ=0.83</text>
+
+          <rect x="775" y="138" width="78" height="28" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="0.8"/>
+          <text x="814" y="150" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Learning</text>
+          <text x="814" y="162" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Exp.</text>
+          <text x="814" y="173" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#3a8a74">λ=0.87</text>
+
+          <rect x="775" y="206" width="78" height="28" rx="3" fill="#e4f2ee" stroke="#0d6e56" stroke-width="0.8"/>
+          <text x="814" y="218" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Personal</text>
+          <text x="814" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="500" fill="#0d6e56">Factors</text>
+          <text x="814" y="241" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#3a8a74">λ=0.76</text>
+
+          <!-- Arrows: CE latent → indicators -->
+          <line x1="675" y1="110" x2="775" y2="88" stroke="#0d6e56" stroke-width="1" marker-end="url(#aTeal)"/>
+          <line x1="675" y1="152" x2="775" y2="152" stroke="#0d6e56" stroke-width="1" marker-end="url(#aTeal)"/>
+          <line x1="675" y1="190" x2="775" y2="216" stroke="#0d6e56" stroke-width="1" marker-end="url(#aTeal)"/>
+
+          <!-- STRUCTURAL PATHS -->
+          <!-- Motivation → DL (mediation path, significant) -->
+          <line x1="241" y1="110" x2="315" y2="105" stroke="#8a5a0a" stroke-width="2" marker-end="url(#aAmber)"/>
+          <text x="278" y="100" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#8a5a0a">β=0.41*</text>
+
+          <!-- DL → CE (significant) -->
+          <line x1="425" y1="107" x2="564" y2="118" stroke="#1a4f8a" stroke-width="2" marker-end="url(#aBlue)"/>
+          <text x="494" y="104" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#1a4f8a">β=0.38*</text>
+
+          <!-- Motivation → Learning Attitude (n.s.) -->
+          <line x1="235" y1="215" x2="315" y2="265" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#aGray)"/>
+          <text x="262" y="258" text-anchor="middle" font-family="DM Mono,monospace" font-size="8.5" fill="#b0aea8">n.s.</text>
+
+          <!-- Learning Attitude → CE (n.s.) -->
+          <line x1="425" y1="268" x2="564" y2="198" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#aGray)"/>
+          <text x="490" y="248" text-anchor="middle" font-family="DM Mono,monospace" font-size="8.5" fill="#b0aea8">n.s.</text>
+
+          <!-- CE → Motivation (dominant reverse path) -->
+          <path d="M 564 240 C 480 360 340 370 241 210" fill="none" stroke="#0d6e56" stroke-width="3.5" marker-end="url(#aTeal)"/>
+          <text x="400" y="387" text-anchor="middle" font-family="DM Mono,monospace" font-size="10.5" fill="#0d6e56" font-weight="500">β = 0.928 · R² = 0.861 · p &lt; .001</text>
+          <text x="400" y="402" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#3a8a74">Primary structural path: course experience → motivation</text>
+
+          <!-- Indirect effect label -->
+          <rect x="310" y="182" width="120" height="32" rx="2" fill="#fdf3e0" stroke="#d4a855" stroke-width="0.8"/>
+          <text x="370" y="194" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="#8a5a0a" font-weight="500">Indirect effect</text>
+          <text x="370" y="207" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#8a5a0a">β=0.16 · p&lt;.001</text>
+
+          <!-- Legend -->
+          <line x1="10" y1="382" x2="36" y2="382" stroke="#0d6e56" stroke-width="2.5"/>
+          <text x="42" y="386" font-family="DM Sans,sans-serif" font-size="9" fill="#4a4843">Significant path (p &lt; .001)</text>
+          <line x1="200" y1="382" x2="226" y2="382" stroke="#b0aea8" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="232" y="386" font-family="DM Sans,sans-serif" font-size="9" fill="#4a4843">Non-significant path</text>
+          <text x="430" y="386" font-family="DM Sans,sans-serif" font-size="9" fill="#4a4843">* p &lt; .001  · β = standardised coefficient</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS / STACK -->
+<section id="takeaways">
+  <div class="section-inner">
+    <div class="section-label">07 / Skills &amp; Stack</div>
+    <h2 class="section-title">Skills demonstrated</h2>
+    <p style="color: var(--text2); max-width: 640px; font-size: 14px; line-height: 1.7;">
+      This project applied a full multivariate analytics pipeline on real survey data, from raw construct scores through to publication-quality structural models.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+
+      <div style="border: 1px solid var(--line); border-radius: 4px; overflow: hidden;">
+        <div style="padding: 0.75rem 1.25rem; background: var(--bg2); border-bottom: 1px solid var(--line); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--text3);">Statistical Methods</div>
+        <div style="padding: 1.25rem; display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Exploratory Factor Analysis</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Confirmatory Factor Analysis</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">One-Way ANOVA</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Stepwise Regression</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Structural Equation Modelling</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Mediation Analysis</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Parallel Analysis</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">KMO / Bartlett Testing</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Effect Size Estimation (ges)</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px; color: var(--text2); background: var(--bg);">Model Fit Evaluation (CFI, SRMR)</span>
+        </div>
+      </div>
+
+      <div style="border: 1px solid var(--line); border-radius: 4px; overflow: hidden;">
+        <div style="padding: 0.75rem 1.25rem; background: var(--bg2); border-bottom: 1px solid var(--line); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--text3);">Tools and Stack</div>
+        <div style="padding: 1.25rem; display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">R</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">lavaan</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">psych</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">ggplot2</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">dplyr</span>
+          <span style="font-size: 12px; padding: 5px 10px; border: 1px solid #c5d8ef; border-radius: 2px; color: var(--blue); background: var(--blue-bg); font-family: var(--mono);">readxl</span>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Mauritius Blended Learning Study</div>
+  <div class="footer-right">
+    <div>Statistical analysis · R · lavaan · psych · ggplot2</div>
+    <div style="margin-top:4px; color: var(--text3);">EFA · CFA · ANOVA · Stepwise Regression · SEM · Mediation Analysis</div>
+  </div>
+</footer>
+
+<!-- CHART.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function() {
+  const textColor = '#4a4843';
+  const gridColor = 'rgba(26,25,22,0.07)';
+
+  // Chart 1: ANOVA F-stats
+  new Chart(document.getElementById('anovaChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Relevance', 'Satisfaction', 'Confidence', 'Attention'],
+      datasets: [
+        {
+          label: 'F-statistic',
+          data: [97.84, 94.18, 74.35, 43.51],
+          backgroundColor: '#1a4f8a',
+          borderRadius: 2
+        },
+        {
+          label: 'Effect size (ges ×500)',
+          data: [0.138*500, 0.134*500, 0.108*500, 0.066*500],
+          backgroundColor: '#9FB8D8',
+          borderRadius: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: {
+          label: (ctx) => ctx.datasetIndex === 0
+            ? 'F = ' + ctx.raw
+            : 'ges = ' + (ctx.raw/500).toFixed(3)
+        }
+      }},
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false } },
+        y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }
+      }
+    }
+  });
+
+  // Chart 2: Regression predictors
+  new Chart(document.getElementById('regrChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Relevance', 'Satisfaction', 'Confidence', 'Digital Literacy', 'Attention'],
+      datasets: [{
+        label: 'Relative weight',
+        data: [28, 25, 21, 18, 0],
+        backgroundColor: ['#0d6e56','#0d6e56','#0d6e56','#0d6e56','#D1E8E2'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: (ctx) => ctx.raw === 0 ? 'Not retained (n.s.)' : 'Retained predictor' }
+      }},
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true, title: { display: true, text: 'Relative contribution (indicative)', color: textColor, font: { size: 10 } } },
+        y: { ticks: { color: textColor, font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Chart 3: SEM fit
+  new Chart(document.getElementById('semFitChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Mediation\n(DL)', 'CourseExp\n→Motiv.', 'Connected\nLearners', 'Separated\nLearners'],
+      datasets: [{
+        label: 'CFI',
+        data: [0.962, 0.973, 0.967, 0.946],
+        backgroundColor: ['#1a4f8a','#1a4f8a','#1a4f8a','#9FB8D8'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        annotation: {},
+        tooltip: { callbacks: { label: (ctx) => 'CFI = ' + ctx.raw.toFixed(3) } }
+      },
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+        y: {
+          min: 0.90, max: 0.98,
+          ticks: { color: textColor, font: { size: 10 }, callback: (v) => v.toFixed(2) },
+          grid: { color: gridColor }
+        }
+      }
+    }
+  });
+
+  // Chart 4: Path coefficients
+  new Chart(document.getElementById('pathChart'), {
+    type: 'bar',
+    data: {
+      labels: ['CE → Motivation', 'Motiv. → DL', 'DL → CE', 'CL attitude', 'SL attitude'],
+      datasets: [{
+        label: 'Standardised β',
+        data: [0.928, 0.41, 0.38, 0.08, 0.11],
+        backgroundColor: ['#0d6e56','#1a4f8a','#1a4f8a','#D1E8E2','#D1E8E2'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: (ctx) => 'β = ' + ctx.raw.toFixed(3) }
+      }},
+      scales: {
+        x: { min: 0, max: 1.0, ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, title: { display: true, text: 'Standardised path coefficient (β)', color: textColor, font: { size: 10 } } },
+        y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
