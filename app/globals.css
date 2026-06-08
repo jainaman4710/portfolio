@@ -55,47 +55,66 @@
 }
 
 :root {
-  /* Light pink background with warmth */
+  /* Background — unchanged pink-white */
   --background: #FFF5F7;
   --foreground: #1a1a2e;
   --card: #ffffff;
   --card-foreground: #1a1a2e;
   --popover: #ffffff;
   --popover-foreground: #1a1a2e;
-  /* Vibrant pink primary */
-  --primary: #E91E63;
+
+  /* Primary → indigo (hero, nav, footer, contact) */
+  --primary: #5C6BC0;
   --primary-foreground: #ffffff;
+
+  /* Secondary → light pink (about/skills section bg) */
   --secondary: #FCE4EC;
-  --secondary-foreground: #880E4F;
+  --secondary-foreground: #1a1a2e;
+
   --muted: #F8BBD9;
   --muted-foreground: #6b5b6e;
-  --accent: #F48FB1;
-  --accent-foreground: #1a1a2e;
+
+  /* Accent → indigo soft (badges, pills) */
+  --accent: #E8EAF6;
+  --accent-foreground: #303F9F;
+
   --destructive: #ef4444;
   --border: #F8BBD9;
   --input: #FCE4EC;
-  --ring: #E91E63;
-  /* Vibrant chart colors to match project files */
-  --chart-1: #E91E63;
+  --ring: #5C6BC0;
+  --radius: 0.75rem;
+
+  /* Chart colors — teal/purple/amber kept, pink replaced with indigo */
+  --chart-1: #5C6BC0;
   --chart-2: #00BCD4;
   --chart-3: #9C27B0;
   --chart-4: #FF9800;
   --chart-5: #4CAF50;
-  --radius: 0.75rem;
-  /* Custom accent colors */
-  --pink: #E91E63;
-  --pink-soft: #F8BBD9;
-  --teal: #00BCD4;
-  --purple: #9C27B0;
-  --amber: #FF9800;
+
+  /* Custom tokens used across components */
+  --indigo:       #303F9F;
+  --indigo-mid:   #5C6BC0;
+  --indigo-soft:  #E8EAF6;
+  --indigo-dark:  #1A237E;
+  --teal:         #00BCD4;
+  --teal-soft:    #E0F7FA;
+  --teal-mid:     #80DEEA;
+  --teal-dark:    #006064;
+  --purple:       #9C27B0;
+  --purple-soft:  #F3E5F5;
+  --purple-mid:   #CE93D8;
+  --fore2:        #6b5b6e;
+  --fore3:        #b0a0b4;
+
+  /* Sidebar — indigo toned */
   --sidebar: #FFF5F7;
   --sidebar-foreground: #1a1a2e;
-  --sidebar-primary: #E91E63;
+  --sidebar-primary: #5C6BC0;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #FCE4EC;
-  --sidebar-accent-foreground: #1a1a2e;
+  --sidebar-accent: #E8EAF6;
+  --sidebar-accent-foreground: #303F9F;
   --sidebar-border: #F8BBD9;
-  --sidebar-ring: #E91E63;
+  --sidebar-ring: #5C6BC0;
 }
 
 .dark {
