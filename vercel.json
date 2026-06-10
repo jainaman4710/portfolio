@@ -1,6 +1,10 @@
 {
-  "framework": null,
-  "buildCommand": null,
-  "outputDirectory": "public",
-  "cleanUrls": true
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/projects/:path*",
+      "destination": "/public/projects/:path*"
+    }
+  ]
 }
