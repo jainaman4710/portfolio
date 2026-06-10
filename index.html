@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aman Tater | Product, Analytics & Data Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:           #FFF5F7;
+    --bg2:          #ffffff;
+    --bg3:          #FCE4EC;
+    --border:       #F8BBD9;
+    --border2:      #f0a8c8;
+
+    --indigo:       #303F9F;
+    --indigo-mid:   #5C6BC0;
+    --indigo-soft:  #E8EAF6;
+    --indigo-dark:  #1A237E;
+
+    --teal:         #00BCD4;
+    --teal-soft:    #E0F7FA;
+    --teal-mid:     #80DEEA;
+    --teal-dark:    #006064;
+
+    --purple:       #9C27B0;
+    --purple-soft:  #F3E5F5;
+    --purple-mid:   #CE93D8;
+
+    --fore:         #1a1a2e;
+    --fore2:        #6b5b6e;
+    --fore3:        #b0a0b4;
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans:  'Geist', sans-serif;
+    --mono:  'Geist Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--fore); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem; height: 60px;
+    background: rgba(255,245,247,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1.15rem; color: var(--indigo-dark); text-decoration: none; font-weight: 600; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--fore2); text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--indigo-mid); }
+  .nav-email { font-family: var(--mono); font-size: 12px; color: var(--fore3); text-decoration: none; transition: color 0.2s; }
+  .nav-email:hover { color: var(--indigo-mid); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.5; pointer-events: none; z-index: 0;
+  }
+  .hero-bg-art {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 4rem 5rem;
+    max-width: 660px;
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(3.8rem, 6vw, 6.5rem);
+    font-weight: 400;
+    line-height: 1.0;
+    color: var(--fore);
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+  }
+  .hero-name em { font-style: italic; color: var(--indigo-mid); }
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 12px; color: var(--fore3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.75rem;
+  }
+  .hero-desc {
+    font-size: 15px; color: var(--fore2);
+    line-height: 1.85; max-width: 520px;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1rem; }
+  .cta-primary {
+    font-size: 13px; font-weight: 500; color: #fff;
+    background: var(--indigo-mid); border: none;
+    border-radius: 100px; padding: 11px 26px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .cta-primary:hover { background: var(--indigo-dark); transform: translateY(-1px); }
+  .cta-primary svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* SHARED */
+  section { padding: 5rem 5rem; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; color: var(--teal); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+  .sec-title { font-family: var(--serif); font-size: clamp(1.9rem, 2.8vw, 2.6rem); font-weight: 400; color: var(--fore); margin-bottom: 2.5rem; }
+
+  /* PROJECTS */
+  #projects { background: var(--bg); padding-top: 0; }
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pcard {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; text-decoration: none; display: block;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s; position: relative;
+  }
+  .pcard:hover { border-color: var(--teal-mid); box-shadow: 0 4px 24px rgba(0,188,212,0.10); transform: translateY(-2px); }
+  .pcard::after { content: '\2197'; position: absolute; top: 1.5rem; right: 1.5rem; color: var(--fore3); transition: color 0.2s, transform 0.2s; }
+  .pcard:hover::after { color: var(--teal); transform: translate(2px,-2px); }
+  .ptype { font-family: var(--mono); font-size: 10px; color: var(--teal-dark); background: var(--teal-soft); border: 1px solid var(--teal-mid); border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .pname { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--fore); margin-bottom: 0.6rem; line-height: 1.3; }
+  .pdesc { font-size: 13px; color: var(--fore2); line-height: 1.75; margin-bottom: 1.5rem; }
+  .pstats { display: flex; gap: 1.5rem; }
+  .stat-val { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--teal-dark); display: block; }
+  .stat-lbl { font-size: 10px; color: var(--fore3); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ABOUT */
+  #about {
+    background: var(--bg3);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p { font-size: 15px; color: var(--fore2); line-height: 1.9; margin-bottom: 1.2rem; }
+  .about-pull { border-left: 3px solid var(--teal); padding-left: 1.25rem; margin: 2rem 0; }
+  .about-pull p { font-family: var(--serif); font-size: 1.05rem; font-style: italic; color: var(--fore); line-height: 1.75; margin: 0; }
+  .cv-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 5.5rem;
+  }
+  .cv-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500;
+    color: var(--indigo); background: var(--indigo-soft);
+    border: 1px solid #9FA8DA; border-radius: 100px;
+    padding: 11px 22px; text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .cv-btn:hover { background: #C5CAE9; transform: translateY(-1px); }
+  .cv-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* EDUCATION */
+  #education { background: var(--bg); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .edu-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .edu-card:hover { border-color: #9FA8DA; box-shadow: 0 4px 20px rgba(92,107,192,0.08); }
+  .edu-card.span2 { grid-column: span 2; }
+  .edu-level { font-family: var(--mono); font-size: 10px; color: var(--indigo); background: var(--indigo-soft); border: 1px solid #9FA8DA; border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .edu-degree { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--fore); margin-bottom: 0.2rem; line-height: 1.3; }
+  .edu-school { font-size: 14px; color: var(--fore); font-weight: 500; margin-bottom: 0.2rem; }
+  .edu-year { font-family: var(--mono); font-size: 11px; color: var(--fore3); margin-bottom: 0.75rem; }
+  .edu-note { font-size: 13px; color: var(--fore2); line-height: 1.7; margin-bottom: 1.25rem; }
+  .edu-courses-label { font-family: var(--mono); font-size: 10px; color: var(--fore3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+  .edu-courses { display: flex; flex-wrap: wrap; gap: 7px; }
+  .edu-course { font-size: 12px; color: var(--purple); background: var(--purple-soft); border: 1px solid var(--purple-mid); border-radius: 100px; padding: 3px 11px; }
+
+  /* SKILLS */
+  #skills { background: var(--bg3); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .skill-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .skill-card:hover { border-color: var(--teal-mid); box-shadow: 0 4px 20px rgba(0,188,212,0.08); }
+  .skill-cat { font-family: var(--mono); font-size: 10px; color: var(--teal-dark); background: var(--teal-soft); border: 1px solid var(--teal-mid); border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .skill-items { display: flex; flex-wrap: wrap; gap: 7px; }
+  .skill-pill { font-size: 12px; color: var(--fore2); background: var(--bg); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; }
+
+  /* CONTACT */
+  #contact { background: var(--bg); text-align: center; padding: 7rem 5rem; }
+  #contact .sec-title { margin-bottom: 0.75rem; }
+  #contact .eyebrow { color: var(--indigo-mid); }
+  .contact-sub { font-size: 15px; color: var(--fore2); margin-bottom: 2.5rem; }
+  .contact-email { font-family: var(--mono); font-size: 1rem; color: var(--indigo); background: var(--indigo-soft); border: 1px solid #9FA8DA; text-decoration: none; padding: 14px 32px; border-radius: 100px; display: inline-block; transition: background 0.2s, transform 0.15s; }
+  .contact-email:hover { background: #C5CAE9; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 1.75rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+  .footer-copy { font-family: var(--mono); font-size: 11px; color: var(--fore3); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-family: var(--mono); font-size: 11px; color: var(--fore3); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--indigo-mid); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 3.5rem 1.5rem; }
+    #contact { padding: 4rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-content { padding: 3rem 1.5rem; max-width: 100%; }
+    .hero-name { font-size: clamp(2.8rem, 10vw, 4rem); white-space: normal; }
+    .projects-grid { grid-template-columns: 1fr; }
+    #about { grid-template-columns: 1fr; }
+    .cv-aside { padding-top: 0; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .edu-card.span2 { grid-column: span 1; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 540px) {
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Aman Tater</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:amantater026@gmail.com" class="nav-email">amantater026@gmail.com</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <svg class="hero-bg-art" viewBox="0 0 1100 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- STRESS-STRAIN CURVE (detailed, left side) -->
+    <g opacity="0.11" transform="translate(40, 90)">
+      <!-- axes -->
+      <line x1="50" y1="360" x2="500" y2="360" stroke="#303F9F" stroke-width="1.4"/>
+      <line x1="50" y1="360" x2="50"  y2="20"  stroke="#303F9F" stroke-width="1.4"/>
+      <!-- axis arrows -->
+      <polygon points="500,355 510,360 500,365" fill="#303F9F"/>
+      <polygon points="45,20 50,10 55,20" fill="#303F9F"/>
+      <!-- axis labels -->
+      <text x="515" y="364" font-size="14" fill="#303F9F" font-family="Georgia,serif" font-style="italic">&#x03B5;</text>
+      <text x="35"  y="12"  font-size="14" fill="#303F9F" font-family="Georgia,serif" font-style="italic">&#x03C3;</text>
+      <!-- curve: elastic region (steep linear) -->
+      <path d="M50 360 L165 130" fill="none" stroke="#5C6BC0" stroke-width="2.5" stroke-dasharray="260" stroke-dashoffset="260">
+        <animate attributeName="stroke-dashoffset" from="260" to="0" dur="0.8s" fill="freeze" begin="0.3s"/>
+      </path>
+      <!-- proportional limit tick -->
+      <line x1="46" y1="185" x2="54" y2="185" stroke="#303F9F" stroke-width="1"/>
+      <!-- upper yield point bump -->
+      <path d="M165 130 Q175 115 185 120" fill="none" stroke="#5C6BC0" stroke-width="2.5" stroke-dasharray="30" stroke-dashoffset="30">
+        <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.15s" fill="freeze" begin="1.1s"/>
+      </path>
+      <!-- yield drop to lower yield -->
+      <path d="M185 120 Q195 145 205 140" fill="none" stroke="#5C6BC0" stroke-width="2.5" stroke-dasharray="35" stroke-dashoffset="35">
+        <animate attributeName="stroke-dashoffset" from="35" to="0" dur="0.15s" fill="freeze" begin="1.25s"/>
+      </path>
+      <!-- plastic / strain hardening region -->
+      <path d="M205 140 Q270 135 330 110 Q370 95 395 92" fill="none" stroke="#5C6BC0" stroke-width="2.5" stroke-dasharray="210" stroke-dashoffset="210">
+        <animate attributeName="stroke-dashoffset" from="210" to="0" dur="0.6s" fill="freeze" begin="1.4s"/>
+      </path>
+      <!-- necking / fracture drop -->
+      <path d="M395 92 Q420 100 445 160 L455 210" fill="none" stroke="#5C6BC0" stroke-width="2.5" stroke-dasharray="140" stroke-dashoffset="140">
+        <animate attributeName="stroke-dashoffset" from="140" to="0" dur="0.35s" fill="freeze" begin="2.0s"/>
+      </path>
+      <!-- key point markers -->
+      <circle cx="185" cy="120" r="4" fill="#5C6BC0" opacity="0">
+        <animate attributeName="opacity" from="0" to="0.8" dur="0.3s" fill="freeze" begin="1.15s"/>
+      </circle>
+      <circle cx="395" cy="92" r="4" fill="#303F9F" opacity="0">
+        <animate attributeName="opacity" from="0" to="0.8" dur="0.3s" fill="freeze" begin="2.0s"/>
+      </circle>
+      <circle cx="455" cy="210" r="4" fill="#5C6BC0" opacity="0">
+        <animate attributeName="opacity" from="0" to="0.8" dur="0.3s" fill="freeze" begin="2.35s"/>
+      </circle>
+      <!-- vertical dashed reference lines -->
+      <line x1="165" y1="130" x2="165" y2="360" stroke="#303F9F" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="395" y1="92"  x2="395" y2="360" stroke="#303F9F" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+      <line x1="455" y1="210" x2="455" y2="360" stroke="#303F9F" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+      <!-- labels -->
+      <text x="148" y="378" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">&#x03B5;y</text>
+      <text x="384" y="378" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">&#x03B5;UTS</text>
+      <text x="444" y="378" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">&#x03B5;f</text>
+      <text x="172" y="116" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">Yield</text>
+      <text x="398" y="88"  font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">UTS</text>
+      <text x="458" y="208" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.6">Fracture</text>
+      <!-- region labels -->
+      <text x="90"  y="310" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.45">Elastic</text>
+      <text x="220" y="200" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.45">Strain Hardening</text>
+      <text x="412" y="165" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.45">Necking</text>
+    </g>
+
+    <!-- EULER-LAGRANGE (top right) -->
+    <g opacity="0.09" transform="translate(680, 75)" font-family="Georgia, serif" fill="#303F9F">
+      <text font-size="13" font-style="italic"><tspan x="0" y="-8">&#x2202;L</tspan></text>
+      <text font-size="17" font-style="italic"><tspan x="-2" y="4">d</tspan></text>
+      <line x1="0" y1="6" x2="32" y2="6" stroke="#303F9F" stroke-width="1.2"/>
+      <text font-size="13" font-style="italic"><tspan x="0" y="20">&#x2202;&#x1E8B;</tspan></text>
+      <text font-size="24" x="38" y="6">&#x2212;</text>
+      <text font-size="13" font-style="italic"><tspan x="70" y="-8">&#x2202;L</tspan></text>
+      <line x1="70" y1="6" x2="102" y2="6" stroke="#303F9F" stroke-width="1.2"/>
+      <text font-size="13" font-style="italic"><tspan x="70" y="20">&#x2202;x</tspan></text>
+      <text font-size="24" x="108" y="6">= 0</text>
+    </g>
+
+    <!-- NEURAL NET (right centre) -->
+    <g opacity="0.09" transform="translate(660, 230)">
+      <g stroke="#303F9F" stroke-width="0.9">
+        <line x1="20" y1="30"  x2="130" y2="20"/><line x1="20" y1="30"  x2="130" y2="60"/>
+        <line x1="20" y1="30"  x2="130" y2="100"/><line x1="20" y1="30" x2="130" y2="140"/>
+        <line x1="20" y1="80"  x2="130" y2="20"/><line x1="20" y1="80"  x2="130" y2="60"/>
+        <line x1="20" y1="80"  x2="130" y2="100"/><line x1="20" y1="80" x2="130" y2="140"/>
+        <line x1="20" y1="130" x2="130" y2="20"/><line x1="20" y1="130" x2="130" y2="60"/>
+        <line x1="20" y1="130" x2="130" y2="100"/><line x1="20" y1="130" x2="130" y2="140"/>
+        <line x1="20" y1="180" x2="130" y2="20"/><line x1="20" y1="180" x2="130" y2="60"/>
+        <line x1="20" y1="180" x2="130" y2="100"/><line x1="20" y1="180" x2="130" y2="140"/>
+        <line x1="130" y1="20"  x2="240" y2="60"/><line x1="130" y1="20"  x2="240" y2="120"/>
+        <line x1="130" y1="60"  x2="240" y2="60"/><line x1="130" y1="60"  x2="240" y2="120"/>
+        <line x1="130" y1="100" x2="240" y2="60"/><line x1="130" y1="100" x2="240" y2="120"/>
+        <line x1="130" y1="140" x2="240" y2="60"/><line x1="130" y1="140" x2="240" y2="120"/>
+      </g>
+      <g fill="#E8EAF6" stroke="#5C6BC0" stroke-width="1.5">
+        <circle cx="20" cy="30" r="11"/><circle cx="20" cy="80" r="11"/>
+        <circle cx="20" cy="130" r="11"/><circle cx="20" cy="180" r="11"/>
+      </g>
+      <g fill="#E8EAF6" stroke="#303F9F" stroke-width="1">
+        <circle cx="130" cy="20" r="11"/><circle cx="130" cy="60" r="11"/>
+        <circle cx="130" cy="100" r="11"/><circle cx="130" cy="140" r="11"/>
+      </g>
+      <g fill="#E8EAF6" stroke="#5C6BC0" stroke-width="1.5">
+        <circle cx="240" cy="60" r="11"/><circle cx="240" cy="120" r="11"/>
+      </g>
+    </g>
+
+    <!-- PRODUCT LIFECYCLE (bottom right) -->
+    <g opacity="0.09" transform="translate(710, 555)" font-family="monospace" font-size="12" fill="#303F9F">
+      <rect x="0"  y="0"   width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
+      <text x="14" y="20">Discover</text>
+      <rect x="0"  y="50"  width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
+      <text x="24" y="70">Define</text>
+      <rect x="0"  y="100" width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
+      <text x="18" y="120">Develop</text>
+      <rect x="0"  y="150" width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
+      <text x="22" y="170">Deliver</text>
+      <line x1="45" y1="30"  x2="45" y2="50"  stroke="#5C6BC0" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="45" y1="80"  x2="45" y2="100" stroke="#5C6BC0" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="45" y1="130" x2="45" y2="150" stroke="#5C6BC0" stroke-width="1" stroke-dasharray="3,2"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <h1 class="hero-name">Aman <em>Tater</em></h1>
+    <p class="hero-sub">Mechanical Engineering &middot; IIT Kharagpur</p>
+    <p class="hero-desc">
+      Aspiring to build a career at the intersection of Product Management, Business Analytics, and Data Science, and open to roles across all three. I enjoy solving ambiguous problems with data-driven approaches and translating insights into actionable strategies. My engineering background sharpens how I think about systems, trade-offs, and scale, while my work in analytics and product has grounded me in the craft of building things people actually need.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="cta-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download CV
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="eyebrow">Proof of Work</p>
+  <h2 class="sec-title">Projects</h2>
+  <div class="projects-grid">
+    <a href="/projects/mauritius-study.html" class="pcard">
+      <span class="ptype">Statistical Analysis</span>
+      <h3 class="pname">Mauritius Blended Learning Study</h3>
+      <p class="pdesc">Multivariate analysis of digital literacy and motivation using EFA, CFA, ANOVA, stepwise regression, and SEM.</p>
+      <div class="pstats">
+        <div><span class="stat-val">86.1%</span><span class="stat-lbl">KMO Index</span></div>
+        <div><span class="stat-val">&#x3B2;=0.928</span><span class="stat-lbl">Path Coef.</span></div>
+      </div>
+    </a>
+    <a href="/projects/vr-adoption.html" class="pcard">
+      <span class="ptype">Market Research</span>
+      <h3 class="pname">VR Adoption Divergence</h3>
+      <p class="pdesc">In-depth analysis of VR adoption patterns across enterprise and consumer segments, examining divergent trajectories.</p>
+      <div class="pstats">
+        <div><span class="stat-val">+24%</span><span class="stat-lbl">Enterprise</span></div>
+        <div><span class="stat-val">1.2K+</span><span class="stat-lbl">Data Points</span></div>
+      </div>
+    </a>
+    <a href="/projects/hospitality-revenue.html" class="pcard">
+      <span class="ptype">Business Analytics</span>
+      <h3 class="pname">Hospitality Revenue Optimization</h3>
+      <p class="pdesc">Data-driven investigation into booking behavior, cancellation patterns, and dynamic pricing across a 25-property hotel chain.</p>
+      <div class="pstats">
+        <div><span class="stat-val">+20.86%</span><span class="stat-lbl">Revenue Uplift</span></div>
+        <div><span class="stat-val">134,590</span><span class="stat-lbl">Transactions</span></div>
+      </div>
+    </a>
+    <a href="/projects/autoencoder.html" class="pcard">
+      <span class="ptype">Machine Learning</span>
+      <h3 class="pname">Convolutional Autoencoder for Topology Optimization</h3>
+      <p class="pdesc">Surrogate deep learning model replacing expensive physics solvers with millisecond-scale neural inference.</p>
+      <div class="pstats">
+        <div><span class="stat-val">74.2%</span><span class="stat-lbl">Accuracy</span></div>
+        <div><span class="stat-val">&lt;100ms</span><span class="stat-lbl">Inference</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <p class="eyebrow">Background</p>
+    <h2 class="sec-title">About Me</h2>
+    <div class="about-text">
+      <p>I'm pursuing a five-year B.Tech + M.Tech Dual Degree in Mechanical Engineering at IIT Kharagpur. My engineering foundation gives me a unique perspective on problem-solving, combining analytical rigour with systems thinking.</p>
+      <div class="about-pull">
+        <p>I enjoy working on ambiguous problems where data meets strategy: optimizing marketing budgets, tearing down products to improve retention, or building deep learning models for engineering applications.</p>
+      </div>
+      <p>I've interned as a <strong style="color:var(--fore);font-weight:500">Product Management Intern at DevLaunch</strong>, where I architected user flows, authored PRDs for 15+ features, and coordinated a 17-member cross-functional team. Previously, I worked as a <strong style="color:var(--fore);font-weight:500">Business Analyst Intern at SCMYuga Technologies</strong>, evaluating India's logistics infrastructure.</p>
+    </div>
+  </div>
+  <div class="cv-aside">
+    <a href="#" class="cv-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download CV
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="eyebrow">Academic Background</p>
+  <h2 class="sec-title">Education</h2>
+  <div class="edu-grid">
+
+    <div class="edu-card span2">
+      <span class="edu-level">Integrated Dual Degree &middot; B.Tech + M.Tech</span>
+      <h3 class="edu-degree">Mechanical Engineering &amp; Mechanical System Design</h3>
+      <p class="edu-school">Indian Institute of Technology, Kharagpur</p>
+      <p class="edu-year">Nov 2022 &ndash; Present</p>
+      <p class="edu-note">A five-year integrated programme combining a B.Tech in Mechanical Engineering with an M.Tech specialisation in Mechanical System Design.</p>
+      <p class="edu-courses-label">Relevant Courses</p>
+      <div class="edu-courses">
+        <span class="edu-course">Machine Learning</span>
+        <span class="edu-course">Data Analytics</span>
+        <span class="edu-course">Probability &amp; Statistics</span>
+        <span class="edu-course">Operations Research</span>
+        <span class="edu-course">Finite Element Analysis</span>
+        <span class="edu-course">Mechanics of Solids</span>
+        <span class="edu-course">System Dynamics &amp; Control</span>
+        <span class="edu-course">Computational Methods</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <span class="edu-level">Class XII</span>
+      <h3 class="edu-degree">Senior Secondary</h3>
+      <p class="edu-school">&#x2022; School name here</p>
+      <p class="edu-year">&#x2022; Year</p>
+    </div>
+
+    <div class="edu-card">
+      <span class="edu-level">Class X</span>
+      <h3 class="edu-degree">Secondary</h3>
+      <p class="edu-school">&#x2022; School name here</p>
+      <p class="edu-year">&#x2022; Year</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="eyebrow">Toolkit</p>
+  <h2 class="sec-title">Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-cat">Analytics</span>
+      <div class="skill-items">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">R</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">Excel</span>
+        <span class="skill-pill">Google Sheets</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-cat">Machine Learning</span>
+      <div class="skill-items">
+        <span class="skill-pill">TensorFlow</span>
+        <span class="skill-pill">Scikit-learn</span>
+        <span class="skill-pill">XGBoost</span>
+        <span class="skill-pill">Keras</span>
+        <span class="skill-pill">NumPy</span>
+        <span class="skill-pill">Pandas</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-cat">Statistics</span>
+      <div class="skill-items">
+        <span class="skill-pill">SEM</span>
+        <span class="skill-pill">ANOVA</span>
+        <span class="skill-pill">Regression</span>
+        <span class="skill-pill">EFA / CFA</span>
+        <span class="skill-pill">Hypothesis Testing</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-cat">Product</span>
+      <div class="skill-items">
+        <span class="skill-pill">PRD Writing</span>
+        <span class="skill-pill">User Research</span>
+        <span class="skill-pill">Agile / Scrum</span>
+        <span class="skill-pill">Roadmapping</span>
+        <span class="skill-pill">Wireframing</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-cat">Visualization</span>
+      <div class="skill-items">
+        <span class="skill-pill">Matplotlib</span>
+        <span class="skill-pill">Seaborn</span>
+        <span class="skill-pill">Plotly</span>
+        <span class="skill-pill">Tableau</span>
+        <span class="skill-pill">Power BI</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-cat">Engineering</span>
+      <div class="skill-items">
+        <span class="skill-pill">CAD</span>
+        <span class="skill-pill">FEA</span>
+        <span class="skill-pill">Simulation</span>
+        <span class="skill-pill">Topology Optimisation</span>
+        <span class="skill-pill">MATLAB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="eyebrow">Get in Touch</p>
+  <h2 class="sec-title">Contact</h2>
+  <p class="contact-sub">Interested in discussing opportunities, collaborations, or just want to connect?</p>
+  <a href="mailto:amantater026@gmail.com" class="contact-email">amantater026@gmail.com</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">&copy; 2026 Aman Tater</span>
+  <div class="footer-links">
+    <a href="#home">home</a>
+    <a href="#projects">projects</a>
+    <a href="#about">about</a>
+    <a href="#education">education</a>
+    <a href="#skills">skills</a>
+    <a href="#contact">contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
