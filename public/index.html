@@ -64,6 +64,7 @@
     display: flex;
     align-items: center;
     padding-top: 60px;
+    padding-bottom: 2rem;
     position: relative;
     overflow: hidden;
   }
@@ -448,16 +449,35 @@
       <p class="edu-note">A five-year integrated programme combining a B.Tech in Mechanical Engineering with an M.Tech specialisation in Mechanical System Design.</p>
       <p class="edu-courses-label">Relevant Courses</p>
       <div class="edu-courses">
-        <span class="edu-course">Machine Learning</span>
-        <span class="edu-course">Data Analytics</span>
-        <span class="edu-course">Probability &amp; Statistics</span>
-        <span class="edu-course">Operations Research</span>
-        <span class="edu-course">Finite Element Analysis</span>
-        <span class="edu-course">Mechanics of Solids</span>
-        <span class="edu-course">System Dynamics &amp; Control</span>
-        <span class="edu-course">Computational Methods</span>
-      </div>
-    </div>
+  <!-- Primary (visible) -->
+  <span class="edu-course">Data Driven Methods in Thermal and Fluid Sciences</span>
+  <span class="edu-course">Soft Computing</span>
+  <span class="edu-course">Operations Research</span>
+  <span class="edu-course">Consumer Happiness and Well Being</span>
+  <span class="edu-course">Intelligent Machines and Systems</span>
+
+  <!-- Hidden courses -->
+  <div class="more-courses" id="moreCourses">
+    <span class="edu-course">Mechanics of Solids</span>
+    <span class="edu-course">Dynamics</span>
+    <span class="edu-course">Thermodynamics</span>
+    <span class="edu-course">Linear Algebra</span>
+    <span class="edu-course">Advanced Calculus</span>
+    <span class="edu-course">Theory of Partial Differential Equations</span>
+    <span class="edu-course">Transform Calculus</span>
+    <span class="edu-course">Fluid Mechanics</span>
+    <span class="edu-course">Vibration of Structures</span>
+    <span class="edu-course">Advanced Mechanics of Solids</span>
+    <span class="edu-course">Fatigue Creep and Fracture</span>
+    <span class="edu-course">Design of Machine Elements</span>
+    <span class="edu-course">Kinetics and Kinematics of Machines</span>
+    <span class="edu-course">Programming and Data Structures</span>
+    <span class="edu-course">Engineering Drawing</span>
+  </div>
+
+  <button class="show-more-btn" onclick="toggleCourses()">Show More</button>
+
+</div>
 
     <div class="edu-card">
       <span class="edu-level">Class XII</span>
