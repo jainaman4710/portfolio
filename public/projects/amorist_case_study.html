@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amorist Perfumes | IIT Kharagpur General Championship Case Study 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p1:#6C3FCF;--p2:#8B5CF6;--p3:#A78BFA;--p4:#EDE9FE;--p5:#F5F3FF;
+  --dark:#12082A;--mid:#2D1B69;--deep:#1A0F3C;
+  --text:#18103A;--muted:#6B7280;--subtle:#9CA3AF;--light:#FAFAFF;
+  --pink:#EC4899;
+  --green:#10B981;
+  --red:#EF4444;
+  --gold:#F59E0B;
+  --border:#E8E4F8;--border2:#D1C4F5;
+  --nav-h:60px;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:var(--light);overflow-x:hidden}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#f1f0f8}
+::-webkit-scrollbar-thumb{background:var(--p3);border-radius:3px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(--nav-h);display:flex;align-items:center;padding:0 2.5rem;border-bottom:1px solid rgba(139,92,246,0.35);backdrop-filter:blur(12px);}
+.nav-brand{display:flex;align-items:center;gap:10px;margin-right:2.5rem;flex-shrink:0}
+.nav-logo{width:32px;height:32px;border:1.5px solid var(--p2);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nav-name{font-family:var(--serif);font-size:17px;color:#fff;letter-spacing:.03em}
+.nav-sub{font-size:10px;color:var(--p3);text-transform:uppercase;letter-spacing:.12em;font-weight:500}
+.nav-links{display:flex;gap:2px;flex:1;overflow-x:auto}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{font-size:12px;font-weight:500;color:rgba(196,181,253,0.75);padding:7px 13px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;text-decoration:none}
+.nav-link:hover,.nav-link.active{background:rgba(108,63,207,0.4);color:#fff}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--dark) 0%,#1E0A4A 40%,#2E1065 70%,#3B0F8C 100%);padding:5rem 2.5rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(139,92,246,0.18) 0%,transparent 70%);pointer-events:none}
+.hero-ring{position:absolute;border-radius:50%;border:1px solid;pointer-events:none}
+.hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.18);border:1px solid rgba(139,92,246,0.4);border-radius:30px;padding:5px 14px;margin-bottom:1.5rem;font-size:11px;font-weight:600;color:var(--p3);letter-spacing:.1em;text-transform:uppercase}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--p2)}
+.hero h1{font-family:var(--serif);font-size:52px;line-height:1.1;color:#fff;margin-bottom:.75rem}
+.hero h1 em{color:var(--p3);font-style:italic}
+.hero-tagline{font-size:16px;color:rgba(196,181,253,0.85);line-height:1.7;max-width:620px;margin-bottom:2rem;font-weight:300}
+.hero-meta-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-meta-chip{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(167,139,250,0.8)}
+.hero-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.hero-kpi{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1.1rem 1.25rem;backdrop-filter:blur(6px)}
+.hero-kpi-val{font-family:var(--serif);font-size:26px;color:#fff;line-height:1}
+.hero-kpi-lbl{font-size:11px;color:rgba(196,181,253,0.7);margin-top:5px;line-height:1.4}
+
+/* SECTIONS */
+.section{padding:3.5rem 2.5rem;max-width:960px;margin:0 auto}
+.sec-header{margin-bottom:2.25rem}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem}
+.sec-eyebrow-line{width:24px;height:1px;background:var(--p2)}
+.sec-title{font-family:var(--serif);font-size:30px;color:var(--text);line-height:1.15}
+.sec-subtitle{font-size:14px;color:var(--muted);margin-top:.4rem;line-height:1.6;max-width:640px}
+.divider{border:none;border-top:1px solid var(--border);max-width:960px;margin:0 auto}
+
+/* CARD */
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.card-title{font-size:13px;font-weight:700;color:var(--p1);margin-bottom:1rem}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* STAT CARDS */
+.stat-card{background:var(--p5);border:1px solid var(--border2);border-radius:12px;padding:1.1rem 1.25rem}
+.stat-val{font-family:var(--serif);font-size:28px;color:var(--p1);line-height:1}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:.03em}
+.badge-purple{background:#EDE9FE;color:#5B21B6}
+.badge-green{background:#D1FAE5;color:#065F46}
+.badge-pink{background:#FCE7F3;color:#9D174D}
+
+/* FRAMEWORK CALLOUT */
+.framework-tag{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 9px;border-radius:4px;border:1px solid;margin-bottom:4px}
+.ft-oliver{background:#FDF4FF;border-color:#D8B4FE;color:#7E22CE}
+.ft-synesthesia{background:#EFF6FF;border-color:#BFDBFE;color:#1E40AF}
+.ft-gestalt{background:#ECFDF5;border-color:#A7F3D0;color:#065F46}
+.ft-bps{background:#FFFBEB;border-color:#FDE68A;color:#92400E}
+
+/* OLIVER'S FRAMEWORK SECTION */
+.oliver-strip{background:var(--deep);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;border:1px solid rgba(139,92,246,0.3)}
+.oliver-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--p3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.oliver-title::after{content:'';flex:1;height:1px;background:rgba(139,92,246,0.25)}
+.oliver-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.oliver-stage{border-radius:8px;padding:10px 12px;border:1px solid;position:relative}
+.os-1{background:rgba(108,63,207,0.12);border-color:rgba(108,63,207,0.3)}
+.os-2{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.35)}
+.os-3{background:rgba(167,139,250,0.18);border-color:rgba(167,139,250,0.4)}
+.os-4{background:rgba(196,181,253,0.2);border-color:rgba(196,181,253,0.45)}
+.os-phase-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--p3);margin-bottom:3px}
+.os-loyalty-type{font-size:12px;font-weight:700;color:#E9D5FF;margin-bottom:4px}
+.os-desc{font-size:10px;color:rgba(196,181,253,0.7);line-height:1.5}
+.os-connector{display:flex;align-items:center;justify-content:center;color:rgba(139,92,246,0.5);font-size:16px;align-self:center}
+
+/* DRIVER CARDS */
+.driver{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--p5);border-radius:10px;border-left:3px solid}
+.driver-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.driver-name{font-size:13px;font-weight:600;color:var(--text)}
+.driver-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* POSITIONING MAP */
+.pos-map{position:relative;background:var(--p5);border:1px solid var(--border2);border-radius:12px;height:300px;overflow:hidden}
+.pos-axis-h{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border2)}
+.pos-axis-v{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border2)}
+.axis-lbl{position:absolute;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.bubble{position:absolute;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;text-align:center;line-height:1.3;transition:transform .2s}
+.bubble:hover{transform:translate(-50%,-50%) scale(1.08)}
+
+/* SPIRAL */
+.spiral-step{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #FEE2E2}
+.spiral-step:last-child{border-bottom:none}
+.spiral-icon{width:32px;height:32px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700}
+.spiral-text{font-size:12px;color:var(--text);line-height:1.5;padding-top:6px}
+.spiral-arrow{text-align:center;color:#DC2626;font-size:13px;padding:2px 0 2px 44px}
+
+/* WATERFALL */
+.wf-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.wf-lbl{width:110px;text-align:right;font-size:11px;color:var(--muted);flex-shrink:0}
+.wf-track{flex:1;background:#F3F4F6;border-radius:5px;height:28px;overflow:hidden}
+.wf-bar{height:100%;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:600;color:#fff;border-radius:5px}
+
+/* SCENT TABLE */
+.scent-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.scent-tbl th{background:var(--deep);color:rgba(196,181,253,0.9);padding:10px 14px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.04em}
+.scent-tbl td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.scent-tbl tr:last-child td{border-bottom:none}
+.scent-tbl tr:hover td{background:#FAF8FF}
+.season-lbl{font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em}
+.scent-name{font-size:13px;font-weight:700;color:var(--text);margin:.2rem 0}
+.scent-notes{font-size:11px;color:var(--muted);line-height:1.6}
+.men-td{border-left:3px solid var(--p1)}
+.women-td{border-left:3px solid var(--pink)}
+
+/* PORTFOLIO TIERS */
+.ptier{border-radius:14px;padding:1.5rem;text-align:center;border:1px solid;display:flex;flex-direction:column;align-items:center}
+.pt-entry{background:#F5F3FF;border-color:#DDD6FE}
+.pt-core{background:#EDE9FE;border-color:#C4B5FD}
+.pt-hero{background:var(--deep);border-color:var(--p2)}
+.ptier-price{font-family:var(--serif);font-size:28px;color:var(--p1);margin:.5rem 0}
+.pt-hero .ptier-price{color:#E9D5FF}
+.ptier-name{font-size:11px;color:var(--muted);margin-bottom:.4rem}
+.pt-hero .ptier-name{color:rgba(196,181,253,0.7)}
+.ptier-role-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:20px;display:inline-block;margin:.5rem 0}
+.pt-entry .ptier-role-lbl,.pt-core .ptier-role-lbl{background:#EDE9FE;color:#5B21B6}
+.pt-hero .ptier-role-lbl{background:rgba(139,92,246,0.25);color:#C4B5FD}
+.ptier-desc{font-size:11px;line-height:1.6;margin-top:.5rem}
+.pt-entry .ptier-desc,.pt-core .ptier-desc{color:var(--muted)}
+.pt-hero .ptier-desc{color:rgba(196,181,253,0.7)}
+.bottle-wrap{margin-bottom:.75rem}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:2.5rem}
+.tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--p1),rgba(167,139,250,0.2))}
+.tl-item{position:relative;margin-bottom:1.75rem}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-2.5rem;top:3px;width:18px;height:18px;border-radius:50%;background:var(--p1);border:3px solid var(--p5);box-shadow:0 0 0 3px rgba(108,63,207,0.2)}
+.tl-dot-final{background:var(--green);box-shadow:0 0 0 3px rgba(16,185,129,0.2)}
+.tl-when{font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.tl-what{font-size:14px;font-weight:600;color:var(--text)}
+.tl-detail{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+/* PHASE CARDS */
+.phase{border-radius:12px;padding:1.25rem;background:var(--p5);border:1px solid var(--border);border-left:4px solid}
+.phase-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem}
+.phase-title{font-size:15px;font-weight:700;color:var(--text);margin:.25rem 0}
+.phase-months{font-size:11px;color:var(--muted);margin-bottom:.75rem;font-family:var(--mono)}
+.phase-item{font-size:12px;color:var(--muted);padding:3px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+.phase-item-arrow{color:var(--p2);flex-shrink:0;font-size:12px}
+
+/* LOYALTY TIERS */
+.loyalty-tier{border-radius:12px;padding:1.25rem;border:1px solid}
+.lt-explorer{background:#F5F3FF;border-color:#DDD6FE}
+.lt-collector{background:#EDE9FE;border-color:#C4B5FD}
+.lt-curator{background:var(--deep);border-color:var(--p2)}
+.lt-tier-name{font-size:15px;font-weight:700;color:var(--p1);margin-bottom:2px}
+.lt-curator .lt-tier-name{color:#E9D5FF}
+.lt-tier-sub{font-size:10px;color:var(--muted);margin-bottom:.75rem;font-family:var(--mono)}
+.lt-curator .lt-tier-sub{color:rgba(167,139,250,0.6)}
+.lt-perks{list-style:none}
+.lt-perk{font-size:12px;color:var(--muted);padding:4px 0;display:flex;align-items:flex-start;gap:7px}
+.lt-perk::before{content:"·";color:var(--p2);font-size:16px;line-height:1;flex-shrink:0}
+.lt-curator .lt-perk{color:rgba(196,181,253,0.75)}
+
+/* JOURNEY STEPS */
+.journey-step{border-radius:10px;padding:10px 14px;border-left:3px solid}
+.js-onboard{background:#F0FDF4;border-color:#22C55E}
+.js-edu{background:#EFF6FF;border-color:#3B82F6}
+.js-sentiment{background:#FDF4FF;border-color:#A855F7}
+.js-refill{background:#FFFBEB;border-color:#F59E0B}
+.js-when{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.js-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.js-detail{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* GWP CARDS */
+.gwp{border-radius:12px;padding:1.25rem;border:1px solid}
+.gwp-1{background:#F0FDF4;border-color:#BBF7D0}
+.gwp-2{background:#EFF6FF;border-color:#BFDBFE}
+.gwp-3{background:#FAF5FF;border-color:#E9D5FF}
+.gwp-name{font-size:14px;font-weight:700;color:var(--text);margin:.4rem 0}
+.gwp-range{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.gwp-gift{font-size:12px;font-weight:600;color:var(--p1);margin:.5rem 0}
+.gwp-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.gwp-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:.6rem}
+.gwp-chip{font-size:9px;padding:2px 8px;border-radius:20px;background:#EDE9FE;color:#5B21B6;font-weight:600}
+
+/* FINANCIAL TABLE */
+.fin-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.fin-tbl th{background:var(--deep);color:rgba(196,181,253,0.9);padding:10px 14px;text-align:left;font-weight:500;font-size:11px;letter-spacing:.04em}
+.fin-tbl td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.fin-tbl tr:last-child td{border-bottom:none;font-weight:700}
+.fin-tbl tr:hover td{background:#FAF8FF}
+.fin-metric{font-weight:600;color:var(--text)}
+.fin-current{color:var(--red);font-family:var(--mono);font-size:13px}
+.fin-target{color:var(--green);font-weight:700;font-family:var(--mono);font-size:13px}
+.fin-driver{color:var(--muted);font-size:10px;font-style:italic}
+
+/* COMPOUNDING GRID */
+.compound-box{background:var(--p5);border:1px solid var(--border2);border-radius:10px;padding:1rem;text-align:center}
+.cb-label{font-size:10px;color:var(--muted);margin-bottom:4px}
+.cb-from{font-size:13px;color:var(--red);font-family:var(--mono)}
+.cb-arrow{font-size:14px;color:var(--muted);margin:2px 0}
+.cb-to{font-size:20px;font-weight:700;color:var(--green);font-family:var(--mono)}
+
+/* RISK SECTION -- REDESIGNED */
+.risk-panel{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:1.5rem}
+.risk-panel-header{display:grid;grid-template-columns:1fr 40px 1fr;align-items:stretch;background:#FAFAFA;border-bottom:1px solid var(--border)}
+.rph-col{padding:10px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
+.rph-risk{color:#B91C1C;border-right:1px solid var(--border)}
+.rph-mid{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
+.rph-mit{color:#15803D}
+.risk-panel-body{display:grid;grid-template-columns:1fr 40px 1fr;align-items:stretch}
+.rpb-risk{padding:1.25rem 1.5rem;border-right:1px solid var(--border);background:#FFF5F5}
+.rpb-mid{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border);background:#FAFAFA;font-size:18px;color:var(--p2)}
+.rpb-mit{padding:1.25rem 1.5rem;background:#F0FDF4}
+.risk-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.rpb-risk .risk-num{color:#DC2626}
+.rpb-mit .risk-num{color:#15803D}
+.risk-heading{font-size:13px;font-weight:700;margin-bottom:6px}
+.rpb-risk .risk-heading{color:#991B1B}
+.rpb-mit .risk-heading{color:#166534}
+.risk-detail{font-size:11px;color:var(--muted);line-height:1.65}
+.risk-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+.risk-tag-r{background:#FEE2E2;color:#991B1B}
+.risk-tag-m{background:#D1FAE5;color:#065F46}
+
+/* FOOTER */
+footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:2rem 2.5rem;text-align:center}
+.footer-brand{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:.4rem}
+.footer-sub{font-size:11px;color:rgba(167,139,250,0.7);line-height:1.8}
+.footer-sep{display:inline-block;margin:0 8px;color:rgba(139,92,246,0.4)}
+
+/* HIGHLIGHT BOXES */
+.hbox{border-radius:10px;padding:12px 16px;margin-top:.75rem;font-size:12px;line-height:1.6}
+.hbox-purple{background:#F5F3FF;border:1px solid var(--border2);color:var(--text)}
+.hbox-red{background:#FFF5F5;border:1px solid #FECACA;color:#B91C1C}
+.hbox-green{background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D}
+.hbox-gold{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E}
+
+/* UTILS */
+.mt1{margin-top:1rem}
+.mt15{margin-top:1.5rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="9" cy="9" r="7.5" stroke="#A78BFA" stroke-width="1.2"/>
+        <path d="M9 4.5 Q12 7 9 9 Q6 11 9 13.5" stroke="#A78BFA" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <div class="nav-name">Amorist</div>
+      <div class="nav-sub">Gen. Championship Case</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#problem">Problem Statement</a>
+    <a class="nav-link" href="#market">Market</a>
+    <a class="nav-link" href="#diagnosis">Diagnosis</a>
+    <a class="nav-link" href="#brand">Brand</a>
+    <a class="nav-link" href="#portfolio">Portfolio</a>
+    <a class="nav-link" href="#retention">Retention</a>
+    <a class="nav-link" href="#channels">Channels</a>
+    <a class="nav-link" href="#financials">Financials</a>
+    <a class="nav-link" href="#gtm">GTM</a>
+    <a class="nav-link" href="#risks">Risks</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-ring" style="width:500px;height:500px;border-color:rgba(139,92,246,0.1);top:-120px;right:-100px"></div>
+  <div class="hero-ring" style="width:280px;height:280px;border-color:rgba(139,92,246,0.12);bottom:-60px;left:8%"></div>
+  <div class="hero-ring" style="width:160px;height:160px;border-color:rgba(167,139,250,0.08);top:30%;right:20%"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      IIT Kharagpur &middot; General Championship Case Study 2026 &middot; Meghnad Saha Hall of Residence
+    </div>
+    <h1>Scaling Desire:<br><em>Designing a Profitable<br>D2C Fragrance Brand</em></h1>
+    <p class="hero-tagline">A 3-year growth strategy for Amorist Perfumes, transitioning from discount-driven acquisition to durable brand equity, defensible pricing, and LTV-compounding retention in India's fastest-growing mid-premium fragrance segment.</p>
+    <div class="hero-meta-row">
+      <div class="hero-meta-chip">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5C4.5 1.5 2.5 3.5 2.5 6c0 3.5 4.5 6.5 4.5 6.5s4.5-3 4.5-6.5c0-2.5-2-4.5-4.5-4.5z" stroke="#A78BFA" stroke-width="1.2" fill="none"/><circle cx="7" cy="6" r="1.5" stroke="#A78BFA" stroke-width="1.2"/></svg>
+        Amorist Perfumes &middot; India D2C
+      </div>
+      <div class="hero-meta-chip">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="11" height="9" rx="1.5" stroke="#A78BFA" stroke-width="1.2"/><path d="M4.5 3V2M9.5 3V2" stroke="#A78BFA" stroke-width="1.2" stroke-linecap="round"/><path d="M1.5 6h11" stroke="#A78BFA" stroke-width="1.2"/></svg>
+        3-Year Roadmap &middot; 2026&ndash;2029
+      </div>
+      <div class="hero-meta-chip">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7l3 3 4-5" stroke="#A78BFA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Mid-Premium Segment &middot; 18&ndash;20% CAGR
+      </div>
+    </div>
+    <div class="hero-kpi-grid">
+      <div class="hero-kpi"><div class="hero-kpi-val">$1.25B</div><div class="hero-kpi-lbl">India Perfume Market 2025</div></div>
+      <div class="hero-kpi"><div class="hero-kpi-val">18&ndash;20%</div><div class="hero-kpi-lbl">Mid-Premium CAGR</div></div>
+      <div class="hero-kpi"><div class="hero-kpi-val">3.85:1</div><div class="hero-kpi-lbl">Target LTV:CAC (Year 3)</div></div>
+      <div class="hero-kpi"><div class="hero-kpi-val">&#8377;1,925</div><div class="hero-kpi-lbl">Target Customer LTV</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM STATEMENT -->
+<div id="problem" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Problem Statement</div>
+    <h2 class="sec-title">The Strategic Brief: Scaling Desire</h2>
+    <p class="sec-subtitle">Designing a Profitable and Defensible D2C Fragrance Brand in India &mdash; IIT Kharagpur General Championship Case Study 2026</p>
+  </div>
+
+  <!-- Context banner -->
+  <div style="background:var(--deep);border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;border:1px solid rgba(139,92,246,0.3);position:relative;overflow:hidden">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(108,63,207,0.12);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:20%;width:120px;height:120px;border-radius:50%;background:rgba(139,92,246,0.08);pointer-events:none"></div>
+    <div style="position:relative;z-index:1">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--p3);margin-bottom:.75rem;display:flex;align-items:center;gap:8px">
+        <div style="width:20px;height:1px;background:var(--p3)"></div>
+        Case Background
+      </div>
+      <p style="font-size:14px;color:#C4B5FD;line-height:1.8;max-width:820px">
+        India&rsquo;s beauty and personal care market is evolving rapidly, and fragrance is emerging as one of its most aspiration-driven categories. For a growing base of young, digital-first consumers, perfume is not merely a product but an <strong style="color:#E9D5FF">extension of identity, self-expression, and lifestyle.</strong>
+      </p>
+      <p style="font-size:14px;color:#A78BFA;line-height:1.8;max-width:820px;margin-top:.75rem">
+        This shift has enabled the rise of digital-first fragrance brands operating through D2C channels, leveraging performance marketing, influencer-led storytelling, and promotional mechanics to drive rapid growth. However, fragrance remains structurally complex: sensory, trial-driven, and emotionally anchored. <strong style="color:#C4B5FD">Trial does not automatically translate into loyalty. Promotional intensity can drive short-term sales while weakening long-term pricing power.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- The core question -->
+  <div class="card" style="border-left:4px solid var(--p1);margin-bottom:1.5rem">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--p1);margin-bottom:.75rem">The Central Strategic Question</div>
+    <p style="font-size:16px;font-family:var(--serif);color:var(--text);line-height:1.65;font-style:italic;">
+      &ldquo;Can Amorist scale into a profitable, differentiated, and high-retention fragrance brand without becoming structurally dependent on discounting and short-term acquisition tactics?&rdquo;
+    </p>
+    <div style="margin-top:1rem;font-size:12px;color:var(--muted);line-height:1.6">
+      This case is not about maximizing short-term sales. It is about designing a fragrance brand that customers return to repeatedly &mdash; one that balances aspiration, pricing power, and retention. Amorist&rsquo;s challenge is to transition from high-conversion momentum to durable brand equity and profitable scale.
+    </div>
+  </div>
+
+  <!-- Current company context + structural risks -->
+  <div class="g2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="card-title">Current Company Context: Amorist Perfumes</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--p5);border-radius:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--p1);margin-top:5px;flex-shrink:0"></div>
+          <span style="color:var(--text)">Offers full-size perfumes with visible list prices alongside promotional selling prices</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--p5);border-radius:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--p1);margin-top:5px;flex-shrink:0"></div>
+          <span style="color:var(--text)">Sells 15ml formats positioned for discovery and trial at &#8377;249 (margin-negative)</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--p5);border-radius:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--p1);margin-top:5px;flex-shrink:0"></div>
+          <span style="color:var(--text)">Communicates premium cues such as longevity claims and certification assurances</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--p5);border-radius:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--p1);margin-top:5px;flex-shrink:0"></div>
+          <span style="color:var(--text)">Uses promotional levers: bundle discounts, cart-based offers, and multi-buy incentives</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--p5);border-radius:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--p1);margin-top:5px;flex-shrink:0"></div>
+          <span style="color:var(--text)">Operates primarily through a D2C storefront with perpetual 50% markdowns on 100ml flagship</span>
+        </div>
+      </div>
+      <div class="hbox hbox-purple" style="margin-top:.75rem;font-size:11px">Early traction and durable brand equity are not synonymous. The brand now stands at a strategic inflection point.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Structural Risks of the Current Model</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="padding:8px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444"><span style="font-weight:600;color:#DC2626">Discount Dependency:</span><span style="color:var(--muted)"> Continuous markdowns train consumers to perceive discounted price as the true value</span></div>
+        <div style="padding:8px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444"><span style="font-weight:600;color:#DC2626">Weak Price Integrity:</span><span style="color:var(--muted)"> MRP becomes a vanity metric; brand loses long-term pricing power permanently</span></div>
+        <div style="padding:8px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444"><span style="font-weight:600;color:#DC2626">Low Repeat Purchase Rates:</span><span style="color:var(--muted)"> Deal-seekers churn the moment any competitor offers a steeper discount</span></div>
+        <div style="padding:8px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444"><span style="font-weight:600;color:#DC2626">Margin Compression:</span><span style="color:var(--muted)"> High CAC + reduced RSP + free shipping leaves near-zero contribution margin</span></div>
+        <div style="padding:8px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444"><span style="font-weight:600;color:#DC2626">Shallow Brand Loyalty:</span><span style="color:var(--muted)"> No emotional switching costs; customers are acquired, not retained</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 6 strategic dimensions to address -->
+  <div class="card">
+    <div class="card-title">Six Strategic Dimensions the Case Demands</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:.25rem">
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">A &bull; Brand Positioning</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">What should Amorist distinctly stand for? How can the brand move beyond transactional value to build emotional resonance?</div>
+      </div>
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">B &bull; Product Portfolio</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">What role should 15ml formats play? How should cannibalization between small and full-size formats be managed?</div>
+      </div>
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">C &bull; Pricing Architecture</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Is the current promotional structure strengthening demand or training customers to wait for discounts?</div>
+      </div>
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">D &bull; Retention &amp; LTV</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Why do customers buy once but fail to repurchase? How can Amorist intentionally improve customer lifetime value?</div>
+      </div>
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">E &bull; Channel Strategy</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Should Amorist remain D2C-led? Which channel mix balances reach, control, margin, and brand equity?</div>
+      </div>
+      <div style="padding:12px 14px;border-radius:10px;background:var(--p5);border:1px solid var(--border2)">
+        <div style="font-size:10px;font-weight:700;color:var(--p1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">F &bull; Financial Sustainability</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Participants must model CAC, AOV, realized selling price, repeat purchase rate, contribution margin, and CLV.</div>
+      </div>
+    </div>
+    <div class="hbox hbox-gold" style="margin-top:1rem;font-size:11px">
+      <strong>Evaluation Philosophy:</strong> Judges reward clear diagnosis before recommendation, ability to make explicit strategic trade-offs, financial maturity, coherent business-model thinking, and practical implementation logic. Superficial marketing ideas without structural economic reasoning will not score highly.
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- MARKET RESEARCH -->
+<div id="market" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Market Research</div>
+    <h2 class="sec-title">The Indian BPC &amp; Fragrance Landscape</h2>
+    <p class="sec-subtitle">A structural paradigm shift creating massive opportunity in the mid-premium fragrance vertical</p>
+  </div>
+  <div class="g4" style="margin-bottom:1.5rem">
+    <div class="stat-card"><div class="stat-val">$1.25B</div><div class="stat-lbl">Market Value 2025</div></div>
+    <div class="stat-card"><div class="stat-val">5.36%</div><div class="stat-lbl">CAGR 2026&ndash;2034</div></div>
+    <div class="stat-card"><div class="stat-val">$1.99B</div><div class="stat-lbl">Projected Value 2034</div></div>
+    <div class="stat-card"><div class="stat-val">58%</div><div class="stat-lbl">Premium Segment Share</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="card-title">India Perfume Market Forecast (USD Million)</div>
+      <div style="position:relative;height:220px"><canvas id="marketChart" aria-label="Stacked bar chart showing India perfume market growing from $1250M in 2025 to $1999M in 2034"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:8px;font-size:10px;color:var(--muted)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#6C3FCF;border-radius:2px;display:inline-block"></span>Premium</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#A78BFA;border-radius:2px;display:inline-block"></span>Mass</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Structural Growth Drivers</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="driver" style="border-left-color:#6C3FCF"><div class="driver-num" style="background:#6C3FCF">1</div><div><div class="driver-name">Rising Disposable Incomes</div><div class="driver-sub">Growing middle class with higher purchasing power</div></div></div>
+        <div class="driver" style="border-left-color:#8B5CF6"><div class="driver-num" style="background:#8B5CF6">2</div><div><div class="driver-name">Aggressive Urbanization</div><div class="driver-sub">Rapid metro &amp; Tier-2 city expansion</div></div></div>
+        <div class="driver" style="border-left-color:#A78BFA"><div class="driver-num" style="background:#A78BFA">3</div><div><div class="driver-name">Identity-Driven Consumption</div><div class="driver-sub">Fragrance as personal branding for Gen Z</div></div></div>
+        <div class="driver" style="border-left-color:#10B981"><div class="driver-num" style="background:#10B981">4</div><div><div class="driver-name">D2C Digital Shift</div><div class="driver-sub">Legacy FMCG &rarr; digital-first brands rising</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Market Positioning Map &mdash; Amorist&rsquo;s Target Zone</div>
+    <div class="pos-map">
+      <div class="pos-axis-h"></div>
+      <div class="pos-axis-v"></div>
+      <div class="axis-lbl" style="top:6px;left:50%;transform:translateX(-50%)">LUXURY ASPIRATION</div>
+      <div class="axis-lbl" style="bottom:6px;left:50%;transform:translateX(-50%)">FUNCTIONAL</div>
+      <div class="axis-lbl" style="left:6px;top:50%;transform:translateY(-50%)">LOW PRICE</div>
+      <div class="axis-lbl" style="right:6px;top:50%;transform:translateY(-50%)">HIGH PRICE</div>
+      <div class="bubble" style="left:18%;top:70%;width:76px;height:76px;background:rgba(156,163,175,0.2);border:2px solid #9CA3AF;color:#6B7280">Mass<br>Deodorants</div>
+      <div class="bubble" style="left:76%;top:22%;width:92px;height:92px;background:rgba(167,139,250,0.18);border:2px solid var(--p3);color:var(--p1)">Intl. Luxury<br>Brands</div>
+      <div class="bubble" style="left:60%;top:38%;width:116px;height:116px;background:rgba(108,63,207,0.13);border:2.5px solid var(--p1);color:var(--deep)">
+        <div><div style="font-size:10px;font-weight:700;letter-spacing:.04em">AMORIST</div><div style="font-size:9px;color:var(--green);font-weight:700;margin:2px 0">18&ndash;20% CAGR</div><div style="font-size:8px;color:var(--muted)">Underserved</div></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:.75rem;font-size:11px">
+      <span style="color:var(--muted)">Budget Sprays &larr;</span>
+      <div style="flex:1;border-top:1.5px solid var(--p1)"></div>
+      <span style="background:var(--deep);color:#C4B5FD;padding:3px 14px;border-radius:20px;font-weight:600;font-size:11px;font-family:var(--mono)">AMORIST &#8377;1,000&ndash;&#8377;2,500</span>
+      <div style="flex:1;border-top:1px dashed var(--border2)"></div>
+      <span style="color:var(--muted)">&rarr; Designer Luxury</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- DIAGNOSIS -->
+<div id="diagnosis" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Problem Diagnosis</div>
+    <h2 class="sec-title">The Discount Death Spiral</h2>
+    <p class="sec-subtitle">How continuous 50% markdowns actively damage long-term brand defensibility</p>
+  </div>
+  <div class="g2" style="margin-bottom:1.5rem">
+    <div class="card" style="border-left:4px solid #EF4444">
+      <div class="card-title" style="color:#DC2626">The Spiral Mechanism</div>
+      <div class="spiral-step"><div class="spiral-icon">&#8600;</div><div class="spiral-text"><strong>Deep discounts</strong> attract price-sensitive buyers rather than brand advocates</div></div>
+      <div class="spiral-arrow">&#8595;</div>
+      <div class="spiral-step"><div class="spiral-icon">&#8595;</div><div class="spiral-text"><strong>Low retention</strong> forces continuous re-acquisition to maintain revenue volume</div></div>
+      <div class="spiral-arrow">&#8595;</div>
+      <div class="spiral-step"><div class="spiral-icon">&#8593;</div><div class="spiral-text"><strong>Higher CAC spend required</strong> as performance marketing costs climb with volume</div></div>
+      <div class="spiral-arrow">&#8595;</div>
+      <div class="spiral-step"><div class="spiral-icon">&#8600;</div><div class="spiral-text"><strong>Margins compress further,</strong> requiring deeper discounts to convert new buyers</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Structural Risk Factors</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444">
+          <div style="font-size:12px;font-weight:700;color:#DC2626">Erosion of Price Integrity</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5">MRP becomes a vanity metric. Brand permanently loses pricing power; consumers refuse to pay full price.</div>
+        </div>
+        <div style="padding:10px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444">
+          <div style="font-size:12px;font-weight:700;color:#DC2626">Severe Margin Compression</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5">High performance marketing + reduced RSP leaves near-zero contribution. Free shipping on low-ticket orders worsens the deficit.</div>
+        </div>
+        <div style="padding:10px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444">
+          <div style="font-size:12px;font-weight:700;color:#DC2626">Deal-Seeking Cohort Cultivation</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5">Retention collapses. Deal-seekers churn immediately when any competitor offers steeper discounts.</div>
+        </div>
+        <div style="padding:10px 12px;background:#FFF5F5;border-radius:8px;border-left:3px solid #EF4444">
+          <div style="font-size:12px;font-weight:700;color:#DC2626">Inventory &amp; Portfolio Fragmentation</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5">Multiple sizes purely for promo price points. Higher holding costs, hero product stockouts, tied capital.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Transaction-Level P&amp;L Waterfall &mdash; Per Customer, Current State</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:1rem">
+      <div class="wf-row"><div class="wf-lbl">AOV</div><div class="wf-track"><div class="wf-bar" style="width:100%;background:#6C3FCF">&#8377;750</div></div></div>
+      <div class="wf-row"><div class="wf-lbl">COGS (30%)</div><div class="wf-track"><div class="wf-bar" style="width:30%;background:#D1D5DB;color:#374151">&#8377;225</div></div></div>
+      <div class="wf-row"><div class="wf-lbl">Payment Fees</div><div class="wf-track"><div class="wf-bar" style="width:4%;background:#D1D5DB;color:#374151;min-width:44px">&#8377;15</div></div></div>
+      <div class="wf-row"><div class="wf-lbl">Gross Margin</div><div class="wf-track"><div class="wf-bar" style="width:68%;background:#8B5CF6">&#8377;510</div></div></div>
+      <div class="wf-row"><div class="wf-lbl">EBITDA</div><div class="wf-track"><div class="wf-bar" style="width:35%;background:#A78BFA">&#8377;262.5</div></div></div>
+      <div class="wf-row"><div class="wf-lbl">CAC</div><div class="wf-track"><div class="wf-bar" style="width:73%;background:#EF4444">&minus;&#8377;550</div></div></div>
+      <div class="wf-row" style="border-top:2px solid #FEE2E2;padding-top:6px;margin-top:2px"><div class="wf-lbl" style="font-weight:700;color:#DC2626">Net P&amp;L</div><div class="wf-track"><div class="wf-bar" style="width:42%;background:#B91C1C">&minus;&#8377;317.50 per order</div></div></div>
+    </div>
+    <div class="hbox hbox-red"><strong>Critical:</strong> 15ml standalone orders at &#8377;249 generate deeply negative absolute margins <em>before</em> marketing costs are applied. CAC 2026: &#8377;550 &bull; CAC target 2029: &#8377;500 &bull; Avg. EBITDA per consumer: &#8377;328.12</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- BRAND BUILDING -->
+<div id="brand" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Brand Building</div>
+    <h2 class="sec-title">The 3-Year Strategic Roadmap</h2>
+    <p class="sec-subtitle">Structured around Oliver's Four-Stage Loyalty Model: progressing from rational preference through emotional bonding to habitual omnichannel action</p>
+  </div>
+
+  <!-- OLIVER'S FRAMEWORK EXPLAINER -->
+  <div class="oliver-strip">
+    <div class="oliver-title">Oliver's Loyalty Model (1999) &mdash; Academic Framework Applied</div>
+    <div class="oliver-stages">
+      <div class="oliver-stage os-1">
+        <div class="os-phase-lbl">Stage 1 &bull; Phase 1</div>
+        <div class="os-loyalty-type">Cognitive Loyalty</div>
+        <div class="os-desc">Rational, information-based preference. Consumer chooses Amorist because the value proposition is objectively superior at the stated price.</div>
+      </div>
+      <div class="oliver-stage os-2">
+        <div class="os-phase-lbl">Stage 2 &bull; Phase 2</div>
+        <div class="os-loyalty-type">Affective Loyalty</div>
+        <div class="os-desc">Emotional attachment to the brand. Gamified loyalty mechanics and community build a positive feeling that drives repeat preference.</div>
+      </div>
+      <div class="oliver-stage os-3">
+        <div class="os-phase-lbl">Stage 3 &bull; Phase 2</div>
+        <div class="os-loyalty-type">Conative Loyalty</div>
+        <div class="os-desc">Behavioural commitment and intent to repurchase. Predictive replenishment workflows convert intent into automated re-order behaviour.</div>
+      </div>
+      <div class="oliver-stage os-4">
+        <div class="os-phase-lbl">Stage 4 &bull; Phase 3</div>
+        <div class="os-loyalty-type">Action Loyalty</div>
+        <div class="os-desc">Inertia-driven habitual purchasing. Offline phygital kiosks cement sensory habit; the consumer acts without deliberation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--deep);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;border-left:4px solid var(--p1)">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--p3);margin-bottom:4px">Brand Vision</div>
+    <div style="font-size:14px;color:#E9D5FF;line-height:1.6;font-style:italic;">&ldquo;A sophisticated, culturally attuned fragrance house that masterfully bridges traditional Indian botanical notes with modern, globally inspired aesthetic profiles&rdquo;</div>
+  </div>
+
+  <div class="g3" style="margin-bottom:1.5rem">
+    <div class="card" style="border-top:3px solid var(--p1)">
+      <div class="badge badge-purple" style="margin-bottom:.6rem">Phase 1 &bull; Months 1&ndash;12</div>
+      <div class="framework-tag ft-oliver" style="margin-bottom:.6rem">&#128218; Oliver Stage 1 &mdash; Cognitive Loyalty</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.5rem">Margin Repair &amp; Price Integrity</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:.75rem">Phase out flat site-wide discounts. Restructure 15ml into a structured funnel entry. Implement value-led merchandising to establish rational brand preference.</div>
+      <div class="hbox hbox-purple" style="font-size:11px"><strong style="color:var(--p1)">Financial Goals:</strong> Positive CM2 on first orders &bull; Blended AOV &rarr; &#8377;1,500+ &bull; RPR: 12% &rarr; 20&ndash;25%</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--p2)">
+      <div class="badge badge-purple" style="margin-bottom:.6rem">Phase 2 &bull; Months 13&ndash;24</div>
+      <div class="framework-tag ft-oliver" style="margin-bottom:.6rem">&#128218; Oliver Stages 2&amp;3 &mdash; Affective + Conative</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.5rem">LTV Maximization</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:.75rem">Gamified tiered loyalty (Affective Loyalty). Predictive replenishment workflows (Conative Loyalty). Community mechanics build emotional switching costs.</div>
+      <div class="hbox hbox-purple" style="font-size:11px"><strong style="color:var(--p1)">Financial Goals:</strong> RPR &rarr; 20&ndash;25% &bull; LTV:CAC ratio above 3:1 threshold</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--p3)">
+      <div class="badge badge-purple" style="margin-bottom:.6rem">Phase 3 &bull; Months 25&ndash;36</div>
+      <div class="framework-tag ft-oliver" style="margin-bottom:.6rem">&#128218; Oliver Stage 4 &mdash; Action Loyalty</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.5rem">Omnichannel Scale</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:.75rem">Experiential retail kiosks in premium malls drive Action Loyalty via sensory habit. Phygital discovery hubs bridge online intent with offline trial.</div>
+      <div class="hbox hbox-purple" style="font-size:11px"><strong style="color:var(--p1)">Financial Goals:</strong> Revenue mix: 50% D2C &bull; 30% Marketplace &bull; 20% Offline</div>
+    </div>
+  </div>
+
+  <!-- SCENT PORTFOLIO -->
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div class="card-title" style="margin-bottom:2px">India-First Scent Portfolio &mdash; Climate-Specific 3&times;2 Seasonal Grid</div>
+          <div style="font-size:11px;color:var(--muted)">Solving the Evaporation Paradox: EDP formulations + heat-stable fixatives at 18&ndash;20% aromatic concentrate</div>
+        </div>
+        <div>
+          <div class="framework-tag ft-synesthesia">&#128218; Synesthesia Principle</div>
+          <div class="framework-tag ft-gestalt" style="margin-left:4px">&#128218; Gestalt Completeness</div>
+        </div>
+      </div>
+    </div>
+    <table class="scent-tbl">
+      <thead>
+        <tr>
+          <th>Season</th>
+          <th class="men-td" style="border-left:3px solid var(--p1)">Men&rsquo;s Profile</th>
+          <th class="women-td" style="border-left:3px solid var(--pink)">Women&rsquo;s Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="season-lbl">Summer</div><div style="font-size:10px;color:var(--muted)">Office / Daily</div></td>
+          <td class="men-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Slate bottle — blue-grey gradient glass" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="slateG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#B8D4E8"/><stop offset="40%" stop-color="#8BAEC8"/><stop offset="100%" stop-color="#5A8AAA"/></linearGradient>
+                  <linearGradient id="slateHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+                </defs>
+                <path d="M10,28 Q7,36 7,46 L7,90 Q7,96 13,96 L47,96 Q53,96 53,90 L53,46 Q53,36 50,28 Z" fill="url(#slateG)"/>
+                <path d="M10,28 Q7,38 7,70 L10,95" stroke="url(#slateHi)" stroke-width="5" fill="none"/>
+                <path d="M10,28 Q12,16 16,12 L44,12 Q48,16 50,28 Z" fill="#7AAAC4"/>
+                <rect x="20" y="6" width="20" height="8" rx="2" fill="#5A8AAA"/>
+                <rect x="18" y="1" width="24" height="7" rx="2" fill="#88AACC"/>
+                <!-- Label -->
+                <rect x="12" y="48" width="36" height="26" rx="2" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width=".5"/>
+                <text x="30" y="58" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" font-weight="600" letter-spacing="1">A</text>
+                <text x="30" y="67" text-anchor="middle" font-size="4" fill="white" font-family="sans-serif" letter-spacing="1">AMORIST</text>
+                <text x="30" y="73" text-anchor="middle" font-size="4" fill="rgba(255,255,255,0.8)" font-family="sans-serif">SLATE</text>
+              </svg>
+              <div>
+                <div class="scent-name">Slate</div>
+                <div class="scent-notes">Top: Bergamot, Green Mandarin<br>Heart: Ozonic, Mineral Transparency<br>Base: Dry Cedar, Ambroxan (8hr longevity)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-purple">Breathable</span><span class="badge badge-purple">Fresh</span></div>
+              </div>
+            </div>
+          </td>
+          <td class="women-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Breeze bottle — pale mint-white glass" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="breezeG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8F5F0"/><stop offset="50%" stop-color="#C8E8DC"/><stop offset="100%" stop-color="#A8D4C4"/></linearGradient>
+                  <linearGradient id="breezeHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.5)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+                </defs>
+                <!-- Rounded cylinder bottle shape like the original -->
+                <path d="M12,32 Q8,40 8,50 L8,88 Q8,95 15,95 L45,95 Q52,95 52,88 L52,50 Q52,40 48,32 Z" fill="url(#breezeG)"/>
+                <path d="M12,32 Q8,42 8,75 L12,94" stroke="url(#breezeHi)" stroke-width="5" fill="none"/>
+                <path d="M12,32 Q14,18 18,14 L42,14 Q46,18 48,32 Z" fill="#B8E0D0"/>
+                <rect x="22" y="8" width="16" height="8" rx="2" fill="#98C8B8"/>
+                <rect x="20" y="2" width="20" height="8" rx="3" fill="#D0E8DF"/>
+                <rect x="12" y="48" width="36" height="28" rx="2" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width=".5"/>
+                <text x="30" y="59" text-anchor="middle" font-size="5" fill="#3A7A60" font-family="sans-serif" letter-spacing="1">AMORIST</text>
+                <text x="30" y="68" text-anchor="middle" font-size="4.5" fill="#3A7A60" font-family="sans-serif" font-weight="600">BREEZE</text>
+                <text x="30" y="75" text-anchor="middle" font-size="3.5" fill="#5A9A80" font-family="sans-serif">EAU DE PARFUM</text>
+              </svg>
+              <div>
+                <div class="scent-name">Breeze</div>
+                <div class="scent-notes">Top: Cucumber, Aquatic Notes<br>Heart: Green Tea, Crisp Linen<br>Base: Soft White Musk (just-showered aura)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-pink">Clean</span><span class="badge badge-pink">Focused</span></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="season-lbl">Monsoon</div><div style="font-size:10px;color:var(--muted)">Casual Weather</div></td>
+          <td class="men-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Moss bottle — deep forest green glass" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="mossG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2A4A2E"/><stop offset="50%" stop-color="#1E3822"/><stop offset="100%" stop-color="#142616"/></linearGradient>
+                  <linearGradient id="mossHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(80,140,80,0.35)"/><stop offset="100%" stop-color="rgba(80,140,80,0)"/></linearGradient>
+                </defs>
+                <!-- Square-ish dark bottle like original -->
+                <rect x="8" y="28" width="44" height="68" rx="4" fill="url(#mossG)"/>
+                <path d="M8,28 Q8,60 9,92" stroke="url(#mossHi)" stroke-width="5" fill="none"/>
+                <!-- Subtle relief panel on face -->
+                <rect x="12" y="34" width="36" height="56" rx="2" fill="rgba(255,255,255,0.04)"/>
+                <!-- Engraved label -->
+                <rect x="13" y="50" width="34" height="24" rx="1" fill="rgba(255,255,255,0.06)" stroke="rgba(100,160,100,0.3)" stroke-width=".5"/>
+                <text x="30" y="60" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="69" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="sans-serif" font-weight="600">MOSS</text>
+                <!-- Shoulder -->
+                <path d="M8,28 Q9,18 14,14 L46,14 Q51,18 52,28 Z" fill="#1E3822"/>
+                <!-- Dark cap -->
+                <rect x="18" y="7" width="24" height="9" rx="2" fill="#142616"/>
+                <rect x="16" y="2" width="28" height="7" rx="2" fill="#0E1C10"/>
+              </svg>
+              <div>
+                <div class="scent-name">Moss</div>
+                <div class="scent-notes">Top: Ginger, Black Pepper<br>Heart: Indian Vetiver (Khus), Patchouli<br>Base: Earthy Cedarwood (petrichor)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-purple">Earthy</span><span class="badge badge-purple">Grounding</span></div>
+              </div>
+            </div>
+          </td>
+          <td class="women-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Bloom bottle — rose pink rounded glass" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="bloomG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F0C0C8"/><stop offset="50%" stop-color="#E098A8"/><stop offset="100%" stop-color="#C87888"/></linearGradient>
+                  <linearGradient id="bloomHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.4)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+                </defs>
+                <!-- Tall rounded bottle -->
+                <path d="M11,34 Q8,42 8,52 L8,88 Q8,96 15,96 L45,96 Q52,96 52,88 L52,52 Q52,42 49,34 Z" fill="url(#bloomG)"/>
+                <path d="M11,34 Q8,45 8,78 L11,95" stroke="url(#bloomHi)" stroke-width="5" fill="none"/>
+                <path d="M11,34 Q13,20 17,16 L43,16 Q47,20 49,34 Z" fill="#D888A0"/>
+                <rect x="21" y="9" width="18" height="9" rx="2" fill="#C87888"/>
+                <!-- Rose gold cap -->
+                <rect x="18" y="2" width="24" height="9" rx="3" fill="#D4A0A8"/>
+                <line x1="21" y1="5" x2="21" y2="9" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+                <line x1="30" y1="4" x2="30" y2="9" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+                <line x1="39" y1="5" x2="39" y2="9" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+                <rect x="13" y="52" width="34" height="26" rx="2" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.35)" stroke-width=".5"/>
+                <text x="30" y="62" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="71" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" font-weight="600">BLOOM</text>
+              </svg>
+              <div>
+                <div class="scent-name">Bloom</div>
+                <div class="scent-notes">Top: Lemon Verbena, Dewy Green<br>Heart: Violet Leaf, Lotus Flower<br>Base: Rain-washed musk (mood uplift)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-pink">Uplifting</span><span class="badge badge-pink">Dewy</span></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="season-lbl">Winter</div><div style="font-size:10px;color:var(--muted)">Wedding / Festive</div></td>
+          <td class="men-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Suede bottle — warm amber brown glass with gold cap" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="suedeG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C89050"/><stop offset="50%" stop-color="#A06830"/><stop offset="100%" stop-color="#7A4818"/></linearGradient>
+                  <linearGradient id="suedeHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,200,100,0.3)"/><stop offset="100%" stop-color="rgba(255,200,100,0)"/></linearGradient>
+                  <linearGradient id="goldCapS" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8C84A"/><stop offset="100%" stop-color="#C4A030"/></linearGradient>
+                </defs>
+                <!-- Square Suede bottle with chunky proportions -->
+                <rect x="8" y="28" width="44" height="68" rx="3" fill="url(#suedeG)"/>
+                <path d="M8,28 Q8,60 9,92" stroke="url(#suedeHi)" stroke-width="5" fill="none"/>
+                <!-- Faceted panel -->
+                <path d="M12,32 L12,90 L48,90 L48,32 Z" fill="rgba(255,255,255,0.04)"/>
+                <rect x="13" y="50" width="34" height="26" rx="1" fill="rgba(0,0,0,0.15)" stroke="rgba(200,160,80,0.4)" stroke-width=".7"/>
+                <text x="30" y="61" text-anchor="middle" font-size="5" fill="#E8C880" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="70" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="sans-serif" font-weight="600">SUEDE</text>
+                <path d="M8,28 Q9,16 14,12 L46,12 Q51,16 52,28 Z" fill="#8A5828"/>
+                <!-- Gold hexagonal cap like original -->
+                <rect x="16" y="5" width="28" height="9" rx="2" fill="url(#goldCapS)"/>
+                <path d="M16,5 L20,2 L40,2 L44,5" fill="url(#goldCapS)" stroke="#B89030" stroke-width=".5"/>
+                <line x1="22" y1="6" x2="22" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+                <line x1="30" y1="5" x2="30" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+                <line x1="38" y1="6" x2="38" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+              </svg>
+              <div>
+                <div class="scent-name">Suede</div>
+                <div class="scent-notes">Top: Kashmiri Saffron, Cardamom<br>Heart: Premium Oud, Black Pepper<br>Base: Rich Leather, Amber (12hr longevity)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-purple">Magnetic</span><span class="badge badge-purple">Evening</span></div>
+              </div>
+            </div>
+          </td>
+          <td class="women-td">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg viewBox="0 0 60 110" width="46" height="82" aria-label="Velvet bottle — deep burgundy red glass with gold cap" style="flex-shrink:0">
+                <defs>
+                  <linearGradient id="velvetG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7A1828"/><stop offset="50%" stop-color="#5A0E1A"/><stop offset="100%" stop-color="#3A0810"/></linearGradient>
+                  <linearGradient id="velvetHi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,50,80,0.3)"/><stop offset="100%" stop-color="rgba(200,50,80,0)"/></linearGradient>
+                  <linearGradient id="goldCapV" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8C84A"/><stop offset="100%" stop-color="#C4A030"/></linearGradient>
+                </defs>
+                <!-- Tall elegant Velvet bottle -->
+                <path d="M10,32 Q7,42 7,54 L7,90 Q7,97 14,97 L46,97 Q53,97 53,90 L53,54 Q53,42 50,32 Z" fill="url(#velvetG)"/>
+                <path d="M10,32 Q7,46 7,82 L10,96" stroke="url(#velvetHi)" stroke-width="5" fill="none"/>
+                <path d="M10,32 Q12,18 16,14 L44,14 Q48,18 50,32 Z" fill="#4A0E18"/>
+                <rect x="20" y="7" width="20" height="9" rx="2" fill="#3A0810"/>
+                <!-- Gold cap with fluted top like original -->
+                <rect x="17" y="1" width="26" height="8" rx="2" fill="url(#goldCapV)"/>
+                <line x1="22" y1="2" x2="22" y2="8" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+                <line x1="30" y1="1" x2="30" y2="8" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+                <line x1="38" y1="2" x2="38" y2="8" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
+                <!-- Label on dark bottle -->
+                <rect x="12" y="54" width="36" height="26" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(200,160,80,0.35)" stroke-width=".5"/>
+                <text x="30" y="64" text-anchor="middle" font-size="5" fill="#E8C880" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="73" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="sans-serif" font-weight="600">VELVET</text>
+              </svg>
+              <div>
+                <div class="scent-name">Velvet</div>
+                <div class="scent-notes">Top: Winter Rose, Bergamot<br>Heart: Vanilla Absolute, Creamy Sandalwood<br>Base: Rich Amber, Deep Resin (silk-cling)</div>
+                <div style="display:flex;gap:4px;margin-top:5px"><span class="badge badge-pink">Romantic</span><span class="badge badge-pink">Festive</span></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="hbox hbox-gold mt1">
+    <strong>The Evaporation Paradox:</strong> Indian summer heat accelerates molecular motion &rarr; flash evaporation of top notes &rarr; light scents disappear in under 1 hour. Import formulas fail.
+    Solution: 18&ndash;20% aromatic concentrate as EDP + base note fixatives with high boiling points that bond to skin (Ambroxan, Dry Vetiver, White Musk).
+    <br><br>
+    <strong>Naming Strategy &mdash; Cross-Sensory Mapping (Synesthesia Principle):</strong> Names like <em>Slate</em>, <em>Velvet</em>, and <em>Suede</em> trigger tactile sensations digitally, bypassing the inability to smell through a screen. The 3&times;2 mirrored grid applies the <strong>Gestalt Principle of Completeness</strong>, gamifying consumers&rsquo; desire to &ldquo;collect the full wardrobe.&rdquo;
+  </div>
+</div>
+
+<!-- ESSENCE JOURNEY -->
+<div style="max-width:960px;margin:0 auto;padding:0 2.5rem 3rem">
+  <div class="card" style="padding:1.5rem">
+    <div class="card-title" style="text-align:center;font-size:15px;letter-spacing:.06em;text-transform:uppercase">AMRST: The Dual-Function Essence Journey</div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:1.25rem">9-step proprietary process from dawn selection to final seal</div>
+    <!-- Road track SVG -->
+    <svg viewBox="0 0 900 200" width="100%" aria-label="9-step winding essence journey from Dawn Selection to Final Seal" style="display:block">
+      <defs>
+        <linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#C4A870"/>
+          <stop offset="50%" stop-color="#D4B878"/>
+          <stop offset="100%" stop-color="#C4A870"/>
+        </linearGradient>
+        <linearGradient id="stepBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FDF8EE"/>
+          <stop offset="100%" stop-color="#F5EDD8"/>
+        </linearGradient>
+      </defs>
+
+      <!-- WINDING ROAD PATH -->
+      <!-- Road shadow -->
+      <path d="M30,108 Q100,108 130,108 Q160,108 160,80 Q160,52 190,52 Q400,52 400,52 Q430,52 430,80 Q430,108 460,108 Q730,108 730,108 Q760,108 760,80 Q760,52 790,52 Q820,52 870,52"
+            fill="none" stroke="#B8965A" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity=".3"/>
+      <!-- Main road -->
+      <path d="M30,105 Q100,105 130,105 Q160,105 160,77 Q160,49 190,49 Q400,49 400,49 Q430,49 430,77 Q430,105 460,105 Q730,105 730,105 Q760,105 760,77 Q760,49 790,49 Q820,49 870,49"
+            fill="none" stroke="url(#roadGrad)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Road dashed centre line -->
+      <path d="M30,105 Q100,105 130,105 Q160,105 160,77 Q160,49 190,49 Q400,49 400,49 Q430,49 430,77 Q430,105 460,105 Q730,105 730,105 Q760,105 760,77 Q760,49 790,49 Q820,49 870,49"
+            fill="none" stroke="#FDF8EE" stroke-width="2" stroke-linecap="round" stroke-dasharray="12,10" stroke-linejoin="round" opacity=".8"/>
+
+      <!-- STEP CIRCLES & ICONS -->
+      <!-- Step 1: Dawn Selection (x≈30, y≈105) -->
+      <circle cx="48" cy="105" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text cx="48" cy="96" x="48" y="96" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">1</text>
+      <!-- Hand picking flower icon -->
+      <path d="M42,106 Q44,100 48,98 Q52,100 54,106" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <circle cx="48" cy="97" r="3" fill="none" stroke="#8B6A3A" stroke-width="1"/>
+      <path d="M44,109 L52,109" stroke="#8B6A3A" stroke-width="1"/>
+
+      <!-- Step 2: Botanical Sorting (x≈145, y≈90) -->
+      <circle cx="148" cy="84" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="148" y="72" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">2</text>
+      <!-- Basket icon -->
+      <path d="M139,84 Q139,79 148,79 Q157,79 157,84 L155,91 L141,91 Z" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <path d="M141,84 Q148,82 155,84" stroke="#8B6A3A" stroke-width=".8" fill="none"/>
+      <circle cx="144" cy="81" r="1.5" fill="#8B6A3A"/>
+      <circle cx="152" cy="81" r="1.5" fill="#8B6A3A"/>
+
+      <!-- Step 3: Steam Distillation (x≈232, y≈49) -->
+      <circle cx="235" cy="49" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="235" y="37" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">3</text>
+      <!-- Still icon -->
+      <rect x="228" y="48" width="14" height="14" rx="2" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <path d="M235,48 L235,42 Q238,38 242,36" stroke="#8B6A3A" stroke-width="1" fill="none"/>
+      <!-- Steam wisps -->
+      <path d="M231,45 Q233,42 231,39" stroke="#8B6A3A" stroke-width=".8" fill="none" opacity=".6"/>
+      <path d="M235,44 Q237,41 235,38" stroke="#8B6A3A" stroke-width=".8" fill="none" opacity=".6"/>
+
+      <!-- Step 4: Molecular Infusion (x≈310, y≈49) -->
+      <circle cx="310" cy="49" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="310" y="37" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">4</text>
+      <!-- DNA/flask icon -->
+      <path d="M305,42 Q310,46 315,42 Q310,46 305,50 Q310,54 315,50" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <line x1="305" y1="46" x2="315" y2="46" stroke="#8B6A3A" stroke-width=".8" opacity=".5"/>
+      <line x1="305" y1="50" x2="315" y2="50" stroke="#8B6A3A" stroke-width=".8" opacity=".5"/>
+
+      <!-- Step 5: Master's Blend (x≈385, y≈49) -->
+      <circle cx="385" cy="49" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="385" y="37" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">5</text>
+      <!-- Mixing jar with rod -->
+      <ellipse cx="385" cy="58" rx="8" ry="4" fill="none" stroke="#8B6A3A" stroke-width="1"/>
+      <rect x="377" y="50" width="16" height="10" rx="1" fill="none" stroke="#8B6A3A" stroke-width="1"/>
+      <line x1="385" y1="40" x2="385" y2="54" stroke="#8B6A3A" stroke-width="1.2"/>
+      <circle cx="381" cy="43" r="1.5" fill="#C4A870"/>
+
+      <!-- Step 6: Maceration (x≈460, y≈105) -->
+      <circle cx="460" cy="105" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="460" y="93" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">6</text>
+      <!-- Hourglass / barrel icon -->
+      <path d="M453,97 L467,97 L461,105 L467,113 L453,113 L459,105 Z" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <line x1="453" y1="97" x2="467" y2="97" stroke="#8B6A3A" stroke-width=".8"/>
+      <line x1="453" y1="113" x2="467" y2="113" stroke="#8B6A3A" stroke-width=".8"/>
+
+      <!-- Step 7: Chill Filtration (x≈595, y≈105) -->
+      <circle cx="595" cy="105" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="595" y="93" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">7</text>
+      <!-- Sieve/filter icon -->
+      <path d="M585,100 L605,100" stroke="#8B6A3A" stroke-width="1.2"/>
+      <path d="M586,103 Q595,107 604,103" fill="none" stroke="#8B6A3A" stroke-width="1"/>
+      <path d="M589,107 Q595,111 601,107" fill="none" stroke="#8B6A3A" stroke-width=".8"/>
+      <path d="M595,111 L595,116" stroke="#8B6A3A" stroke-width="1"/>
+      <!-- Drop -->
+      <path d="M593,116 Q595,120 597,116 Q595,114 593,116Z" fill="#8B6A3A" opacity=".6"/>
+
+      <!-- Step 8: Hand Pour (x≈730, y≈77) -->
+      <circle cx="730" cy="84" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="730" y="72" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">8</text>
+      <!-- Perfume bottle being poured -->
+      <rect x="722" y="80" width="12" height="16" rx="2" fill="none" stroke="#8B6A3A" stroke-width="1.2"/>
+      <rect x="725" y="76" width="6" height="6" rx="1" fill="none" stroke="#8B6A3A" stroke-width="1"/>
+      <rect x="726" y="73" width="4" height="4" rx="1" fill="#8B6A3A" opacity=".6"/>
+      <path d="M738,80 Q741,84 738,88" fill="none" stroke="#8B6A3A" stroke-width="1" stroke-dasharray="2,2"/>
+
+      <!-- Step 9: Final Seal (x≈850, y≈49) -->
+      <circle cx="852" cy="49" r="22" fill="#FDF8EE" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="852" y="37" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">9</text>
+      <!-- Wax seal / ribbon icon -->
+      <circle cx="852" cy="52" r="9" fill="none" stroke="#C4A870" stroke-width="1.5"/>
+      <text x="852" y="56" text-anchor="middle" font-size="6" fill="#8B6A3A" font-family="serif">Amrst</text>
+      <!-- Ribbon lines -->
+      <path d="M846,45 L843,40 M858,45 L861,40" stroke="#8B6A3A" stroke-width="1" opacity=".6"/>
+      <path d="M843,40 Q847,42 852,40 Q857,42 861,40" fill="none" stroke="#8B6A3A" stroke-width=".8"/>
+
+      <!-- STEP LABELS BELOW ROAD -->
+      <text x="48" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Dawn</text>
+      <text x="48" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Selection</text>
+      <text x="148" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Botanical</text>
+      <text x="148" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Sorting</text>
+      <text x="235" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Steam</text>
+      <text x="235" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Distillation</text>
+      <text x="310" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Molecular</text>
+      <text x="310" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Infusion</text>
+      <text x="385" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Master&apos;s</text>
+      <text x="385" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Blend</text>
+      <text x="460" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Maceration</text>
+      <text x="460" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">42 days</text>
+      <text x="595" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Chill</text>
+      <text x="595" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Filtration</text>
+      <text x="730" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Hand</text>
+      <text x="730" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Pour</text>
+      <text x="852" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Final</text>
+      <text x="852" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Seal</text>
+
+      <!-- STEP DESCRIPTIONS BELOW LABELS (alternating top/bottom) -->
+      <!-- Below road steps -->
+      <text x="48" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Peak purity at 4 AM</text>
+      <text x="460" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Flawless complexity</text>
+      <text x="595" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Crystal-clear clarity</text>
+      <!-- Above road steps -->
+      <text x="235" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Pure essence captured</text>
+      <text x="310" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Odor-Trap complex added</text>
+      <text x="385" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Notes perfectly balanced</text>
+      <text x="852" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Your invisible armour</text>
+      <text x="148" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Finest blooms chosen</text>
+      <text x="730" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Bottled in luxury flacons</text>
+    </svg>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PORTFOLIO -->
+<div id="portfolio" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Product Portfolio Architecture</div>
+    <h2 class="sec-title">&lsquo;Good, Better, Best&rsquo; Value Ladder</h2>
+    <p class="sec-subtitle">Eliminating cannibalization and optimizing the value ladder through structured tier separation</p>
+  </div>
+  <!-- PACKAGING CRAFTSMANSHIP VISUAL -->
+  <div class="card" style="margin-bottom:1.5rem;padding:1.5rem 1.5rem .75rem">
+    <div class="card-title">Lavish Product Craftsmanship &mdash; Discovery Set Packaging</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 0.6fr;gap:14px;align-items:end;margin-bottom:.75rem">
+      <!-- Box 1: Tan kraft -->
+      <div style="text-align:center">
+        <svg viewBox="0 0 200 160" width="100%" aria-label="Tan kraft discovery box open with three vials">
+          <defs>
+            <linearGradient id="tan1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C9A96E"/><stop offset="100%" stop-color="#A0784A"/></linearGradient>
+            <linearGradient id="tanLid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4B47A"/><stop offset="100%" stop-color="#B8965A"/></linearGradient>
+            <linearGradient id="vialG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8D5B0"/><stop offset="100%" stop-color="#C4A870"/></linearGradient>
+          </defs>
+          <!-- Box base -->
+          <rect x="20" y="75" width="160" height="75" rx="4" fill="url(#tan1)" stroke="#8B6A3A" stroke-width="1"/>
+          <!-- Interior dark -->
+          <rect x="26" y="81" width="148" height="63" rx="2" fill="#1A0F0A"/>
+          <!-- Three vials -->
+          <rect x="42" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
+          <rect x="42" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
+          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <rect x="74" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
+          <rect x="74" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
+          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <rect x="106" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
+          <rect x="106" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
+          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <!-- Botanical accents -->
+          <circle cx="148" cy="95" r="4" fill="#8B6A3A" opacity=".7"/>
+          <circle cx="155" cy="100" r="3" fill="#A0784A" opacity=".6"/>
+          <circle cx="38" cy="130" r="3" fill="#8B6A3A" opacity=".5"/>
+          <!-- Lid open, hinged back -->
+          <path d="M20,75 L20,25 Q20,20 25,20 L175,20 Q180,20 180,25 L180,75" fill="url(#tanLid)" stroke="#8B6A3A" stroke-width="1"/>
+          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#6B4A2A" font-family="serif" font-style="italic">Amrst</text>
+          <!-- Card slot -->
+          <rect x="60" y="50" width="80" height="18" rx="2" fill="#F5EDD8" stroke="#C4A870" stroke-width=".5"/>
+        </svg>
+        <div style="font-size:10px;font-weight:600;color:var(--muted);margin-top:4px">Heritage Tan</div>
+      </div>
+      <!-- Box 2: Mughal blue (center, larger) -->
+      <div style="text-align:center">
+        <svg viewBox="0 0 200 185" width="100%" aria-label="Ornate blue Mughal pattern discovery box labelled Discovery">
+          <defs>
+            <linearGradient id="blue1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1E3A6E"/><stop offset="100%" stop-color="#0F2448"/></linearGradient>
+            <linearGradient id="blueLid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2A4F8A"/><stop offset="100%" stop-color="#1A3460"/></linearGradient>
+            <linearGradient id="gold1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#D4A830"/><stop offset="100%" stop-color="#F0C84A"/></linearGradient>
+          </defs>
+          <!-- Box base -->
+          <rect x="15" y="88" width="170" height="85" rx="4" fill="url(#blue1)" stroke="#D4A830" stroke-width="1.5"/>
+          <!-- Gold ornamental border on base -->
+          <rect x="20" y="93" width="160" height="75" rx="2" fill="none" stroke="#D4A830" stroke-width=".8" stroke-dasharray="3,2"/>
+          <!-- Interior -->
+          <rect x="24" y="97" width="152" height="63" rx="2" fill="#0A0F1E"/>
+          <!-- Three vials gold-capped -->
+          <rect x="38" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".85" stroke="#D4A830" stroke-width=".5"/>
+          <rect x="38" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
+          <text x="50" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <rect x="72" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".9" stroke="#D4A830" stroke-width=".5"/>
+          <rect x="72" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
+          <text x="84" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <rect x="106" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".95" stroke="#D4A830" stroke-width=".5"/>
+          <rect x="106" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
+          <text x="118" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <!-- Botanical accents in box -->
+          <circle cx="150" cy="110" r="5" fill="#2A4F3A" opacity=".7"/>
+          <circle cx="158" cy="118" r="3" fill="#3A5F4A" opacity=".5"/>
+          <!-- Lid open -->
+          <path d="M15,88 L15,22 Q15,16 22,16 L178,16 Q185,16 185,22 L185,88" fill="url(#blueLid)" stroke="#D4A830" stroke-width="1.5"/>
+          <!-- Mughal geometric pattern on lid -->
+          <circle cx="100" cy="52" r="30" fill="none" stroke="#D4A830" stroke-width=".6" opacity=".5"/>
+          <circle cx="100" cy="52" r="20" fill="none" stroke="#D4A830" stroke-width=".6" opacity=".4"/>
+          <!-- Octagonal motif -->
+          <path d="M100,26 L112,34 L116,48 L112,62 L100,70 L88,62 L84,48 L88,34 Z" fill="none" stroke="#D4A830" stroke-width=".8" opacity=".6"/>
+          <!-- Small diamonds -->
+          <path d="M100,30 L104,34 L100,38 L96,34 Z" fill="#D4A830" opacity=".4"/>
+          <path d="M116,48 L120,52 L116,56 L112,52 Z" fill="#D4A830" opacity=".4"/>
+          <path d="M84,48 L88,52 L84,56 L80,52 Z" fill="#D4A830" opacity=".4"/>
+          <!-- Brand name on lid -->
+          <text x="100" y="48" text-anchor="middle" font-size="13" fill="#D4A830" font-family="serif" font-style="italic">Amrst</text>
+          <!-- Discovery label card -->
+          <rect x="62" y="60" width="76" height="18" rx="2" fill="#A8C4E0" opacity=".9"/>
+          <text x="100" y="72" text-anchor="middle" font-size="9" fill="#1A3460" font-family="sans-serif" font-weight="bold">Discovery</text>
+        </svg>
+        <div style="font-size:10px;font-weight:600;color:var(--p1);margin-top:4px">Mughal Artisan &mdash; Signature Edition</div>
+      </div>
+      <!-- Box 3: Forest green -->
+      <div style="text-align:center">
+        <svg viewBox="0 0 200 160" width="100%" aria-label="Forest green discovery box open with three vials">
+          <defs>
+            <linearGradient id="grn1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2D5A3D"/><stop offset="100%" stop-color="#1A3826"/></linearGradient>
+            <linearGradient id="grnLid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A6E4E"/><stop offset="100%" stop-color="#264A36"/></linearGradient>
+          </defs>
+          <rect x="20" y="75" width="160" height="75" rx="4" fill="url(#grn1)" stroke="#4A8A5A" stroke-width="1"/>
+          <rect x="26" y="81" width="148" height="63" rx="2" fill="#0F1A12"/>
+          <!-- Gold trim line -->
+          <rect x="20" y="75" width="160" height="3" fill="#C4A830" opacity=".6"/>
+          <!-- Three vials -->
+          <rect x="42" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".8" stroke="#4A8A5A" stroke-width=".5"/>
+          <rect x="42" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
+          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <rect x="74" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".85" stroke="#4A8A5A" stroke-width=".5"/>
+          <rect x="74" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
+          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <rect x="106" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".9" stroke="#4A8A5A" stroke-width=".5"/>
+          <rect x="106" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
+          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <circle cx="148" cy="94" r="4" fill="#4A8A5A" opacity=".7"/>
+          <circle cx="155" cy="101" r="3" fill="#3A6E4E" opacity=".6"/>
+          <!-- Lid -->
+          <path d="M20,75 L20,25 Q20,20 25,20 L175,20 Q180,20 180,25 L180,75" fill="url(#grnLid)" stroke="#4A8A5A" stroke-width="1"/>
+          <rect x="20" y="20" width="160" height="3" fill="#C4A830" opacity=".5"/>
+          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#C4A870" font-family="serif" font-style="italic">Amrst</text>
+          <rect x="60" y="50" width="80" height="18" rx="2" fill="#C4A870" opacity=".25" stroke="#4A8A5A" stroke-width=".5"/>
+        </svg>
+        <div style="font-size:10px;font-weight:600;color:var(--muted);margin-top:4px">Forest Green</div>
+      </div>
+      <!-- Botanical seed pouch -->
+      <div style="text-align:center">
+        <svg viewBox="0 0 120 160" width="100%" aria-label="Botanical seed complement kraft pouch">
+          <defs>
+            <linearGradient id="pouch" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#D4B878"/><stop offset="100%" stop-color="#B89650"/></linearGradient>
+          </defs>
+          <!-- Pouch body -->
+          <rect x="10" y="20" width="100" height="130" rx="6" fill="url(#pouch)" stroke="#8B6A3A" stroke-width="1"/>
+          <!-- Window cutout -->
+          <rect x="22" y="28" width="76" height="42" rx="4" fill="#1A0F0A" opacity=".15" stroke="#8B6A3A" stroke-width=".5"/>
+          <!-- Seeds visible in window -->
+          <ellipse cx="45" cy="49" rx="7" ry="5" fill="#6B4A2A" opacity=".7"/>
+          <ellipse cx="62" cy="44" rx="5" ry="4" fill="#8B6A3A" opacity=".6"/>
+          <ellipse cx="78" cy="50" rx="6" ry="4" fill="#A0784A" opacity=".65"/>
+          <ellipse cx="55" cy="55" rx="4" ry="3" fill="#5A3A1A" opacity=".5"/>
+          <!-- Fold line at top -->
+          <rect x="10" y="20" width="100" height="8" rx="3" fill="#A07838" opacity=".4"/>
+          <!-- Text area -->
+          <text x="60" y="82" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="sans-serif" font-weight="bold">BOTANICAL SEED</text>
+          <text x="60" y="93" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="sans-serif" font-weight="bold">COMPLEMENT</text>
+          <text x="60" y="105" text-anchor="middle" font-size="6" fill="#6B4A2A" font-family="sans-serif">AMRST GENTLE SEED POUCH</text>
+          <!-- Dividing line -->
+          <line x1="22" y1="110" x2="98" y2="110" stroke="#8B6A3A" stroke-width=".5" opacity=".5"/>
+          <text x="60" y="120" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="sans-serif">Contains: Rare Jasmine, Rose,</text>
+          <text x="60" y="129" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="sans-serif">and Citrus Seed Mix</text>
+          <!-- Botanical icons row -->
+          <!-- Jasmine -->
+          <circle cx="38" cy="143" r="6" fill="none" stroke="#6B4A2A" stroke-width=".8"/>
+          <path d="M38,137 L38,143 M34,139 L38,143 M42,139 L38,143 M35,147 L38,143 M41,147 L38,143" stroke="#6B4A2A" stroke-width=".7"/>
+          <!-- Rose -->
+          <path d="M60,138 Q62,136 64,138 Q66,140 64,142 Q62,144 60,142 Q58,140 60,138Z" fill="none" stroke="#6B4A2A" stroke-width=".8"/>
+          <path d="M62,140 Q63,138 64,140" stroke="#6B4A2A" stroke-width=".6"/>
+          <!-- Citrus -->
+          <circle cx="84" cy="141" r="6" fill="none" stroke="#6B4A2A" stroke-width=".8"/>
+          <path d="M78,141 L90,141 M84,135 L84,147" stroke="#6B4A2A" stroke-width=".6"/>
+          <path d="M80,137 L88,145 M80,145 L88,137" stroke="#6B4A2A" stroke-width=".4" opacity=".5"/>
+        </svg>
+        <div style="font-size:10px;font-weight:600;color:var(--muted);margin-top:4px">Seed Complement</div>
+      </div>
+    </div>
+    <div class="hbox hbox-purple" style="font-size:11px">Three discovery set variants &mdash; Heritage Tan, Mughal Artisan, and Forest Green &mdash; each housing 3&times;15ml vials with a handwritten note slot, botanical accents, and magnetic closure. The Botanical Seed Complement pouch ships with select Hero purchases as an unexpected delight.</div>
+  </div>
+
+  <div class="g3" style="margin-bottom:1.5rem">
+    <!-- Entry tier -->
+    <div class="ptier pt-entry">
+      <div class="bottle-wrap">
+        <svg viewBox="0 0 90 130" width="90" height="130" aria-label="3x15ml discovery set vials">
+          <defs><linearGradient id="vt1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A78BFA"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient></defs>
+          <rect x="4" y="28" width="18" height="72" rx="4" fill="url(#vt1)" opacity=".65"/>
+          <rect x="4" y="18" width="18" height="12" rx="3" fill="#6C3FCF" opacity=".85"/>
+          <rect x="7" y="10" width="12" height="10" rx="2" fill="#5B21B6"/>
+          <rect x="36" y="28" width="18" height="72" rx="4" fill="url(#vt1)" opacity=".82"/>
+          <rect x="36" y="18" width="18" height="12" rx="3" fill="#6C3FCF"/>
+          <rect x="39" y="10" width="12" height="10" rx="2" fill="#5B21B6"/>
+          <rect x="68" y="28" width="18" height="72" rx="4" fill="url(#vt1)"/>
+          <rect x="68" y="18" width="18" height="12" rx="3" fill="#5B21B6"/>
+          <rect x="71" y="10" width="12" height="10" rx="2" fill="#4C1D95"/>
+          <text x="13" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,13,80)">AMRST</text>
+          <text x="45" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,45,80)">AMRST</text>
+          <text x="77" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,77,80)">AMRST</text>
+          <text x="45" y="120" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="Inter,sans-serif">3&times;15ml</text>
+        </svg>
+      </div>
+      <div class="ptier-price">&#8377;899</div>
+      <div class="ptier-name">3&times;15ml Discovery Set</div>
+      <div class="ptier-role-lbl">Conversion Bridge</div>
+      <div class="ptier-desc">Low-risk trial mechanism. &#8377;249 rebate toward 100ml. 30-day redemption window. Up to 35% convert to full-size Hero format.</div>
+    </div>
+    <!-- Core tier -->
+    <div class="ptier pt-core">
+      <div class="bottle-wrap">
+        <svg viewBox="0 0 70 130" width="70" height="130" aria-label="50ml bridge format bottle">
+          <defs><linearGradient id="bt1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#5B21B6"/></linearGradient></defs>
+          <!-- Bottle body with slight taper -->
+          <path d="M18,32 Q14,40 14,50 L14,108 Q14,114 20,114 L50,114 Q56,114 56,108 L56,50 Q56,40 52,32 Z" fill="url(#bt1)"/>
+          <!-- Label area -->
+          <rect x="18" y="60" width="34" height="30" rx="2" fill="rgba(255,255,255,0.12)"/>
+          <text x="35" y="72" text-anchor="middle" font-size="5" fill="#EDE9FE" font-family="serif" font-style="italic">AMORIST</text>
+          <text x="35" y="82" text-anchor="middle" font-size="4" fill="#C4B5FD" font-family="sans-serif">50ml EDP</text>
+          <!-- Shoulder -->
+          <path d="M18,32 Q20,20 25,16 L45,16 Q50,20 52,32 Z" fill="#6C3FCF"/>
+          <!-- Neck -->
+          <rect x="28" y="8" width="14" height="10" rx="3" fill="#5B21B6"/>
+          <!-- Cap -->
+          <rect x="26" y="2" width="18" height="8" rx="3" fill="#4C1D95"/>
+          <!-- Highlight -->
+          <path d="M18,50 Q16,70 17,90" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+          <text x="35" y="124" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="Inter,sans-serif">50ml</text>
+        </svg>
+      </div>
+      <div class="ptier-price">&#8377;849</div>
+      <div class="ptier-name">50ml Bridge Format</div>
+      <div class="ptier-role-lbl">Conversion Bridge</div>
+      <div class="ptier-desc">Travel-friendly, Q-Commerce ready, gifting optimized. Captures post-rebate upgraders from Discovery Set.</div>
+    </div>
+    <!-- Hero tier -->
+    <div class="ptier pt-hero">
+      <div class="bottle-wrap">
+        <svg viewBox="0 0 80 130" width="80" height="130" aria-label="100ml hero glass bottle with Zamac cap">
+          <defs>
+            <linearGradient id="ht1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7C3AED"/><stop offset="80%" stop-color="#4C1D95"/><stop offset="100%" stop-color="#2E1065"/></linearGradient>
+            <linearGradient id="zamac" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C0C0C0"/><stop offset="50%" stop-color="#E8E8E8"/><stop offset="100%" stop-color="#A0A0A0"/></linearGradient>
+            <linearGradient id="hthi" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,255,255,0.25)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>
+          </defs>
+          <!-- Main body - Art Deco fluted shape -->
+          <path d="M14,34 Q10,44 10,56 L10,104 Q10,112 18,112 L62,112 Q70,112 70,104 L70,56 Q70,44 66,34 Z" fill="url(#ht1)"/>
+          <!-- Fluted vertical lines on body -->
+          <line x1="22" y1="36" x2="20" y2="110" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="33" y1="34" x2="31" y2="112" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="44" y1="33" x2="44" y2="112" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="55" y1="34" x2="57" y2="112" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="66" y1="36" x2="68" y2="110" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <!-- Highlight -->
+          <path d="M14,40 Q11,60 11,90 L14,110" stroke="url(#hthi)" stroke-width="4" fill="none"/>
+          <!-- Label -->
+          <rect x="16" y="58" width="48" height="34" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(196,181,253,0.3)" stroke-width=".5"/>
+          <text x="40" y="71" text-anchor="middle" font-size="6" fill="#E9D5FF" font-family="serif" font-style="italic">AMORIST</text>
+          <line x1="20" y1="75" x2="60" y2="75" stroke="rgba(196,181,253,0.4)" stroke-width=".5"/>
+          <text x="40" y="84" text-anchor="middle" font-size="5" fill="#C4B5FD" font-family="sans-serif">EAU DE PARFUM</text>
+          <text x="40" y="91" text-anchor="middle" font-size="4.5" fill="#A78BFA" font-family="sans-serif">100ml</text>
+          <!-- Base ridge -->
+          <rect x="10" y="104" width="60" height="6" rx="0" fill="#2E1065" opacity=".5"/>
+          <!-- Shoulder -->
+          <path d="M14,34 Q16,20 22,16 L58,16 Q64,20 66,34 Z" fill="#5B21B6"/>
+          <!-- Neck -->
+          <rect x="28" y="10" width="24" height="8" rx="2" fill="#4C1D95"/>
+          <!-- Zamac magnetic cap - rectangular, chunky -->
+          <rect x="22" y="2" width="36" height="10" rx="2" fill="url(#zamac)" stroke="#B0B0B0" stroke-width=".5"/>
+          <!-- Cap detail lines -->
+          <line x1="28" y1="4" x2="28" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
+          <line x1="34" y1="4" x2="34" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
+          <line x1="46" y1="4" x2="46" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
+          <line x1="52" y1="4" x2="52" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
+          <text x="40" y="122" text-anchor="middle" font-size="8" fill="#C4B5FD" font-family="Inter,sans-serif">100ml</text>
+        </svg>
+      </div>
+      <div class="ptier-price">&#8377;1,499</div>
+      <div class="ptier-name" style="color:var(--p3)">100ml Glass Bottle</div>
+      <div class="ptier-role-lbl">Margin Driver</div>
+      <div class="ptier-desc">Premium Zamac magnetic cap. Art Deco fluted glass. Highest absolute gross profit per unit in the portfolio.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="card-title">MRP Step-Down Price Normalization &mdash; 6-Month Transition</div>
+    <div style="position:relative;height:200px"><canvas id="priceChart" aria-label="Line chart showing MRP stepping down from 2499 to 1499 while effective selling price rises to meet it"></canvas></div>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:10px;color:var(--muted)">
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:18px;height:2px;background:#6C3FCF;display:inline-block"></span>Target MRP</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:18px;height:2px;background:#10B981;display:inline-block"></span>Effective Selling Price</span>
+    </div>
+    <div class="hbox hbox-purple" style="font-size:11px">By Month 6, MRP = Selling Price = &#8377;1,499. Zero discounting. The brand communicates genuine value rather than training buyers to wait for markdowns.</div>
+  </div>
+  <div class="card-title">Value-Led Merchandising &mdash; Gift With Purchase Tier Structure</div>
+  <div class="g3 mt1">
+    <div class="gwp gwp-1">
+      <div class="badge badge-green">Tier 1 &bull; Entry</div>
+      <div class="gwp-name">Aromatic Refresh Wipes</div>
+      <div class="gwp-range">Cart &#8377;1,000&ndash;&#8377;2,000</div>
+      <div class="gwp-gift">10-piece scented wipe pack</div>
+      <div class="gwp-desc">Very low COGS. Keeps Amorist scent in the consumer&rsquo;s surroundings. Passive brand recall reinforcement.</div>
+      <div class="gwp-chips"><span class="gwp-chip">COGS: Very Low</span><span class="gwp-chip">Perceived: Medium</span></div>
+    </div>
+    <div class="gwp gwp-2">
+      <div class="badge" style="background:#DBEAFE;color:#1E40AF">Tier 2 &bull; Mid-Level</div>
+      <div class="gwp-name">Essential Oil Candles</div>
+      <div class="gwp-range">Cart &#8377;2,000&ndash;&#8377;3,000</div>
+      <div class="gwp-gift">4-piece candle set</div>
+      <div class="gwp-desc">Low COGS. Keeps Amorist scent in the consumer&rsquo;s daily home environment. High perceived value gift.</div>
+      <div class="gwp-chips"><span class="gwp-chip">COGS: Low</span><span class="gwp-chip">Perceived: High</span></div>
+    </div>
+    <div class="gwp gwp-3">
+      <div class="badge badge-purple">Tier 3 &bull; VIP</div>
+      <div class="gwp-name">Vegan Leather Atomizer</div>
+      <div class="gwp-range">Cart &#8377;3,000+</div>
+      <div class="gwp-gift">Branded decant case</div>
+      <div class="gwp-desc">Moderate COGS. Reinforces premium brand positioning at every use. Highest perceived value in the GWP stack.</div>
+      <div class="gwp-chips"><span class="gwp-chip">COGS: Moderate</span><span class="gwp-chip">Perceived: Very High</span></div>
+    </div>
+  </div>
+  <div class="hbox hbox-green mt1" style="font-size:11px">Manufacturing a premium cosmetic pouch costs far less than sacrificing 20&ndash;30% of top-line revenue through discounts, resulting in immediate margin protection and expansion.</div>
+</div>
+
+<hr class="divider">
+
+<!-- RETENTION -->
+<div id="retention" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Retention &amp; LTV</div>
+    <h2 class="sec-title">WhatsApp + Gamified Loyalty</h2>
+    <p class="sec-subtitle">Deploying AI-driven retention loops via India&rsquo;s most ubiquitous communication channel, turning passive buyers into compounding advocates</p>
+  </div>
+  <div class="g2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="card-title">Post-Purchase WhatsApp Automation Engine</div>
+      <div class="g3" style="margin-bottom:1rem">
+        <div class="stat-card"><div class="stat-val" style="font-size:20px">500M+</div><div class="stat-lbl">Active WA users in India</div></div>
+        <div class="stat-card"><div class="stat-val" style="font-size:20px">85&ndash;90%</div><div class="stat-lbl">Message open rate</div></div>
+        <div class="stat-card"><div class="stat-val" style="font-size:20px">3&ndash;4&times;</div><div class="stat-lbl">Higher CTR vs email</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="journey-step js-onboard"><div class="js-when" style="color:#15803D">T+1 Day &bull; Onboarding &amp; Excitement</div><div class="js-title">Personalized welcome + micro-video</div><div class="js-detail">Unboxing Zamac bottle + optimal application guide specifically for Indian weather and skin</div></div>
+        <div class="journey-step js-edu"><div class="js-when" style="color:#1E40AF">T+7 Days &bull; Value-Add &amp; Education</div><div class="js-title">Scent stacking introduction</div><div class="js-detail">AI references purchased perfume and suggests a complementary 15ml note with one-click purchase link</div></div>
+        <div class="journey-step js-sentiment"><div class="js-when" style="color:#7E22CE">T+14 Days &bull; Sentiment Analysis</div><div class="js-title">Interactive quick-reply poll</div><div class="js-detail">Positive &rarr; review request + referral code. Negative &rarr; instant human agent routing for service recovery</div></div>
+        <div class="journey-step js-refill"><div class="js-when" style="color:#92400E">T+30&ndash;45 Days &bull; Predictive Replenishment</div><div class="js-title">Consumption modelling trigger</div><div class="js-detail">AI predicts when bottle is nearing empty. Automated nudge with one-tap checkout for immediate repurchase</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Channel Performance Comparison</div>
+      <div style="position:relative;height:200px;margin-bottom:1rem"><canvas id="channelChart" aria-label="Bar chart comparing WhatsApp, email, and paid retargeting on open rate and CTR"></canvas></div>
+      <div style="display:flex;gap:16px;font-size:10px;color:var(--muted);margin-bottom:1rem">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#6C3FCF;border-radius:2px;display:inline-block"></span>Open Rate</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#10B981;border-radius:2px;display:inline-block"></span>Click-Through Rate</span>
+      </div>
+      <div style="font-size:11px;background:var(--p5);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;font-size:10px;font-weight:600;color:var(--p1);margin-bottom:4px"><span>Channel</span><span>Open</span><span>CTR</span><span>Conversion</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-weight:600;color:var(--text)">WhatsApp</span><span>85&ndash;90%</span><span>25&ndash;35%</span><span>8&ndash;12%</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-weight:600;color:var(--text)">Email</span><span>18&ndash;22%</span><span>2&ndash;4%</span><span>1&ndash;3%</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;font-size:10px;color:var(--muted);padding:4px 0"><span style="font-weight:600;color:var(--text)">Paid Ads</span><span>N/A</span><span>1&ndash;2%</span><span>2&ndash;4%</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:.75rem;flex-wrap:wrap">
+      <div class="card-title" style="margin-bottom:0">Gamified Loyalty &mdash; &ldquo;The Amorist Inner Sanctum&rdquo;</div>
+      <div class="framework-tag ft-bps">&#128218; Behavioural Psychology: Variable Reward Theory</div>
+    </div>
+    <div style="background:var(--p5);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;line-height:1.6">
+      <strong style="color:var(--p1)">67%</strong> of Gen Z feel lonely and crave connection (McKinsey, 2023). A purpose-driven community loyalty program <em>is</em> the competitive moat. As members ascend tiers, rewards shift from monetary discounts to exclusive non-monetary soft benefits, fostering emotional connection without margin sacrifice. This is grounded in <strong>Variable Reward Theory</strong> (Skinner, 1938): unpredictable, non-monetary rewards drive stronger habit formation than predictable discounts.
+    </div>
+    <div class="g3" style="margin-bottom:1rem">
+      <div class="loyalty-tier lt-explorer">
+        <div class="lt-tier-name">Explorer</div>
+        <div class="lt-tier-sub">Entry &bull; 0&ndash;2,999 pts &bull; &#8377;1 = 1pt</div>
+        <ul class="lt-perks"><li class="lt-perk">Welcome bonus points on sign-up</li><li class="lt-perk">Points on every purchase</li><li class="lt-perk">Monthly scent inspiration newsletter</li></ul>
+      </div>
+      <div class="loyalty-tier lt-collector">
+        <div class="lt-tier-name">Collector</div>
+        <div class="lt-tier-sub">Mid &bull; 3,000&ndash;5,000 pts &bull; &#8377;1 = 1pt</div>
+        <ul class="lt-perks"><li class="lt-perk">Free shipping on all orders</li><li class="lt-perk">VIP customer service line</li><li class="lt-perk">Bonus points on reviews &amp; UGC posts</li></ul>
+      </div>
+      <div class="loyalty-tier lt-curator">
+        <div class="lt-tier-name">Curator</div>
+        <div class="lt-tier-sub">Elite &bull; 5,000+ pts &bull; &#8377;1 = 1pt</div>
+        <ul class="lt-perks"><li class="lt-perk">Dedicated VIP customer service</li><li class="lt-perk">Birthday exclusive scent gift</li><li class="lt-perk">Early access to seasonal launches</li></ul>
+      </div>
+    </div>
+    <div style="background:var(--p5);border-radius:8px;overflow:hidden;border:1px solid var(--border2)">
+      <div style="background:var(--deep);padding:8px 14px;display:grid;grid-template-columns:130px 1fr 140px 160px;font-size:10px;font-weight:600;color:rgba(196,181,253,0.9);letter-spacing:.04em;gap:8px">
+        <span>MECHANIC</span><span>TRIGGER</span><span>REWARD</span><span>PSYCHOLOGY</span>
+      </div>
+      <div style="padding:8px 14px;display:grid;grid-template-columns:130px 1fr 140px 160px;font-size:11px;gap:8px;border-bottom:1px solid var(--border);align-items:start">
+        <span style="font-weight:600;color:var(--p1)">Scent Quest</span><span style="color:var(--muted)">Submit detailed olfactory review</span><span style="color:var(--text)">200 bonus points</span><span style="color:var(--muted)">Achievement + community validation</span>
+      </div>
+      <div style="padding:8px 14px;display:grid;grid-template-columns:130px 1fr 140px 160px;font-size:11px;gap:8px;border-bottom:1px solid var(--border);align-items:start">
+        <span style="font-weight:600;color:var(--p1)">UGC Content</span><span style="color:var(--muted)">Post review on Instagram</span><span style="color:var(--text)">300 bonus points</span><span style="color:var(--muted)">Social identity + status signaling</span>
+      </div>
+      <div style="padding:8px 14px;display:grid;grid-template-columns:130px 1fr 140px 160px;font-size:11px;gap:8px;align-items:start">
+        <span style="font-weight:600;color:var(--p1)">Referral Unlock</span><span style="color:var(--muted)">Friend makes their first purchase</span><span style="color:var(--text)">500 pts + 10% off</span><span style="color:var(--muted)">Community belonging + advocacy</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHANNELS -->
+<div id="channels" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Channel Strategy</div>
+    <h2 class="sec-title">Phased Channel Expansion Roadmap</h2>
+    <p class="sec-subtitle">Disciplined multi-channel approach avoiding margin dilution and inter-channel conflict</p>
+  </div>
+  <div class="g3" style="margin-bottom:1.5rem">
+    <div class="phase" style="border-left-color:var(--p1)">
+      <div class="phase-num" style="color:var(--p1)">Phase 1</div>
+      <div class="phase-title">D2C &amp; Marketplace Selectivity</div>
+      <div class="phase-months">Months 1&ndash;12</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>D2C Storefront as margin anchor at ~65% gross margin</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>Nykaa, Amazon, Flipkart for Tier 2&ndash;3 acquisition</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>D2C-exclusive: full loyalty points, GWP tiers, personalized profiling</div>
+      <div style="margin-top:.75rem"><span class="badge badge-purple">Primary focus</span></div>
+    </div>
+    <div class="phase" style="border-left-color:var(--p2)">
+      <div class="phase-num" style="color:var(--p2)">Phase 2</div>
+      <div class="phase-title">Q-Commerce Integration</div>
+      <div class="phase-months">Months 13&ndash;24</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>Blinkit, Zepto, Swiggy Instamart for impulse &amp; gifting</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>50ml bridge + premium gift sets for metro hubs</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>Delhi-NCR, Mumbai, Bengaluru &mdash; first 3 metros</div>
+      <div style="margin-top:.75rem"><span class="badge" style="background:#EDE9FE;color:#6D28D9">10&ndash;25% urban revenue</span></div>
+    </div>
+    <div class="phase" style="border-left-color:var(--p3)">
+      <div class="phase-num" style="color:var(--p3)">Phase 3</div>
+      <div class="phase-title">Offline Phygital Discovery</div>
+      <div class="phase-months">Months 25&ndash;36</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>DLF Mall of India, Phoenix Marketcity, Select Citywalk</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>&#8377;5&ndash;10L setup CAPEX vs traditional store costs</div>
+      <div class="phase-item"><span class="phase-item-arrow">&rarr;</span>Scent profiling, physical refill stations, QR loyalty onboarding</div>
+      <div style="margin-top:.75rem"><span class="badge badge-green">Lowest blended CAC</span></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Year 3 Revenue Mix Target</div>
+      <div style="display:flex;align-items:center;gap:1.5rem">
+        <div style="position:relative;width:180px;height:180px;flex-shrink:0"><canvas id="mixChart" aria-label="Doughnut chart: 50% D2C, 30% Marketplace/Q-Commerce, 20% Offline"></canvas></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;background:#6C3FCF;border-radius:2px;flex-shrink:0"></div><div><div style="font-size:13px;font-weight:600">D2C Direct &mdash; 50%</div><div style="font-size:11px;color:var(--muted)">Highest margin &bull; full loyalty data &bull; GWP tiers</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;background:#A78BFA;border-radius:2px;flex-shrink:0"></div><div><div style="font-size:13px;font-weight:600">Marketplace / Q-Commerce &mdash; 30%</div><div style="font-size:11px;color:var(--muted)">Acquisition funnel &bull; Tier 2&ndash;3 reach &bull; impulse gifting</div></div></div>
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:12px;height:12px;background:#DDD6FE;border-radius:2px;flex-shrink:0"></div><div><div style="font-size:13px;font-weight:600">Offline Retail &mdash; 20%</div><div style="font-size:11px;color:var(--muted)">Premium kiosks &bull; sensory trial &bull; trust signal</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Channel Conflict Prevention</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--p5);border-radius:8px"><div style="font-size:11px;font-weight:700;color:var(--p1)">D2C Exclusive Benefits</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Full loyalty points &bull; Personalized scent profiling &bull; GWP tier rewards &bull; Rebate programs</div></div>
+        <div style="padding:10px;background:var(--p5);border-radius:8px"><div style="font-size:11px;font-weight:700;color:var(--p1)">Marketplace Role</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Top-of-funnel acquisition &bull; Tier 2&ndash;3 geographic reach &bull; Trust-based conversion &bull; Differentiated catalog (no exclusive bundles)</div></div>
+        <div style="padding:10px;background:var(--p5);border-radius:8px"><div style="font-size:11px;font-weight:700;color:var(--p1)">Q-Commerce Role</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Impulse purchase occasions &bull; Last-minute gifting &bull; Quick replenishment for existing customers</div></div>
+        <div style="padding:10px;background:var(--p5);border-radius:8px"><div style="font-size:11px;font-weight:700;color:var(--p1)">Kiosk Strategy</div><div style="font-size:11px;color:var(--muted);margin-top:2px">80&ndash;150 sq.ft. &bull; &#8377;40K&ndash;2.5L monthly rent &bull; Highest conversion channel &bull; Bridge to digital loyalty via QR</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- FINANCIALS -->
+<div id="financials" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Financial Projections</div>
+    <h2 class="sec-title">Current State vs. Year 3 Target</h2>
+    <p class="sec-subtitle">Systemic transformation from structural vulnerability to robust profitability</p>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:1.5rem">
+    <table class="fin-tbl">
+      <thead><tr><th>Strategic Metric</th><th>Current State (Discount Model)</th><th>Year 3 Target (Value-Led)</th><th>Strategic Driver</th></tr></thead>
+      <tbody>
+        <tr><td class="fin-metric">Realized Selling Price (100ml)</td><td class="fin-current">&#8377;1,249</td><td class="fin-target">&#8377;1,499</td><td class="fin-driver">Elimination of flat discounts; premium positioning</td></tr>
+        <tr><td class="fin-metric">Average Order Value</td><td class="fin-current">&#8377;750</td><td class="fin-target">&#8377;1,100</td><td class="fin-driver">Regimen bundles, 50ml bridge, &#8377;899 Discovery rebate</td></tr>
+        <tr><td class="fin-metric">Gross Margin %</td><td class="fin-current">70%</td><td class="fin-target">75%</td><td class="fin-driver">Higher RSP, refill pouches reduce COGS</td></tr>
+        <tr><td class="fin-metric">Blended CAC</td><td class="fin-current">&#8377;550</td><td class="fin-target">&#8377;500</td><td class="fin-driver">Offline kiosks + organic referrals</td></tr>
+        <tr><td class="fin-metric">Avg. Customer Retention</td><td class="fin-current">2.5 years</td><td class="fin-target">3.5 years</td><td class="fin-driver">Gamified loyalty + predictive refill triggers</td></tr>
+        <tr><td class="fin-metric">Customer Lifetime Value</td><td class="fin-current">~&#8377;820</td><td class="fin-target">&#8377;1,925</td><td class="fin-driver">Multi-year refill + scent wardrobe journey</td></tr>
+        <tr><td class="fin-metric" style="color:var(--dark);font-size:13px">LTV:CAC Ratio</td><td class="fin-current" style="font-size:16px;font-weight:700">1.49:1</td><td class="fin-target" style="font-size:16px">3.85:1</td><td class="fin-driver">Compounding retention + efficient acquisition</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Key Financial Metrics &mdash; Current vs. Year 3</div>
+      <div style="position:relative;height:250px"><canvas id="finChart" aria-label="Grouped bar chart comparing CAC, AOV, and LTV between current and year 3"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:8px;font-size:10px;color:var(--muted)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#6C3FCF;border-radius:2px;display:inline-block"></span>Current</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#10B981;border-radius:2px;display:inline-block"></span>Year 3 Target</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">The Compounding Effect</div>
+      <div class="g2" style="margin-bottom:1rem">
+        <div class="compound-box"><div class="cb-label">LTV:CAC Ratio</div><div class="cb-from">1.49:1</div><div class="cb-arrow">&#8595;</div><div class="cb-to">3.85:1</div></div>
+        <div class="compound-box"><div class="cb-label">AOV Growth</div><div class="cb-from">&#8377;750</div><div class="cb-arrow">&#8595;</div><div class="cb-to">&#8377;1,100</div></div>
+        <div class="compound-box"><div class="cb-label">EBITDA %</div><div class="cb-from">35%</div><div class="cb-arrow">&#8595;</div><div class="cb-to">40%</div></div>
+        <div class="compound-box"><div class="cb-label">Gross Margin</div><div class="cb-from">70%</div><div class="cb-arrow">&#8595;</div><div class="cb-to">75%</div></div>
+      </div>
+      <div class="hbox hbox-green" style="font-size:11px"><strong>North Star Metric: LTV:CAC Ratio.</strong> This single metric captures whether Amorist is building a defensible, profitable brand or simply burning capital to simulate growth. Everything else is a lever toward this number.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- GTM -->
+<div id="gtm" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Go-To-Market Strategy</div>
+    <h2 class="sec-title">Phased Activation Roadmap</h2>
+    <p class="sec-subtitle">Experiential + digital activation, transitioning from online-only to omnichannel brand over 36 months</p>
+  </div>
+  <div class="g2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="badge badge-purple" style="margin-bottom:.75rem">Pillar 1 &bull; Experiential Activation</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.75rem">Aura Music Festival Activation</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted)">
+        <div style="display:flex;gap:8px"><span style="color:var(--p1);flex-shrink:0">&#9835;</span>Every attendee samples the bestseller fragrance. Scent-embedded band merchandise + QR codes linking to D2C storefront.</div>
+        <div style="display:flex;gap:8px"><span style="color:var(--p1);flex-shrink:0">&#9711;</span>Perfume-bottle-attire mascot creates organic brand recall and press coverage at scale.</div>
+      </div>
+      <div style="border-top:1px solid var(--border);margin-top:.75rem;padding-top:.75rem">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:.4rem">Tiered GWP at Events</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.6">&#8377;1,000&ndash;2,000: Refresh Wipes &bull; &#8377;2,000&ndash;3,000: Essential Oil Candles &bull; &#8377;3,000+: Vegan Leather Atomiser Case</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="badge badge-purple" style="margin-bottom:.75rem">Pillar 2 &bull; Digital &amp; Content</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.75rem">4-Part Mini-Documentary Series</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted)">
+        <div style="display:flex;gap:8px"><span style="color:var(--p1);flex-shrink:0">&#9654;</span>4-part concept-of-fragrances documentary. &ldquo;Relive the Scent&rdquo; recaps within 24 hours of events.</div>
+        <div style="display:flex;gap:8px"><span style="color:var(--p1);flex-shrink:0">&#9670;</span>Distribution: YouTube + Facebook + Instagram. WhatsApp lifecycle automation at 85&ndash;90% open rate.</div>
+      </div>
+      <div style="border-top:1px solid var(--border);margin-top:.75rem;padding-top:.75rem">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:.4rem">Future Pipeline Ideas</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.6"><strong>Metro Scent Pods:</strong> Branded aroma-diffusion pods at Delhi/Mumbai stations. &#8377;2&ndash;3/spray via QR. 4M daily commuters as trial prospects.<br><strong>Brand Ambassador &times; Character Edition:</strong> &ldquo;Wear what [character] wears.&rdquo;</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Milestone Timeline &mdash; 36-Month North Star Progression</div>
+    <div class="tl mt1">
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-when">Month 6</div><div class="tl-what">CM2 turns positive for the first time</div><div class="tl-detail">Contribution Margin 2 goes positive. The business stops burning cash on every first order. Discount death spiral officially broken.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-when">Month 12</div><div class="tl-what">AOV crosses &#8377;1,500 &bull; First kiosk location selected</div><div class="tl-detail">Average order value milestone achieved. First premium mall kiosk location finalized and lease signed for Phase 3 expansion.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-when">Month 18</div><div class="tl-what">RPR crosses 30% &bull; New loyalty perks live</div><div class="tl-detail">Repeat purchase rate crosses 30%. Collector and Curator tier perks fully launched. Inner Sanctum active and growing.</div></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-when">Month 24</div><div class="tl-what">LTV:CAC crosses 2:1 &bull; First kiosk open &bull; Q-commerce live</div><div class="tl-detail">First physical retail kiosk operational in premium mall. Q-commerce channels fully activated across Delhi-NCR, Mumbai, Bengaluru.</div></div></div>
+      <div class="tl-item" style="margin-bottom:0"><div class="tl-dot tl-dot-final"></div><div><div class="tl-when" style="color:var(--green)">Month 36</div><div class="tl-what">LTV:CAC = 3.5:1 &bull; Net profitable &bull; 4+ kiosks live</div><div class="tl-detail">&#8377;4,500+ LTV achieved. 4+ kiosks nationwide. Net profitable business. International licensing actively explored.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- RISKS -->
+<div id="risks" class="section">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div>Risk &amp; Mitigation</div>
+    <h2 class="sec-title">Navigating the Pivot</h2>
+    <p class="sec-subtitle">Safeguarding brand equity and retention during the transition to a value-led model through calculated trade-offs</p>
+  </div>
+
+  <!-- RISK 1 -->
+  <div class="risk-panel">
+    <div class="risk-panel-header">
+      <div class="rph-col rph-risk">&#9888; Risk Identified</div>
+      <div class="rph-mid"></div>
+      <div class="rph-col rph-mit">&#10003; Mitigation Strategy</div>
+    </div>
+    <div class="risk-panel-body">
+      <div class="rpb-risk">
+        <div class="risk-num">Risk 01</div>
+        <div class="risk-heading">High Entry Price Barrier</div>
+        <div class="risk-detail">Transitioning from an accessible &#8377;249 standalone 15ml to an &#8377;899 Discovery Set creates a steeper financial barrier for new customer acquisition. Cold traffic may not convert at the higher entry point.</div>
+        <span class="risk-tag risk-tag-r">Acquisition Risk</span>
+      </div>
+      <div class="rpb-mid">&#8594;</div>
+      <div class="rpb-mit">
+        <div class="risk-num">Strategy 01</div>
+        <div class="risk-heading">AI Chatbot + Tier 1 GWP Code</div>
+        <div class="risk-detail">Drive traffic to an AI chatbot that recommends fragrance profiles based on user lifestyle. Upon completion, users receive a unique code for a Tier 1 GWP (Aromatic Refresh Wipes) to redeem with their first purchase. Reduces friction while preserving value framing.</div>
+        <span class="risk-tag risk-tag-m">Targeted Incentive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 2 -->
+  <div class="risk-panel">
+    <div class="risk-panel-header">
+      <div class="rph-col rph-risk">&#9888; Risk Identified</div>
+      <div class="rph-mid"></div>
+      <div class="rph-col rph-mit">&#10003; Mitigation Strategy</div>
+    </div>
+    <div class="risk-panel-body">
+      <div class="rpb-risk">
+        <div class="risk-num">Risk 02</div>
+        <div class="risk-heading">Sales Decline from Discount Removal</div>
+        <div class="risk-detail">Removing perpetual 50% markdowns may alienate price-sensitive cohorts who formed the primary customer base. Short-term revenue impact is expected and will be significant, creating pressure to revert to the old model.</div>
+        <span class="risk-tag risk-tag-r">Revenue Risk</span>
+      </div>
+      <div class="rpb-mid">&#8594;</div>
+      <div class="rpb-mit">
+        <div class="risk-num">Strategy 02</div>
+        <div class="risk-heading">Calculated Trade-Off: This is the Point</div>
+        <div class="risk-detail">The short-term sales decline is intentional. Eliminating the Discount Death Spiral means deliberately shedding low-retention, price-sensitive buyers in favour of a value-led cohort. Existing customers receive complimentary sidecar vials with every 100ml Hero purchase to maintain Affective Loyalty (Oliver Stage 2) during the transition.</div>
+        <span class="risk-tag risk-tag-m">Deliberate Trade-Off</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 3 -->
+  <div class="risk-panel">
+    <div class="risk-panel-header">
+      <div class="rph-col rph-risk">&#9888; Risk Identified</div>
+      <div class="rph-mid"></div>
+      <div class="rph-col rph-mit">&#10003; Mitigation Strategy</div>
+    </div>
+    <div class="risk-panel-body">
+      <div class="rpb-risk">
+        <div class="risk-num">Risk 03</div>
+        <div class="risk-heading">Format Cannibalization</div>
+        <div class="risk-detail">Consumers may perpetually repurchase the &#8377;849 50ml bridge format instead of upgrading to the &#8377;1,499 100ml Hero tier, permanently anchoring in the lower-margin format and suppressing the portfolio&rsquo;s AOV ceiling.</div>
+        <span class="risk-tag risk-tag-r">Portfolio Risk</span>
+      </div>
+      <div class="rpb-mid">&#8594;</div>
+      <div class="rpb-mit">
+        <div class="risk-num">Strategy 03</div>
+        <div class="risk-heading">Scent Collector Bonus via Inner Sanctum</div>
+        <div class="risk-detail">The Inner Sanctum loyalty program rewards portfolio depth. A &ldquo;Scent Collector&rdquo; mechanic awards 500 bonus points for every new fragrance purchased in the 100ml Hero format, creating strong gamified incentives to upgrade. This applies Variable Reward Theory (Skinner) to push consumers up the value ladder without discounting.</div>
+        <span class="risk-tag risk-tag-m">Gamified Incentive</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div style="display:flex;justify-content:center;margin-bottom:.75rem">
+    <svg width="40" height="40" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="18" fill="none" stroke="#8B5CF6" stroke-width="1.5"/>
+      <path d="M20 10 Q26 15 20 20 Q14 25 20 30" stroke="#A78BFA" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="footer-brand">Amorist Perfumes</div>
+  <div class="footer-sub">
+    <strong style="color:#C4B5FD">IIT Kharagpur General Championship Case Study 2026</strong>
+    <span class="footer-sep">&middot;</span>
+    Meghnad Saha Hall of Residence
+    <span class="footer-sep">&middot;</span>
+    3-Year Strategic Roadmap
+    <br>
+    Market Research &rarr; Problem Diagnosis &rarr; Brand Building &rarr; Portfolio &rarr; Retention &rarr; Channels &rarr; Financials &rarr; GTM &rarr; Risk &amp; Mitigation
+  </div>
+</footer>
+
+<script>
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    navLinks.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+const sections = document.querySelectorAll('.section[id]');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.getAttribute('id');
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    }
+  });
+}, { threshold: 0.25, rootMargin: '-60px 0px 0px 0px' });
+sections.forEach(s => io.observe(s));
+
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#6B7280';
+
+new Chart(document.getElementById('marketChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034'],
+    datasets: [
+      { label:'Premium', data:[725,782,850,925,1010,1105,1210,1330,1460,1559], backgroundColor:'#6C3FCF', stack:'s', borderRadius:2 },
+      { label:'Mass',    data:[525,557,594,633,675,720,768,818,873,440],         backgroundColor:'#C4B5FD', stack:'s', borderRadius:2 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ticks:{font:{size:9}},grid:{display:false}}, y:{ticks:{callback:v=>v+'M',font:{size:9}},grid:{color:'#F3F4F6'}} } }
+});
+
+new Chart(document.getElementById('priceChart'), {
+  type: 'line',
+  data: {
+    labels: ['Month 0','Month 2','Month 4','Month 6'],
+    datasets: [
+      { label:'Target MRP', data:[2499,2099,1699,1499], borderColor:'#6C3FCF', backgroundColor:'rgba(108,63,207,0.06)', tension:.35, fill:true, pointRadius:5, pointBackgroundColor:'#6C3FCF', pointBorderColor:'#fff', pointBorderWidth:2, borderWidth:2 },
+      { label:'Effective Selling Price', data:[1249,1364,1444,1499], borderColor:'#10B981', backgroundColor:'rgba(16,185,129,0.06)', tension:.35, fill:true, pointRadius:5, pointBackgroundColor:'#10B981', pointBorderColor:'#fff', pointBorderWidth:2, borderWidth:2, borderDash:[5,4] }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{min:1000,ticks:{callback:v=>'₹'+v.toLocaleString(),font:{size:9}},grid:{color:'#F3F4F6'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
+});
+
+new Chart(document.getElementById('channelChart'), {
+  type: 'bar',
+  data: {
+    labels: ['WhatsApp Business','Email Marketing','Paid Retargeting'],
+    datasets: [
+      { label:'Open Rate %', data:[87,20,0], backgroundColor:'#6C3FCF', borderRadius:3, barPercentage:.45 },
+      { label:'CTR %',        data:[30,3,1.5], backgroundColor:'#10B981', borderRadius:3, barPercentage:.45 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ x:{ticks:{font:{size:9}},grid:{display:false}}, y:{ticks:{callback:v=>v+'%',font:{size:9}},grid:{color:'#F3F4F6'}} } }
+});
+
+new Chart(document.getElementById('mixChart'), {
+  type: 'doughnut',
+  data: { labels: ['D2C Direct','Marketplace / Q-Commerce','Offline Retail'], datasets: [{ data:[50,30,20], backgroundColor:['#6C3FCF','#A78BFA','#DDD6FE'], borderWidth:0, hoverOffset:6 }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => ctx.label+': '+ctx.parsed+'%'}} } }
+});
+
+new Chart(document.getElementById('finChart'), {
+  type: 'bar',
+  data: {
+    labels: ['CAC','AOV','LTV'],
+    datasets: [
+      { label:'Current', data:[550,750,820], backgroundColor:'#6C3FCF', borderRadius:4, barPercentage:.45 },
+      { label:'Year 3 Target', data:[500,1100,1925], backgroundColor:'#10B981', borderRadius:4, barPercentage:.45 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>'₹'+v.toLocaleString(),font:{size:9}},grid:{color:'#F3F4F6'}}, x:{ticks:{font:{size:11}},grid:{display:false}} } }
+});
+</script>
+</body>
+</html>

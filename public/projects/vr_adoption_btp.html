@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VR Adoption Divergence | Aman Tater | BTP 2025-26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#faf9f7; --white:#ffffff;
+  --blush:#fdecea; --blush-mid:#fad5d0;
+  --sky:#eaf1fd; --sky-mid:#d2e4fb;
+  --navy:#18274a; --navy-mid:#243660; --navy-light:#2f4680;
+  --rose:#b03a2e; --rose-soft:#d9534f;
+  --blue:#1d4ed8; --blue-soft:#3b82f6; --blue-pale:#eff6ff;
+  --gold:#b5640a; --gold-pale:#fef9ee;
+  --green:#15803d; --green-pale:#f0fdf4;
+  --text-dark:#111827; --text-mid:#374151; --text-light:#6b7280; --text-xlight:#9ca3af;
+  --border:#e5e7eb; --border-light:#f3f4f6;
+  --shadow:0 2px 16px rgba(18,39,74,.07);
+  --shadow-md:0 6px 32px rgba(18,39,74,.10);
+  --shadow-lg:0 16px 56px rgba(18,39,74,.13);
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-serif:"Libre Baskerville",Georgia,serif;
+  --font-mono:"JetBrains Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--cream);color:var(--text-dark);line-height:1.6;font-size:15px}
+
+/* ---- NAV ---- */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,249,247,.96);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
+  padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-brand{font-family:var(--font-serif);font-size:.98rem;font-weight:700;color:var(--navy);
+  display:flex;flex-direction:column;line-height:1.15}
+.nav-brand .nb-sub{font-family:var(--font-sans);font-size:.65rem;font-weight:400;
+  color:var(--text-light);letter-spacing:.04em;margin-top:.1rem}
+.nav-links{display:flex;gap:.15rem;flex-wrap:wrap}
+.nav-links a{font-size:.73rem;font-weight:500;color:var(--text-light);text-decoration:none;
+  padding:.3rem .7rem;border-radius:6px;transition:all .18s;letter-spacing:.01em}
+.nav-links a:hover,.nav-links a.active{background:var(--sky);color:var(--blue);font-weight:600}
+
+/* ---- HERO ---- */
+#hero{min-height:100vh;display:flex;align-items:center;padding:72px 2.5rem 4rem;
+  position:relative;overflow:hidden;
+  background:linear-gradient(160deg, #ffffff 0%, #eaf1fd 40%, #fdecea 100%)}
+.hbg1{position:absolute;width:600px;height:600px;top:-150px;right:-150px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,78,216,.05) 0%,transparent 70%);pointer-events:none}
+.hbg2{position:absolute;width:350px;height:350px;bottom:-80px;left:-80px;border-radius:50%;
+  background:radial-gradient(circle,rgba(176,58,46,.04) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1120px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:center}
+.btp-stamp{display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--navy);color:white;border-radius:8px;
+  padding:.55rem 1.1rem;margin-bottom:1.75rem;width:fit-content}
+.btp-stamp .bs-badge{background:var(--blue-soft);color:white;font-size:.65rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:4px}
+.btp-stamp .bs-text{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.02em}
+.btp-stamp .bs-year{font-size:.73rem;color:rgba(255,255,255,.55);margin-left:.25rem}
+h1.hero-t{font-family:var(--font-serif);font-size:clamp(2rem,3.8vw,3.1rem);font-weight:700;
+  line-height:1.15;color:var(--navy);margin-bottom:1.4rem;letter-spacing:-.01em}
+h1.hero-t em{color:var(--rose-soft);font-style:italic}
+.hero-desc{font-size:.95rem;color:var(--text-mid);line-height:1.82;margin-bottom:1.75rem;max-width:530px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.65rem;margin-bottom:1.85rem}
+.hmeta-pill{display:flex;align-items:center;gap:.4rem;background:white;
+  border:1px solid var(--border);border-radius:6px;padding:.4rem .85rem;
+  font-size:.76rem;color:var(--text-mid)}
+.hmeta-pill strong{color:var(--text-dark);font-weight:600}
+.cta-row{display:flex;gap:.7rem;flex-wrap:wrap}
+.btn-p{background:var(--navy);color:white;padding:.6rem 1.4rem;border-radius:7px;
+  font-size:.83rem;font-weight:600;text-decoration:none;transition:all .18s;
+  display:inline-flex;align-items:center;gap:.4rem;letter-spacing:.01em}
+.btn-p:hover{background:var(--navy-mid);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-o{background:transparent;color:var(--navy);border:1.5px solid var(--navy);
+  padding:.6rem 1.4rem;border-radius:7px;font-size:.83rem;font-weight:600;
+  text-decoration:none;transition:all .18s;display:inline-flex;align-items:center}
+.btn-o:hover{background:var(--navy);color:white}
+.hero-cards{display:flex;flex-direction:column;gap:.9rem}
+.hcard{background:white;border:1px solid var(--border);border-radius:10px;
+  padding:1.15rem 1.4rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+.hcard.blue::before{background:linear-gradient(180deg,#60a5fa,#1d4ed8)}
+.hcard.red::before{background:linear-gradient(180deg,#f87171,#b03a2e)}
+.hcard.gold::before{background:linear-gradient(180deg,#fbbf24,#b5640a)}
+.hv{font-family:var(--font-serif);font-size:1.9rem;font-weight:700;color:var(--navy);line-height:1;margin-bottom:.22rem}
+.hl{font-size:.76rem;font-weight:600;color:var(--text-mid)}
+.hs{font-size:.7rem;color:var(--text-light);margin-top:.15rem}
+
+/* ---- SECTION COMMONS ---- */
+section{scroll-margin-top:58px}
+.si{max-width:1120px;margin:0 auto;padding:5rem 2.5rem}
+.sec-lbl{font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+.sec-lbl::before{content:"";flex:1;max-width:26px;height:1.5px;background:var(--blue)}
+h2.sec-t{font-family:var(--font-serif);font-size:clamp(1.7rem,3vw,2.5rem);font-weight:700;
+  color:var(--navy);line-height:1.22;margin-bottom:1.1rem}
+h3.sub-t{font-family:var(--font-serif);font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:.7rem}
+h4.sub4{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.sec-desc{font-size:.92rem;color:var(--text-mid);max-width:650px;line-height:1.82;margin-bottom:2.25rem}
+.divider{border:none;border-top:1px solid var(--border);margin:2.75rem 0}
+p.body-p{font-size:.85rem;color:var(--text-mid);line-height:1.8}
+.obj-statement{background:var(--navy);color:white;border-radius:10px;padding:1.4rem 1.75rem;
+  margin-bottom:2rem;border-left:4px solid var(--blue-soft)}
+.obj-statement .os-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#93c5fd;margin-bottom:.5rem}
+.obj-statement .os-text{font-size:.88rem;color:rgba(255,255,255,.88);line-height:1.78;font-style:italic}
+
+/* ---- ABSTRACT ---- */
+#abstract{background:white}
+.div-vis{display:grid;grid-template-columns:1fr 1fr;border-radius:10px;
+  overflow:hidden;margin:2rem 0;border:1px solid var(--border)}
+.dvp{padding:1.75rem 2rem;text-align:center}
+.dvp.ent{background:linear-gradient(135deg,#eaf1fd,#d2e4fb)}
+.dvp.con{background:linear-gradient(135deg,#fdecea,#fad5d0)}
+.dvp .dvl{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.dvp.ent .dvl{color:var(--blue)}
+.dvp.con .dvl{color:var(--rose)}
+.dvp .dvv{font-family:var(--font-serif);font-size:2.6rem;font-weight:700;color:var(--navy);
+  line-height:1;margin-bottom:.3rem}
+.dvp .dvd{font-size:.78rem;color:var(--text-mid);line-height:1.6}
+.dvp .dvtr{font-size:.71rem;font-weight:600;margin-top:.45rem}
+.dvp.ent .dvtr{color:#15803d}
+.dvp.con .dvtr{color:var(--rose)}
+.abs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4rem;margin-top:2rem}
+.ocard{background:var(--cream);border:1px solid var(--border);border-radius:10px;
+  padding:1.6rem;position:relative;overflow:hidden;transition:box-shadow .2s}
+.ocard:hover{box-shadow:var(--shadow-md)}
+.onum{font-family:var(--font-serif);font-size:2.8rem;font-weight:700;color:var(--border);
+  position:absolute;top:.4rem;right:.9rem;line-height:1;pointer-events:none}
+.otag{font-size:.64rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:.25rem .6rem;border-radius:5px;display:inline-block;margin-bottom:.7rem}
+.otag.rose{background:var(--blush);color:var(--rose)}
+.otag.blue{background:var(--sky);color:var(--blue)}
+.otag.gold{background:var(--gold-pale);color:var(--gold)}
+.ocard h3{font-family:var(--font-serif);font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.ocard p{font-size:.8rem;color:var(--text-mid);line-height:1.72}
+
+/* ---- METHODOLOGY ---- */
+#methodology{background:linear-gradient(180deg,var(--cream),var(--sky))}
+.mflow{display:flex;align-items:flex-start;flex-wrap:wrap;gap:0;margin-top:1.75rem}
+.mstep{flex:1;min-width:160px;background:white;border:1px solid var(--border);
+  border-radius:10px;padding:1.3rem 1.15rem;box-shadow:var(--shadow)}
+.marr{display:flex;align-items:center;padding:0 .35rem;color:var(--text-xlight);
+  font-size:1rem;align-self:center}
+.mnum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:.69rem;font-weight:700;margin-bottom:.6rem}
+.mnum.s1{background:var(--blush);color:var(--rose)}
+.mnum.s2{background:var(--sky);color:var(--blue)}
+.mnum.s3{background:var(--gold-pale);color:var(--gold)}
+.mnum.s4{background:var(--green-pale);color:var(--green)}
+.mstep h4{font-size:.81rem;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.mstep p{font-size:.73rem;color:var(--text-mid);line-height:1.6}
+.fbox{background:white;border:1px solid var(--border);border-radius:10px;padding:1.85rem;
+  margin-top:2.25rem;display:grid;grid-template-columns:1fr 2fr;gap:2rem;
+  align-items:start;box-shadow:var(--shadow)}
+.flbl{font-size:.66rem;font-weight:700;color:var(--text-xlight);letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:.45rem}
+.ftitle{font-family:var(--font-serif);font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
+.fdesc{font-size:.81rem;color:var(--text-mid);line-height:1.76}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.cpill{display:flex;align-items:flex-start;gap:.5rem;padding:.5rem .65rem;
+  border-radius:7px;background:var(--cream);border:1px solid var(--border)}
+.ccode{font-family:var(--font-mono);font-size:.65rem;font-weight:500;
+  background:var(--sky-mid);color:var(--blue);padding:.12rem .38rem;border-radius:4px;white-space:nowrap}
+.cname{font-size:.74rem;color:var(--text-mid);line-height:1.4}
+.info3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;margin-top:.7rem}
+.itile{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.itile .iv{font-family:var(--font-serif);font-size:1.65rem;font-weight:700;color:var(--navy)}
+.itile .il{font-size:.72rem;color:var(--text-mid);margin-top:.15rem}
+
+/* ---- TABS ---- */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:2rem;flex-wrap:wrap}
+.tb{padding:.62rem 1.1rem;font-size:.78rem;font-weight:500;color:var(--text-light);
+  background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;
+  margin-bottom:-2px;transition:all .18s;white-space:nowrap;font-family:var(--font-sans)}
+.tb:hover{color:var(--text-dark)}
+.tb.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+.tp{display:none}
+.tp.active{display:block}
+
+/* ---- OBJ 1 ---- */
+#objective1{background:white}
+.test-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.75rem}
+.test-card{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:1.35rem}
+.test-name{font-family:var(--font-mono);font-size:.68rem;font-weight:500;
+  background:var(--sky-mid);color:var(--blue);padding:.2rem .5rem;border-radius:4px;
+  display:inline-block;margin-bottom:.55rem}
+.test-result{font-family:var(--font-serif);font-size:1.8rem;font-weight:700;color:var(--navy);
+  line-height:1;margin-bottom:.25rem}
+.test-lbl{font-size:.75rem;font-weight:600;color:var(--text-mid);margin-bottom:.4rem}
+.test-desc{font-size:.76rem;color:var(--text-mid);line-height:1.68}
+.sem-wrap{background:var(--cream);border:1px solid var(--border);border-radius:12px;
+  padding:1.85rem;margin:1.75rem 0;overflow-x:auto}
+.sem-d{display:flex;align-items:center;gap:1.4rem;min-width:660px}
+.sem-preds{display:flex;flex-direction:column;gap:.5rem}
+.spred{display:flex;align-items:center;justify-content:space-between;background:white;
+  border:1px solid var(--border);border-radius:7px;padding:.48rem .8rem;gap:1rem;min-width:230px}
+.spred .pn{font-size:.75rem;font-weight:500;color:var(--text-dark)}
+.spred .pb{font-family:var(--font-mono);font-size:.73rem;font-weight:500;
+  padding:.15rem .42rem;border-radius:4px;white-space:nowrap}
+.bp{background:#dcfce7;color:#15803d}
+.bn{background:#fee2e2;color:#dc2626}
+.bns{background:var(--border-light);color:var(--text-light)}
+.sdv{background:var(--navy);color:white;border-radius:10px;
+  padding:1.3rem 1.05rem;text-align:center;min-width:110px}
+.sdv .dl{font-size:.68rem;font-weight:500;opacity:.65;margin-bottom:.28rem}
+.sdv .dn{font-family:var(--font-serif);font-size:1.1rem;font-weight:700;line-height:1.25}
+.sdv .dr{font-family:var(--font-mono);font-size:.82rem;margin-top:.4rem;color:#93c5fd}
+.bar-chart{display:flex;flex-direction:column;gap:.5rem;padding:.65rem 0}
+.bar-row{display:flex;align-items:center;gap:.65rem}
+.bar-lbl{font-size:.7rem;font-weight:600;color:var(--text-mid);width:88px;text-align:right;white-space:nowrap;font-family:var(--font-mono)}
+.bar-track{flex:1;background:var(--border-light);border-radius:4px;height:7px}
+.bar-fill{height:100%;border-radius:4px}
+.bar-val{font-family:var(--font-mono);font-size:.68rem;font-weight:500;width:56px;color:var(--text-dark)}
+.bar-sig{font-size:.62rem;color:var(--text-xlight);width:50px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:1.5rem}
+.fc-card{background:var(--cream);border:1px solid var(--border);border-radius:10px;
+  padding:1.3rem;border-left:4px solid transparent;transition:box-shadow .2s}
+.fc-card:hover{box-shadow:var(--shadow-md)}
+.fc-card.pos{border-left-color:#15803d}
+.fc-card.neg{border-left-color:#dc2626}
+.fc-card.neu{border-left-color:var(--blue)}
+.fc-card.warn{border-left-color:var(--gold)}
+.fc-tag{font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  margin-bottom:.4rem;color:var(--text-xlight)}
+.fc-card h4{font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.fc-card p{font-size:.77rem;color:var(--text-mid);line-height:1.66}
+.bb{display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:.69rem;
+  font-weight:500;padding:.15rem .42rem;border-radius:4px;margin-right:.32rem}
+.datable{width:100%;border-collapse:collapse;margin:.9rem 0;font-size:.79rem}
+.datable th{background:var(--navy);color:white;font-size:.71rem;font-weight:600;
+  text-align:left;padding:.58rem .9rem;letter-spacing:.03em}
+.datable th:first-child{border-radius:7px 0 0 0}
+.datable th:last-child{border-radius:0 7px 0 0}
+.datable td{padding:.52rem .9rem;border-bottom:1px solid var(--border-light);color:var(--text-dark)}
+.datable tr:last-child td{border-bottom:none}
+.datable tr:nth-child(even) td{background:var(--cream)}
+.abar{display:flex;align-items:center;gap:.45rem}
+.afill{height:5px;border-radius:3px;background:linear-gradient(90deg,#60a5fa,#1d4ed8)}
+.afill.poor{background:linear-gradient(90deg,#f87171,#dc2626)}
+.afill.marg{background:linear-gradient(90deg,#fbbf24,#d97706)}
+.med-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.35rem;margin-top:1.4rem}
+.mcard{background:white;border:1px solid var(--border);border-radius:10px;
+  padding:1.35rem;box-shadow:var(--shadow)}
+.mcard h4{font-family:var(--font-serif);font-size:1.08rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.pchain{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;
+  margin:.8rem 0;padding:.6rem;background:var(--cream);border-radius:7px}
+.pnode{background:white;border:1px solid var(--border);border-radius:5px;
+  padding:.22rem .5rem;font-family:var(--font-mono);font-size:.68rem;font-weight:500;color:var(--text-dark)}
+.pedge{font-size:.65rem;color:var(--text-xlight)}
+.vpill{display:inline-block;font-size:.63rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:.2rem .55rem;border-radius:20px;margin-top:.6rem}
+.vpart{background:var(--gold-pale);color:var(--gold)}
+.vnull{background:var(--border-light);color:var(--text-light)}
+
+/* ---- OBJ 2 ---- */
+#objective2{background:var(--cream)}
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.35rem}
+.sc{border-radius:9px;padding:1.1rem}
+.sc.b2b{background:var(--sky);border:1px solid var(--sky-mid)}
+.sc.b2c{background:var(--blush);border:1px solid var(--blush-mid)}
+.sc .slbl{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.sc.b2b .slbl{color:var(--blue)}
+.sc.b2c .slbl{color:var(--rose)}
+.sc ul{list-style:none;padding:0}
+.sc ul li{font-size:.77rem;color:var(--text-mid);padding:.26rem 0;
+  border-bottom:1px solid rgba(0,0,0,.05);display:flex;gap:.42rem}
+.sc ul li::before{content:"\2192";color:var(--text-xlight);flex-shrink:0}
+.sc ul li:last-child{border-bottom:none}
+.ptl{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:1.3rem 0;position:relative}
+.ptl::before{content:"";position:absolute;top:16px;left:10%;right:10%;height:2px;background:var(--border)}
+.pti{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.pdot{width:13px;height:13px;border-radius:50%;border:2px solid var(--border);
+  background:white;margin-bottom:.6rem;position:relative;z-index:1}
+.pdot.on{background:var(--blue);border-color:var(--blue)}
+.plab{font-size:.64rem;font-weight:600;color:var(--text-mid);margin-bottom:.12rem}
+.pyr{font-size:.6rem;color:var(--text-xlight);font-family:var(--font-mono)}
+.tl-wrap{position:relative;padding-left:1.85rem}
+.tl-wrap::before{content:"";position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:1.65rem}
+.tl-dot{position:absolute;left:-1.55rem;top:.28rem;width:12px;height:12px;border-radius:50%;
+  background:white;border:2px solid var(--border)}
+.tl-dot.on{background:var(--blue);border-color:var(--blue)}
+.tl-hdr{display:flex;align-items:center;gap:.65rem;margin-bottom:.35rem}
+.tl-ph{font-family:var(--font-mono);font-size:.64rem;font-weight:500;
+  background:var(--sky);color:var(--blue);padding:.16rem .42rem;border-radius:4px}
+.tl-yr{font-size:.69rem;color:var(--text-xlight)}
+.tl-title{font-size:.88rem;font-weight:700;color:var(--navy)}
+.tl-body{font-size:.78rem;color:var(--text-mid);line-height:1.72}
+.syn-section{background:white;border:1px solid var(--border);border-radius:12px;
+  padding:2rem;margin-top:3rem;box-shadow:var(--shadow)}
+.syn-intro{font-size:.84rem;color:var(--text-mid);line-height:1.8;margin-bottom:1.75rem}
+.syn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
+.syn-card{background:var(--cream);border:1px solid var(--border);border-radius:9px;
+  padding:1.35rem;border-top:3px solid transparent}
+.syn-card.s1{border-top-color:var(--blue)}
+.syn-card.s2{border-top-color:var(--rose-soft)}
+.syn-card.s3{border-top-color:var(--gold)}
+.syn-card.s4{border-top-color:#15803d}
+.syn-card h4{font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.syn-card p{font-size:.77rem;color:var(--text-mid);line-height:1.65}
+.enab-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.1rem;margin-top:1.4rem}
+.ecard{background:white;border:1px solid var(--border);border-radius:10px;
+  padding:1.35rem;text-align:center;box-shadow:var(--shadow);position:relative}
+.ecard.absent{border-top:3px solid #dc2626}
+.eicon{font-size:1.7rem;margin-bottom:.6rem}
+.ecard h4{font-size:.84rem;font-weight:700;color:var(--navy);margin-bottom:.32rem}
+.ecard p{font-size:.73rem;color:var(--text-mid);line-height:1.6}
+.estatus{position:absolute;top:.6rem;right:.6rem;font-size:.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;padding:.17rem .42rem;border-radius:20px}
+.estatus.no{background:#fee2e2;color:#dc2626}
+.ctw{overflow-x:auto;margin-top:1.4rem}
+.ct{border-collapse:collapse;width:100%;min-width:660px}
+.ct th{background:var(--navy);color:white;font-size:.71rem;font-weight:600;
+  padding:.68rem .9rem;text-align:left;letter-spacing:.02em}
+.ct th:nth-child(2){background:#243660}
+.ct th:nth-child(3){background:#2f4680}
+.ct th:nth-child(4){background:#3a56a0}
+.ct td{padding:.58rem .9rem;font-size:.75rem;color:var(--text-dark);
+  border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.6}
+.ct td:first-child{font-weight:700;color:var(--text-mid);font-size:.7rem;letter-spacing:.03em}
+.ct tr:nth-child(even) td{background:#fafaf8}
+
+/* ---- OBJ 3 ---- */
+#objective3{background:white}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.35rem;margin-bottom:2.25rem;align-items:start}
+.pcard{display:flex;flex-direction:column}
+.pbody{flex:1;display:flex;flex-direction:column}
+.pkpi-row{margin:.8rem 0}
+.pkpi .kl{min-width:0;flex:1}
+.pkpi .kv{flex-shrink:0;margin-left:.5rem;text-align:right}
+.pcard{border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);transition:box-shadow .2s}
+.pcard:hover{box-shadow:var(--shadow-lg)}
+.phdr{padding:1.5rem 1.4rem;position:relative;overflow:hidden;min-height:110px;
+  display:flex;flex-direction:column;justify-content:flex-end}
+.phdr.meta{background:linear-gradient(135deg,#050510 0%,#1a0533 60%,#241556 100%)}
+.phdr.sony{background:linear-gradient(135deg,#000000 0%,#0d1a2e 60%,#102040 100%)}
+.phdr.htc{background:linear-gradient(135deg,#0a1a0a 0%,#1a3020 60%,#1e3d26 100%)}
+.logo-wrap{margin-bottom:.65rem}
+.psub{font-size:.68rem;color:rgba(255,255,255,.5);font-family:var(--font-sans);font-weight:400}
+.pbody{padding:1.35rem}
+.pstag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;padding:.22rem .58rem;border-radius:5px;margin-bottom:.85rem}
+.pstag.b2c{background:var(--blush);color:var(--rose)}
+.pstag.b2b{background:var(--sky);color:var(--blue)}
+.pstag.piv{background:var(--gold-pale);color:var(--gold)}
+.pkpi-row{display:flex;flex-direction:column;gap:.4rem;margin:.8rem 0}
+.pkpi{display:flex;justify-content:space-between;align-items:baseline;font-size:.74rem;
+  padding:.3rem 0;border-bottom:1px solid var(--border-light);gap:.5rem}
+.pkpi:last-child{border-bottom:none}
+.pkpi .kl{color:var(--text-light);font-size:.72rem;line-height:1.4}
+.pkpi .kv{font-weight:700;color:var(--text-dark);font-family:var(--font-mono);font-size:.72rem;white-space:nowrap}
+.pins{background:var(--cream);border-radius:7px;padding:.65rem;font-size:.74rem;
+  color:var(--text-mid);line-height:1.62;border-left:3px solid var(--blue);margin-top:.85rem}
+.lev-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.85rem;margin-top:1.65rem}
+.lcard{background:var(--cream);border:1px solid var(--border);border-radius:9px;padding:1.1rem}
+.lic{font-size:1.35rem;margin-bottom:.4rem}
+.lcard h4{font-size:.81rem;font-weight:700;color:var(--navy);margin-bottom:.32rem}
+.lcard p{font-size:.73rem;color:var(--text-mid);line-height:1.6}
+
+/* ---- PRODUCER PHASE TIMELINE ---- */
+.ptl-sm{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:1rem;position:relative}
+.ptl-sm::before{content:"";position:absolute;top:15px;left:8%;right:8%;height:2px;background:var(--border)}
+.ptl-sm .pti .pdot{width:12px;height:12px}
+.ptl-sm .pti .plab{font-size:.6rem}
+.ptl-sm .pti .pyr{font-size:.57rem}
+
+/* ---- CONCLUSIONS ---- */
+#conclusions{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-mid) 50%,#1e3a5f 100%);color:white}
+#conclusions .sec-lbl{color:#93c5fd}
+#conclusions .sec-lbl::before{background:#93c5fd}
+#conclusions h2.sec-t{color:white}
+.con-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.35rem;margin-top:1.85rem}
+.ccon{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);
+  border-radius:10px;padding:1.55rem;transition:background .2s}
+.ccon:hover{background:rgba(255,255,255,.1)}
+.ccon .cn{font-family:var(--font-mono);font-size:.65rem;color:#93c5fd;
+  margin-bottom:.65rem;font-weight:500;letter-spacing:.1em;display:block}
+.ccon h3{font-family:var(--font-serif);font-size:1.08rem;font-weight:700;color:white;margin-bottom:.6rem}
+.ccon p{font-size:.78rem;color:rgba(255,255,255,.72);line-height:1.76}
+.cov{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;padding:1.85rem;margin-top:1.75rem;text-align:center}
+.cov .bq{font-family:var(--font-serif);font-size:1.25rem;font-style:italic;
+  color:white;margin-bottom:.9rem;line-height:1.55}
+.cov p{font-size:.85rem;color:rgba(255,255,255,.76);line-height:1.84;max-width:720px;margin:0 auto}
+
+/* ---- SUPERVISOR ---- */
+#supervisor{background:var(--cream)}
+.sup-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.85rem;align-items:start}
+.supcard{background:white;border:1px solid var(--border);border-radius:12px;
+  padding:1.75rem;display:block;box-shadow:var(--shadow)}
+.sav{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-family:var(--font-serif);font-size:1.35rem;font-weight:700;flex-shrink:0}
+.sav.at{background:linear-gradient(135deg,var(--blush),var(--blush-mid));color:var(--rose)}
+.sav.kb{background:linear-gradient(135deg,var(--sky),var(--sky-mid));color:var(--blue)}
+.sname{font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:.18rem}
+.stitle{font-size:.76rem;color:var(--text-mid);margin-bottom:.6rem;line-height:1.55}
+.slinks{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.slink{display:inline-flex;align-items:center;gap:.32rem;font-size:.71rem;font-weight:600;
+  padding:.26rem .65rem;border-radius:20px;text-decoration:none;transition:all .18s}
+.slink.sch{background:var(--sky);color:var(--blue)}
+.slink.sch:hover{background:var(--sky-mid)}
+.slink.mail{background:var(--blush);color:var(--rose)}
+.slink.mail:hover{background:var(--blush-mid)}
+.defn-box{background:var(--cream);border:1px solid var(--border);border-radius:9px;
+  padding:1.1rem 1.3rem;margin:.75rem 0;height:100%}
+.defn-term{font-family:var(--font-mono);font-size:.72rem;font-weight:500;color:var(--blue);margin-bottom:.3rem}
+.defn-text{font-size:.78rem;color:var(--text-mid);line-height:1.7}
+
+/* ---- REFERENCES ---- */
+#references{background:var(--cream)}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem}
+.ref-item{font-size:.77rem;color:var(--text-mid);line-height:1.7;padding:.45rem 0;
+  border-bottom:1px solid var(--border-light)}
+.ref-item:last-child{border-bottom:none}
+.ref-item span{color:var(--text-dark);font-weight:600}
+.ref-cat{font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blue);margin:1.35rem 0 .65rem;display:block}
+
+/* ---- FOOTER ---- */
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:1.3rem;font-size:.72rem}
+footer span{color:rgba(255,255,255,.88)}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .55s ease forwards}
+.fu1{animation-delay:.08s;opacity:0}
+.fu2{animation-delay:.18s;opacity:0}
+.fu3{animation-delay:.28s;opacity:0}
+
+@media(max-width:940px){
+  .hero-inner{grid-template-columns:1fr}
+  .abs-grid,.fg,.med-grid,.split2,.syn-grid,.enab-row,.con-grid,
+  .prod-grid,.lev-grid,.fbox,.sup-grid,.test-cards{grid-template-columns:1fr}
+  .info3{grid-template-columns:1fr 1fr}
+  .ref-grid{grid-template-columns:1fr}
+}
+
+/* Inline-code style */
+code{font-family:var(--font-mono);font-size:.8em;background:var(--border-light);
+  padding:.1em .35em;border-radius:3px;color:var(--navy-mid)}
+
+/* Tooltip definition */
+abbr[title]{border-bottom:1px dotted var(--text-xlight);cursor:help;text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    VR Adoption Divergence
+    <span class="nb-sub">Bachelor Thesis Project &nbsp;|&nbsp; IIT Kharagpur &nbsp;|&nbsp; 2025-26</span>
+  </div>
+  <div class="nav-links">
+    <a href="#hero" class="active">Home</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#methodology">Methodology</a>
+    <a href="#objective1">Objective 1</a>
+    <a href="#objective2">Objective 2</a>
+    <a href="#objective3">Objective 3</a>
+    <a href="#conclusions">Conclusions</a>
+    <a href="#references">References</a>
+    <a href="#supervisor">About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg1"></div><div class="hbg2"></div>
+  <div class="hero-inner">
+    <div class="fu">
+      <div class="btp-stamp">
+        <span class="bs-badge">BTP</span>
+        <span class="bs-text">Bachelor&#8217;s Thesis Project &nbsp;&bull;&nbsp; Aman Tater</span>
+      </div>
+      <h1 class="hero-t">Exploring VR Adoption <em>Divergence</em> Between B2B and B2C Markets</h1>
+      <p class="hero-desc">A mixed-methods investigation into why enterprise <abbr title="Virtual Reality">VR</abbr> adoption accelerates at 24&#8211;34% <abbr title="Compound Annual Growth Rate">CAGR</abbr> while consumer headset shipments contract. Combining primary survey analysis, cross-technology case studies, and producer strategy analysis across three interconnected research objectives.</p>
+      <div class="hero-meta">
+        <div class="hmeta-pill">&#128100; <strong>Aman Tater</strong></div>
+        <div class="hmeta-pill">&#127963; Mechanical Engineering &nbsp;&bull;&nbsp; <abbr title="Indian Institute of Technology">IIT</abbr> Kharagpur</div>
+        <div class="hmeta-pill">&#128202; <em>n</em> = 144 respondents</div>
+        <div class="hmeta-pill">&#128197; Session 2025&#8209;26</div>
+      </div>
+      <div class="cta-row">
+        <a href="#objective1" class="btn-p">Survey Analysis &#8595;</a>
+        <a href="#conclusions" class="btn-o">Key Findings</a>
+      </div>
+    </div>
+    <div class="hero-cards fu fu2">
+      <div class="hcard blue">
+        <div class="hv">24&#8211;34%</div>
+        <div class="hl">Enterprise VR <abbr title="Compound Annual Growth Rate">CAGR</abbr> (2024)</div>
+        <div class="hs">54.7% of total VR revenue is B2B &#x2022; Projected 60% by 2030</div>
+      </div>
+      <div class="hcard red">
+        <div class="hv">&#8722;10&#8211;12%</div>
+        <div class="hl">Consumer Headset Shipments <abbr title="Year-over-Year">YoY</abbr> (2024)</div>
+        <div class="hs">Despite USD 83B+ in Meta Reality Labs investment</div>
+      </div>
+      <div class="hcard gold">
+        <div class="hv">42.6%</div>
+        <div class="hl">Survey Model <em>R</em>&#178; &mdash; Variance Explained</div>
+        <div class="hs">Strong predictive baseline for an emerging technology category</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section id="abstract">
+  <div class="si">
+    <div class="sec-lbl">Overview</div>
+    <h2 class="sec-t">Research Abstract</h2>
+    <p class="sec-desc">Virtual Reality presents a compelling paradox in contemporary technology markets: enterprise adoption accelerates consistently while consumer markets stagnate. This research investigates the structural drivers of this divergence through three interconnected objectives, integrating quantitative primary survey data, cross-technology case studies, and producer strategy analysis.</p>
+    <div class="div-vis">
+      <div class="dvp ent">
+        <div class="dvl">Enterprise VR (B2B)</div>
+        <div class="dvv">54.7%</div>
+        <div class="dvd">Share of total VR revenue in 2024 &#x2014; projected to reach 60% by 2030. Driven by quantifiable <abbr title="Return on Investment">ROI</abbr> in training, simulation, and design visualisation contexts.</div>
+        <div class="dvtr">&#8593; 24&#8211;34% CAGR &#x2022; ROI-driven adoption</div>
+      </div>
+      <div class="dvp con">
+        <div class="dvl">Consumer VR (B2C)</div>
+        <div class="dvv">&#8722;10&#8211;12%</div>
+        <div class="dvd">Year-over-year headset shipment decline in 2024, despite Meta&#8217;s sustained hardware subsidisation exceeding USD 83B in cumulative Reality Labs operating losses (2020&#8211;2025).</div>
+        <div class="dvtr">&#8595; Stagnant &#x2022; Price-value gap unresolved</div>
+      </div>
+    </div>
+    <div class="abs-grid">
+      <div class="ocard fu fu1">
+        <div class="onum">01</div>
+        <div class="otag rose">Consumer Survey</div>
+        <h3>Barriers &amp; Drivers of Consumer VR Adoption</h3>
+        <p>Extended <abbr title="Unified Theory of Acceptance and Use of Technology 2">UTAUT2</abbr> framework applied to primary survey data (<em>n</em>=144). <abbr title="Structural Equation Modelling">SEM</abbr> path analysis identifies Price Value (&#946;=+0.331) and Hedonic Motivation (&#946;=+0.243) as dominant positive drivers, while productivity framing suppresses intent (&#946;=&#8722;0.312). Model <em>R</em>&#178;=0.426. Includes mediation and moderation analyses.</p>
+      </div>
+      <div class="ocard fu fu2">
+        <div class="onum">02</div>
+        <div class="otag blue">Cross-Technology</div>
+        <h3>B2B vs. B2C Purchasing Decision Dimensions</h3>
+        <p>Case studies of Personal Computers (1950&#8211;present), Electric Vehicles (1996&#8211;present), and <abbr title="Artificial Intelligence">AI</abbr> Tools (2022&#8211;present) reveal that B2B adoption is <abbr title="Return on Investment">ROI</abbr>-led; B2C requires subsidies, zero-friction access, or institutional diffusion. Consumer VR currently lacks all three enablers.</p>
+      </div>
+      <div class="ocard fu fu3">
+        <div class="onum">03</div>
+        <div class="otag gold">Producer Strategy</div>
+        <h3>Segmentation, Pricing &amp; Market Positioning</h3>
+        <p>In-depth case studies of Meta Platforms, Sony Interactive Entertainment, and HTC Corporation demonstrate that subsidised pricing determines consumer market share, and credible B2B pivots require simultaneous transformation across four strategic levers: pricing, channel, features, and partnerships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="si">
+    <div class="sec-lbl">Research Design</div>
+    <h2 class="sec-t">Methodology</h2>
+    <p class="sec-desc">A pragmatist mixed-methods design guided by the principle that knowledge generation should use whatever combination of methods best serves the research question. Each methodology is matched to its corresponding objective.</p>
+    <div class="mflow">
+      <div class="mstep"><div class="mnum s1">1</div><h4>Literature Review</h4><p>Systematic review of consumer VR adoption research, IDC/Gartner market reports, and academic databases (Google Scholar, EBSCO) on adoption barriers and technology diffusion theory.</p></div>
+      <div class="marr">&#8594;</div>
+      <div class="mstep"><div class="mnum s2">2</div><h4>Quantitative Survey</h4><p>Stratified sampling across VR-experienced and non-experienced consumers. 144 valid responses on a 7-point Likert scale across 8 independent constructs plus the dependent variable.</p></div>
+      <div class="marr">&#8594;</div>
+      <div class="mstep"><div class="mnum s3">3</div><h4>Statistical Analysis</h4><p>KMO/Bartlett&#8217;s suitability &#8594; Cronbach&#8217;s &#945; reliability &#8594; One-way ANOVA &#8594; SEM Path Analysis &#8594; Mediation and Moderation analyses.</p></div>
+      <div class="marr">&#8594;</div>
+      <div class="mstep"><div class="mnum s4">4</div><h4>Case Study Analysis</h4><p>A consistent four-lever analytical framework applied to PC, EV, AI (Obj. 2) and Meta, Sony, HTC (Obj. 3) to ensure cross-case comparability.</p></div>
+    </div>
+    <div class="fbox">
+      <div>
+        <div class="flbl">Theoretical Foundation</div>
+        <div class="ftitle">Extended UTAUT2 Framework</div>
+        <p class="fdesc">The survey operationalises the <strong>Unified Theory of Acceptance and Use of Technology 2</strong> (Venkatesh, Thong &amp; Xu, 2012), extended with three VR-specific constructs to capture adoption barriers unique to immersive hardware not addressed by the original framework.</p>
+      </div>
+      <div>
+        <div class="flbl" style="margin-bottom:.65rem">Constructs Measured: 8 Independent Variables + 1 Dependent Variable</div>
+        <div class="cgrid">
+          <div class="cpill"><span class="ccode">PE</span><span class="cname">Performance Expectancy &#8212; Use-Case Clarity</span></div>
+          <div class="cpill"><span class="ccode">EE</span><span class="cname">Effort Expectancy &#8212; Technical Complexity</span></div>
+          <div class="cpill"><span class="ccode">PV</span><span class="cname">Price Value &#8212; Affordability &amp; Justification</span></div>
+          <div class="cpill"><span class="ccode">FC</span><span class="cname">Facilitating Conditions &#8212; Infrastructure Barriers</span></div>
+          <div class="cpill"><span class="ccode">HM</span><span class="cname">Hedonic Motivation &#8212; The Fun Factor</span></div>
+          <div class="cpill"><span class="ccode">SR</span><span class="cname">Somatic Risk &#8212; Physical Discomfort &#9733;</span></div>
+          <div class="cpill"><span class="ccode">EM</span><span class="cname">Ecosystem Maturity &#8212; Content Quality &#9733;</span></div>
+          <div class="cpill"><span class="ccode">TR</span><span class="cname">Trialability &#8212; Exposure Barrier &#9733;</span></div>
+        </div>
+        <p style="font-size:.68rem;color:var(--text-xlight);margin-top:.6rem">&#9733; VR-specific extensions to UTAUT2, not present in the original framework</p>
+      </div>
+    </div>
+    <!-- Sample profile + BI defn: full-width row below the two-column framework box -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.25rem;align-items:stretch">
+      <div>
+        <div class="flbl" style="margin-bottom:.65rem">Sample Profile</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem">
+          <div class="itile"><div class="iv">144</div><div class="il">Total respondents</div></div>
+          <div class="itile"><div class="iv">22.4</div><div class="il">Mean respondent age (years)</div></div>
+          <div class="itile"><div class="iv">7-point</div><div class="il">Likert scale</div></div>
+        </div>
+      </div>
+      <div class="defn-box" style="margin-top:0;align-self:end">
+        <div class="defn-term">Behavioural Intention (BI) &#8212; Dependent Variable</div>
+        <div class="defn-text">The degree to which a respondent intends to acquire, research, or make economic sacrifice toward owning a VR headset. Operationalised across three dimensions: intent to acquire (BI1&#8211;BI2), search effort (BI3), and economic sacrifice (BI4).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OBJECTIVE 1 -->
+<section id="objective1">
+  <div class="si">
+    <div class="sec-lbl">Objective 1</div>
+    <h2 class="sec-t">Consumer VR Adoption: Barriers, Drivers and Survey Analysis</h2>
+    <div class="obj-statement">
+      <div class="os-label">Research Objective 1</div>
+      <div class="os-text">To identify and assess the key barriers and drivers influencing consumer VR adoption across affordability, content availability, use-case clarity, and technical complexity dimensions through combined analysis of market research, consumer studies, and primary survey data (<em>n</em> = 144) using an extended UTAUT2 framework.</div>
+    </div>
+    <div class="tab-bar" id="o1tabs">
+      <button class="tb active" onclick="sw('o1','rel',this)">Data Suitability &amp; Reliability</button>
+      <button class="tb" onclick="sw('o1','path',this)">SEM Path Analysis</button>
+      <button class="tb" onclick="sw('o1','anova',this)">ANOVA: Subgroup Tests</button>
+      <button class="tb" onclick="sw('o1','med',this)">Mediation Analysis</button>
+      <button class="tb" onclick="sw('o1','mod',this)">Moderation Analysis</button>
+    </div>
+
+    <!-- RELIABILITY -->
+    <div id="o1-rel" class="tp active">
+      <h3 class="sub-t">Step 1: Data Suitability and Construct Reliability</h3>
+      <p class="body-p" style="margin-bottom:1.4rem">Before performing predictive analysis, two statistical tests assess whether the survey data is mathematically suited for factor-based structural modelling, followed by internal consistency checks on each construct.</p>
+      <div class="test-cards">
+        <div class="test-card">
+          <div class="test-name">Kaiser-Meyer-Olkin (KMO) Test</div>
+          <div class="test-result">0.734</div>
+          <div class="test-lbl">Measure of Sampling Adequacy &nbsp;|&nbsp; Threshold &gt; 0.60 &#10003;</div>
+          <div class="test-desc">The <strong>KMO test</strong> measures whether the partial correlations among variables are small relative to the sum of correlations, indicating whether the data share sufficient shared variance to be meaningfully grouped into latent constructs. A value of 0.734 confirms the data are well-suited for structural modelling.</div>
+        </div>
+        <div class="test-card">
+          <div class="test-name">Bartlett&#8217;s Test of Sphericity</div>
+          <div class="test-result">&#967;&#178; = 7.2 &#215; 10<sup style="font-size:.65em">&#8722;190</sup></div>
+          <div class="test-lbl">Significance: <em>p</em> &lt; 0.001 &#10003;</div>
+          <div class="test-desc">The <strong>Bartlett&#8217;s test</strong> tests the null hypothesis that the correlation matrix is an identity matrix (i.e., variables are uncorrelated). A highly significant result (<em>p</em> &lt; 0.001) rejects this null, confirming that the variables share a common factor structure and are suitable for factor extraction and SEM analysis.</div>
+        </div>
+      </div>
+      <h4 class="sub4" style="margin-top:1.75rem">Construct Reliability: Cronbach&#8217;s Alpha (&#945;)</h4>
+      <p class="body-p" style="margin-bottom:1rem"><strong>Cronbach&#8217;s alpha</strong> is a measure of internal consistency, estimating how closely related a set of items are as a group. It ranges from 0 to 1, with values &#8805; 0.70 considered good, 0.60&#8211;0.70 acceptable in exploratory research, and below 0.60 indicating poor consistency.</p>
+      <table class="datable">
+        <thead><tr><th>Construct</th><th>Code</th><th>Items</th><th>Cronbach&#8217;s &#945;</th><th>Interpretation</th><th>Visual</th></tr></thead>
+        <tbody>
+          <tr><td>Hedonic Motivation</td><td><code>HM</code></td><td>3</td><td>0.801</td><td>Good (&#8805;&#8202;0.70)</td><td><div class="abar"><div class="afill" style="width:80px"></div></div></td></tr>
+          <tr><td>Performance Expectancy</td><td><code>PE</code></td><td>3</td><td>0.687</td><td>Acceptable (exploratory threshold)</td><td><div class="abar"><div class="afill" style="width:69px"></div></div></td></tr>
+          <tr><td>Price Value</td><td><code>PV</code></td><td>3</td><td>0.662</td><td>Acceptable</td><td><div class="abar"><div class="afill" style="width:66px"></div></div></td></tr>
+          <tr><td>Trialability</td><td><code>TR</code></td><td>3</td><td>0.660</td><td>Acceptable</td><td><div class="abar"><div class="afill" style="width:66px"></div></div></td></tr>
+          <tr><td>Somatic Risk</td><td><code>SR</code></td><td>4</td><td>0.660</td><td>Acceptable</td><td><div class="abar"><div class="afill" style="width:66px"></div></div></td></tr>
+          <tr><td>Facilitating Conditions</td><td><code>FC</code></td><td>4</td><td>0.642</td><td>Acceptable</td><td><div class="abar"><div class="afill" style="width:64px"></div></div></td></tr>
+          <tr><td>Effort Expectancy</td><td><code>EE</code></td><td>4</td><td>0.606</td><td>Marginally Acceptable</td><td><div class="abar"><div class="afill marg" style="width:61px"></div></div></td></tr>
+          <tr><td>Ecosystem Maturity</td><td><code>EM</code></td><td>3</td><td>0.545</td><td>Poor &#8212; interpret with caution</td><td><div class="abar"><div class="afill poor" style="width:55px"></div></div></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.74rem;color:var(--text-xlight);margin-top:.6rem">Note: EM (&#945;=0.545) falls below standard reliability thresholds, indicating respondents may have interpreted its three items inconsistently. All findings for EM are treated as directionally indicative rather than confirmatory.</p>
+    </div>
+
+    <!-- PATH ANALYSIS -->
+    <div id="o1-path" class="tp">
+      <h3 class="sub-t">SEM Path Analysis: Drivers of Behavioural Intention</h3>
+      <p class="body-p" style="margin-bottom:.6rem"><strong>Structural Equation Modelling (SEM) path analysis</strong> estimates the direct effect of each independent variable on the dependent variable (Behavioural Intention) while controlling for all other predictors simultaneously. Standardised beta (&#946;) coefficients represent the change in BI (in standard deviation units) per one standard deviation change in the predictor.</p>
+      <p class="body-p" style="margin-bottom:1.4rem">Model <em>R</em>&#178; = <strong>0.426</strong>: the model explains 42.6% of variance in consumer VR adoption intention, a strong predictive baseline for an emerging technology category where adoption decisions involve significant uncertainty.</p>
+      <div class="sem-wrap">
+        <div class="sem-d">
+          <div class="sem-preds">
+            <div class="spred"><span class="pn"><code>PV</code> Price Value</span><span class="pb bp">&#946; = +0.331 ***</span></div>
+            <div class="spred"><span class="pn"><code>PE</code> Performance Expectancy</span><span class="pb bn">&#946; = &#8722;0.312 ***</span></div>
+            <div class="spred"><span class="pn"><code>SR</code> Somatic Risk</span><span class="pb bp">&#946; = +0.262 **</span></div>
+            <div class="spred"><span class="pn"><code>HM</code> Hedonic Motivation</span><span class="pb bp">&#946; = +0.243 **</span></div>
+            <div class="spred"><span class="pn"><code>FC</code> Facilitating Conditions</span><span class="pb bp">&#946; = +0.179 *</span></div>
+            <div class="spred"><span class="pn"><code>TR</code> Trialability</span><span class="pb bn">&#946; = &#8722;0.152 *</span></div>
+            <div class="spred"><span class="pn"><code>EM</code> Ecosystem Maturity</span><span class="pb bns">&#946; = +0.096 &nbsp;n.s.</span></div>
+            <div class="spred"><span class="pn"><code>EE</code> Effort Expectancy</span><span class="pb bns">&#946; = +0.002 &nbsp;n.s.</span></div>
+          </div>
+          <svg width="70" height="316" viewBox="0 0 70 316" style="flex-shrink:0">
+            <line x1="4" y1="19" x2="64" y2="158" stroke="#e5e7eb" stroke-width="1.5"/>
+            <line x1="4" y1="58" x2="64" y2="158" stroke="#e5e7eb" stroke-width="1.5"/>
+            <line x1="4" y1="97" x2="64" y2="158" stroke="#e5e7eb" stroke-width="1.5"/>
+            <line x1="4" y1="136" x2="64" y2="158" stroke="#e5e7eb" stroke-width="1.5"/>
+            <line x1="4" y1="175" x2="64" y2="158" stroke="#e5e7eb" stroke-width="1.5"/>
+            <line x1="4" y1="214" x2="64" y2="158" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4"/>
+            <line x1="4" y1="253" x2="64" y2="158" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4"/>
+            <line x1="4" y1="292" x2="64" y2="158" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4"/>
+            <polygon points="60,153 68,158 60,163" fill="#18274a"/>
+          </svg>
+          <div class="sdv">
+            <div class="dl">Dependent Variable</div>
+            <div class="dn">Behavioural Intention (BI)</div>
+            <div class="dr"><em>R</em>&#178; = 0.426</div>
+          </div>
+        </div>
+        <p style="font-size:.66rem;color:var(--text-xlight);margin-top:.8rem">Significance levels: *** <em>p</em>&lt;0.001 &nbsp;&#183;&nbsp; ** <em>p</em>&lt;0.01 &nbsp;&#183;&nbsp; * <em>p</em>&lt;0.05 &nbsp;&#183;&nbsp; n.s. not significant. SR coefficient reflects inverse scaling: higher SR score = lower somatic concern = higher adoption intent.</p>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-lbl">PV</span><div class="bar-track"><div class="bar-fill" style="width:66%;background:linear-gradient(90deg,#4ade80,#15803d)"></div></div><span class="bar-val">+0.331</span><span class="bar-sig"><em>p</em>&lt;0.001</span></div>
+        <div class="bar-row"><span class="bar-lbl">PE</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:linear-gradient(90deg,#f87171,#b91c1c)"></div></div><span class="bar-val">&#8722;0.312</span><span class="bar-sig"><em>p</em>&lt;0.001</span></div>
+        <div class="bar-row"><span class="bar-lbl">SR</span><div class="bar-track"><div class="bar-fill" style="width:52%;background:linear-gradient(90deg,#4ade80,#15803d)"></div></div><span class="bar-val">+0.262</span><span class="bar-sig"><em>p</em>=0.002</span></div>
+        <div class="bar-row"><span class="bar-lbl">HM</span><div class="bar-track"><div class="bar-fill" style="width:49%;background:linear-gradient(90deg,#4ade80,#15803d)"></div></div><span class="bar-val">+0.243</span><span class="bar-sig"><em>p</em>=0.001</span></div>
+        <div class="bar-row"><span class="bar-lbl">FC</span><div class="bar-track"><div class="bar-fill" style="width:36%;background:linear-gradient(90deg,#60a5fa,#1d4ed8)"></div></div><span class="bar-val">+0.179</span><span class="bar-sig"><em>p</em>=0.023</span></div>
+        <div class="bar-row"><span class="bar-lbl">TR</span><div class="bar-track"><div class="bar-fill" style="width:30%;background:linear-gradient(90deg,#fb923c,#c2410c)"></div></div><span class="bar-val">&#8722;0.152</span><span class="bar-sig"><em>p</em>=0.043</span></div>
+        <div class="bar-row"><span class="bar-lbl">EM</span><div class="bar-track"><div class="bar-fill" style="width:19%;background:#e5e7eb"></div></div><span class="bar-val">+0.096</span><span class="bar-sig">n.s.</span></div>
+        <div class="bar-row"><span class="bar-lbl">EE</span><div class="bar-track"><div class="bar-fill" style="width:1%;background:#e5e7eb"></div></div><span class="bar-val">+0.002</span><span class="bar-sig">n.s.</span></div>
+      </div>
+      <div class="fg" style="margin-top:1.65rem">
+        <div class="fc-card pos"><div class="fc-tag">&#9733; Strongest Positive Driver</div><h4>Price Value is the Dominant Motivator</h4><p><span class="bb bp">&#946;=+0.331</span>Consumers must feel the high upfront cost is justified over time &#8212; not merely that the device is cheap in absolute terms. Confirmed by Sony PSVR2&#8217;s 2,300% single-day sales surge when discounted from USD 549 to USD 349. Demand existed but was price-suppressed above the ~USD 350&#8211;400 threshold.</p></div>
+        <div class="fc-card neg"><div class="fc-tag">&#9888; Most Counterintuitive Finding</div><h4>Productivity Framing Actively Suppresses Intent</h4><p><span class="bb bn">&#946;=&#8722;0.312</span>The more consumers evaluate VR through a lens of strict practical utility or productivity, the less likely they are to purchase. VR is succeeding as an entertainment device, not a productivity tool. Consumer-facing marketing through productivity narratives may be actively counterproductive.</p></div>
+        <div class="fc-card pos"><div class="fc-tag">Entertainment Driver</div><h4>Hedonic Motivation &#8212; The &#8220;Wow Factor&#8221;</h4><p><span class="bb bp">&#946;=+0.243</span>Anticipation of awe and intrinsic pleasure is a meaningful purchase motivator. Validates an entertainment-first positioning strategy and the strategic importance of showcase applications that deliver genuinely novel immersive experiences.</p></div>
+        <div class="fc-card neu"><div class="fc-tag">Infrastructure Prerequisite</div><h4>Physical Space and Technical Resources</h4><p><span class="bb bp">&#946;=+0.179</span>Consumers without adequate physical space or compatible hardware show significantly lower adoption intent. Product innovations that reduce spatial requirements &#8212; standalone headsets, seated experiences &#8212; directly address this structural barrier.</p></div>
+        <div class="fc-card warn"><div class="fc-tag">Trial Barrier</div><h4>Trialability: Real, but with Structural Limits</h4><p><span class="bb bn">&#946;=&#8722;0.152</span>Higher trial barriers reduce intent. VR cannot be adequately communicated through 2D media; the value proposition of immersion requires direct sensory experience. However, ANOVA confirms hands-on experience alone does not shift value perception &#8212; structural pricing and content fixes remain necessary.</p></div>
+        <div class="fc-card pos"><div class="fc-tag">&#10003; Problem Resolved</div><h4>Technical Complexity Is No Longer a Significant Barrier</h4><p><span class="bb bns">&#946;=+0.002</span>Effort Expectancy has essentially zero impact on adoption intention. Meta&#8217;s sustained investment in standalone, PC-free hardware has resolved this concern. Further investment in reducing setup complexity will yield diminishing returns in adoption impact.</p></div>
+      </div>
+    </div>
+
+    <!-- ANOVA -->
+    <div id="o1-anova" class="tp">
+      <h3 class="sub-t">One-Way ANOVA: Demographic Subgroup Differences</h3>
+      <p class="body-p" style="margin-bottom:.9rem"><strong>One-Way Analysis of Variance (ANOVA)</strong> tests whether the means of a dependent variable differ significantly across three or more groups. Here, it tests whether gaming experience and prior VR exposure produce statistically different construct perceptions &#8212; i.e., whether adoption barriers are segment-specific or universal. A significance level of <em>p</em> &lt; 0.05 is used throughout.</p>
+      <div class="split2">
+        <div class="sc b2b">
+          <div class="slbl">ANOVA by Gaming Time &#8212; All <em>p</em> &gt; 0.05</div>
+          <ul>
+            <li>Hypothesis: Hardcore gamers perceive lower technical barriers and higher VR value</li>
+            <li>Result: No significant differences for any of the eight constructs</li>
+            <li>All &#951;&#178; (eta-squared) values below 0.05 &#8212; trivial effect sizes throughout</li>
+            <li>Largest (trivial) effect: Price Value, &#951;&#178;=0.049, <em>F</em>=1.802, <em>p</em>=0.132</li>
+            <li>Implication: Campaigns targeting gamers specifically will not produce dramatically different adoption outcomes than general population approaches</li>
+          </ul>
+        </div>
+        <div class="sc b2c">
+          <div class="slbl">ANOVA by Prior VR Usage (Guttman Scale) &#8212; All <em>p</em> &gt; 0.05</div>
+          <ul>
+            <li>Hypothesis: Users who have tried or owned VR perceive less somatic risk and better utility</li>
+            <li>Result: No significant differences for any of the eight constructs</li>
+            <li>SR: &#951;&#178;&#8776;0.000, <em>F</em>=0.018, <em>p</em>=0.997 &#8212; near-zero effect</li>
+            <li>Largest (trivial) effect: Behavioural Intention, &#951;&#178;=0.023, <em>F</em>=1.103, <em>p</em>=0.350</li>
+            <li>Implication: Hands-on trial programmes, while important for Trialability, will not alone transform perceptions of value or risk. Primary barriers require structural intervention.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="background:var(--sky);border:1px solid var(--sky-mid);border-radius:9px;padding:1.15rem;margin-top:.85rem">
+        <p style="font-size:.82rem;color:var(--navy);font-weight:700;margin-bottom:.35rem">Strategic Implication of Demographic Invariance</p>
+        <p style="font-size:.78rem;color:var(--text-mid);line-height:1.76">Consumer VR adoption barriers are not segment-specific &#8212; they are structural and universal. Neither gaming expertise nor first-hand VR experience provides a meaningful perceptual advantage. The primary levers for improving consumer adoption are structural: price reduction toward the empirically validated ~USD 350&#8211;400 adoption threshold, entertainment-focused marketing, and expanded trial infrastructure.</p>
+      </div>
+      <h4 class="sub4" style="margin-top:1.75rem">Supplementary Gender Comparisons (Independent <em>t</em>-tests)</h4>
+      <p class="body-p" style="margin-bottom:.85rem">Independent samples <em>t</em>-tests across gender found no statistically significant differences on any construct (all <em>p</em> &gt; 0.20), further reinforcing the cross-segment universality of VR adoption barriers.</p>
+      <table class="datable">
+        <thead><tr><th>Construct</th><th>Male Mean</th><th>Female Mean</th><th><em>t</em>-statistic</th><th><em>p</em>-value</th></tr></thead>
+        <tbody>
+          <tr><td>Performance Expectancy (PE)</td><td>4.16</td><td>3.79</td><td>0.895</td><td>0.372 n.s.</td></tr>
+          <tr><td>Price Value (PV)</td><td>4.05</td><td>4.39</td><td>&#8722;0.896</td><td>0.372 n.s.</td></tr>
+          <tr><td>Hedonic Motivation (HM)</td><td>4.42</td><td>3.88</td><td>1.231</td><td>0.220 n.s.</td></tr>
+          <tr><td>Somatic Risk (SR)</td><td>3.94</td><td>3.95</td><td>&#8722;0.034</td><td>0.973 n.s.</td></tr>
+          <tr><td>Trialability (TR)</td><td>4.07</td><td>4.58</td><td>&#8722;1.224</td><td>0.223 n.s.</td></tr>
+          <tr><td>Behavioural Intention (BI)</td><td>4.25</td><td>4.09</td><td>0.418</td><td>0.676 n.s.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MEDIATION -->
+    <div id="o1-med" class="tp">
+      <h3 class="sub-t">Mediation Analysis: PV &#8594; HM &#8594; BI</h3>
+      <p class="body-p" style="margin-bottom:1.1rem"><strong>Mediation analysis</strong> tests whether the effect of an independent variable (X) on a dependent variable (Y) operates through an intervening variable (M). Using the Baron and Kenny (1986) causal steps framework and the <strong>Sobel test</strong> for indirect effects, this analysis asks: does Hedonic Motivation (HM) transmit part of Price Value&#8217;s (PV) effect on Behavioural Intention (BI)?</p>
+      <div class="med-grid">
+        <div class="mcard">
+          <h4>Mediation Model: PV &#8594; HM &#8594; BI</h4>
+          <p style="font-size:.76rem;color:var(--text-mid);margin-bottom:.4rem">Research question: Does the fun/awe expectation (HM) mediate how price-value perception (PV) translates into adoption intention (BI)?</p>
+          <div class="pchain">
+            <div class="pnode">PV</div>
+            <span class="pedge">&nbsp;&#8594;<sub style="color:#15803d;font-size:.64rem"> a=0.231*</sub>&nbsp;</span>
+            <div class="pnode">HM</div>
+            <span class="pedge">&nbsp;&#8594;<sub style="color:#6b7280;font-size:.64rem"> b=0.097</sub>&nbsp;</span>
+            <div class="pnode">BI</div>
+          </div>
+          <table class="datable" style="font-size:.74rem">
+            <tr><td>Total effect <em>c</em> (PV &#8594; BI)</td><td><code>&#946;=0.378, <em>p</em>&lt;0.001</code></td></tr>
+            <tr><td>Path <em>a</em> (PV &#8594; HM)</td><td><code>&#946;=0.231, <em>p</em>=0.016</code></td></tr>
+            <tr><td>Path <em>b</em> (HM &#8594; BI, controlling PV)</td><td><code>&#946;=0.097</code></td></tr>
+            <tr><td>Direct effect <em>c&#8242;</em> (PV &#8594; BI, controlling HM)</td><td><code>&#946;=0.355</code></td></tr>
+            <tr><td>Indirect effect (<em>a</em> &#215; <em>b</em>)</td><td><code>0.022</code></td></tr>
+            <tr><td>Sobel <em>Z</em>-statistic, <em>p</em>-value</td><td><code><em>Z</em>=1.262, <em>p</em>=0.207</code></td></tr>
+          </table>
+          <span class="vpill vpart">Partial Mediation &#8212; Not Statistically Significant</span>
+          <p style="font-size:.73rem;color:var(--text-mid);margin-top:.7rem;line-height:1.68">HM partially mediates PV &#8594; BI, but the indirect effect does not reach significance (Sobel <em>p</em>=0.207). This confirms that price-value assessment is a direct, rational cognitive judgement &#8212; consumers are not primarily &#8220;talked into&#8221; valuing VR through hedonic associations. The price-value and fun pathways operate largely independently, requiring separate strategic interventions.</p>
+        </div>
+        <div class="mcard">
+          <h4>Theoretical Contribution</h4>
+          <p style="font-size:.78rem;color:var(--text-mid);line-height:1.75;margin-bottom:.75rem">The non-significant mediation is a substantively meaningful null result. It establishes that:</p>
+          <ul style="padding-left:1.1rem;font-size:.78rem;color:var(--text-mid);line-height:1.75">
+            <li style="margin-bottom:.5rem">Price value drives adoption intent through a <strong>direct cognitive path</strong> &#8212; consumers assess the cost-benefit trade-off directly, not through the emotional valence of anticipated pleasure.</li>
+            <li style="margin-bottom:.5rem">Marketing strategies that attempt to use hedonic appeals as a substitute for genuine pricing improvements are unlikely to be effective. The Sobel test confirms the indirect route is negligible in magnitude.</li>
+            <li>Interventions must address price-value and hedonic motivation as <strong>independent levers</strong>: price reduction toward the ~USD 350&#8211;400 threshold and entertainment content investment are separately necessary, not interchangeable.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODERATION -->
+    <div id="o1-mod" class="tp">
+      <h3 class="sub-t">Moderation Analysis: FC &#215; SR &#8594; BI</h3>
+      <p class="body-p" style="margin-bottom:1.1rem"><strong>Moderation analysis</strong> tests whether the strength or direction of a relationship between two variables (X &#8594; Y) changes as a function of a third variable (M, the moderator). Using mean-centred variables and a hierarchical regression approach, this analysis asks: does having adequate infrastructure (FC) reduce the negative impact of physical discomfort concern (SR) on adoption intent (BI)?</p>
+      <div class="med-grid">
+        <div class="mcard">
+          <h4>Moderation Model: FC &#215; SR &#8594; BI</h4>
+          <p style="font-size:.76rem;color:var(--text-mid);margin-bottom:.75rem">Research question: Does Facilitating Conditions (FC) moderate the Somatic Risk (SR) &#8594; BI relationship? i.e., do consumers with adequate infrastructure feel less impact from physical discomfort concerns?</p>
+          <table class="datable" style="font-size:.74rem">
+            <thead><tr><th>Predictor</th><th>&#946; (standardised)</th><th><em>p</em>-value</th></tr></thead>
+            <tbody>
+              <tr><td>SR (mean-centred)</td><td><code>+0.286</code></td><td>0.0002 ***</td></tr>
+              <tr><td>FC (mean-centred)</td><td><code>+0.315</code></td><td>0.0001 ***</td></tr>
+              <tr><td><strong>SR &#215; FC Interaction term</strong></td><td><code>+0.031</code></td><td>0.577 n.s.</td></tr>
+              <tr><td>Moderation model <em>R</em>&#178;</td><td colspan="2"><code>0.207</code></td></tr>
+              <tr><td>&#916;<em>R</em>&#178; due to interaction</td><td colspan="2"><code>0.002 (trivial)</code></td></tr>
+            </tbody>
+          </table>
+          <span class="vpill vnull">Moderation: Not Supported (<em>p</em>=0.577)</span>
+          <p style="font-size:.73rem;color:var(--text-mid);margin-top:.7rem;line-height:1.68">The interaction term SR &#215; FC is not statistically significant and the &#916;<em>R</em>&#178; is trivially small (0.002). FC does not moderate SR&#8217;s effect on BI. Both FC and SR operate as independent, additive positive predictors of adoption intent.</p>
+        </div>
+        <div class="mcard">
+          <h4>Theoretical Contribution</h4>
+          <p style="font-size:.78rem;color:var(--text-mid);line-height:1.75;margin-bottom:.75rem">The non-significant moderation is substantively informative. It establishes that:</p>
+          <ul style="padding-left:1.1rem;font-size:.78rem;color:var(--text-mid);line-height:1.75">
+            <li style="margin-bottom:.5rem">Having adequate infrastructure (FC) does not attenuate physical discomfort concerns (SR). The two barriers are <strong>orthogonal</strong> &#8212; co-occurring but not interacting.</li>
+            <li style="margin-bottom:.5rem">A consumer who lacks physical space <strong>and</strong> fears motion sickness faces two independent adoption barriers; addressing one does not reduce the other.</li>
+            <li>Product development priorities must address somatic risk (comfort, optics, ergonomics) and infrastructure barriers (standalone design, space-efficient form factors) as <strong>separate, independent intervention targets</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVE 2 -->
+<section id="objective2">
+  <div class="si">
+    <div class="sec-lbl">Objective 2</div>
+    <h2 class="sec-t">B2B vs. B2C Technology Purchasing: Cross-Technology Case Studies</h2>
+    <div class="obj-statement">
+      <div class="os-label">Research Objective 2</div>
+      <div class="os-text">To explore and characterise the fundamental dimensions of B2B versus B2C technology purchasing decision processes through case study analysis of three diverse technology adoption contexts &#8212; examining how business and consumer markets approach technology evaluation, justification, and implementation decisions, to provide a structural explanation for VR&#8217;s adoption divergence.</div>
+    </div>
+    <div class="tab-bar" id="o2tabs">
+      <button class="tb active" onclick="sw('o2','pc',this)">Personal Computers</button>
+      <button class="tb" onclick="sw('o2','ev',this)">Electric Vehicles</button>
+      <button class="tb" onclick="sw('o2','ai',this)">AI Tools</button>
+    </div>
+
+    <!-- PC -->
+    <div id="o2-pc" class="tp active">
+      <h3 class="sub-t">Case Study A: Personal Computers (1950&#8211;Present)</h3>
+      <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:1.15rem;background:var(--sky);padding:.85rem 1rem;border-radius:8px;border-left:3px solid var(--blue)"><strong>Adoption Pattern:</strong> Enterprise-leading adoption followed by workplace-to-home social diffusion. Establishes the baseline B2B &#8220;ROI trigger, then B2C social proof&#8221; sequence. Enterprise VR (2024) currently mirrors PC Phase 2.</p>
+      <div class="split2">
+        <div class="sc b2b"><div class="slbl">B2B Purchasing Logic</div><ul>
+          <li>VisiCalc (1979) provided the decisive ROI justification: CFOs calculated a USD 2,000 PC costs less than one month of analyst salary savings</li>
+          <li>IBM&#8217;s 1981 entry (65,000 units in 4 months) provided institutional legitimacy signal, transforming &#8220;toy&#8221; to &#8220;productivity tool&#8221;</li>
+          <li>Y2K crisis (1999) functioned as enforcement mechanism compelling mandatory fleet replacement</li>
+          <li>Phase 4 (2011&#8211;present): AI PCs as compliance and on-device processing tools, shifting from CapEx to Device-as-a-Service (DaaS)</li>
+        </ul></div>
+        <div class="sc b2c"><div class="slbl">B2C Adoption Enabler: Institutional Diffusion</div><ul>
+          <li>Workplace familiarity created social learning diffusion &#8212; no government subsidy required</li>
+          <li>Email network effects multiplied PC value as more peers adopted: the device only had utility if recipients were connected</li>
+          <li>Household penetration: 15% (1989) &#8594; 37% (1997) &#8594; 75% (2005)</li>
+          <li>Windows 95 (40M copies sold in Year 1) repositioned the PC as a social connectivity portal</li>
+        </ul></div>
+      </div>
+      <div class="ptl">
+        <div class="pti"><div class="pdot on"></div><div class="plab">Institutional Era</div><div class="pyr">1950&#8211;1974</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Hobbyist Genesis</div><div class="pyr">1975&#8211;1980</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">ROI Pivot</div><div class="pyr">1981&#8211;1994</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Connected Utility</div><div class="pyr">1995&#8211;2010</div></div>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 0</span><span class="tl-yr">1950&#8211;1974</span></div><div class="tl-title">Centralised Institutional Ownership</div><div class="tl-body">Computing existed exclusively as capital-intensive institutional infrastructure. IBM System/360 (1964, ~USD 5B development cost) commanded 70% of the global installed base. The consumer market was non-existent &#8212; computers were &#8220;Electronic Brains&#8221; with zero perceived personal utility and no B2C purchasing mechanisms of any kind.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 1</span><span class="tl-yr">1975&#8211;1980</span></div><div class="tl-title">Fragmentation and Hobbyist Genesis</div><div class="tl-body">Intel 8080 enabled radical miniaturisation. Altair 8800 (1975, USD 439) received 4,000 orders against a 200-unit break-even expectation. The &#8220;1977 Trinity&#8221; (Apple II, Commodore PET, TRS-80) established that ordinary individuals would purchase computing if friction was sufficiently reduced. First &#8220;Shadow IT&#8221; instances appeared: engineers buying Apple IIs with petty cash to escape mainframe queues.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 2</span><span class="tl-yr">1981&#8211;1994</span></div><div class="tl-title">Professional Standardisation: The ROI Pivot</div><div class="tl-body">VisiCalc&#8217;s automatic recalculation eliminated manual recomputation: 200,000+ copies sold by 1982. CFOs could quantify the payback period in weeks. IBM&#8217;s 1981 entry (65,000 units in 4 months) provided the institutional legitimacy signal. This is the definitive B2B adoption trigger model &#8212; quantifiable ROI preceding and enabling scale. Enterprise VR deployments in training and safety currently mirror this exact phase.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 3</span><span class="tl-yr">1995&#8211;2010</span></div><div class="tl-title">Connected Utility: The B2C Diffusion Trigger</div><div class="tl-body">Windows 95 repositioned the PC from standalone productivity device to internet portal. Household penetration rose from 37% (1997) to 75% (2005) &#8212; primarily through workplace familiarity creating social learning. Email network effects: the device only had value if the people you communicated with were also connected, creating compounding peer-driven adoption. This workplace-to-home spillover mechanism is precisely what consumer VR currently lacks.</div></div>
+      </div>
+      <div class="ctw">
+        <table class="ct">
+          <thead><tr><th>Dimension</th><th>B2B Enterprise</th><th>B2C Consumer</th></tr></thead>
+          <tbody>
+            <tr><td>Decision Structure</td><td>Multi-stakeholder (IT, CFO, procurement); speed increased as category matured and ROI became calculable</td><td>Individual or household; driven by social proof, peer adoption, and workplace familiarity</td></tr>
+            <tr><td>Justification Logic</td><td>Phase 2: Capital ROI (VisiCalc). Phase 3: Infrastructure necessity. Phase 4: Compliance, governance, AI capability</td><td>Phase 2: Educational aspiration. Phase 3: Network effects, social proof. Phase 4: Lifestyle and brand affinity</td></tr>
+            <tr><td>Adoption Trigger</td><td>VisiCalc ROI quantification; IBM legitimacy signal; Y2K enforcement</td><td>Workplace familiarity; email network effects; social learning from colleagues</td></tr>
+            <tr><td>Purchase Type</td><td>CapEx asset, 5&#8211;7 year depreciation, evolving to DaaS (OpEx) in Phase 4</td><td>Consumer expense, post-tax, non-deductible; no payback period calculation</td></tr>
+            <tr><td>Value Realisation</td><td>Quantified: analyst hours saved, process efficiency, cost per employee per year</td><td>Perceived: educational advancement, social connection, entertainment, creative output</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- EV -->
+    <div id="o2-ev" class="tp">
+      <h3 class="sub-t">Case Study B: Electric Vehicles (1996&#8211;Present)</h3>
+      <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:1.15rem;background:var(--blush);padding:.85rem 1rem;border-radius:8px;border-left:3px solid var(--rose-soft)"><strong>Adoption Pattern:</strong> Subsidy-accelerated consumer adoption compressing the usual enterprise-to-consumer lag. Demonstrates how government intervention can produce the B2C enabler that market economics alone cannot provide &#8212; directly applicable to consumer VR&#8217;s adoption challenge.</p>
+      <div class="split2">
+        <div class="sc b2b"><div class="slbl">B2B Adoption Logic: Regulatory &#8594; TCO</div><ul>
+          <li>Phase 1 (1996&#8211;2010): Exclusively compliance-driven &#8212; California ZEV mandate (1990) created assured demand</li>
+          <li>Phase 3: TCO parity with regulatory certainty enabled large-scale fleet procurement; 9% lower lifetime cost vs. ICE equivalents</li>
+          <li>Phase 4: 87% of fleet operators planned electrification within 5 years; regulatory timelines converted EV from optional to mandatory</li>
+          <li>Amazon, DHL, UPS, FedEx, and municipal transit: large-scale procurement commitments by Phase 4</li>
+        </ul></div>
+        <div class="sc b2c"><div class="slbl">B2C Enabler: Government Subsidies</div><ul>
+          <li>US federal tax credit (up to USD 7,500); EU and China NEV subsidy programmes</li>
+          <li>MIT research: direct purchase rebates generated ~8% BEV registration increase per USD 1,000 of incentive offered</li>
+          <li>EV price premium vs. ICE: 42% (2020) &#8594; 12% (2024)</li>
+          <li>IRA subsidy expiry (September 2025) created immediate demand uncertainty, confirming B2C adoption remains subsidy-dependent</li>
+        </ul></div>
+      </div>
+      <div class="ptl">
+        <div class="pti"><div class="pdot on"></div><div class="plab">Regulatory Genesis</div><div class="pyr">1996&#8211;2010</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Subsidy Acceleration</div><div class="pyr">2010&#8211;2015</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Commercial Scaling</div><div class="pyr">2015&#8211;2022</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Regulatory Dominance</div><div class="pyr">2022&#8211;Present</div></div>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 1</span><span class="tl-yr">1996&#8211;2010</span></div><div class="tl-title">Commercial Genesis and Regulatory Catalyst</div><div class="tl-body">The modern EV era began with regulatory mandate, not consumer demand. GM&#8217;s EV1 (USD 1B+ investment, 1,117 units produced, lease-only) was compliance infrastructure rather than a commercial product. Tesla&#8217;s Roadster (2008, USD 100,000+) established the first true B2C model: performance parity with premium ICE vehicles as a lifestyle statement. B2B adoption was exclusively compliance-driven; B2C was prestige-niche. Combined annual volumes below 2,000 units.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 2</span><span class="tl-yr">2010&#8211;2015</span></div><div class="tl-title">Technology and Subsidy Acceleration</div><div class="tl-body">Battery cost fell from ~USD 1,200/kWh (2010) to USD 137/kWh (2020) &#8212; an 89% reduction over a decade. Government subsidies fundamentally altered the EV value proposition: MIT research confirmed direct rebates generated ~8% BEV registration increase per USD 1,000 of incentive. Tax credits showed weaker significance due to consumer time-discounting of deferred benefits. This is the subsidy-as-B2C-enabler model directly applicable to VR &#8212; absent a comparable national programme, VR lacks this demand compression mechanism.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 3</span><span class="tl-yr">2015&#8211;2022</span></div><div class="tl-title">Commercial Scaling and Policy Integration</div><div class="tl-body">Global EV sales: 6.75M in 2021 (doubled from 2020; 8.8% market share). B2B: TCO parity with regulatory certainty enabled large-scale fleet procurement. B2C: price premiums collapsed from 42% to 12%, 100+ viable models available, public fast-charging networks expanded to enable multi-state travel. Environmental and cost motivations merged into a single mainstream consumer motivation. US Inflation Reduction Act (2022) extended consumer tax credits through 2032.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 4</span><span class="tl-yr">2022&#8211;Present</span></div><div class="tl-title">Infrastructure and Regulatory Dominance</div><div class="tl-body">17M global EV sales in 2024 (22% of new vehicles). EU 2035 targets, UK 2030 ICE phase-out, China NEV targets at 45% penetration by 2025. B2B: regulatory timelines convert EV purchase from strategic option to compliance obligation &#8212; 87% of fleet owners plan electrification within 5 years. B2C: 400,000+ public charging ports globally. IRA subsidy expiry (September 2025) tested structural sustainability; immediate demand uncertainty confirmed ongoing B2C subsidy dependence.</div></div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div id="o2-ai" class="tp">
+      <h3 class="sub-t">Case Study C: Artificial Intelligence Tools (2022&#8211;Present)</h3>
+      <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:1.15rem;background:var(--gold-pale);padding:.85rem 1rem;border-radius:8px;border-left:3px solid var(--gold)"><strong>Adoption Pattern (Inverted):</strong> B2C consumer adoption preceded B2B enterprise adoption &#8212; 100 million users in two months (ChatGPT, November 2022) versus enterprise exploratory phase. Zero-friction free access and peer network effects outpaced capital budgeting cycles. Consumer VR lacks this zero-friction access advantage.</p>
+      <div class="split2">
+        <div class="sc b2b"><div class="slbl">B2B Adoption Logic: Quantified ROI at Scale</div><ul>
+          <li>Phase 1 (2022&#8211;23): Exploratory sandbox mode &#8212; no ROI quantification, defensive assessment</li>
+          <li>Harvard Business School (2024): 25.1% faster task completion, 40%+ quality improvement</li>
+          <li>Sales productivity: +47%; customer service cost reduction: 30%</li>
+          <li>78% enterprise adoption by 2024; ChatGPT Enterprise base grew 10&#215; in months</li>
+          <li>Only 6% of organisations achieving 5%+ EBIT impact; 70&#8211;85% of AI projects fail to reach production</li>
+        </ul></div>
+        <div class="sc b2c"><div class="slbl">B2C Enabler: Zero-Friction Free Access</div><ul>
+          <li>Email sign-up only &#8212; no payment, no API key, no technical knowledge required</li>
+          <li>1M users in 5 days; 100M users in 2 months &#8212; fastest consumer application growth in history</li>
+          <li>Student adoption: 92% vs. general adult usage: 12% &#8212; stratified by digital capability, not income</li>
+          <li>Premium subscription penetration: &lt;2% despite strong retention (89% quarterly)</li>
+          <li>Workforce displacement anxiety: novel countervailing adoption damper absent from prior technology cycles</li>
+        </ul></div>
+      </div>
+      <div class="ptl">
+        <div class="pti"><div class="pdot on"></div><div class="plab">Research Era</div><div class="pyr">2017&#8211;2022</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Consumer Explosion</div><div class="pyr">Nov 2022&#8211;Mar 2023</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Enterprise Scaling</div><div class="pyr">2023&#8211;2024</div></div>
+        <div class="pti"><div class="pdot on"></div><div class="plab">Plateau Divergence</div><div class="pyr">2024&#8211;Present</div></div>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 1</span><span class="tl-yr">Nov 2022&#8211;Mar 2023</span></div><div class="tl-title">Consumer Explosion: The Zero-Friction Effect</div><div class="tl-body">OpenAI&#8217;s 30 November 2022 decision to release ChatGPT as a free, web-accessible application requiring only an email sign-up was the inflexion point. 1M users in 5 days; 100M users in 2 months &#8212; faster than any prior technology platform (TikTok took 9 months for equivalent reach). Enterprise was in reactive sandbox mode. B2C peer diffusion through schools, offices, and social media preceded any formal B2B evaluation or capital budgeting process. This directly inverted the traditional enterprise-then-consumer adoption sequence.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 2</span><span class="tl-yr">2023&#8211;2024</span></div><div class="tl-title">Enterprise Standardisation: ROI Quantification</div><div class="tl-body">HBS research (2024) provided the definitive enterprise justification: 25.1% faster task completion, 30% customer service cost reduction, 47% sales productivity increase. ChatGPT Enterprise launched August 2023 with enhanced security and unlimited usage &#8212; enterprise customer base grew 10&#215; within months. By end of Phase 2: 78% enterprise adoption, USD 37B enterprise AI market &#8212; fastest-scaling software category in history.</div></div>
+        <div class="tl-item"><div class="tl-dot on"></div><div class="tl-hdr"><span class="tl-ph">Phase 3</span><span class="tl-yr">2024&#8211;Present</span></div><div class="tl-title">Enterprise Scaling vs. Consumer Plateau</div><div class="tl-body">Enterprise: 78% adoption, 92% of Fortune 500, average investment USD 6.5M &#8212; but only 6% achieving 5%+ EBIT impact; 70&#8211;85% of AI projects failing to reach production. Consumer: 800M weekly active users but only 12% of US adults actively using the product; &lt;2% premium subscription penetration despite strong retention. EU AI Act enforcement (August 2025: penalties up to &#8364;35M or 7% of global turnover) adding regulatory friction. The B2B bottleneck is now organisational capability and data quality, not technology availability.</div></div>
+      </div>
+    </div>
+
+    <!-- CROSS-TECHNOLOGY SYNTHESIS (not a tab, shown after) -->
+    <div class="syn-section">
+      <div class="sec-lbl" style="margin-bottom:.7rem">Cross-Technology Synthesis</div>
+      <h3 class="sub-t">Structural Patterns in B2B vs. B2C Adoption</h3>
+      <p class="syn-intro">Four structural patterns emerge consistently across all three technology case studies. These patterns provide a theoretical lens for interpreting VR&#8217;s adoption divergence and for identifying the structural conditions that would shift consumer VR toward mass adoption.</p>
+      <div class="syn-grid">
+        <div class="syn-card s1">
+          <h4>1. B2B Adoption is Consistently ROI-Led</h4>
+          <p>Across all three technologies, B2B enterprise adoption is driven by quantifiable return on investment once a business case can be established. In PCs: VisiCalc provided the decisive ROI trigger. In EVs: TCO parity justified fleet electrification. In AI: HBS productivity data and customer service cost reduction figures provided enterprise justification. Before ROI quantification, enterprise adoption remains in exploratory or compliance-driven mode; once ROI is established, adoption scales rapidly. Enterprise VR succeeds precisely in contexts where ROI is quantifiable &#8212; training cost reduction, safety incident reduction, design visualisation &#8212; with 12&#8211;18 month payback periods documented in successful deployments.</p>
+        </div>
+        <div class="syn-card s2">
+          <h4>2. B2C Adoption Requires at Least One of Three Structural Enablers</h4>
+          <p>Consumer adoption across all three technologies required at least one of: (i) government subsidies reducing effective price (EVs: ~8% BEV registration increase per USD 1,000 incentive); (ii) zero-friction access eliminating financial barriers (AI: 100M users in 2 months with email-only sign-up); or (iii) strong institutional diffusion creating social proof (PCs: mandatory workplace use driving household adoption). Without at least one enabler, consumer adoption stalled at enthusiast-only levels. Consumer VR currently lacks all three: no subsidy programme, hardware purchase required (not zero-friction), and no institutional diffusion pathway comparable to workplace PC use.</p>
+        </div>
+        <div class="syn-card s3">
+          <h4>3. Regulatory Environment Shapes Adoption Timing Asymmetrically</h4>
+          <p>Enabling regulation (EV subsidies, mandates, phase-out timelines) compressed adoption timelines by removing economic barriers and creating regulatory certainty for multi-year procurement planning. Constraining regulation (EU AI Act penalties, copyright litigation) may extend adoption timelines in risk-averse industries. Neutral regulation (PC depreciation rules) provided stable enterprise CapEx framing without actively accelerating or impeding adoption. VR&#8217;s current regulatory neutrality explains the absence of the policy-driven demand acceleration visible in EVs.</p>
+        </div>
+        <div class="syn-card s4">
+          <h4>4. Implementation Complexity Determines B2B Value Capture in Mature Adoption</h4>
+          <p>Enterprise AI adoption reached 78%, but only 6% of organisations achieved meaningful EBIT impact; 70&#8211;85% of AI projects failed to reach production. Enterprise EV adoption was extensive among large fleet operators but minimal among SMEs lacking scale to justify charging infrastructure investment. For enterprise VR, organisational readiness &#8212; internal champions, compatible infrastructure, KPI frameworks, leadership alignment &#8212; is the primary differentiator between successful deployments and abandoned pilots. Technology availability is not the bottleneck; organisational capability to deploy and extract value is.</p>
+        </div>
+      </div>
+      <h4 class="sub4" style="margin-top:2rem">B2C Adoption Enablers: VR&#8217;s Current Position</h4>
+      <div class="enab-row">
+        <div class="ecard absent"><span class="estatus no" style="background:#fef3e2;color:#b5640a">Not Applicable</span><div class="eicon">&#128176;</div><h4>Government Subsidies</h4><p>Direct purchase rebates compressed EV consumer adoption timelines by removing the need for demonstrated enterprise ROI as a credibility signal. VR has no equivalent national subsidy programme &#8212; pricing remains above the empirically validated USD 350&#8211;400 adoption threshold for the majority of potential buyers.</p></div>
+        <div class="ecard absent"><span class="estatus no" style="background:#fce8ff;color:#7c3aed">Not Feasible</span><div class="eicon">&#9889;</div><h4>Zero-Friction Access</h4><p>ChatGPT&#8217;s email-only sign-up generated 100M users in 2 months. VR requires a USD 299&#8211;500+ hardware purchase commitment &#8212; a high-friction model that structurally prevents casual trial and the peer-observation network effects that drove AI adoption without a single dollar of subsidy.</p></div>
+        <div class="ecard absent"><span class="estatus no">Absent in VR</span><div class="eicon">&#127963;</div><h4>Institutional Diffusion</h4><p>The PC&#8217;s workplace-to-home spillover created mass consumer adoption through social learning at scale. VR lacks a parallel institutional pathway: enterprise VR deployments are narrow vertical use cases (training, simulation) without the cross-sector employee exposure that drove PC household penetration from 15% to 75% in sixteen years.</p></div>
+      </div>
+      <div class="ctw" style="margin-top:1.75rem">
+        <table class="ct">
+          <thead><tr><th>Dimension</th><th>Personal Computers</th><th>Electric Vehicles</th><th>AI Tools</th></tr></thead>
+          <tbody>
+            <tr><td>B2B Adoption Trigger</td><td>VisiCalc ROI quantification; IBM legitimacy signal</td><td>TCO parity; regulatory mandate; phase-out timeline certainty</td><td>HBS productivity data; competitive risk of non-adoption</td></tr>
+            <tr><td>B2C Adoption Enabler</td><td>Workplace familiarity &#8212; institutional diffusion (no subsidy required)</td><td>Government subsidies compressing price barrier (8% per USD 1,000)</td><td>Zero-friction free access &#8212; peer social proof (no subsidy required)</td></tr>
+            <tr><td>Adoption Sequence</td><td>B2B &#8594; B2C (traditional; 10&#8211;15 year lag)</td><td>Simultaneous; subsidies eliminated the enterprise-to-consumer credibility lag</td><td>B2C &#8594; B2B (inverted; zero-friction reversed the traditional sequence)</td></tr>
+            <tr><td>Regulatory Role</td><td>Neutral-enabling (depreciation rules providing CapEx tax advantages)</td><td>Actively enabling (subsidies, mandates, phase-out timelines)</td><td>Constraining (EU AI Act, copyright litigation, displacement proposals)</td></tr>
+            <tr><td>Key B2C Bottleneck</td><td>Price; limited home use cases; no killer application for mainstream</td><td>Price above threshold; charging infrastructure; range anxiety</td><td>Premium price; awareness-usage gap; workforce displacement anxiety</td></tr>
+            <tr><td>Implication for VR</td><td>Enterprise VR mirrors PC Phase 2: ROI-justified, scaling in productive verticals. Consumer VR awaits diffusion trigger.</td><td>VR lacks EV&#8217;s subsidy mechanism; requires alternative price reduction pathway (producer subsidies or new access models)</td><td>Enterprise VR ROI trajectory parallels AI enterprise adoption. Consumer VR lacks AI&#8217;s zero-friction access advantage.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVE 3 -->
+<section id="objective3">
+  <div class="si">
+    <div class="sec-lbl">Objective 3</div>
+    <h2 class="sec-t">Producer Strategies: Segmentation, Pricing &amp; Market Positioning</h2>
+    <div class="obj-statement">
+      <div class="os-label">Research Objective 3</div>
+      <div class="os-text">To evaluate how producer segmentation strategies &#8212; pricing differentiation, channel selection, feature focus, and partnership models &#8212; and targeted market positioning influence VR adoption patterns and market dynamics between B2B and B2C segments, through in-depth case studies of three leading VR headset manufacturers.</div>
+    </div>
+    <div class="prod-grid">
+
+      <!-- META -->
+      <div class="pcard">
+        <div class="phdr meta">
+          <div class="logo-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44" width="110" height="26">
+              <path d="M14 22C14 16.5 17.2 12 21.5 12C24.1 12 26.2 13.6 28 16.8C29.8 13.6 31.9 12 34.5 12C38.8 12 42 16.5 42 22C42 25.2 41.1 27.8 39.5 29.6C37.9 31.4 35.8 32 34 32C32 32 30.3 31.1 28.8 29.2L28 28L27.2 29.2C25.7 31.1 24 32 22 32C20.2 32 18.1 31.4 16.5 29.6C14.9 27.8 14 25.2 14 22ZM22 29.5C23.4 29.5 24.6 28.7 25.9 26.9L28 23.8L30.1 26.9C31.4 28.7 32.6 29.5 34 29.5C35.4 29.5 36.7 29 37.7 27.8C38.7 26.6 39.2 24.6 39.2 22C39.2 17.9 37.2 14.8 34.5 14.8C32.8 14.8 31.3 16 29.6 19L28 21.8L26.4 19C24.7 16 23.2 14.8 21.5 14.8C18.8 14.8 16.8 17.9 16.8 22C16.8 24.6 17.3 26.6 18.3 27.8C19.3 29 20.6 29.5 22 29.5Z" fill="white"/>
+              <text x="52" y="30" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="white" letter-spacing="0.5">Meta</text>
+            </svg>
+          </div>
+          <div class="psub">Oculus / Reality Labs &nbsp;&#183;&nbsp; 2013&#8211;Present</div>
+        </div>
+        <div class="pbody">
+          <span class="pstag b2c">Mass B2C + Nascent Enterprise</span>
+          <div class="pkpi-row">
+            <div class="pkpi"><span class="kl">2024 AR/VR global market share</span><span class="kv">74.6%</span></div>
+            <div class="pkpi"><span class="kl">Q4 2024 share (Quest 3S launch quarter)</span><span class="kv">84%</span></div>
+            <div class="pkpi"><span class="kl">Cumulative Reality Labs losses (2020&#8211;25)</span><span class="kv">USD 83.6B</span></div>
+            <div class="pkpi"><span class="kl">Quest 3S entry price (2024)</span><span class="kv">USD 299</span></div>
+            <div class="pkpi"><span class="kl">Horizon Worlds peak MAU (2022)</span><span class="kv">&lt; 200K</span></div>
+          </div>
+          <p style="font-size:.76rem;color:var(--text-mid);line-height:1.67;margin:.8rem 0">Meta&#8217;s subsidised pricing strategy collapsed standalone VR to near-console levels, capturing dominant global market share. Quest 2 at USD 299 captured ~75% of the global market. The Quest Pro (USD 1,499, 2022) &#8212; enterprise hardware without enterprise channel, services, or ecosystem &#8212; demonstrated the lever misalignment failure mode and was discontinued within months of launch.</p>
+          <div class="pins">Key Finding: Loss-leading is only financially sustainable when cross-subsidised by a profitable core business. USD 83.6B in cumulative losses with no near-term profitability path, combined with the late 2025 pivot toward AI wearables (Ray-Ban Meta smart glasses), signals that standalone VR headsets have not achieved the replacement-computing-platform status envisioned in 2021.</div>
+          <div class="ptl-sm">
+            <div class="pti"><div class="pdot on"></div><div class="plab">Rift Entry</div><div class="pyr">2013&#8211;16</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">Quest Pivot</div><div class="pyr">2016&#8211;20</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">Metaverse Bet</div><div class="pyr">2020&#8211;24</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">AI Reorientation</div><div class="pyr">2024&#8211;25</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SONY -->
+      <div class="pcard">
+        <div class="phdr sony">
+          <div class="logo-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44" width="100" height="26">
+              <text x="0" y="31" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="white" letter-spacing="2">SONY</text>
+            </svg>
+          </div>
+          <div class="psub">PlayStation VR / PSVR2 &nbsp;&#183;&nbsp; 2013&#8211;Present</div>
+        </div>
+        <div class="pbody">
+          <span class="pstag b2c">Pure B2C &#8212; Console Ecosystem</span>
+          <div class="pkpi-row">
+            <div class="pkpi"><span class="kl">2024 AR/VR global market share</span><span class="kv">4.3&#8211;6.7%</span></div>
+            <div class="pkpi"><span class="kl">PSVR2 total units sold (mid-2025 est.)</span><span class="kv">~3.4M</span></div>
+            <div class="pkpi"><span class="kl">PS5 installed base (Nov 2025)</span><span class="kv">82.5M</span></div>
+            <div class="pkpi"><span class="kl">Implied PSVR2 PS5 attach rate</span><span class="kv">~4.1%</span></div>
+            <div class="pkpi"><span class="kl">PSVR2 weekly active use rate</span><span class="kv">40%</span></div>
+          </div>
+          <p style="font-size:.76rem;color:var(--text-mid);line-height:1.67;margin:.8rem 0">The analytically significant pricing event: when PSVR2 was temporarily discounted from USD 549 to USD 349, one retailer reported a 2,300% increase in daily sales on day one &#8212; more units sold that day than in the entire prior period at USD 549. Sony subsequently reverted to USD 549, forgoing volume. Price was finally cut to USD 399 only in August 2025 under sustained competitive pressure.</p>
+          <div class="pins">Key Finding: Ecosystem lock-in sustains a loyal, highly engaged segment (40% weekly use rate) but structurally caps total addressable market. Approximately 96% of PS5 owners chose not to adopt PSVR2 &#8212; even within a warm, qualified audience that had already invested in the platform ecosystem.</div>
+          <div class="ptl-sm">
+            <div class="pti"><div class="pdot on"></div><div class="plab">Project Morpheus</div><div class="pyr">2013&#8211;16</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">PSVR Growth</div><div class="pyr">2016&#8211;20</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">PSVR2 Launch</div><div class="pyr">2020&#8211;24</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">PC Compatibility</div><div class="pyr">2024&#8211;25</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HTC -->
+      <div class="pcard">
+        <div class="phdr htc">
+          <div class="logo-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44" width="100" height="26">
+              <text x="0" y="31" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="white" letter-spacing="3">HTC</text>
+              <text x="0" y="44" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="400" fill="rgba(255,255,255,0.65)" letter-spacing="4">VIVE</text>
+            </svg>
+          </div>
+          <div class="psub">Vive Series &nbsp;&#183;&nbsp; 2013&#8211;Present</div>
+        </div>
+        <div class="pbody">
+          <span class="pstag piv">Consumer &#8594; Enterprise Pivot</span>
+          <div class="pkpi-row">
+            <div class="pkpi"><span class="kl">Enterprise VR brand trust rank (2024)</span><span class="kv">#2 (after HoloLens)</span></div>
+            <div class="pkpi"><span class="kl">IDC AR/VR global vendor rank (Q1 2024)</span><span class="kv">5th overall</span></div>
+            <div class="pkpi"><span class="kl">Vive Focus Vision price (2024)</span><span class="kv">USD 1,000</span></div>
+            <div class="pkpi"><span class="kl">VIVEPORT developer revenue share (2024)</span><span class="kv">90%</span></div>
+            <div class="pkpi"><span class="kl">Google investment in HTC (2018)</span><span class="kv">USD 1.1B</span></div>
+          </div>
+          <p style="font-size:.76rem;color:var(--text-mid);line-height:1.67;margin:.8rem 0">The most coherent strategic narrative given Meta&#8217;s loss-leading context. HTC publicly acknowledged the consumer market was &#8220;artificially subsidised&#8221; to prices only Meta could sustain. Formal enterprise market exit in 2021 enabled sustainable margins. The 2024 Lenovo distribution partnership was as strategically significant as any hardware specification improvement in determining enterprise market viability.</p>
+          <div class="pins">Key Finding: A credible B2B pivot requires simultaneous transformation across all four levers &#8212; enterprise hardware, enterprise channel, enterprise service models, and vertical market case studies as procurement credibility signals. Meta&#8217;s Quest Pro failure (USD 1,499, 2022) directly demonstrates the inverse: enterprise hardware without enterprise channel and services resulted in commercial failure despite technically competitive specifications.</div>
+          <div class="ptl-sm">
+            <div class="pti"><div class="pdot on"></div><div class="plab">Consumer Leader</div><div class="pyr">2013&#8211;16</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">Pro Pivot Begins</div><div class="pyr">2016&#8211;20</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">Full B2B Exit</div><div class="pyr">2020&#8211;24</div></div>
+            <div class="pti"><div class="pdot on"></div><div class="plab">Enterprise Brand</div><div class="pyr">2024&#8211;25</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <h3 class="sub-t">The Four Strategic Levers: Cross-Case Analysis</h3>
+    <p class="body-p" style="margin-bottom:1.4rem">Across four phases and three manufacturers, four strategic levers interact non-linearly. A manufacturer misaligning even one lever with its target segment risks systemic failure, as demonstrated by Meta&#8217;s Quest Pro at USD 1,499 in 2022.</p>
+    <div class="lev-grid">
+      <div class="lcard"><div class="lic">&#128178;</div><h4>Pricing Differentiation</h4><p>Subsidised pricing is the dominant variable in B2C adoption: Meta (USD 299) vs. Sony (USD 549) vs. HTC (USD 1,000+) reflects fundamentally different financial models. Consumer demand is highly price-elastic below ~USD 350&#8211;400 and suppressed non-linearly above it.</p></div>
+      <div class="lcard"><div class="lic">&#128225;</div><h4>Channel Selection</h4><p>Console ecosystem channels cap total addressable market while enabling deep penetration within the install base. Enterprise VAR and distribution channels cap volume but enable premium pricing. Mass retail and DTC maximises consumer reach but requires sustained loss-leading capital.</p></div>
+      <div class="lcard"><div class="lic">&#9881;&#65039;</div><h4>Feature Focus</h4><p>Enterprise features (MDM integration, eye-tracking, hot-swap batteries, industrial durability) are not valued by consumers. Consumer features (content breadth, social, accessible pricing) are insufficient for B2B procurement without corresponding channel and service infrastructure.</p></div>
+      <div class="lcard"><div class="lic">&#129309;</div><h4>Partnership Models</h4><p>For second-tier manufacturers, partnerships are outcome-determinative. HTC&#8217;s Lenovo distribution partnership and Valve&#8217;s SteamVR content ecosystem were as strategically significant as any hardware specification improvement in determining HTC&#8217;s enterprise market viability.</p></div>
+    </div>
+    <div style="background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:1.55rem;margin-top:1.65rem">
+      <h4 class="sub4">Critical Finding: Lever Misalignment Produces Systemic Failure</h4>
+      <p class="body-p">Meta&#8217;s Quest Pro (USD 1,499, October 2022) is the clearest demonstration: enterprise-grade hardware was released through consumer retail channels, without enterprise SLAs, dedicated B2B services, or VAR partnerships. The result was commercial failure and discontinuation despite technically competitive specifications and the world&#8217;s largest VR brand behind it. Price was cut by USD 500 within three months. The lesson generalises across all three manufacturers: misaligning even one of the four strategic levers with the target segment risks systemic failure regardless of hardware quality or brand strength.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSIONS -->
+<section id="conclusions">
+  <div class="si">
+    <div class="sec-lbl">Key Findings</div>
+    <h2 class="sec-t">Conclusions</h2>
+    <div class="con-grid">
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 1 &#x2022; SEM PATH ANALYSIS</span>
+        <h3>VR Adoption is a Price-Value and Entertainment Positioning Problem</h3>
+        <p>Price Value (&#946;=+0.331, <em>p</em>&lt;0.001) and Hedonic Motivation (&#946;=+0.243, <em>p</em>=0.001) are the dominant positive drivers of consumer VR adoption intention. Technical complexity has effectively zero impact (&#946;=+0.002, <em>p</em>=0.982), indicating that Meta&#8217;s sustained investment in simplifying standalone hardware has resolved this concern. The most counterintuitive and strategically significant finding: evaluating VR through a productivity lens actively suppresses adoption intent (&#946;=&#8722;0.312, <em>p</em>&lt;0.001). The model explains 42.6% of variance in behavioural intention (<em>R</em>&#178;=0.426).</p>
+      </div>
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 1 &#x2022; ANOVA SUBGROUP TESTS</span>
+        <h3>Barriers are Universally Felt Across Consumer Segments</h3>
+        <p>One-way ANOVAs across gaming experience and prior VR usage returned no significant differences for any of the eight constructs (all <em>p</em> &gt; 0.05; all &#951;&#178; below 0.05). VR adoption barriers are not segment-specific &#8212; they are structural and universal. This has a direct strategic implication: targeted campaigns for gamers or VR-experienced users will not generate dramatically different adoption outcomes than general population approaches. Structural interventions are required: price convergence to ~USD 350&#8211;400, entertainment-first marketing, and expanded trial infrastructure.</p>
+      </div>
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 1 &#x2022; MEDIATION &amp; MODERATION ANALYSIS</span>
+        <h3>Price-Value and Hedonic Motivation are Independent Adoption Levers</h3>
+        <p>Mediation analysis (Sobel <em>Z</em>=1.262, <em>p</em>=0.207) confirms that Hedonic Motivation does not significantly mediate the PV &#8594; BI pathway &#8212; price-value assessment is a direct, rational cognitive judgement. Moderation analysis confirms Facilitating Conditions do not moderate Somatic Risk&#8217;s effect on BI (interaction &#946;=0.031, <em>p</em>=0.577; &#916;<em>R</em>&#178;=0.002). Both null results sharpen the structural intervention model: price, comfort, and infrastructure must be addressed as independent, non-interacting priorities.</p>
+      </div>
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 2 &#x2022; CROSS-TECHNOLOGY CASE STUDIES</span>
+        <h3>B2B and B2C Technology Adoption are Structurally Different Processes</h3>
+        <p>B2B adoption is consistently ROI-led and requires quantifiable business case justification before scaling. B2C adoption requires at least one of three structural enablers: government subsidies, zero-friction access, or strong institutional diffusion. Consumer VR currently lacks all three. Implementation complexity &#8212; not technology availability &#8212; is the primary B2B bottleneck in mature adoption phases (cf. AI: 78% enterprise adoption but only 6% achieving meaningful EBIT impact). VR&#8217;s regulatory neutrality explains the absence of the policy-driven demand acceleration visible in EVs.</p>
+      </div>
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 3 &#x2022; PRODUCER STRATEGY CASE STUDIES</span>
+        <h3>Subsidised Pricing Dominates Consumer Market Share; B2B Requires Full Lever Alignment</h3>
+        <p>Meta&#8217;s USD 299 Quest 3S captured 74.6% of the 2024 global AR/VR market despite competitors offering superior technical specifications. Sony&#8217;s 2,300% single-day sales surge at USD 349 vs. near-zero demand at USD 549 directly confirms that consumer demand exists but is price-suppressed above the ~USD 350&#8211;400 adoption threshold. HTC&#8217;s #2 enterprise brand trust ranking demonstrates that a credible B2B pivot is achievable &#8212; but only with simultaneous transformation across all four strategic levers: pricing, channel, feature focus, and partnerships.</p>
+      </div>
+      <div class="ccon">
+        <span class="cn">OBJECTIVE 3 &#x2022; STRATEGIC ASSESSMENT</span>
+        <h3>Meta&#8217;s Loss-Leading Model Has Reached Its Strategic Limits</h3>
+        <p>USD 83.6B in cumulative Reality Labs losses (2020&#8211;2025) with no near-term profitability path, combined with the late 2025 reorientation toward AI wearables (Ray-Ban Meta smart glasses) and approximately 1,000 Reality Labs layoffs in January 2026, signals that even the world&#8217;s best-capitalised VR producer has concluded standalone VR headsets cannot independently justify continued loss-leading investment at current consumer adoption levels. The consumer VR market, at its current size and engagement level, cannot sustain the investment required to grow it.</p>
+      </div>
+    </div>
+    <div class="cov">
+      <div class="bq">&#8220;VR adoption divergence reflects structural differences in how enterprise and consumer markets evaluate technology &#8212; not temporary market conditions or hardware immaturity.&#8221;</div>
+      <p>Enterprise VR adoption succeeds because it operates within a B2B purchasing logic that is structurally well-aligned with VR&#8217;s demonstrable benefits: quantifiable ROI expressible in cost savings and incident reduction, multi-stakeholder consensus frameworks suited to large capital decisions, and organisational scale that distributes hardware investment across large workforces. Consumer VR adoption stalls because VR has not yet satisfied the B2C purchasing logic: price-value perception remains the dominant barrier, the content ecosystem lacks a non-gaming &#8220;killer application&#8221; for broader demographics, and VR lacks all three structural enablers that drove mass consumer adoption in PCs, EVs, and AI tools. The path to consumer VR mass adoption runs through the same structural requirements that preceded every prior consumer technology transition &#8212; and identifying which of those pathways is available to VR producers is the central strategic challenge of the next phase of market development.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUPERVISOR -->
+<section id="supervisor">
+  <div class="si">
+    <div class="sec-lbl">Research Team</div>
+    <h2 class="sec-t">About this Research</h2>
+    <div class="sup-grid">
+      <div>
+        <h3 class="sub-t">Principal Researcher</h3>
+        <div class="supcard">
+          <div style="flex:1">
+            <div class="sname">Aman Tater</div>
+            <div class="stitle">
+              Bachelor Thesis Project (BTP) &#x2022; Session 2025&#8209;26<br>
+              Department of Mechanical Engineering<br>
+              Indian Institute of Technology Kharagpur
+            </div>
+            <p style="font-size:.77rem;color:var(--text-mid);line-height:1.68;margin:.5rem 0">This BTP research spans quantitative survey design and analysis (<em>n</em>=144, extended UTAUT2 framework), structural equation modelling including mediation and moderation analysis, systematic cross-technology case study development (PC, EV, AI), and producer strategy analysis (Meta, Sony, HTC) &#8212; integrated into a unified mixed-methods investigation into VR adoption divergence across B2B and B2C markets.</p>
+            <div class="slinks">
+              <a href="mailto:amantater026@gmail.com" class="slink mail">&#9993; amantater026@gmail.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub-t">Thesis Supervisor</h3>
+        <div class="supcard">
+          <div style="flex:1">
+            <div class="sname">Prof. Kaushal Kumar Bhagat</div>
+            <div class="stitle">
+              Advanced Technology Development Centre (ATDC)<br>
+              Indian Institute of Technology Kharagpur
+            </div>
+            <p style="font-size:.77rem;color:var(--text-mid);line-height:1.68;margin:.5rem 0">Professor Bhagat&#8217;s research focuses on educational technology, technology-enhanced learning, immersive learning environments, mobile learning, and game-based learning. His work at ATDC at IIT Kharagpur bridges emerging immersive technologies &#8212; including virtual reality and augmented reality &#8212; with their pedagogical and organisational applications. This research focus directly informed the study&#8217;s theoretical framework for examining VR adoption barriers, enterprise value capture, and the educational and enterprise diffusion of immersive hardware.</p>
+            <div class="slinks">
+              <a href="https://scholar.google.com/citations?user=zE9msuwAAAAJ&amp;hl=en&amp;oi=ao" target="_blank" class="slink sch">&#127891; Google Scholar Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="abs-grid">
+      <div class="ocard">
+        <div class="otag blue">Methodology</div>
+        <h3>Mixed Methods Research</h3>
+        <p>Pragmatist philosophical orientation. Integrates quantitative SEM path analysis (<em>n</em>=144), Cronbach&#8217;s alpha reliability, KMO/Bartlett&#8217;s suitability, one-way ANOVA, mediation analysis (Sobel test), moderation analysis, and qualitative cross-case analysis across six organisations and three technology domains spanning 75 years of adoption history.</p>
+      </div>
+      <div class="ocard">
+        <div class="otag rose">Theoretical Framework</div>
+        <h3>Extended UTAUT2</h3>
+        <p>Built on Venkatesh, Thong &amp; Xu (2012). Extended with three VR-specific constructs: Somatic Risk, Ecosystem Maturity, and Trialability. Validated through data suitability tests (KMO=0.734; Bartlett&#8217;s <em>p</em>&lt;0.001), construct reliability (Cronbach&#8217;s &#945;), and demographic invariance (ANOVA). Model <em>R</em>&#178;=0.426.</p>
+      </div>
+      <div class="ocard">
+        <div class="otag gold">Research Scope</div>
+        <h3>Multi-Level Analysis</h3>
+        <p>Consumer-level (survey analysis), technology-level (PC, EV, AI case studies spanning 1950&#8211;2025), and firm-level (Meta, Sony, HTC producer case studies) analyses integrated into a unified explanatory framework for VR adoption divergence from individual perception to market structure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <div class="si">
+    <div class="sec-lbl">Bibliography</div>
+    <h2 class="sec-t">References</h2>
+    <p class="sec-desc" style="margin-bottom:1.75rem">All sources cited in this research, organised by category. Market and industry data are sourced from IDC, Counterpoint Research, and verified company disclosures. Producer case study figures are sourced from company earnings releases and analyst reports. Interpretive conclusions are explicitly identified as such throughout the main text.</p>
+
+    <span class="ref-cat">A. Technology Adoption Theory</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>Venkatesh, V., Thong, J.Y.L. and Xu, X. (2012)</span> &#8216;Consumer Acceptance and Use of Information Technology: Extending the Unified Theory of Acceptance and Use of Technology&#8217;, <em>MIS Quarterly</em>, 36(1), pp. 157&#8211;178.</div>
+      <div class="ref-item"><span>Venkatesh, V., Morris, M.G., Davis, G.B. and Davis, F.D. (2003)</span> &#8216;User Acceptance of Information Technology: Toward a Unified View&#8217;, <em>MIS Quarterly</em>, 27(3), pp. 425&#8211;478.</div>
+      <div class="ref-item"><span>Davis, F.D. (1989)</span> &#8216;Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology&#8217;, <em>MIS Quarterly</em>, 13(3), pp. 319&#8211;340.</div>
+      <div class="ref-item"><span>Rogers, E.M. (2003)</span> <em>Diffusion of Innovations</em>, 5th edn. New York: Free Press.</div>
+      <div class="ref-item"><span>Christensen, C.M. (1997)</span> <em>The Innovator&#8217;s Dilemma</em>. Boston: Harvard Business School Press.</div>
+      <div class="ref-item"><span>Baron, R.M. and Kenny, D.A. (1986)</span> &#8216;The Moderator-Mediator Variable Distinction in Social Psychological Research&#8217;, <em>Journal of Personality and Social Psychology</em>, 51(6), pp. 1173&#8211;1182.</div>
+    </div>
+
+    <span class="ref-cat">B. Survey Methodology and Statistical Analysis</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>Kaiser, H.F. (1970)</span> &#8216;A second generation Little Jiffy&#8217;, <em>Psychometrika</em>, 35, pp. 401&#8211;415. [KMO test basis]</div>
+      <div class="ref-item"><span>Bartlett, M.S. (1950)</span> &#8216;Tests of significance in factor analysis&#8217;, <em>British Journal of Statistical Psychology</em>, 3, pp. 77&#8211;85. [Bartlett&#8217;s test basis]</div>
+      <div class="ref-item"><span>Cronbach, L.J. (1951)</span> &#8216;Coefficient alpha and the internal structure of tests&#8217;, <em>Psychometrika</em>, 16, pp. 297&#8211;334. [Cronbach&#8217;s &#945; basis]</div>
+      <div class="ref-item"><span>Sobel, M.E. (1982)</span> &#8216;Asymptotic confidence intervals for indirect effects in structural equation models&#8217;, <em>Sociological Methodology</em>, 13, pp. 290&#8211;312. [Sobel test basis]</div>
+      <div class="ref-item"><span>Hair, J.F., Black, W.C., Babin, B.J. and Anderson, R.E. (2010)</span> <em>Multivariate Data Analysis</em>, 7th edn. Upper Saddle River: Pearson Prentice Hall.</div>
+      <div class="ref-item"><span>Guttman, L. (1950)</span> &#8216;The basis for scalogram analysis&#8217; in Stouffer, S.A. et al. (eds.) <em>Measurement and Prediction</em>. Princeton: Princeton University Press. [Guttman scale for VR experience segmentation]</div>
+    </div>
+
+    <span class="ref-cat">C. VR Market and Industry Data</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>IDC Worldwide Quarterly AR/VR Headset Tracker</span> Q2 2017&#8211;Q4 2024. Framingham: International Data Corporation.</div>
+      <div class="ref-item"><span>Counterpoint Research</span> Global XR Market Share Quarterly (2024). Various quarterly reports.</div>
+      <div class="ref-item"><span>MarketsandMarkets</span> (2024) <em>Virtual Reality Market: Global Forecast to 2030</em>. Chicago: MarketsandMarkets.</div>
+      <div class="ref-item"><span>PwC</span> (2020) <em>Seeing Is Believing: How VR and AR Will Transform Business and the Economy</em>. London: PricewaterhouseCoopers.</div>
+      <div class="ref-item"><span>Gartner</span> Hype Cycle for Immersive Technologies. Various editions 2018&#8211;2024. Stamford: Gartner Inc.</div>
+      <div class="ref-item"><span>SuperData Research</span> (2018) <em>XR Annual Report</em>. New York: SuperData Research (Nielsen).</div>
+    </div>
+
+    <span class="ref-cat">D. Producer Case Study Sources</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>Meta Platforms Inc.</span> Quarterly Earnings Releases and Reality Labs Segment Financial Disclosures, Q1 2020&#8211;Q4 2024. Menlo Park: Meta Platforms Inc. Available at: investor.fb.com.</div>
+      <div class="ref-item"><span>Sony Interactive Entertainment</span> PlayStation VR Unit Sales Milestones (Press Releases, 2017&#8211;2020) and Investor Relations Presentations (2022&#8211;2025). Tokyo: Sony Interactive Entertainment LLC.</div>
+      <div class="ref-item"><span>Bloomberg</span> (2023) Sony Halved PSVR2 Internal Sales Forecast Before Launch. Bloomberg Technology, January 2023.</div>
+      <div class="ref-item"><span>HTC Corporation</span> Press Releases: Vive Business Edition (2016), Vive Pro (2018), Vive Pro Eye (2019), Vive Focus 3 (2021), Vive XR Elite (2023), Vive Focus Vision (2024). New Taipei City: HTC Corporation.</div>
+      <div class="ref-item"><span>HTC Corporation</span> (2024) GDC 2024 Announcement: VIVEPORT 90% Developer Revenue Share. New Taipei City: HTC Corporation.</div>
+      <div class="ref-item"><span>Road to VR</span> Various articles on HTC strategic positioning, 2020&#8211;2024. Available at: roadtovr.com. [Accessed 2024&#8211;2025]</div>
+      <div class="ref-item"><span>2024 XR Industry Insider Survey</span> Enterprise VR Brand Trust Rankings. XR Association, 2024.</div>
+      <div class="ref-item"><span>Oculus/Meta Press Releases:</span> Rift (2016), Quest (2019), Quest 2 (2020), Quest Pro (2022), Quest 3 (2023), Quest 3S (2024). Menlo Park: Meta Platforms Inc.</div>
+    </div>
+
+    <span class="ref-cat">E. Personal Computer Case Study Sources</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>Computer History Museum</span> Historical records on PC adoption, 1975&#8211;2010. Available at: computerhistory.org.</div>
+      <div class="ref-item"><span>IBM Corporation</span> (1964) System/360 Announcement, 7 April 1964. Armonk: IBM Corporation. [Historical press release]</div>
+      <div class="ref-item"><span>Microsoft Corporation</span> (1995) Windows 95 Sales Data and Launch Documentation. Redmond: Microsoft Corporation.</div>
+      <div class="ref-item"><span>IDC</span> Global PC Shipments Historical Data. Various years 1980&#8211;2024. Framingham: International Data Corporation.</div>
+      <div class="ref-item"><span>MarketsandMarkets</span> (2024) Global AI PC Market: USD 50.68B (2024); 42.8% CAGR projection through 2034. Chicago: MarketsandMarkets.</div>
+    </div>
+
+    <span class="ref-cat">F. Electric Vehicle Case Study Sources</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>California Air Resources Board</span> (1990) Zero Emissions Vehicle (ZEV) Mandate Documentation. Sacramento: CARB. Available at: arb.ca.gov.</div>
+      <div class="ref-item"><span>BloombergNEF</span> (2020&#8211;2024) <em>Electric Vehicle Outlook</em>. Annual editions. New York: Bloomberg New Energy Finance.</div>
+      <div class="ref-item"><span>International Energy Agency</span> (2021&#8211;2024) <em>Global EV Outlook</em>. Annual editions. Paris: IEA. Available at: iea.org.</div>
+      <div class="ref-item"><span>MIT Technology Review</span> Analysis of EV subsidy effectiveness based on 2011&#8211;2015 registration data. Cambridge: Massachusetts Institute of Technology.</div>
+      <div class="ref-item"><span>United States Congress</span> (2022) Inflation Reduction Act: Electric Vehicle Tax Credit Provisions. Washington D.C.: 117th United States Congress.</div>
+      <div class="ref-item"><span>European Commission</span> EU 2035 Zero-Emission Vehicle Targets and Regulatory Documentation. Brussels: European Commission. Available at: ec.europa.eu.</div>
+    </div>
+
+    <span class="ref-cat">G. Artificial Intelligence Tools Case Study Sources</span>
+    <div class="ref-grid">
+      <div class="ref-item"><span>OpenAI</span> (2022&#8211;2023) ChatGPT Launch Announcement (30 November 2022); GPT-4 Release (14 March 2023); ChatGPT Enterprise Launch (August 2023). San Francisco: OpenAI. Available at: blog.openai.com.</div>
+      <div class="ref-item"><span>Harvard Business School</span> (2024) AI Productivity Study: 25.1% faster task completion, cited in Fullview.io (2024) &#8216;200+ AI Statistics and Trends for 2025&#8217;. Available at: fullview.io. [Accessed December 2024]</div>
+      <div class="ref-item"><span>BCG</span> (2025) &#8216;Are You Generating Value from AI?&#8217; 15 October 2025. Boston: Boston Consulting Group.</div>
+      <div class="ref-item"><span>IBM Institute for Business Value</span> (2024) &#8216;Data Suggests Growth in Enterprise Adoption of AI&#8217;, 10 January 2024. Armonk: IBM Corporation.</div>
+      <div class="ref-item"><span>European Parliament and Council</span> (2024) Regulation (EU) 2024/1689 &#8212; Artificial Intelligence Act. Brussels: Official Journal of the European Union. [Enforcement began 2 August 2025]</div>
+      <div class="ref-item"><span>Menlo VC</span> (2025) <em>2025: The State of Generative AI in the Enterprise</em>, 14 December 2025. Menlo Park: Menlo Ventures.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Bachelor Thesis Project (BTP) &nbsp;&#183;&nbsp; <span>Aman Tater</span> &nbsp;&#183;&nbsp; Department of Mechanical Engineering &nbsp;&#183;&nbsp; IIT Kharagpur &nbsp;&#183;&nbsp; Session 2025&#8209;26</p>
+  <p style="margin-top:.3rem;font-size:.68rem">Supervisor: Prof. Kaushal Kumar Bhagat &nbsp;&#183;&nbsp; Advanced Technology Development Centre &nbsp;&#183;&nbsp; IIT Kharagpur</p>
+</footer>
+
+<script>
+// ---- Tab switching ----
+function sw(group, id, btn) {
+  document.querySelectorAll('#' + group + 'tabs .tb').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('[id^="' + group + '-"]').forEach(p => {
+    if (p.classList.contains('tp')) p.classList.remove('active');
+  });
+  document.getElementById(group + '-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ---- Scrollspy ----
+const secs = document.querySelectorAll('section[id]');
+const nls = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  nls.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + cur) a.classList.add('active');
+  });
+});
+
+// ---- Fade-up observer ----
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.animationPlayState = 'running';
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fu').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

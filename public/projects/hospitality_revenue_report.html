@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue Optimization — Hospitality Sector | Aman Tater</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d; --cream: #faf7f2; --gold: #c9a84c; --gold-light: #e8d48a;
+    --teal: #0d6e6e; --teal-light: #1a9b9b; --rust: #b84b2f; --rust-light: #e07055;
+    --slate: #3d4a5c; --muted: #8a8070; --card-bg: #ffffff; --border: rgba(15,14,13,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+  #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--gold)); width: 0%; z-index: 9999; transition: width 0.1s ease; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,247,242,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--teal); letter-spacing: -0.01em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.78rem; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  section { min-height: 100vh; padding: 100px 0 80px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+  /* HERO */
+  #hero { background: var(--ink); color: var(--cream); display: flex; align-items: center; position: relative; overflow: hidden; padding: 0; min-height: 100vh; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px); background-size: 60px 60px; }
+  .hero-content { position: relative; z-index: 2; padding: 140px 4rem 100px; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5.2rem); font-weight: 900; line-height: 1.05; color: var(--cream); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+  h1 em { color: var(--gold); font-style: normal; border-bottom: 3px solid var(--gold); }
+  .hero-desc { font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: rgba(250,247,242,0.65); max-width: 560px; margin-bottom: 3rem; }
+  .hero-stats { display: flex; gap: 3rem; border-top: 1px solid rgba(201,168,76,0.25); padding-top: 2.5rem; }
+  .hero-stat-val { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
+  .hero-stat-label { font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(250,247,242,0.5); text-transform: uppercase; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.25em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-label::before { content: ''; width: 24px; height: 2px; background: var(--teal); }
+  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .section-subtitle { font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 620px; margin-bottom: 3rem; }
+  /* DATA CARDS */
+  #overview { background: var(--cream); }
+  .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+  .data-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; overflow: hidden; }
+  .data-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--teal); }
+  .data-card-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(13,110,110,0.09); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem; }
+  .data-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .data-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+  .data-card .rows { font-family: 'DM Mono', monospace; font-size: 1.4rem; font-weight: 500; color: var(--teal); margin-bottom: 0.2rem; }
+  /* EDA */
+  #eda { background: #f4f0e8; }
+  .eda-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .finding-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; display: flex; gap: 1rem; }
+  .finding-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold-light); line-height: 1; flex-shrink: 0; width: 2.5rem; }
+  .finding-card h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
+  .finding-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+  .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+  .chart-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .chart-subtitle { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
+  /* SOLUTIONS */
+  #solutions { background: var(--ink); color: var(--cream); }
+  #solutions h2 { color: var(--cream); }
+  #solutions .section-label { color: var(--gold); }
+  #solutions .section-label::before { background: var(--gold); }
+  #solutions .section-subtitle { color: rgba(250,247,242,0.55); }
+  .solution-tabs { display: flex; gap: 0; margin-bottom: 2.5rem; border: 1px solid rgba(250,247,242,0.15); border-radius: 10px; overflow: hidden; }
+  .sol-tab { flex: 1; padding: 0.9rem 1.2rem; background: transparent; color: rgba(250,247,242,0.45); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; border-right: 1px solid rgba(250,247,242,0.1); }
+  .sol-tab:last-child { border-right: none; }
+  .sol-tab.active { background: var(--gold); color: var(--ink); }
+  .sol-tab:hover:not(.active) { background: rgba(250,247,242,0.07); color: rgba(250,247,242,0.7); }
+  .sol-panel { display: none; animation: fadeIn 0.35s ease; }
+  .sol-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  /* Policy cards */
+  .policy-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-bottom: 2rem; }
+  .policy-card { background: rgba(250,247,242,0.05); border: 1px solid rgba(250,247,242,0.12); border-radius: 12px; padding: 1.6rem; position: relative; transition: all 0.2s; }
+  .policy-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+  .policy-badge { display: inline-block; background: rgba(201,168,76,0.2); color: var(--gold); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem; }
+  .policy-badge.selected-badge { background: var(--gold); color: var(--ink); }
+  .policy-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.8rem; }
+  .policy-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid rgba(250,247,242,0.08); font-size: 0.78rem; }
+  .policy-row:last-child { border-bottom: none; }
+  .policy-row .label { color: rgba(250,247,242,0.5); }
+  .policy-row .val { color: var(--cream); font-family: 'DM Mono', monospace; }
+  .policy-row .val.good { color: #2dd4bf; }
+  .policy-row .val.mid { color: var(--gold); }
+  .sat-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(250,247,242,0.5); margin-bottom: 0.3rem; margin-top: 0.8rem; }
+  .sat-track { height: 6px; background: rgba(250,247,242,0.1); border-radius: 3px; overflow: hidden; }
+  .sat-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--teal), var(--gold)); }
+  /* Dynamic pricing */
+  .pricing-model { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; align-items: start; }
+  .var-card { background: rgba(250,247,242,0.05); border: 1px solid rgba(250,247,242,0.1); border-radius: 10px; padding: 1.4rem; margin-bottom: 1rem; }
+  .var-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--gold); margin-bottom: 0.5rem; }
+  .var-card p { font-size: 0.78rem; color: rgba(250,247,242,0.55); line-height: 1.6; }
+  .var-card .formula { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #2dd4bf; margin-top: 0.5rem; background: rgba(13,110,110,0.12); padding: 0.4rem 0.6rem; border-radius: 4px; }
+  .lead-time-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.75rem; }
+  .lead-time-table th { padding: 0.4rem 0.6rem; background: rgba(250,247,242,0.06); color: rgba(250,247,242,0.45); font-weight: 500; text-align: left; border-bottom: 1px solid rgba(250,247,242,0.1); }
+  .lead-time-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid rgba(250,247,242,0.05); color: rgba(250,247,242,0.7); }
+  .lead-time-table tr td:first-child { font-family: 'DM Mono', monospace; color: #2dd4bf; }
+  /* Tier table */
+  .tier-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .tier-table th { text-align: left; padding: 0.7rem 1rem; background: rgba(250,247,242,0.06); color: rgba(250,247,242,0.5); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid rgba(250,247,242,0.1); }
+  .tier-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(250,247,242,0.06); color: rgba(250,247,242,0.8); }
+  .tier-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.5rem; }
+  .tier-action { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 4px; font-size: 0.72rem; font-weight: 500; }
+  /* RESULTS */
+  #results { background: var(--cream); }
+  .results-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.2rem; margin-bottom: 3rem; }
+  .result-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; overflow: hidden; }
+  .result-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+  .result-card.c1::after { background: var(--teal); } .result-card.c2::after { background: var(--gold); }
+  .result-card.c3::after { background: var(--rust); } .result-card.c4::after { background: var(--slate); }
+  .result-card-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .result-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; line-height: 1; margin-bottom: 0.3rem; }
+  .result-num.teal{color:var(--teal);} .result-num.gold{color:var(--gold);} .result-num.rust{color:var(--rust);} .result-num.slate{color:var(--slate);}
+  .result-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; text-transform: uppercase; letter-spacing: 0.06em; }
+  /* WORKFLOW */
+  #workflow { background: #f4f0e8; }
+  .workflow-steps { display: flex; gap: 0; position: relative; margin-bottom: 3rem; }
+  .workflow-steps::before { content: ''; position: absolute; top: 28px; left: 28px; right: 28px; height: 2px; background: linear-gradient(90deg, var(--teal), var(--gold), var(--rust)); z-index: 0; }
+  .wf-step { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 0.5rem; }
+  .wf-dot { width: 56px; height: 56px; border-radius: 50%; background: var(--card-bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 0.8rem; box-shadow: 0 4px 16px rgba(15,14,13,0.08); transition: all 0.2s; }
+  .wf-step:hover .wf-dot { transform: scale(1.1); border-color: var(--teal); }
+  .wf-step h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .wf-step p { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
+  .roadmap { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .phase-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; }
+  .phase-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; position: absolute; top: -0.5rem; right: 1.2rem; opacity: 0.06; color: var(--ink); line-height: 1; }
+  .phase-badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 0.8rem; }
+  .phase-badge.p1{background:rgba(13,110,110,0.1);color:var(--teal);} .phase-badge.p2{background:rgba(201,168,76,0.15);color:#9a7a20;} .phase-badge.p3{background:rgba(184,75,47,0.1);color:var(--rust);}
+  .phase-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .phase-time { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem; }
+  .phase-item { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.45; }
+  .phase-item::before { content: '→'; color: var(--teal); flex-shrink: 0; }
+  footer { background: var(--ink); color: rgba(250,247,242,0.4); padding: 3rem; text-align: center; font-size: 0.78rem; line-height: 1.9; }
+  footer strong { color: var(--gold); }
+  footer a { color: var(--teal-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1{transition-delay:0.1s;} .reveal-delay-2{transition-delay:0.2s;} .reveal-delay-3{transition-delay:0.3s;} .reveal-delay-4{transition-delay:0.4s;} .reveal-delay-5{transition-delay:0.5s;}
+  [data-tip]{position:relative;cursor:help;}
+  [data-tip]::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:0.72rem;line-height:1.4;padding:0.5rem 0.8rem;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.2s;font-family:'DM Sans',sans-serif;z-index:999;}
+  [data-tip]:hover::after{opacity:1;}
+  ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:rgba(15,14,13,0.2);border-radius:3px;}
+  @media(max-width:768px){
+    nav{padding:0 1.2rem;} .nav-links{display:none;} .container{padding:0 1.5rem;}
+    .hero-content{padding:80px 1.5rem 60px;} .data-grid,.results-grid{grid-template-columns:1fr 1fr;}
+    .policy-grid,.pricing-model,.roadmap{grid-template-columns:1fr;} .eda-grid{grid-template-columns:1fr;}
+    .workflow-steps{flex-wrap:wrap;} .workflow-steps::before{display:none;} h1{font-size:2.2rem;}
+    .hero-stats{flex-wrap:wrap;gap:1.5rem;}
+  }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<nav>
+  <div class="nav-brand">RevOpt · Hospitality</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Overview</a></li>
+    <li><a href="#overview">Data</a></li>
+    <li><a href="#eda">EDA</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#workflow">Roadmap</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Data Analysis Project · 2025</div>
+    <h1>Optimizing <em>Revenue<br>Leakage</em> &amp;<br>Profitability</h1>
+    <p class="hero-desc">A data-driven investigation into booking behavior, cancellation patterns, and dynamic pricing across a 25-property hotel chain — identifying and quantifying every rupee left on the table.</p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-val">134,590</div><div class="hero-stat-label">Booking transactions analyzed</div></div>
+      <div><div class="hero-stat-val">25</div><div class="hero-stat-label">Properties across 4 cities</div></div>
+      <div><div class="hero-stat-val">+20.86%</div><div class="hero-stat-label">Combined revenue uplift</div></div>
+      <div><div class="hero-stat-val">~15%</div><div class="hero-stat-label">Estimated revenue leakage</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DATA ═══ -->
+<section id="overview">
+  <div class="container">
+    <div class="section-label">Dataset</div>
+    <h2>Five tables, one story</h2>
+    <p class="section-subtitle">The dataset spans May–July across 25 properties, four cities, and four room categories — covering everything from daily occupancy to individual booking transactions. <a href="https://docs.google.com/spreadsheets/d/1qJC1u8-5LOwTSfFw-SGhrd7_gJogoRVn/edit?usp=sharing&ouid=100097722024397515424&rtpof=true&sd=true" target="_blank" style="color:var(--teal);font-weight:600;">View dataset →</a></p>
+    <div class="data-grid">
+      <div class="data-card reveal">
+        <div class="data-card-icon">📅</div><div class="rows">92 rows</div>
+        <h3>dim_date</h3>
+        <p>Date, month-year, week number, and day type (weekday / weekend) — the temporal backbone of all trend analysis.</p>
+      </div>
+      <div class="data-card reveal reveal-delay-1">
+        <div class="data-card-icon">🏨</div><div class="rows">25 rows</div>
+        <h3>dim_hotels</h3>
+        <p>Property ID, name, category (Business / Luxury), and city across Bangalore, Mumbai, Pune, and Hyderabad.</p>
+      </div>
+      <div class="data-card reveal reveal-delay-2">
+        <div class="data-card-icon">🛏</div><div class="rows">4 rows</div>
+        <h3>dim_rooms</h3>
+        <p>Four room types: Standard (RT1), Elite (RT2), Premium (RT3), and Presidential (RT4).</p>
+      </div>
+      <div class="data-card reveal reveal-delay-3">
+        <div class="data-card-icon">📊</div><div class="rows">9,200 rows</div>
+        <h3>fact_aggregated_bookings</h3>
+        <p>Successful bookings and room capacity per property-date-room combination. A composite primary key was constructed from three columns.</p>
+      </div>
+      <div class="data-card reveal reveal-delay-4" style="grid-column:span 2;">
+        <div class="data-card-icon">🔖</div><div class="rows">134,590 rows</div>
+        <h3>fact_bookings — the main event</h3>
+        <p>Granular transaction table: booking ID, property, dates, guests, platform, ratings, booking status (checked out / no show / cancelled), revenue generated, and revenue realised. The 60% refund gap between generated and realised revenue for all cancellations is the central revenue leakage signal found here.</p>
+      </div>
+    </div>
+    <div class="chart-container reveal">
+      <div class="chart-title">Booking platform distribution</div>
+      <div class="chart-subtitle">"Other" leads with ~38%; Direct Offline is the least-used channel at ~4%</div>
+      <canvas id="platformChart" height="90"></canvas>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div class="chart-container reveal">
+        <div class="chart-title">Booking status breakdown</div>
+        <div class="chart-subtitle">~25% cancellation rate — each cancellation leaks 60% of the booking value under the current policy</div>
+        <canvas id="statusChart" height="160"></canvas>
+      </div>
+      <div class="chart-container reveal reveal-delay-2">
+        <div class="chart-title">Days booked in advance</div>
+        <div class="chart-subtitle">Most bookings happen within 7 days — same-day bookings are the single largest segment</div>
+        <canvas id="advanceChart" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDA ═══ -->
+<section id="eda">
+  <div class="container">
+    <div class="section-label">Exploratory Analysis</div>
+    <h2>Key findings from the data</h2>
+    <p class="section-subtitle">Eight significant observations surfaced during EDA, directly shaping the design of both revenue solutions.</p>
+    <div class="eda-grid">
+      <div class="finding-card reveal">
+        <div class="finding-num">01</div>
+        <div><h4>Weekly demand valleys</h4><p>Below-average bookings in Week 3 of May and Weeks 1 &amp; 4 of June — likely seasonal weather patterns rather than pricing or operational causes.</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-1">
+        <div class="finding-num">02</div>
+        <div><h4>Cancellations mirror booking trends</h4><p>Cancellations track the overall booking curve closely with no anomalous spikes, suggesting systematic rather than event-driven churn across the portfolio.</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-2">
+        <div class="finding-num">03</div>
+        <div><h4>Mumbai leads, Delhi lags</h4><p>Mumbai holds the highest booking volume and the most hotels. Delhi is at the opposite end. No city shows disproportionate cancellation surges relative to its booking volume.</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-3">
+        <div class="finding-num">04</div>
+        <div><h4>60% refund — the core leakage signal</h4><p>All cancelled bookings refund exactly 60% uniformly — a static policy regardless of timing. Revenue ratio is binary: 1.0 for checkouts/no-shows, 0.4 for cancellations.</p></div>
+      </div>
+      <div class="finding-card reveal">
+        <div class="finding-num">05</div>
+        <div><h4>Ratings missing for ~40% of stays</h4><p>Approximately 60% of completed stays received a rating. Cancelled and no-show bookings produce zero ratings — no imputation needed for the primary analysis.</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-1">
+        <div class="finding-num">06</div>
+        <div><h4>Same-day bookings dominate</h4><p>Days-booked-in-advance is heavily right-skewed: mode = 0. Most bookings cluster in the final 7 days — a critical input for the lead-time variable in dynamic pricing.</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-2">
+        <div class="finding-num">07</div>
+        <div><h4>Three natural performance tiers</h4><p>Scatter of average occupancy vs. mean rating reveals three clusters: 4 underperformers (&lt;50% occ, &lt;2.5★), 9 mid-tier, and 12 top-tier (&gt;60% occ, &gt;4.0★).</p></div>
+      </div>
+      <div class="finding-card reveal reveal-delay-3">
+        <div class="finding-num">08</div>
+        <div><h4>Revenue leakage is policy-driven, not platform-driven</h4><p>All platforms, cities, and properties show the exact same 0.4/1.0 revenue ratio split. The leakage is entirely a function of the cancellation policy — not the booking channel.</p></div>
+      </div>
+    </div>
+
+    <!-- EDA Charts Row 1 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;">
+      <div class="chart-container reveal">
+        <div class="chart-title">Revenue ratio by booking status</div>
+        <div class="chart-subtitle">Binary split — cancellations always return 0.4, checkouts always return 1.0</div>
+        <canvas id="revenueRatioChart" height="160"></canvas>
+      </div>
+      <div class="chart-container reveal reveal-delay-2">
+        <div class="chart-title">Cancellation rate by city</div>
+        <div class="chart-subtitle">Uniform cancellation rates across cities — no geographic anomaly</div>
+        <canvas id="cityChart" height="160"></canvas>
+      </div>
+    </div>
+
+    <!-- EDA Charts Row 2 -->
+    <div class="chart-container reveal">
+      <div class="chart-title">Property performance scatter — Occupancy vs. Rating</div>
+      <div class="chart-subtitle">Three clusters emerge naturally; tier membership drives the entire portfolio strategy</div>
+      <canvas id="scatterChart" height="180"></canvas>
+    </div>
+
+    <!-- EDA Charts Row 3 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div class="chart-container reveal">
+        <div class="chart-title">Booking volume by room category</div>
+        <div class="chart-subtitle">Elite and Standard rooms drive the bulk of transactions</div>
+        <canvas id="roomCatChart" height="160"></canvas>
+      </div>
+      <div class="chart-container reveal reveal-delay-2">
+        <div class="chart-title">Weekly booking trend (May – July)</div>
+        <div class="chart-subtitle">Demand valleys visible in Week 3 of May and Week 1 of June</div>
+        <canvas id="weeklyChart" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOLUTIONS ═══ -->
+<section id="solutions">
+  <div class="container">
+    <div class="section-label">Revenue Solutions</div>
+    <h2>Two levers, one framework</h2>
+    <p class="section-subtitle">Two independent but complementary interventions designed, back-tested, and quantified — plus a portfolio management strategy based on the performance tiers.</p>
+    <div class="solution-tabs">
+      <button class="sol-tab active" onclick="switchTab('cancellation')">① Cancellation Policy</button>
+      <button class="sol-tab" onclick="switchTab('pricing')">② Dynamic Pricing</button>
+      <button class="sol-tab" onclick="switchTab('portfolio')">③ Portfolio Tiers</button>
+    </div>
+
+    <!-- CANCELLATION -->
+    <div class="sol-panel active" id="panel-cancellation">
+      <p style="font-size:0.88rem;color:rgba(250,247,242,0.6);line-height:1.7;margin-bottom:2rem;max-width:660px;">The existing policy returns 60% on every cancellation regardless of timing — leaving revenue on the table for last-minute cancellations while offering little flexibility incentive to advance planners. Three replacement policies were evaluated using estimated cancellation lead times.</p>
+      <div class="policy-grid">
+        <div class="policy-card">
+          <div class="policy-badge">Policy 1</div>
+          <h4>Strict Retention</h4>
+          <div class="policy-row"><span class="label">0–1 days before</span><span class="val">10% refund</span></div>
+          <div class="policy-row"><span class="label">2–7 days before</span><span class="val">30% refund</span></div>
+          <div class="policy-row"><span class="label">8+ days before</span><span class="val">70% refund</span></div>
+          <div class="policy-row" style="margin-top:0.4rem;"><span class="label">Revenue uplift</span><span class="val" style="color:#2dd4bf;">+9.24%</span></div>
+          <div class="sat-label"><span>Satisfaction (out of 10)</span><span>4.72/10</span></div>
+          <div class="sat-track"><div class="sat-fill" style="width:47%"></div></div>
+        </div>
+        <div class="policy-card selected">
+          <div class="policy-badge selected-badge">✓ Selected — Policy 2</div>
+          <h4>Balanced Excellence</h4>
+          <div class="policy-row"><span class="label">0–1 days before</span><span class="val good">20% refund</span></div>
+          <div class="policy-row"><span class="label">2–7 days before</span><span class="val mid">50% refund</span></div>
+          <div class="policy-row"><span class="label">8+ days before</span><span class="val good">80% refund</span></div>
+          <div class="policy-row" style="margin-top:0.4rem;"><span class="label">Revenue uplift</span><span class="val" style="color:#2dd4bf;">+7.65%</span></div>
+          <div class="sat-label"><span>Satisfaction (out of 10)</span><span>5.21/10</span></div>
+          <div class="sat-track"><div class="sat-fill" style="width:52%"></div></div>
+        </div>
+        <div class="policy-card">
+          <div class="policy-badge">Policy 3</div>
+          <h4>Guest-First</h4>
+          <div class="policy-row"><span class="label">0–1 days before</span><span class="val">40% refund</span></div>
+          <div class="policy-row"><span class="label">2–7 days before</span><span class="val">70% refund</span></div>
+          <div class="policy-row"><span class="label">8+ days before</span><span class="val">90% refund</span></div>
+          <div class="policy-row" style="margin-top:0.4rem;"><span class="label">Revenue uplift</span><span class="val" style="color:#e07055;">+7.43%</span></div>
+          <div class="sat-label"><span>Satisfaction (out of 10)</span><span>4.94/10</span></div>
+          <div class="sat-track"><div class="sat-fill" style="width:49%"></div></div>
+        </div>
+      </div>
+      <div style="background:rgba(250,247,242,0.05);border:1px solid rgba(250,247,242,0.1);border-radius:10px;padding:1.6rem;margin-bottom:2rem;">
+        <h4 style="color:var(--gold);font-size:0.88rem;font-weight:600;margin-bottom:0.8rem;">Why Policy 2?</h4>
+        <p style="font-size:0.82rem;color:rgba(250,247,242,0.6);line-height:1.7;max-width:680px;">Policy 1 generates the highest raw revenue (+9.24%) by retaining 90% on last-minute cancellations — but it also scores the <em>lowest</em> on customer satisfaction (4.72/10), meaning aggressive revenue extraction comes at a real cost to guest relationships. Policy 3 improves slightly on satisfaction (4.94/10) but surrenders revenue (+7.43%). Policy 2 is the strategic sweet spot: it earns slightly less than Policy 1 in raw terms (+7.65%) but scores the highest on satisfaction (5.21/10) — the only policy where both metrics move in a favorable direction together. The graduated structure also naturally aligns with booking behavior, rewarding advance planners with 80% refunds while deterring last-minute cancellations through 80% revenue retention.<br><br><span style="color:#2dd4bf;font-family:'DM Mono',monospace;font-size:0.78rem;">Net revenue uplift from Policy 2: +7.65% · Satisfaction: 5.21/10</span></p>
+      </div>
+      <div class="chart-container" style="background:rgba(255,255,255,0.04);border-color:rgba(250,247,242,0.1);">
+        <div class="chart-title" style="color:var(--cream);">Revenue uplift vs. satisfaction score — all policies</div>
+        <div class="chart-subtitle" style="color:rgba(250,247,242,0.45);">Policy 2 achieves the best combined position on both axes</div>
+        <canvas id="policyCompareChart" height="120"></canvas>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="sol-panel" id="panel-pricing">
+      <p style="font-size:0.88rem;color:rgba(250,247,242,0.6);line-height:1.7;margin-bottom:2rem;max-width:660px;">A tri-variable dynamic pricing model adjusts the base room rate in real time based on three demand signals derived directly from the booking data.</p>
+      <div class="pricing-model">
+        <div>
+          <div class="var-card">
+            <h4>Variable 1 — Occupancy Rate Deviation</h4>
+            <p>Price adjusts based on how far current occupancy for a property-room-date combination deviates from its historical average. High occupancy triggers price increases to capture willingness-to-pay; low occupancy triggers discounts to stimulate fill.</p>
+            <div class="formula">deviation = (current_occ − avg_occ) / avg_occ</div>
+          </div>
+          <div class="var-card">
+            <h4>Variable 2 — Day Type (Weekend/Weekday)</h4>
+            <p>Weekends attract a natural demand premium. The model captures this explicitly as a multiplier rather than letting it stay implicit in the occupancy average, ensuring weekday discounts also run independently to maintain occupancy momentum on slower days.</p>
+            <div class="formula">day_mult = 1.10 (weekend) | 0.95 (weekday)</div>
+          </div>
+          <div class="var-card">
+            <h4>Variable 3 — Booking Lead Time</h4>
+            <p>Lead time is a powerful proxy for demand urgency and booking certainty. The logic is behavioral: a guest booking today for tonight is price-inelastic — they need the room and have few alternatives. A guest booking 3 weeks out has time to compare and is sensitive to price. The model exploits this asymmetry in three bands:</p>
+            <table class="lead-time-table">
+              <thead><tr><th>Lead Time</th><th>Factor</th><th>Rationale</th></tr></thead>
+              <tbody>
+                <tr><td>0–3 days</td><td>× 1.15</td><td>Scarcity premium — high urgency, low alternatives</td></tr>
+                <tr><td>4–14 days</td><td>× 1.00</td><td>Neutral — standard booking window, base rate applies</td></tr>
+                <tr><td>15+ days</td><td>× 0.90</td><td>Early-bird incentive — reduces uncertainty, locks in revenue</td></tr>
+              </tbody>
+            </table>
+            <div class="formula" style="margin-top:0.8rem;">final_price = base × (1 + occ_factor) × day_mult × lead_factor</div>
+          </div>
+        </div>
+        <div>
+          <div class="chart-container" style="background:rgba(255,255,255,0.04);border-color:rgba(250,247,242,0.1);">
+            <div class="chart-title" style="color:var(--cream);">Price multiplier by occupancy deviation</div>
+            <div class="chart-subtitle" style="color:rgba(250,247,242,0.45);">Weekend vs. weekday response curves</div>
+            <canvas id="pricingChart" height="200"></canvas>
+          </div>
+          <div class="chart-container" style="background:rgba(255,255,255,0.04);border-color:rgba(250,247,242,0.1);margin-top:0;">
+            <div class="chart-title" style="color:var(--cream);">Lead time price factor</div>
+            <div class="chart-subtitle" style="color:rgba(250,247,242,0.45);">How far in advance a booking was made determines the price multiplier</div>
+            <canvas id="leadTimeChart" height="130"></canvas>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;background:rgba(13,110,110,0.12);border:1px solid rgba(26,155,155,0.25);border-radius:10px;padding:1.6rem;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.78rem;color:#2dd4bf;">Revenue uplift from dynamic pricing: +12.55%</span>
+        <p style="font-size:0.82rem;color:rgba(250,247,242,0.55);margin-top:0.5rem;line-height:1.6;">Back-tested by replacing revenue_generated with new_revenue_generated under the model, then applying Policy 2 cancellation retention rates to arrive at new_revenue_realised. Both levers were also tested in combination, yielding the cumulative +20.86%.</p>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="sol-panel" id="panel-portfolio">
+      <p style="font-size:0.88rem;color:rgba(250,247,242,0.6);line-height:1.7;margin-bottom:2rem;max-width:660px;">Scatter analysis of average occupancy vs. average guest rating across all 25 properties revealed three natural performance clusters — each requiring a distinct strategic response.</p>
+      <table class="tier-table">
+        <thead><tr><th>Tier</th><th>Properties</th><th>Avg Occupancy</th><th>Avg Rating</th><th>Revenue Share</th><th>Recommended Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="tier-dot" style="background:#2dd4bf"></span>Top Tier</td>
+            <td>12</td><td data-tip="65%+ — brand's competitive advantage">65%+</td><td>4.0+</td><td>60%</td>
+            <td><span class="tier-action" style="background:rgba(45,212,191,0.12);color:#2dd4bf;">Expand &amp; Market Aggressively</span></td>
+          </tr>
+          <tr>
+            <td><span class="tier-dot" style="background:var(--gold)"></span>Mid Tier</td>
+            <td>9</td><td data-tip="50–60% — viable, high ROI improvement potential">50–60%</td><td>2.9–3.1</td><td>30%</td>
+            <td><span class="tier-action" style="background:rgba(201,168,76,0.12);color:var(--gold);">Invest in Service &amp; Infrastructure</span></td>
+          </tr>
+          <tr>
+            <td><span class="tier-dot" style="background:var(--rust-light)"></span>Bottom Tier</td>
+            <td>4</td><td data-tip="Below 50% — dragging on brand equity">&lt;50%</td><td>&lt;2.5</td><td>10%</td>
+            <td><span class="tier-action" style="background:rgba(224,112,85,0.12);color:var(--rust-light);">Rebrand, Convert, or Divest</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+        <div style="background:rgba(45,212,191,0.06);border:1px solid rgba(45,212,191,0.2);border-radius:10px;padding:1.4rem;">
+          <h4 style="color:#2dd4bf;font-size:0.85rem;margin-bottom:0.6rem;">Top Tier — Hold &amp; Scale</h4>
+          <p style="font-size:0.78rem;color:rgba(250,247,242,0.55);line-height:1.6;">Capacity expansion, premium amenities, aggressive digital marketing. Primary source of revenue and brand reputation.</p>
+        </div>
+        <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:1.4rem;">
+          <h4 style="color:var(--gold);font-size:0.85rem;margin-bottom:0.6rem;">Mid Tier — Highest ROI Focus</h4>
+          <p style="font-size:0.78rem;color:rgba(250,247,242,0.55);line-height:1.6;">Ratings around 3 signal addressable service issues. Staff training and infrastructure upgrades can move these properties to top-tier.</p>
+        </div>
+        <div style="background:rgba(224,112,85,0.06);border:1px solid rgba(224,112,85,0.2);border-radius:10px;padding:1.4rem;">
+          <h4 style="color:var(--rust-light);font-size:0.85rem;margin-bottom:0.6rem;">Bottom Tier — Strategic Pivot</h4>
+          <p style="font-size:0.78rem;color:rgba(250,247,242,0.55);line-height:1.6;">Complete renovation + rebrand, convert to extended-stay/corporate housing, or divest and reallocate capital to higher-performing markets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESULTS ═══ -->
+<section id="results">
+  <div class="container">
+    <div class="section-label">Quantified Impact</div>
+    <h2>What the numbers say</h2>
+    <p class="section-subtitle">Both interventions were back-tested on the full 134,590-row dataset. The combined effect is a 20.86% revenue increase with no new customer acquisition cost.</p>
+    <div class="results-grid">
+      <div class="result-card c1 reveal"><div class="result-card-icon">📋</div><div class="result-num teal">+7.65%</div><div class="result-label">Revenue uplift from<br>Policy 2 cancellation reform</div></div>
+      <div class="result-card c2 reveal reveal-delay-1"><div class="result-card-icon">📈</div><div class="result-num gold">+12.55%</div><div class="result-label">Revenue uplift from<br>dynamic pricing model</div></div>
+      <div class="result-card c3 reveal reveal-delay-2"><div class="result-card-icon">🎯</div><div class="result-num rust">+20.86%</div><div class="result-label">Total combined<br>revenue increase</div></div>
+      <div class="result-card c4 reveal reveal-delay-3"><div class="result-card-icon">⭐</div><div class="result-num slate">5.21/10</div><div class="result-label">Customer satisfaction<br>score under Policy 2</div></div>
+    </div>
+    <div class="chart-container reveal">
+      <div class="chart-title">Simulated revenue uplift — stacked contribution by lever</div>
+      <div class="chart-subtitle">Each bar shows the indexed revenue across scenarios; Policy 2 + Dynamic Pricing combined yield the maximum gain</div>
+      <canvas id="revenueChart" height="100"></canvas>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+      <div class="chart-container reveal">
+        <div class="chart-title">Cancellation timing assumption model</div>
+        <div class="chart-subtitle">How lead time was estimated for policy back-testing</div>
+        <div style="font-size:0.82rem;color:var(--muted);line-height:1.8;margin-top:0.5rem;">
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">≥ 8 days</span><span>Cancels at 40% of original lead time<br><small>days_cancelled = int(lead × 0.4)</small></span></div>
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">2–7 days</span><span>Cancels at 60% of original lead time<br><small>days_cancelled = int(lead × 0.6)</small></span></div>
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">0–1 days</span><span>Cancels at 80% of original lead time<br><small>days_cancelled = int(lead × 0.8)</small></span></div>
+          <p style="color:var(--muted);font-size:0.75rem;margin-top:0.8rem;font-style:italic;">These assumptions distribute cancellations across policy tiers before revenue is recalculated under each scenario.</p>
+        </div>
+      </div>
+      <div class="chart-container reveal reveal-delay-2">
+        <div class="chart-title">Revenue retention rate — before vs. after</div>
+        <div class="chart-subtitle">How Policy 2 shifts revenue retention per cancellation timing bucket</div>
+        <canvas id="ratioChart" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORKFLOW ═══ -->
+<section id="workflow">
+  <div class="container">
+    <div class="section-label">Analytical Workflow</div>
+    <h2>From raw data to revenue insights</h2>
+    <p class="section-subtitle">A six-step structured pipeline — from data cleaning through policy simulation to final portfolio recommendations.</p>
+    <div class="workflow-steps">
+      <div class="wf-step reveal"><div class="wf-dot">🧹</div><h4>Data Cleaning</h4><p>Standardize columns, create primary keys, fix date formats, verify no duplicates</p></div>
+      <div class="wf-step reveal reveal-delay-1"><div class="wf-dot">🔍</div><h4>EDA</h4><p>Booking trends, cancellation patterns, revenue ratios, platform &amp; city analysis</p></div>
+      <div class="wf-step reveal reveal-delay-2"><div class="wf-dot">📐</div><h4>Feature Engineering</h4><p>Days booked in advance, cancellation lead time estimation, occupancy rate matrices</p></div>
+      <div class="wf-step reveal reveal-delay-3"><div class="wf-dot">⚖️</div><h4>Policy Simulation</h4><p>Three cancellation policies evaluated on historical data; Policy 2 selected</p></div>
+      <div class="wf-step reveal reveal-delay-4"><div class="wf-dot">💰</div><h4>Dynamic Pricing</h4><p>Tri-variable model built on occupancy deviation, day type, and booking lead time</p></div>
+      <div class="wf-step reveal reveal-delay-5"><div class="wf-dot">📢</div><h4>Recommendations</h4><p>Portfolio tiering strategy, phased implementation roadmap, risk mitigation</p></div>
+    </div>
+    <div class="section-label" style="margin-top:3rem;">Implementation Roadmap</div>
+    <h2 style="margin-bottom:1rem;">Three-phase rollout</h2>
+    <p class="section-subtitle" style="margin-bottom:2rem;">Staged deployment reduces risk while capturing immediate revenue wins in Phase 1.</p>
+    <div class="roadmap">
+      <div class="phase-card reveal">
+        <div class="phase-num">1</div><div class="phase-badge p1">Phase 1</div>
+        <h4>Foundation</h4><div class="phase-time">Months 1–6</div>
+        <div class="phase-item">Deploy new cancellation policy across all properties</div>
+        <div class="phase-item">Staff training on policy rationale and guest communication</div>
+        <div class="phase-item">A/B test dynamic pricing at 3–5 pilot properties</div>
+        <div class="phase-item">Establish baseline KPI dashboard (RevPAR, ADR, occupancy)</div>
+      </div>
+      <div class="phase-card reveal reveal-delay-2">
+        <div class="phase-num">2</div><div class="phase-badge p2">Phase 2</div>
+        <h4>Market Leadership</h4><div class="phase-time">Months 7–12</div>
+        <div class="phase-item">Full dynamic pricing deployment — all 25 properties</div>
+        <div class="phase-item">Launch mid-tier property improvement programs</div>
+        <div class="phase-item">Begin strategic evaluation of bottom-tier properties</div>
+        <div class="phase-item">Week-on-Week reporting and competitive intelligence</div>
+      </div>
+      <div class="phase-card reveal reveal-delay-4">
+        <div class="phase-num">3</div><div class="phase-badge p3">Phase 3</div>
+        <h4>Innovation &amp; Scale</h4><div class="phase-time">Months 13–24</div>
+        <div class="phase-item">ML demand forecasting integrated into pricing engine</div>
+        <div class="phase-item">Automated pricing with human oversight layer</div>
+        <div class="phase-item">Portfolio restructuring decisions finalized</div>
+        <div class="phase-item">Adjacent revenue streams — events, co-working, bundles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Revenue Optimization in the Hospitality Sector</strong></p>
+  <p style="margin-top:0.4rem;">
+    Aman Tater &nbsp;·&nbsp;
+    <a href="mailto:amantater026@gmail.com">amantater026@gmail.com</a> &nbsp;·&nbsp;
+    <a href="https://docs.google.com/spreadsheets/d/1qJC1u8-5LOwTSfFw-SGhrd7_gJogoRVn/edit?usp=sharing&ouid=100097722024397515424&rtpof=true&sd=true" target="_blank">View Dataset →</a>
+  </p>
+  <p style="margin-top:0.4rem;">Analysis based on 134,590 booking transactions across 25 properties · Tools: Python, pandas, matplotlib, seaborn</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const p = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress-bar').style.width = p + '%';
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section');
+  let current = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 80) current = s.id; });
+  navLinks.forEach(a => { a.classList.remove('active'); if(a.getAttribute('href') === '#'+current) a.classList.add('active'); });
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+function switchTab(name) {
+  document.querySelectorAll('.sol-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['cancellation','pricing','portfolio'][i] === name);
+  });
+  document.querySelectorAll('.sol-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.color = '#8a8070';
+const TEAL='#0d6e6e', GOLD='#c9a84c', RUST='#b84b2f', SLATE='#3d4a5c', TEAL_L='#1a9b9b', MUTED='#8a8070';
+
+// Platform chart
+new Chart(document.getElementById('platformChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Other','loginn','journey','direct online','tripster','direct offline'],
+    datasets: [{ data: [38,19,16,13,10,4], backgroundColor: [TEAL,TEAL_L,GOLD,'#5a8f8f','#9abebc',MUTED], borderRadius:6, borderSkipped:false }]
+  },
+  options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{grid:{color:'rgba(15,14,13,0.06)'},ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}} } }
+});
+
+// Status donut
+new Chart(document.getElementById('statusChart'), {
+  type: 'doughnut',
+  data: { labels:['Checked Out','Cancelled','No Show'], datasets:[{data:[67,25,8], backgroundColor:[TEAL,RUST,GOLD], borderWidth:3, borderColor:'#f4f0e8', hoverOffset:8}] },
+  options: { responsive:true, cutout:'65%', plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true}}} }
+});
+
+// Advance booking
+new Chart(document.getElementById('advanceChart'), {
+  type: 'bar',
+  data: {
+    labels:['0','1','2','3','4','5','6','7','8–14','15–30','31+'],
+    datasets:[{ data:[18,12,9,8,6,6,5,5,14,12,5],
+      backgroundColor:(ctx) => { const i=ctx.dataIndex; return i<=1?RUST:i<=6?GOLD:TEAL; },
+      borderRadius:4, borderSkipped:false }]
+  },
+  options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{grid:{color:'rgba(15,14,13,0.06)'},ticks:{callback:v=>v+'%'}}, x:{grid:{display:false},title:{display:true,text:'Days booked in advance'}} } }
+});
+
+// Revenue ratio by status
+new Chart(document.getElementById('revenueRatioChart'), {
+  type: 'bar',
+  data: {
+    labels:['Checked Out','No Show','Cancelled'],
+    datasets:[{ label:'Revenue ratio (realised/generated)', data:[1.0,1.0,0.4],
+      backgroundColor:[TEAL,TEAL_L,RUST], borderRadius:8, borderSkipped:false }]
+  },
+  options: { responsive:true, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`Ratio: ${ctx.raw}`}}},
+    scales:{ y:{max:1.3,grid:{color:'rgba(15,14,13,0.06)'},ticks:{callback:v=>v.toFixed(1)}}, x:{grid:{display:false}} } }
+});
+
+// City cancellation rates
+new Chart(document.getElementById('cityChart'), {
+  type: 'bar',
+  data: {
+    labels:['Mumbai','Bangalore','Hyderabad','Pune','Delhi'],
+    datasets:[
+      { label:'Bookings (relative)', data:[100,88,75,68,52], backgroundColor:TEAL+'55', borderRadius:4, borderSkipped:false },
+      { label:'Cancellation rate (%)', data:[24.8,25.3,24.6,25.1,25.5], backgroundColor:RUST+'aa', borderRadius:4, borderSkipped:false, yAxisID:'y1' }
+    ]
+  },
+  options: { responsive:true, plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:12}}},
+    scales:{
+      y:{grid:{color:'rgba(15,14,13,0.06)'},title:{display:true,text:'Relative bookings'}},
+      y1:{position:'right',grid:{display:false},title:{display:true,text:'Cancellation rate (%)'},min:20,max:30}
+    }
+  }
+});
+
+// Scatter chart
+new Chart(document.getElementById('scatterChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label:'Top Tier (12)', data:[{x:4.1,y:62},{x:4.3,y:67},{x:4.0,y:65},{x:4.5,y:71},{x:4.2,y:68},{x:4.1,y:63},{x:4.4,y:70},{x:4.0,y:64},{x:4.6,y:73},{x:4.2,y:66},{x:4.3,y:69},{x:4.1,y:65}], backgroundColor:TEAL+'bb', pointRadius:9 },
+      { label:'Mid Tier (9)', data:[{x:2.9,y:52},{x:3.0,y:55},{x:3.1,y:58},{x:2.9,y:51},{x:3.0,y:54},{x:3.1,y:57},{x:3.0,y:53},{x:2.9,y:56},{x:3.1,y:59}], backgroundColor:GOLD+'bb', pointRadius:9 },
+      { label:'Bottom Tier (4)', data:[{x:2.3,y:44},{x:2.5,y:47},{x:2.2,y:43},{x:2.4,y:46}], backgroundColor:RUST+'bb', pointRadius:9 }
+    ]
+  },
+  options: {
+    responsive:true,
+    plugins:{ legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}, tooltip:{callbacks:{label:ctx=>`Rating: ${ctx.parsed.x} | Occ: ${ctx.parsed.y}%`}} },
+    scales:{ x:{title:{display:true,text:'Average Guest Rating'},min:2,max:5,grid:{color:'rgba(15,14,13,0.06)'}}, y:{title:{display:true,text:'Average Occupancy Rate (%)'},min:35,max:80,grid:{color:'rgba(15,14,13,0.06)'}} }
+  }
+});
+
+// Room category chart
+new Chart(document.getElementById('roomCatChart'), {
+  type: 'doughnut',
+  data: { labels:['Elite (RT2)','Standard (RT1)','Premium (RT3)','Presidential (RT4)'],
+    datasets:[{data:[33,28,24,15], backgroundColor:[TEAL,GOLD,TEAL_L,RUST], borderWidth:3, borderColor:'#f4f0e8', hoverOffset:8}]
+  },
+  options:{ responsive:true, cutout:'60%', plugins:{legend:{position:'bottom',labels:{padding:14,usePointStyle:true}}} }
+});
+
+// Weekly trend
+new Chart(document.getElementById('weeklyChart'), {
+  type: 'line',
+  data: {
+    labels:['W1 May','W2 May','W3 May','W4 May','W1 Jun','W2 Jun','W3 Jun','W4 Jun','W1 Jul','W2 Jul','W3 Jul','W4 Jul'],
+    datasets:[
+      { label:'Weekly bookings (indexed)', data:[100,108,82,103,79,105,112,88,104,110,107,102],
+        borderColor:TEAL, backgroundColor:TEAL+'18', fill:true, tension:0.4, pointRadius:4, pointHoverRadius:7 }
+    ]
+  },
+  options:{ responsive:true, plugins:{legend:{display:false}},
+    scales:{ y:{grid:{color:'rgba(15,14,13,0.06)'},title:{display:true,text:'Relative volume'}}, x:{grid:{color:'rgba(15,14,13,0.04)'}} }
+  }
+});
+
+// Policy comparison — grouped bar with both revenue uplift and satisfaction
+new Chart(document.getElementById('policyCompareChart'), {
+  type: 'bar',
+  data: {
+    labels:['Current Policy (baseline)','Policy 1 — Strict','Policy 2 ✓ — Balanced','Policy 3 — Guest-first'],
+    datasets:[
+      { label:'Revenue uplift (%)', data:[0, 9.24, 7.65, 7.43],
+        backgroundColor:['rgba(138,128,112,0.5)','rgba(13,110,110,0.7)',GOLD+'ee','rgba(184,75,47,0.7)'],
+        borderRadius:5, borderSkipped:false, yAxisID:'y' },
+      { label:'Satisfaction score (/10)', data:[null, 4.72, 5.21, 4.94],
+        backgroundColor:['rgba(138,128,112,0.2)','rgba(13,110,110,0.25)','rgba(201,168,76,0.3)','rgba(184,75,47,0.25)'],
+        borderColor:['rgba(138,128,112,0.6)','rgba(13,110,110,0.8)',GOLD,'rgba(184,75,47,0.8)'],
+        borderWidth:2, borderRadius:5, borderSkipped:false, yAxisID:'y1' }
+    ]
+  },
+  options:{ responsive:true,
+    plugins:{ legend:{position:'bottom',labels:{usePointStyle:true,padding:16}},
+      tooltip:{callbacks:{label:ctx => ctx.datasetIndex===0 ? `Revenue uplift: +${ctx.raw}%` : `Satisfaction: ${ctx.raw}/10`}} },
+    scales:{
+      y:{ position:'left', grid:{color:'rgba(250,247,242,0.07)'}, ticks:{color:'rgba(250,247,242,0.4)',callback:v=>'+'+v+'%'}, title:{display:true,text:'Revenue uplift',color:'rgba(250,247,242,0.4)'}, min:0, max:12 },
+      y1:{ position:'right', grid:{display:false}, ticks:{color:'rgba(250,247,242,0.4)',callback:v=>v+'/10'}, title:{display:true,text:'Satisfaction score (/10)',color:'rgba(250,247,242,0.4)'}, min:0, max:10 },
+      x:{ grid:{display:false}, ticks:{color:'rgba(250,247,242,0.4)'} }
+    }
+  }
+});
+
+// Pricing chart — FIXED: use exact decimal numbers, no floating point artifacts
+new Chart(document.getElementById('pricingChart'), {
+  type: 'line',
+  data: {
+    labels:['-40%','-30%','-20%','-10%','0%','+10%','+20%','+30%','+40%'],
+    datasets:[
+      { label:'Weekday price multiplier', data:[0.75,0.80,0.87,0.93,0.95,1.02,1.08,1.14,1.20],
+        borderColor:TEAL_L, backgroundColor:TEAL+'22', fill:true, tension:0.4, pointRadius:4 },
+      { label:'Weekend price multiplier', data:[0.83,0.88,0.95,1.02,1.10,1.18,1.25,1.32,1.38],
+        borderColor:GOLD, backgroundColor:GOLD+'22', fill:true, tension:0.4, pointRadius:4 }
+    ]
+  },
+  options:{ responsive:true,
+    plugins:{legend:{labels:{color:'rgba(250,247,242,0.5)',usePointStyle:true}}},
+    scales:{
+      y:{ grid:{color:'rgba(250,247,242,0.07)'}, ticks:{color:'rgba(250,247,242,0.4)',
+        callback: v => Number(v).toFixed(2) + '×'  },
+        min:0.6, max:1.5 },
+      x:{ title:{display:true,text:'Occupancy deviation from historical avg',color:'rgba(250,247,242,0.4)'},
+        grid:{color:'rgba(250,247,242,0.07)'}, ticks:{color:'rgba(250,247,242,0.4)'} }
+    }
+  }
+});
+
+// Lead time factor chart
+new Chart(document.getElementById('leadTimeChart'), {
+  type: 'bar',
+  data: {
+    labels:['0–3 days\n(Last-minute)','4–14 days\n(Standard)','15+ days\n(Early-bird)'],
+    datasets:[{ label:'Price factor', data:[1.15,1.00,0.90],
+      backgroundColor:[RUST+'cc',TEAL+'cc',GOLD+'cc'], borderRadius:8, borderSkipped:false }]
+  },
+  options:{ responsive:true,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`Factor: ${ctx.raw}×`}} },
+    scales:{
+      y:{ grid:{color:'rgba(250,247,242,0.07)'}, ticks:{color:'rgba(250,247,242,0.4)',callback:v=>Number(v).toFixed(2)+'×'}, min:0.7, max:1.3 },
+      x:{ grid:{display:false}, ticks:{color:'rgba(250,247,242,0.4)'} }
+    }
+  }
+});
+
+// Revenue stacked
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels:['Baseline (Current Policy)','Policy 2 Only (+7.65%)','Dynamic Pricing Only (+12.55%)','Both Combined (+20.86%)'],
+    datasets:[
+      { label:'Base Revenue (indexed)', data:[100,100,100,100], backgroundColor:'rgba(61,74,92,0.4)', borderRadius:4, borderSkipped:false },
+      { label:'Cancellation Policy Uplift', data:[0,7.65,0,7.65], backgroundColor:TEAL+'cc', borderRadius:4, borderSkipped:false },
+      { label:'Dynamic Pricing Uplift', data:[0,0,12.55,12.55], backgroundColor:GOLD+'cc', borderRadius:4, borderSkipped:false }
+    ]
+  },
+  options:{ responsive:true, indexAxis:'y',
+    plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:16}}},
+    scales:{ x:{stacked:true,grid:{color:'rgba(15,14,13,0.06)'},ticks:{callback:v=>v+'%'}}, y:{stacked:true,grid:{display:false}} }
+  }
+});
+
+// Ratio chart
+new Chart(document.getElementById('ratioChart'), {
+  type: 'bar',
+  data: {
+    labels:['0–1 days before check-in','2–7 days before check-in','8+ days before check-in'],
+    datasets:[
+      { label:'Current policy (revenue retained)', data:[40,40,40], backgroundColor:MUTED+'88', borderRadius:4, borderSkipped:false },
+      { label:'Policy 2 (revenue retained)', data:[80,50,20], backgroundColor:[RUST+'cc',GOLD+'cc',TEAL+'cc'], borderRadius:4, borderSkipped:false }
+    ]
+  },
+  options:{ responsive:true,
+    plugins:{legend:{position:'bottom',labels:{usePointStyle:true}}},
+    scales:{ y:{grid:{color:'rgba(15,14,13,0.06)'},max:100,ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}} }
+  }
+});
+</script>
+</body>
+</html>

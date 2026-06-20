@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolicyEase | PM Case Study</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap');
+:root{
+  --green:#1DB87E;--green-dark:#0F9B67;--green-light:#E8F9F2;--green-mid:#A8EDD2;
+  --navy:#0D1B2A;--navy-mid:#1A2E42;--slate:#2C4059;
+  --muted:#6B8299;--surface:#F5FAF8;--border:#DDE9E4;
+  --text:#1A2E42;--soft:#4A6070;
+  --warn:#FF6B35;--warn-light:#FFF0EB;
+  --gold:#F5A623;--gold-light:#FFF8EC;
+  --red:#E53E3E;--red-light:#FFF5F5;
+  --purple:#7C3AED;--purple-light:#F0EBFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);line-height:1.6;}
+nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:54px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo{width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.nav-brand span{color:#fff;font-weight:600;font-size:16px;}
+.nav-links{display:flex;gap:2px;}
+.nav-link{padding:5px 12px;border-radius:6px;color:rgba(255,255,255,.55);font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;transition:all .2s;text-decoration:none;}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.09);}
+.nav-link.active{color:#fff;background:var(--green);}
+.page{max-width:1280px;margin:0 auto;padding:0 32px 80px;}
+.sec-anchor{padding-top:72px;margin-top:-56px;}
+.sec-divider{border:none;border-top:2px solid var(--border);margin:56px 0 0;}
+.sec-head{padding:40px 0 22px;}
+.sec-head h2{font-size:28px;font-weight:700;}
+.sec-head p{font-size:14px;color:var(--soft);margin-top:6px;max-width:640px;}
+.sec-label{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 55%,#163525 100%);border-radius:20px;padding:60px 52px;margin-top:32px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(29,184,126,.14) 0%,transparent 70%);}
+.hero::after{content:'';position:absolute;right:60px;bottom:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(29,184,126,.07) 0%,transparent 70%);}
+.hero-eye{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.hero h1{font-size:44px;font-weight:700;color:#fff;line-height:1.18;margin-bottom:18px;}
+.hero h1 span{color:var(--green);}
+.hero-sub{color:rgba(255,255,255,.58);font-size:16px;max-width:560px;margin-bottom:36px;line-height:1.7;}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;}
+.h-stat-val{font-size:30px;font-weight:700;color:var(--green);font-family:'DM Mono',monospace;}
+.h-stat-lbl{font-size:12px;color:rgba(255,255,255,.46);margin-top:3px;}
+.hero-badge{position:absolute;top:24px;right:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 13px;font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.card{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);margin-bottom:14px;}
+.sc{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--border);}
+.sc.g{border-top:3px solid var(--green);}.sc.w{border-top:3px solid var(--warn);}.sc.o{border-top:3px solid var(--gold);}.sc.r{border-top:3px solid var(--red);}
+.sc .v{font-size:32px;font-weight:700;font-family:'DM Mono',monospace;}
+.sc.g .v{color:var(--green-dark);}.sc.w .v{color:var(--warn);}.sc.o .v{color:#B07800;}.sc.r .v{color:var(--red);}
+.sc .lb{font-size:13px;color:var(--soft);margin-top:4px;}.sc .sb{font-size:11px;color:var(--muted);margin-top:6px;}
+.bar-chart{display:flex;flex-direction:column;gap:7px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-lbl{font-size:12px;color:var(--soft);width:78px;text-align:right;flex-shrink:0;font-family:'DM Mono',monospace;}
+.bar-track{flex:1;height:26px;background:var(--surface);border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:9px;font-size:11px;font-weight:600;color:#fff;transition:width 1.1s cubic-bezier(.4,0,.2,1);}
+.rtbl{width:100%;border-collapse:collapse;}
+.rtbl th{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:700;padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);}
+.rtbl td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:top;}
+.rtbl tr:last-child td{border-bottom:none;}
+.rtbl tr:hover td{background:var(--green-light);}
+.rnk{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.hv{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--green-dark);}
+.sneg{color:var(--warn);font-weight:700;font-size:12px;}
+.swot-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.swot-tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--soft);transition:all .2s;}
+.swot-tab:hover{border-color:var(--green);color:var(--green-dark);}
+.swot-tab.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
+.swot-panel{display:none;}.swot-panel.visible{display:block;}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sq{border-radius:12px;padding:18px;}
+.sq.s{background:var(--green-light);border:1px solid var(--green-mid);}
+.sq.w{background:var(--warn-light);border:1px solid #ffd4c2;}
+.sq.o{background:var(--gold-light);border:1px solid #fde8b0;}
+.sq.t{background:var(--red-light);border:1px solid #ffc5c5;}
+.sq-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+.sq.s .sq-title{color:var(--green-dark);}.sq.w .sq-title{color:var(--warn);}.sq.o .sq-title{color:#9B6800;}.sq.t .sq-title{color:var(--red);}
+.si{font-size:12.5px;color:var(--soft);margin-bottom:9px;padding-left:16px;position:relative;line-height:1.5;}
+.sq.s .si::before{content:'+';position:absolute;left:0;font-size:11px;font-weight:800;color:var(--green-dark);}
+.sq.w .si::before{content:'-';position:absolute;left:0;font-size:11px;font-weight:800;color:var(--warn);}
+.sq.o .si::before{content:'+';position:absolute;left:0;font-size:11px;font-weight:800;color:#9B6800;}
+.sq.t .si::before{content:'!';position:absolute;left:0;font-size:11px;font-weight:800;color:var(--red);}
+.si-sub{font-size:11px;color:var(--muted);margin-top:3px;display:block;}
+.hbar-row{margin-bottom:14px;}
+.hbar-lbl{font-size:12px;font-weight:600;color:var(--soft);margin-bottom:5px;font-family:'DM Mono',monospace;}
+.hbar-stack{display:flex;height:22px;border-radius:6px;overflow:hidden;gap:2px;}
+.hseg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+.pcard{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border);}
+.ph{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.pav{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.pname{font-weight:700;font-size:16px;}.pmeta{font-size:12px;color:var(--muted);}
+.ptag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-right:4px;margin-bottom:4px;}
+.t-u{background:#E8F4FF;color:#0066CC;}.t-r{background:#FFF3E0;color:#E65100;}.t-s{background:#F3E8FF;color:#6B21A8;}
+.pst{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:12px 0 6px;}
+.bitem{font-size:12px;color:var(--soft);margin-bottom:5px;padding-left:14px;position:relative;}
+.bitem::before{content:'*';position:absolute;left:0;color:var(--green);font-weight:700;font-size:13px;}
+.qitem{font-size:12px;color:var(--soft);margin-bottom:6px;padding-left:16px;position:relative;font-style:italic;line-height:1.6;}
+.qitem::before{content:'"';position:absolute;left:0;color:var(--green);font-size:15px;font-weight:700;font-style:normal;}
+.fbadge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.must{background:#FFF0EB;color:var(--warn);}.func{background:var(--green-light);color:var(--green-dark);}.intg{background:var(--purple-light);color:var(--purple);}
+.ie-wrap{position:relative;padding-left:32px;padding-bottom:40px;overflow:visible;}
+.ie-y-lbl{position:absolute;left:-20px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:10px;font-weight:700;color:var(--muted);white-space:nowrap;letter-spacing:1px;text-transform:uppercase;}
+.ie-chart{position:relative;border:2px solid var(--border);height:420px;border-radius:10px;overflow:visible;}
+.ie-q{position:absolute;width:50%;height:50%;display:flex;align-items:center;justify-content:center;}
+.ie-q span{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;opacity:.22;}
+.ie-q.tl{top:0;left:0;background:#FFF5F5;}.ie-q.tl span{color:var(--red);}
+.ie-q.tr{top:0;right:0;background:#E8F9F2;}.ie-q.tr span{color:var(--green-dark);}
+.ie-q.bl{bottom:0;left:0;background:var(--surface);}.ie-q.bl span{color:var(--muted);}
+.ie-q.br{bottom:0;right:0;background:#E8F9F2;}.ie-q.br span{color:var(--green-dark);}
+.ie-hline{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border);}
+.ie-vline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border);}
+.ie-dot{position:absolute;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;transform:translate(-50%,-50%);cursor:pointer;transition:transform .2s,box-shadow .2s;z-index:5;}
+.ie-dot:hover{transform:translate(-50%,-50%) scale(1.35);box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:20;}
+.tt{position:relative;}.tt:hover .tip{display:block;}
+.tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:50;pointer-events:none;}
+.tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy);}
+.rm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.rm-phase{padding:24px;border-right:1px solid var(--border);}.rm-phase:last-child{border-right:none;}
+.rm-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-bottom:12px;}
+.rm-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.rm-tag{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
+.rm-dur{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+.rm-desc{font-size:12px;color:var(--soft);line-height:1.6;margin-bottom:10px;}
+.rm-strat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;}
+.rm-strat-v{font-size:13px;font-weight:700;}
+.p1 .rm-num,.p1 .rm-dur{background:#FFE8F5;color:#B5006A;}.p1 .rm-strat-v{color:#B5006A;}
+.p2 .rm-num,.p2 .rm-dur{background:var(--green-light);color:var(--green-dark);}.p2 .rm-strat-v{color:var(--green-dark);}
+.p3 .rm-num,.p3 .rm-dur{background:var(--gold-light);color:#9B6800;}.p3 .rm-strat-v{color:#9B6800;}
+.p4 .rm-num,.p4 .rm-dur{background:#EEF2FF;color:#3730A3;}.p4 .rm-strat-v{color:#3730A3;}
+.north-star{background:linear-gradient(135deg,var(--navy) 0%,var(--slate) 100%);border-radius:14px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden;}
+.north-star::after{content:'*';position:absolute;right:32px;top:50%;transform:translateY(-50%);font-size:100px;opacity:.04;color:var(--green);}
+.ns-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:var(--green);font-weight:700;margin-bottom:8px;}
+.ns-metric{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+.ns-formula{font-family:'DM Mono',monospace;font-size:13px;color:rgba(255,255,255,.55);}
+.mc{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--border);}
+.mc-type{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:8px;}
+.mc-name{font-size:15px;font-weight:700;margin-bottom:6px;}
+.mc-formula{font-family:'DM Mono',monospace;font-size:11px;color:var(--soft);background:var(--surface);padding:8px;border-radius:6px;margin-bottom:8px;line-height:1.55;}
+.mc-benefit{font-size:12px;color:var(--soft);}
+.scope-item{display:flex;gap:14px;padding:14px;border-radius:10px;background:var(--green-light);border:1px solid var(--green-mid);margin-bottom:10px;}
+.scope-icon{font-size:20px;flex-shrink:0;}
+.scope-title{font-size:13px;font-weight:700;color:var(--green-dark);margin-bottom:3px;}
+.scope-desc{font-size:12px;color:var(--soft);}
+.pitfall-row{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:12px 0;border-bottom:1px solid var(--border);}
+.pitfall-row:last-child{border-bottom:none;}
+.pitfall-name{font-size:13px;font-weight:700;color:var(--red);}
+.pitfall-fix{font-size:13px;color:var(--soft);}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.in{opacity:1;transform:none;}
+.pie-wrap{display:flex;align-items:center;gap:24px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+/* APP FLOW */
+.flow-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:36px 0 18px;display:flex;align-items:center;gap:12px;}
+.flow-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.flow-section-title span{background:var(--green);color:#fff;padding:3px 10px;border-radius:20px;font-size:10px;}
+.flow-track{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:12px;position:relative;}
+.flow-track::before{content:'';position:absolute;top:55px;left:56px;right:56px;height:2px;background:linear-gradient(90deg,var(--green),var(--green-mid));z-index:0;pointer-events:none;}
+.flow-step{flex:0 0 180px;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
+.flow-step-num{width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid #fff;box-shadow:0 0 0 2px var(--green);flex-shrink:0;}
+.flow-arr{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:20px;font-weight:700;margin-top:48px;z-index:2;}
+.phone{width:108px;height:192px;background:var(--navy);border-radius:18px;border:3px solid rgba(255,255,255,.14);box-shadow:0 8px 28px rgba(0,0,0,.32);display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.ph-bar{height:11px;background:var(--green);display:flex;align-items:center;padding:0 6px;flex-shrink:0;}
+.ph-bar span{font-size:5px;color:rgba(255,255,255,.85);font-weight:600;}
+.ph-bar.dark{background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.08);}
+.ph-body{flex:1;padding:5px;overflow:hidden;display:flex;flex-direction:column;gap:3px;}
+.ph-foot{height:17px;background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-around;padding:0 3px;flex-shrink:0;}
+.ph-fi{font-size:7px;color:rgba(255,255,255,.35);}.ph-fi.a{color:var(--green);font-size:6px;font-weight:700;}
+.a-input{height:11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:3px;width:100%;}
+.a-btn{height:14px;background:var(--green);border-radius:3px;display:flex;align-items:center;justify-content:center;}
+.a-btn span{font-size:5.5px;color:#fff;font-weight:700;}
+.a-btn.sm{height:11px;}
+.a-txt{font-size:5px;color:rgba(255,255,255,.5);line-height:1.4;}
+.a-txt.b{color:rgba(255,255,255,.85);font-weight:600;}
+.a-card{background:rgba(255,255,255,.08);border-radius:5px;padding:5px;border:1px solid rgba(255,255,255,.1);}
+.a-big-check{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 5px;}
+.a-otp-row{display:flex;gap:3px;justify-content:center;}
+.a-otp-cell{width:11px;height:15px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:2px;display:flex;align-items:center;justify-content:center;}
+.a-otp-cell.f{background:var(--green-dark);border-color:var(--green);}
+.a-otp-cell span{font-size:7px;color:#fff;font-weight:700;}
+.a-icon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.a-icon-cell{background:rgba(255,255,255,.08);border-radius:3px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;}
+.a-icon-cell .ic{font-size:9px;}.a-icon-cell .lb{font-size:3.5px;color:rgba(255,255,255,.5);}
+.a-tl{display:flex;flex-direction:column;gap:3px;}
+.a-tl-item{display:flex;gap:4px;align-items:flex-start;}
+.a-tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:1px;}
+.a-tl-dot.done{background:var(--green);}.a-tl-dot.prog{background:var(--green);border:2px solid rgba(168,237,210,.6);}.a-tl-dot.pend{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);}
+.a-msg{border-radius:5px;padding:4px;font-size:4.5px;line-height:1.4;max-width:84%;}
+.a-msg.usr{background:rgba(255,255,255,.09);color:rgba(255,255,255,.7);}
+.a-msg.bot{background:var(--green);color:#fff;margin-left:auto;}
+.a-pill{padding:2px 5px;border-radius:10px;font-size:4.5px;font-weight:700;background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);}
+.a-pill.g{background:rgba(29,184,126,.25);color:var(--green-mid);}
+.a-locker-row{display:flex;gap:4px;align-items:center;padding:3px;background:rgba(255,255,255,.06);border-radius:3px;}
+.a-locker-ic{font-size:8px;}.a-locker-nm{font-size:4.5px;color:rgba(255,255,255,.7);flex:1;}
+.a-locker-act{display:flex;gap:2px;}.a-locker-act span{font-size:6px;color:rgba(255,255,255,.4);}
+.flow-label{font-size:11px;font-weight:700;color:var(--text);margin-top:10px;text-align:center;}
+.flow-sub{font-size:10px;color:var(--muted);text-align:center;margin-top:3px;max-width:100px;line-height:1.4;}
+.det-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.det-card{background:#fff;border-radius:12px;padding:18px;border:1px solid var(--border);}
+.det-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.det-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.det-title{font-size:14px;font-weight:700;}.det-sub{font-size:11px;color:var(--muted);}
+.det-sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:10px 0 6px;}
+.det-item{font-size:12px;color:var(--soft);margin-bottom:5px;padding-left:14px;position:relative;line-height:1.5;}
+.det-item::before{content:'*';position:absolute;left:0;font-weight:800;font-size:11px;color:var(--green);}
+.det-lim{font-size:11px;color:var(--muted);margin-bottom:4px;padding-left:13px;position:relative;}
+.det-lim::before{content:'!';position:absolute;left:0;font-weight:800;font-size:10px;color:var(--warn);}
+@media(max-width:960px){
+  .g2,.g3,.g4,.rm-grid,.det-grid{grid-template-columns:1fr;}
+  nav{padding:0 16px;}.nav-links .nav-link{font-size:11px;padding:4px 8px;}
+  .hero{padding:36px 24px;}.hero h1{font-size:30px;}
+  .page{padding:0 16px 60px;}.flow-track::before{display:none;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="#"><div class="nav-logo">P</div><span>PolicyEase</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="#overview">Overview</a>
+    <a class="nav-link" href="#market">Market</a>
+    <a class="nav-link" href="#sentiment">Sentiment</a>
+    <a class="nav-link" href="#users">Users</a>
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#appflow">App Flow</a>
+    <a class="nav-link" href="#roadmap">Roadmap</a>
+    <a class="nav-link" href="#metrics">Metrics</a>
+  </div>
+</nav>
+<div class="page">
+<div id="overview" class="sec-anchor"></div>
+<div class="hero reveal">
+  <div class="hero-eye">General Championship PM 2025</div>
+  <h1>Making Insurance <span>Simple</span>,<br>Confident &amp; Accessible</h1>
+  <p class="hero-sub">PolicyEase redefines the general insurance experience through a user-centric mobile platform integrating diverse products, transparent claims management, and everyday services.</p>
+  <div class="hero-stats">
+    <div><div class="h-stat-val" data-count="106" data-prefix="&#8377;" data-suffix="B">&#8377;106B</div><div class="h-stat-lbl">Global aggregators market by 2029</div></div>
+    <div><div class="h-stat-val" data-count="24.3" data-suffix="%">24.3%</div><div class="h-stat-lbl">Market CAGR 2024 to 2029</div></div>
+    <div><div class="h-stat-val" data-count="50" data-suffix="%">50%</div><div class="h-stat-lbl">Negative reviews on incumbent app</div></div>
+    <div><div class="h-stat-val" data-count="15">15</div><div class="h-stat-lbl">Features designed and prioritised</div></div>
+  </div>
+  <div class="hero-badge">Insurance Aggregator / India</div>
+</div>
+<div class="g3 reveal" style="margin-top:20px;">
+  <div class="card"><div class="card-label">Product Vision</div><p style="font-size:14px;color:var(--soft);line-height:1.75;">Envision insurance as a <strong>supportive friend</strong>, making it simple to safeguard every aspect of life, home, vehicle, travel, and more, with easy, confident protection.</p></div>
+  <div class="card"><div class="card-label">Product Mission</div><p style="font-size:14px;color:var(--soft);line-height:1.75;">Redefine the general insurance experience by creating a user-centric mobile platform integrating diverse products in an <strong>accessible, simplified way</strong>.</p></div>
+  <div class="card"><div class="card-label">Problem Space</div><p style="font-size:14px;color:var(--soft);line-height:1.75;">Customers face <strong>opaque claims</strong>, cumbersome document submission, poor post-purchase support, and no unified tracking, verified by sentiment analysis of 661 real reviews.</p></div>
+</div>
+<div class="g4 reveal">
+  <div class="sc g"><div class="v">7.1%</div><div class="lb">India insurance annual growth</div><div class="sb">2024 to 2028, vs 2.4% global avg</div></div>
+  <div class="sc w"><div class="v">49.9%</div><div class="lb">Negative share (PolicyBazaar)</div><div class="sb">Out of 661 Play Store reviews</div></div>
+  <div class="sc o"><div class="v">301.8M</div><div class="lb">Non-life policies active FY23</div><div class="sb">Up from 253.1M in FY22</div></div>
+  <div class="sc r"><div class="v">7,672</div><div class="lb">Helpful votes on top risk review</div><div class="sb">UI instability complaint</div></div>
+</div>
+<div class="g2 reveal">
+  <div class="card">
+    <div class="card-label">Core Pain Points (User Interviews, n=12)</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:4px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:18px;">&#128269;</span><div><div style="font-size:13px;font-weight:700;">Difficulty Tracking Claim Progress</div><div style="font-size:12px;color:var(--soft);">Multiple parties with no unified tracking, leaving customers unable to monitor status</div></div></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:18px;">&#128196;</span><div><div style="font-size:13px;font-weight:700;">Cumbersome Document Submission</div><div style="font-size:12px;color:var(--soft);">Repetitive uploads, poor approval communication, frequent rejections</div></div></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:18px;">&#128172;</span><div><div style="font-size:13px;font-weight:700;">Poor Claim Status Communication</div><div style="font-size:12px;color:var(--soft);">Inadequate communication between brokers, insurers, and repair networks</div></div></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:18px;">&#128241;</span><div><div style="font-size:13px;font-weight:700;">Limited Digital Claim Management</div><div style="font-size:12px;color:var(--soft);">Outdated systems lack user-friendly portals for digitally savvy customers</div></div></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:18px;">&#128203;</span><div><div style="font-size:13px;font-weight:700;">Lack of Clarity in Terms and Conditions</div><div style="font-size:12px;color:var(--soft);">Policyholders struggle with complex exclusions leading to unexpected outcomes</div></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Sentiment by Helpfulness Range</div>
+    <div style="margin-top:6px;">
+      <div class="hbar-row"><div class="hbar-lbl">0 to 10</div><div class="hbar-stack"><div class="hseg" style="flex:47;background:#E53E3E;">47%</div><div class="hseg" style="flex:25;background:var(--green);">25%</div><div class="hseg" style="flex:28;background:var(--gold);">28%</div></div></div>
+      <div class="hbar-row"><div class="hbar-lbl">11 to 100</div><div class="hbar-stack"><div class="hseg" style="flex:56;background:#E53E3E;">56%</div><div class="hseg" style="flex:21;background:var(--green);">21%</div><div class="hseg" style="flex:23;background:var(--gold);">23%</div></div></div>
+      <div class="hbar-row"><div class="hbar-lbl">101 to 1000</div><div class="hbar-stack"><div class="hseg" style="flex:46;background:#E53E3E;">46%</div><div class="hseg" style="flex:30;background:var(--green);">30%</div><div class="hseg" style="flex:25;background:var(--gold);">25%</div></div></div>
+      <div class="hbar-row"><div class="hbar-lbl">1000+</div><div class="hbar-stack"><div class="hseg" style="flex:33;background:#E53E3E;">33%</div><div class="hseg" style="flex:17;background:var(--green);">17%</div><div class="hseg" style="flex:50;background:var(--gold);">50%</div></div></div>
+      <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted);"><span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#E53E3E;display:inline-block;"></span>Negative</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;"></span>Positive</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--gold);display:inline-block;"></span>Neutral</span></div>
+      <div style="margin-top:14px;padding:12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--soft);"><strong>Key insight:</strong> Reviews with 11 to 100 helpful votes show the highest negative sentiment at 56%, suggesting moderately engaged users are most vocal about frustrations.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MARKET -->
+
+
+<!-- MARKET -->
+<hr class="sec-divider">
+<div id="market" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">Market Analysis</div>
+  <h2>India's Insurance Landscape</h2>
+  <p>Opportunity sizing, growth projections, and competitive positioning across India's rapidly expanding insurance aggregator market.</p>
+</div>
+<div class="g4 reveal">
+  <div class="sc g"><div class="v">&#8377;3.71B</div><div class="lb">Online India insurance market by 2030</div><div class="sb">12.2% CAGR from &#8377;2.09B in 2025</div></div>
+  <div class="sc o"><div class="v">4th</div><div class="lb">Largest insurance market in Asia</div><div class="sb">10th largest globally</div></div>
+  <div class="sc w"><div class="v">65%</div><div class="lb">Private sector domination</div><div class="sb">General insurance market share</div></div>
+  <div class="sc g"><div class="v">9.9%</div><div class="lb">Projected CAGR for general insurance</div><div class="sb">Fastest growing market globally</div></div>
+</div>
+<div class="g2 reveal">
+  <div class="card">
+    <div class="card-label">Insurance Aggregators Global Market Growth</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2024</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:33.7%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$35.73B</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2025</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:42%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$44.53B</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2029F</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$106.24B</span></div>
+      <div style="text-align:center;padding:10px;background:var(--green-light);border-radius:8px;"><span style="font-size:20px;font-weight:700;color:var(--green-dark);font-family:'DM Mono',monospace;">CAGR 24.3%</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Distribution Dynamics in India</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Private Sector)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--green-dark);">42.5%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:42.5%;height:100%;background:var(--green);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Agency Networks (Public)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--navy);">32.4%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.4%;height:100%;background:var(--navy);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Public Sector)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);">32.2%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.2%;height:100%;background:var(--gold);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Bancassurance</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--warn);">9.1%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:9.1%;height:100%;background:var(--warn);border-radius:4px;"></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card reveal">
+  <div class="card-label">Competitive SWOT Analysis</div>
+  <div class="swot-tabs">
+    <button class="swot-tab active" onclick="showSwot('pb',this)">PolicyBazaar</button>
+    <button class="swot-tab" onclick="showSwot('id',this)">InsuranceDekho</button>
+    <button class="swot-tab" onclick="showSwot('cf',this)">Coverfox</button>
+    <button class="swot-tab" onclick="showSwot('tm',this)">Turtlemint</button>
+  </div>
+  <div id="sp-pb" class="swot-panel visible"><div class="swot-grid">
+    <div class="sq s"><div class="sq-title">Strengths</div>
+      <div class="si">One of India's leading online insurance marketplaces with massive scale and brand recall<span class="si-sub">Recognised across urban India, trusted by millions of first-time buyers</span></div>
+      <div class="si">High customer trust built through years of transparent premium comparisons<span class="si-sub">Ability to compare dozens of insurers in one place remains a strong draw</span></div>
+      <div class="si">Diverse product portfolio covering health, vehicle, term life, and travel<span class="si-sub">Users can manage multiple policy types from a single unified account</span></div>
+      <div class="si">Strong media and digital marketing presence driving top-of-funnel awareness<span class="si-sub">TV commercials and influencer campaigns sustain strong brand salience</span></div>
+    </div>
+    <div class="sq w"><div class="sq-title">Weaknesses</div>
+      <div class="si">Widespread customer complaints about post-sales service and claims delays<span class="si-sub">50% negative review rate on Play Store validates this deep systemic gap</span></div>
+      <div class="si">Lacks strong penetration in rural India without meaningful offline presence<span class="si-sub">Tier III and rural markets remain largely untouched and underserved</span></div>
+      <div class="si">App suffers from loading issues, UI instability, and document upload failures<span class="si-sub">Functional bugs undermine trust at the most critical transaction moments</span></div>
+      <div class="si">Post-payment support is near-absent, with representatives becoming unreachable<span class="si-sub">Customer frustration peaks precisely when users need the most help</span></div>
+    </div>
+    <div class="sq o"><div class="sq-title">Opportunities</div>
+      <div class="si">Vast under-insured population in India's Tier II and III towns<span class="si-sub">Low penetration means enormous greenfield opportunity for the right platform</span></div>
+      <div class="si">Launch new verticals like micro-insurance, cyber cover, and pet insurance<span class="si-sub">Adjacent categories align with emerging urban lifestyle risk profiles</span></div>
+      <div class="si">Integration of AI and machine learning for personalised policy recommendations<span class="si-sub">Behavioural data can power smarter matching between users and products</span></div>
+      <div class="si">Growing digital payment adoption across India accelerates premium collection<span class="si-sub">UPI and QR adoption in semi-urban areas removes friction from renewals</span></div>
+    </div>
+    <div class="sq t"><div class="sq-title">Threats</div>
+      <div class="si">Competitors offering faster claims processing and lower premium discovery<span class="si-sub">InsuranceDekho's ground-level agent network is difficult to replicate quickly</span></div>
+      <div class="si">Massive sensitive user data under management creates cybersecurity exposure<span class="si-sub">Any breach would be catastrophic to brand trust in financial services</span></div>
+      <div class="si">Regulatory tightening by IRDAI could affect commission structures and margins<span class="si-sub">Dependency on insurer relationships means external policy shifts are high-risk</span></div>
+    </div>
+  </div></div>
+  <div id="sp-id" class="swot-panel"><div class="swot-grid">
+    <div class="sq s"><div class="sq-title">Strengths</div>
+      <div class="si">Operates in over 1,300 cities ensuring widespread accessibility across India<span class="si-sub">Physical reach enables trust-building in markets where digital hesitancy is high</span></div>
+      <div class="si">Strong rural presence making insurance accessible in genuinely remote regions<span class="si-sub">Local agent network bridges the digital divide for low-literacy users effectively</span></div>
+      <div class="si">Rapid growth driven by agent-led model with deep community relationships<span class="si-sub">Word-of-mouth and community referrals are highly cost-effective acquisition channels</span></div>
+    </div>
+    <div class="sq w"><div class="sq-title">Weaknesses</div>
+      <div class="si">Relies heavily on agents for policy sales, limiting digital scalability<span class="si-sub">Agent incentives can easily misalign with what is best for the customer</span></div>
+      <div class="si">Predominantly operates through intermediaries, reducing direct customer interaction<span class="si-sub">Lack of a direct relationship makes feedback loops significantly slower</span></div>
+      <div class="si">Limited app experience compared to tech-first competitors like Coverfox<span class="si-sub">Digital UX falls short for urban users who expect full self-service flows</span></div>
+    </div>
+    <div class="sq o"><div class="sq-title">Opportunities</div>
+      <div class="si">AI and ML to enhance customer experience and widen the product offering<span class="si-sub">Automating routine queries reduces agent load and improves response speed</span></div>
+      <div class="si">Collaborating with local businesses to establish footholds in new regions<span class="si-sub">Kirana stores, CSC centres, and cooperative banks are natural distribution partners</span></div>
+    </div>
+    <div class="sq t"><div class="sq-title">Threats</div>
+      <div class="si">Customer loyalty is low in price-sensitive segments, driving high churn<span class="si-sub">Aggregators make it trivially easy for users to switch at every renewal</span></div>
+      <div class="si">Inflation impacts affordability of life and health products across segments<span class="si-sub">Rising premiums push customers toward bare-minimum coverage options only</span></div>
+    </div>
+  </div></div>
+  <div id="sp-cf" class="swot-panel"><div class="swot-grid">
+    <div class="sq s"><div class="sq-title">Strengths</div>
+      <div class="si">Algorithms personalise plan recommendations based on user needs and history<span class="si-sub">Data-driven matching improves conversion and substantially reduces choice paralysis</span></div>
+      <div class="si">End-to-end digital services for comparing, purchasing, and managing claims<span class="si-sub">Smooth digital journey reduces friction across the entire customer lifecycle</span></div>
+      <div class="si">Clean, modern app interface with strong adoption among urban users<span class="si-sub">Design-first approach creates very positive first impressions with tech-savvy users</span></div>
+    </div>
+    <div class="sq w"><div class="sq-title">Weaknesses</div>
+      <div class="si">Struggles with brand visibility against established insurance giants<span class="si-sub">Marketing spend cannot match PolicyBazaar's reach without a proportional budget</span></div>
+      <div class="si">Heavy reliance on digital channels may exclude less tech-savvy users entirely<span class="si-sub">Significant population segments are effectively unreachable through app-only strategy</span></div>
+    </div>
+    <div class="sq o"><div class="sq-title">Opportunities</div>
+      <div class="si">Low insurance penetration in India offers strong growth with rising awareness<span class="si-sub">Education-led marketing can convert passive browsers into committed active buyers</span></div>
+      <div class="si">Big data to analyse customer behaviour and personalise offerings at real scale<span class="si-sub">Engagement signals can accurately predict renewal intent and cross-sell opportunities</span></div>
+    </div>
+    <div class="sq t"><div class="sq-title">Threats</div>
+      <div class="si">Price wars and promotional discounts make long-term customer retention difficult<span class="si-sub">Discount-driven acquisition consistently creates users with very low lifetime value</span></div>
+      <div class="si">Customers shop around and choose the lowest premium without brand loyalty<span class="si-sub">Commoditisation risk is high when comparison itself is the core product feature</span></div>
+    </div>
+  </div></div>
+  <div id="sp-tm" class="swot-panel"><div class="swot-grid">
+    <div class="sq s"><div class="sq-title">Strengths</div>
+      <div class="si">Built a strong network of 300,000+ advisors across 17,000+ pin codes in India<span class="si-sub">Largest distribution footprint of any digital-native insurance platform in India</span></div>
+      <div class="si">AI-powered personalised recommendations to simplify complex insurance decisions<span class="si-sub">Proprietary recommendation engine improves with usage, creating meaningful switching costs</span></div>
+    </div>
+    <div class="sq w"><div class="sq-title">Weaknesses</div>
+      <div class="si">High dependence on third-party insurers for all products sold on the platform<span class="si-sub">No proprietary products means limited margin control and weak product differentiation</span></div>
+      <div class="si">Limited direct customer engagement significantly hampers brand recall<span class="si-sub">Most interactions happen through advisors rather than the brand itself</span></div>
+    </div>
+    <div class="sq o"><div class="sq-title">Opportunities</div>
+      <div class="si">Many rural and semi-urban areas in India still significantly underinsured<span class="si-sub">The existing agent network provides a natural on-ramp for reaching these communities</span></div>
+      <div class="si">Exploring entry into Southeast Asia and the Middle East markets<span class="si-sub">The network model is transferable to markets with similar insurance advisory dynamics</span></div>
+    </div>
+    <div class="sq t"><div class="sq-title">Threats</div>
+      <div class="si">Regulatory changes may impact advisor commissions and the core operational model<span class="si-sub">IRDAI rule changes could force rapid restructuring of the entire business model</span></div>
+      <div class="si">Economic downturns reduce discretionary insurance spending across segments<span class="si-sub">Non-mandatory policies are the first to be dropped in any household budget squeeze</span></div>
+    </div>
+  </div></div>
+</div>
+
+<!-- SENTIMENT -->
+<hr class="sec-divider">
+<div id="sentiment" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">Sentiment Analysis</div>
+  <h2>PolicyBazaar App: 661 Reviews Analysed</h2>
+  <p>Reviews weighted by helpfulness count to surface the highest-impact pain points, directly informing PolicyEase's feature priorities.</p>
+</div>
+<div class="g2 reveal">
+  <div class="card">
+    <div class="card-label">Overall Sentiment Distribution (n=661)</div>
+    <div class="pie-wrap" style="margin-top:16px;">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#E53E3E" stroke-width="40" stroke-dasharray="188 314" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#F5A623" stroke-width="40" stroke-dasharray="98 314" stroke-dashoffset="-188" transform="rotate(-90 80 80)"/>
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#1DB87E" stroke-width="40" stroke-dasharray="75 314" stroke-dashoffset="-286" transform="rotate(-90 80 80)"/>
+        <circle cx="80" cy="80" r="40" fill="white"/>
+        <text x="80" y="76" text-anchor="middle" font-size="18" font-weight="700" fill="#1A2E42" font-family="DM Mono,monospace">661</text>
+        <text x="80" y="91" text-anchor="middle" font-size="10" fill="#6B8299">reviews</text>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="legend-item"><div class="legend-dot" style="background:#E53E3E;"></div><strong style="color:#E53E3E;">Negative</strong>&nbsp;330 (49.92%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F5A623;"></div><strong style="color:#B07800;">Neutral</strong>&nbsp;172 (26.02%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1DB87E;"></div><strong style="color:#0F9B67;">Positive</strong>&nbsp;159 (24.05%)</div>
+        <div style="margin-top:10px;padding:10px;background:var(--warn-light);border-radius:8px;font-size:12px;color:var(--warn);font-weight:700;">Nearly 1 in 2 users expressed frustration</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Top Keywords in Negative Reviews</div>
+    <div class="bar-chart" style="margin-top:8px;">
+      <div class="bar-row"><div class="bar-lbl">policy</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--warn);">487</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">from</div><div class="bar-track"><div class="bar-fill" style="width:44%;background:var(--warn);">217</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">not</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--warn);">206</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">app</div><div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--warn);">201</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">insurance</div><div class="bar-track"><div class="bar-fill" style="width:36%;background:var(--warn);">176</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">after</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--warn);">124</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">service</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--warn);">122</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">call</div><div class="bar-track"><div class="bar-fill" style="width:24%;background:var(--warn);">115</div></div></div>
+      <div class="bar-row"><div class="bar-lbl">very</div><div class="bar-track"><div class="bar-fill" style="width:23%;background:var(--warn);">114</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card reveal">
+  <div class="card-label">Top 10 Risk Factors by Helpfulness Score</div>
+  <table class="rtbl" style="margin-top:8px;">
+    <thead><tr><th>#</th><th>Helpful Votes</th><th>Score</th><th>Risk Category</th><th>Review Excerpt</th></tr></thead>
+    <tbody>
+      <tr><td><div class="rnk">1</div></td><td><span class="hv">7,672</span></td><td><span class="sneg">-0.50</span></td><td>UI/UX Instability</td><td style="font-size:12px;color:var(--soft);">Overall experience OK, but the pay-for-new-ride button moves around causing wrong taps, a persistent unfixed annoyance...</td></tr>
+      <tr><td><div class="rnk">2</div></td><td><span class="hv">1,267</span></td><td><span class="sneg">-1.00</span></td><td>App Functionality</td><td style="font-size:12px;color:var(--soft);">Worst app ever, features not working, asked to pay additional payment for term insurance policy...</td></tr>
+      <tr><td><div class="rnk">3</div></td><td><span class="hv">929</span></td><td><span class="sneg">-1.00</span></td><td>Document Submission</td><td style="font-size:12px;color:var(--soft);">Very worst service. Uploaded documents three times, still saying additional documents required...</td></tr>
+      <tr><td><div class="rnk">4</div></td><td><span class="hv">909</span></td><td><span class="sneg">-1.00</span></td><td>App Performance</td><td style="font-size:12px;color:var(--soft);">Worst application ever used, keeps loading forever, needs to add employee management...</td></tr>
+      <tr><td><div class="rnk">5</div></td><td><span class="hv">891</span></td><td><span class="sneg">-0.33</span></td><td>Data Accuracy</td><td style="font-size:12px;color:var(--soft);">Filled correct details but wrong details forwarded to insurance company, raised multiple complaints...</td></tr>
+      <tr><td><div class="rnk">6</div></td><td><span class="hv">791</span></td><td><span class="sneg">-1.00</span></td><td>Post-Purchase Support</td><td style="font-size:12px;color:var(--soft);">Horrible, once payment done, people disappear. Request raised 3 months ago, no response...</td></tr>
+      <tr><td><div class="rnk">7</div></td><td><span class="hv">788</span></td><td><span class="sneg">-1.00</span></td><td>Payment Processing</td><td style="font-size:12px;color:var(--soft);">Paid renewal premium via their link, but vehicle showing wrong after payment...</td></tr>
+      <tr><td><div class="rnk">8</div></td><td><span class="hv">770</span></td><td><span class="sneg">-1.00</span></td><td>Policy Purchase</td><td style="font-size:12px;color:var(--soft);">Biggest mistake purchasing via this app. Just cut money first then copy-paste the policy...</td></tr>
+      <tr><td><div class="rnk">9</div></td><td><span class="hv">749</span></td><td><span class="sneg">-1.00</span></td><td>Quote Discrepancy</td><td style="font-size:12px;color:var(--soft);">Initially offered reasonable car insurance quote, could not process it, price increased without explanation...</td></tr>
+      <tr><td><div class="rnk">10</div></td><td><span class="hv">551</span></td><td><span class="sneg">-1.00</span></td><td>App Usability</td><td style="font-size:12px;color:var(--soft);">App supposed to make life easier, but does not work, cannot track or renew policies timely...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- USERS -->
+<hr class="sec-divider">
+<div id="users" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">User Research</div>
+  <h2>Three Personas Across India's Spectrum</h2>
+  <p>From urban metro professionals to rural agricultural workers, PolicyEase serves a diverse user base with very different literacy, connectivity, and insurance needs.</p>
+</div>
+<div class="g3 reveal">
+  <div class="pcard">
+    <div class="ph"><div class="pav" style="background:#E8F4FF;font-size:26px;">&#128104;&#8205;&#128188;</div><div><div class="pname">Rohan Kapoor</div><div class="pmeta">Age 32 / MBA / Bengaluru (Urban Metro)</div><div style="margin-top:5px;"><span class="ptag t-u">Urban Metro</span><span class="ptag" style="background:#E8F9F2;color:var(--green-dark);">&#8377;18L Income</span></div></div></div>
+    <div class="pst">Behaviours</div>
+    <div class="bitem">Compares policies via Alexa and insurance apps daily</div>
+    <div class="bitem">Prefers video explainers over text-heavy policy documents</div>
+    <div class="bitem">Uses UPI 14 times per month for financial transactions</div>
+    <div class="bitem">Subscribes to Wellness Rewards for premium discounts</div>
+    <div class="bitem">Attends crypto insurance webinars, highly digitally literate</div>
+    <div class="pst">User Stories</div>
+    <div class="qitem">I need timely updates on my claim status as conflicting info from the insurer and repair network makes it hard to track progress</div>
+    <div class="qitem">I want to upload repair invoices without size restrictions so I do not have to resubmit when the app crashes</div>
+  </div>
+  <div class="pcard">
+    <div class="ph"><div class="pav" style="background:#FFF3E0;font-size:26px;">&#128105;</div><div><div class="pname">Sunita Patel</div><div class="pmeta">Age 38 / Class 12 / Kota (Tier 3)</div><div style="margin-top:5px;"><span class="ptag t-s">Semi-Urban</span><span class="ptag" style="background:#FFF8EC;color:#9B6800;">&#8377;9L Income</span></div></div></div>
+    <div class="pst">Behaviours</div>
+    <div class="bitem">Files claims via WhatsApp chatbots</div>
+    <div class="bitem">Pays premiums through kirana store QR codes</div>
+    <div class="bitem">Attends LIC Mobile Chaupal sessions for financial literacy</div>
+    <div class="bitem">Buys policies based on neighbour recommendations</div>
+    <div class="bitem">Uses Google Bolo for Hindi language translations</div>
+    <div class="pst">User Stories</div>
+    <div class="qitem">I need clear instructions on required documents in one place to avoid resubmitting through WhatsApp multiple times</div>
+    <div class="qitem">I expect immediate confirmation after UPI payments so I do not worry about whether my policy renewal was successful</div>
+  </div>
+  <div class="pcard">
+    <div class="ph"><div class="pav" style="background:#F3E8FF;font-size:26px;">&#128756;</div><div><div class="pname">Lakshmi Amma</div><div class="pmeta">Age 52 / Class 8 / Tirunelveli (Rural)</div><div style="margin-top:5px;"><span class="ptag t-r">Rural</span><span class="ptag" style="background:#FFF0EB;color:var(--warn);">&#8377;4.2L Income</span></div></div></div>
+    <div class="pst">Behaviours</div>
+    <div class="bitem">Renews PMFBY via CSC centres with Aadhaar authentication</div>
+    <div class="bitem">Listens to Tamil IVR reminders for premium due dates</div>
+    <div class="bitem">Joins Self-Help Groups for group insurance decisions</div>
+    <div class="bitem">Attends RBI mobile banking workshops for financial education</div>
+    <div class="pst">User Stories</div>
+    <div class="qitem">I want regular SMS updates on claim status as visiting the CSC centre every week is time-consuming</div>
+    <div class="qitem">I need policy terms explained in simple Tamil so I understand what is covered before buying insurance</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<hr class="sec-divider">
+<div id="features" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">Feature Listing and Prioritisation</div>
+  <h2>15 Features Across 3 Tiers</h2>
+  <p>Must-Have, Functional, and Integrated Services, plotted on an Impact vs Effort matrix to sequence the build roadmap.</p>
+</div>
+<div class="card reveal" style="margin-bottom:20px;">
+  <div class="card-label">Feature Listing</div>
+  <table class="rtbl" style="margin-top:8px;">
+    <thead><tr><th>#</th><th>Feature</th><th>Tier</th><th>Description</th><th>Pain Point Addressed</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td><strong>Help</strong></td><td><span class="fbadge must">Must Have</span></td><td style="font-size:12px;">Dedicated help section for prompt user assistance</td><td style="font-size:12px;color:var(--muted);">General support access</td></tr>
+      <tr><td>02</td><td><strong>Insurance</strong></td><td><span class="fbadge must">Must Have</span></td><td style="font-size:12px;">4 types: Vehicle, Travel, Health, Home</td><td style="font-size:12px;color:var(--muted);">Core product offering</td></tr>
+      <tr><td>03</td><td><strong>Claim</strong></td><td><span class="fbadge must">Must Have</span></td><td style="font-size:12px;">Initiate and track insurance claims directly</td><td style="font-size:12px;color:var(--muted);">Core product offering</td></tr>
+      <tr><td>04</td><td><strong>Vehicle Addition</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">Auto-retrieve insurance details by registration number</td><td style="font-size:12px;color:var(--muted);">Managing policies across different sites</td></tr>
+      <tr><td>05</td><td><strong>Claim Tracking</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">Live tracking by claim number with real-time updates</td><td style="font-size:12px;color:var(--muted);">Claim position not easily available</td></tr>
+      <tr><td>06</td><td><strong>Claim Transparency</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">View and verify claim settlement bills and all documents</td><td style="font-size:12px;color:var(--muted);">Claim settlement bills not available</td></tr>
+      <tr><td>07</td><td><strong>Chatbot</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">Integrated AI chatbot for all user questions</td><td style="font-size:12px;color:var(--muted);">Customer care not always available</td></tr>
+      <tr><td>08</td><td><strong>Document Locker</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">Secure cloud repository for all insurance-related documents</td><td style="font-size:12px;color:var(--muted);">Searching documents repeatedly is tedious</td></tr>
+      <tr><td>09</td><td><strong>Policy Renewal</strong></td><td><span class="fbadge func">Functional</span></td><td style="font-size:12px;">All policy types renewable from one screen</td><td style="font-size:12px;color:var(--muted);">Original source renewal too tedious</td></tr>
+      <tr><td>10</td><td><strong>Nearby Centers</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">GPS-based nearby garages and service centers with reviews</td><td style="font-size:12px;color:var(--muted);">Inaccurate or outdated listings</td></tr>
+      <tr><td>11</td><td><strong>Roadside Assistance</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">24/7 towing, flat tire, fuel delivery via app</td><td style="font-size:12px;color:var(--muted);">Coverage area limitations</td></tr>
+      <tr><td>12</td><td><strong>Home Maintenance</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">Book plumbing, electrical, pest control seamlessly</td><td style="font-size:12px;color:var(--muted);">Background verification challenges</td></tr>
+      <tr><td>13</td><td><strong>Fitness Tracker</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">BMI calculation and daily step tracking for health policies</td><td style="font-size:12px;color:var(--muted);">Default tools have inaccurate analysis</td></tr>
+      <tr><td>14</td><td><strong>Nearby Fueling Stations</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">Shows available re-fueling stations by vehicle type</td><td style="font-size:12px;color:var(--muted);">No knowledge in unknown locations</td></tr>
+      <tr><td>15</td><td><strong>Emergency Contact</strong></td><td><span class="fbadge intg">Integrated</span></td><td style="font-size:12px;">Emergency contacts for all services in current region</td><td style="font-size:12px;color:var(--muted);">Specific helpline numbers not known</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="card reveal">
+  <div class="card-label">Impact vs Effort Matrix</div>
+  <div style="display:grid;grid-template-columns:1fr 260px;gap:32px;margin-top:16px;align-items:start;">
+    <!-- SVG Chart -->
+    <div style="width:100%;">
+      <svg viewBox="0 0 640 500" width="100%" style="display:block;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .ie-feature { cursor:pointer; }
+          .ie-feature:hover circle { opacity:1; filter:drop-shadow(0 3px 8px rgba(0,0,0,.35)); }
+          .ie-feature:hover .ie-tip-bg { opacity:0.92; }
+          .ie-feature:hover .ie-tip-text { opacity:1; }
+          .ie-feature circle { transition: filter .15s; }
+        </style>
+
+        <!-- Quadrant fills -->
+        <rect x="60" y="20" width="260.0" height="220.0" fill="#FFF5F5" rx="0"/>
+        <rect x="320.0" y="20" width="260.0" height="220.0" fill="#E8F9F2" rx="0"/>
+        <rect x="60" y="240.0" width="260.0" height="220.0" fill="#F5FAF8" rx="0"/>
+        <rect x="320.0" y="240.0" width="260.0" height="220.0" fill="#E8F9F2" rx="0"/>
+
+        <!-- Border around plot area -->
+        <rect x="60" y="20" width="520" height="440" fill="none" stroke="#DDE9E4" stroke-width="1.5" rx="6"/>
+
+        <!-- Grid lines -->
+        <line x1="60" y1="240.0" x2="580" y2="240.0" stroke="#DDE9E4" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <line x1="320.0" y1="20" x2="320.0" y2="460" stroke="#DDE9E4" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+        <!-- Quadrant labels -->
+        <text x="190.0" y="130.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="800" fill="#E53E3E" opacity="0.28" letter-spacing="1">MONEY PIT</text>
+        <text x="450.0" y="130.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="800" fill="#0F9B67" opacity="0.28" letter-spacing="1">BIG BETS</text>
+        <text x="190.0" y="350.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="800" fill="#6B8299" opacity="0.28" letter-spacing="1">INCREMENTAL</text>
+        <text x="450.0" y="350.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="800" fill="#0F9B67" opacity="0.28" letter-spacing="1">EASY WINS</text>
+
+        <!-- X axis -->
+        <line x1="60" y1="472" x2="580" y2="472" stroke="#6B8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <text x="60" y="488" font-size="10" fill="#6B8299" font-weight="600">Low</text>
+        <text x="560" y="488" font-size="10" fill="#6B8299" font-weight="600">High</text>
+        <text x="320.0" y="488" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2E42" letter-spacing="1.5">IMPACT</text>
+
+        <!-- Y axis -->
+        <line x1="48" y1="460" x2="48" y2="20" stroke="#6B8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <text x="42" y="456" font-size="10" fill="#6B8299" font-weight="600" text-anchor="middle">Low</text>
+        <text x="42" y="28" font-size="10" fill="#6B8299" font-weight="600" text-anchor="middle">High</text>
+        <text x="22" y="240.0" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2E42" letter-spacing="1.5" transform="rotate(-90 22 240.0)">EFFORT</text>
+
+        <!-- Arrow marker -->
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#6B8299"/>
+          </marker>
+        </defs>
+
+        <!-- Feature dots -->
+        
+    <g class="ie-feature" transform="translate(486.4,336.8)">
+      <circle r="16" fill="#1DB87E" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">1</text>
+      <title>1. Help</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Help</text>
+    </g>
+    <g class="ie-feature" transform="translate(528.0,319.2)">
+      <circle r="16" fill="#1DB87E" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">2</text>
+      <title>2. Insurance</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Insurance</text>
+    </g>
+    <g class="ie-feature" transform="translate(517.6,306.0)">
+      <circle r="16" fill="#1DB87E" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">3</text>
+      <title>3. Claim</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Claim</text>
+    </g>
+    <g class="ie-feature" transform="translate(434.4,292.8)">
+      <circle r="16" fill="#1DB87E" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">4</text>
+      <title>4. Vehicle Addition</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Vehicle Addition</text>
+    </g>
+    <g class="ie-feature" transform="translate(476.0,143.2)">
+      <circle r="16" fill="#0D1B2A" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">5</text>
+      <title>5. Claim Tracking</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Claim Tracking</text>
+    </g>
+    <g class="ie-feature" transform="translate(465.6,204.8)">
+      <circle r="16" fill="#0D1B2A" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">6</text>
+      <title>6. Claim Transparency</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Claim Transparency</text>
+    </g>
+    <g class="ie-feature" transform="translate(455.2,99.2)">
+      <circle r="16" fill="#0D1B2A" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">7</text>
+      <title>7. Chatbot</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Chatbot</text>
+    </g>
+    <g class="ie-feature" transform="translate(444.8,125.6)">
+      <circle r="16" fill="#0D1B2A" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">8</text>
+      <title>8. Document Locker</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Document Locker</text>
+    </g>
+    <g class="ie-feature" transform="translate(413.6,301.6)">
+      <circle r="16" fill="#1DB87E" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">9</text>
+      <title>9. Policy Renewal</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Policy Renewal</text>
+    </g>
+    <g class="ie-feature" transform="translate(257.6,310.4)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">10</text>
+      <title>10. Nearby Centers</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Nearby Centers</text>
+    </g>
+    <g class="ie-feature" transform="translate(278.4,284.0)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">11</text>
+      <title>11. Roadside Assist</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Roadside Assist</text>
+    </g>
+    <g class="ie-feature" transform="translate(247.2,275.2)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">12</text>
+      <title>12. Home Maintenance</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Home Maintenance</text>
+    </g>
+    <g class="ie-feature" transform="translate(216.0,328.0)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">13</text>
+      <title>13. Fitness Tracker</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Fitness Tracker</text>
+    </g>
+    <g class="ie-feature" transform="translate(236.8,336.8)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">14</text>
+      <title>14. Fueling Stations</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Fueling Stations</text>
+    </g>
+    <g class="ie-feature" transform="translate(205.6,354.4)">
+      <circle r="16" fill="#6B8299" stroke="white" stroke-width="2" opacity="0.92"/>
+      <text text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="700" fill="white">15</text>
+      <title>15. Emergency Contact</title>
+      <rect x="-30" y="-28" width="60" height="18" rx="4" fill="#0D1B2A" opacity="0" class="ie-tip-bg"/>
+      <text x="0" y="-18" text-anchor="middle" font-size="9" fill="white" class="ie-tip-text" opacity="0">Emergency Contact</text>
+    </g>
+      </svg>
+    </div>
+
+    <!-- Legend + key -->
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;">Legend</div>
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:12px;margin-bottom:20px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:16px;height:16px;border-radius:50%;background:var(--navy);flex-shrink:0;margin-top:2px;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--navy);"></div>
+          <div><strong>Big Bets</strong> (5, 6, 7, 8)<div style="color:var(--muted);font-size:11px;margin-top:2px;">High impact, high effort. Build after MVP validation.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:16px;height:16px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:2px;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--green);"></div>
+          <div><strong>Easy Wins</strong> (1, 2, 3, 4, 9)<div style="color:var(--muted);font-size:11px;margin-top:2px;">High impact, low effort. Ship in MVP Phase 2.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:16px;height:16px;border-radius:50%;background:var(--muted);flex-shrink:0;margin-top:2px;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--muted);"></div>
+          <div><strong>Incremental</strong> (10 to 15)<div style="color:var(--muted);font-size:11px;margin-top:2px;">Lower impact. Deliver in Phase 3 and 4.</div></div>
+        </div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Feature Key</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#1DB87E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">1</span></div>
+          <span style="color:var(--soft);">Help</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#1DB87E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">2</span></div>
+          <span style="color:var(--soft);">Insurance</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#1DB87E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">3</span></div>
+          <span style="color:var(--soft);">Claim</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#1DB87E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">4</span></div>
+          <span style="color:var(--soft);">Vehicle Addition</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#0D1B2A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">5</span></div>
+          <span style="color:var(--soft);">Claim Tracking</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#0D1B2A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">6</span></div>
+          <span style="color:var(--soft);">Claim Transparency</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#0D1B2A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">7</span></div>
+          <span style="color:var(--soft);">Chatbot</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#0D1B2A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">8</span></div>
+          <span style="color:var(--soft);">Document Locker</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#1DB87E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">9</span></div>
+          <span style="color:var(--soft);">Policy Renewal</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">10</span></div>
+          <span style="color:var(--soft);">Nearby Centers</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">11</span></div>
+          <span style="color:var(--soft);">Roadside Assist</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">12</span></div>
+          <span style="color:var(--soft);">Home Maintenance</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">13</span></div>
+          <span style="color:var(--soft);">Fitness Tracker</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">14</span></div>
+          <span style="color:var(--soft);">Fueling Stations</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:11px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:#6B8299;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:8px;font-weight:700;color:#fff;">15</span></div>
+          <span style="color:var(--soft);">Emergency Contact</span>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--green-light);border-radius:8px;">
+        <div style="font-size:10px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Hover any dot for feature name</div>
+        <div style="font-size:11px;color:var(--soft);">Launch Easy Wins first to validate product-market fit, then invest in Big Bets for differentiation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP FLOW -->
+<hr class="sec-divider">
+<div id="appflow" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">App Flow and UX</div>
+  <h2>The PolicyEase Experience</h2>
+  <p>Four complete user journeys, each screen designed to resolve a specific pain point found in the sentiment analysis and user interviews.</p>
+</div>
+
+<!-- FLOW 1: ONBOARDING -->
+<div class="flow-section-title reveal"><span>Flow 1</span> Onboarding</div>
+<div class="flow-track reveal">
+  <div class="flow-step">
+    <div class="flow-step-num">1</div>
+    <div class="phone">
+      <div style="flex:1;background:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+        <div style="width:36px;height:36px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;"><span style="font-size:16px;color:#fff;font-weight:700;">P</span></div>
+        <span style="font-size:9px;color:rgba(255,255,255,.9);font-weight:700;letter-spacing:1px;">PolicyEase</span>
+      </div>
+    </div>
+    <div class="flow-label">Splash Screen</div>
+    <div class="flow-sub">Brand first impression on launch</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">2</div>
+    <div class="phone">
+      <div class="ph-bar"><span>PolicyEase</span></div>
+      <div class="ph-body">
+        <div style="height:4px;"></div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:4px;">Sign In</div>
+        <div class="a-txt" style="margin-bottom:2px;">Phone or Email</div>
+        <div class="a-input" style="margin-bottom:5px;"></div>
+        <div class="a-btn" style="margin-bottom:5px;"><span>Send OTP</span></div>
+        <div class="a-txt" style="text-align:center;margin-bottom:3px;">Or login with</div>
+        <div style="display:flex;gap:4px;justify-content:center;">
+          <div style="width:20px;height:13px;background:rgba(255,255,255,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;"><span style="font-size:6px;color:rgba(255,255,255,.7);">G</span></div>
+          <div style="width:20px;height:13px;background:rgba(255,255,255,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;"><span style="font-size:7px;">&#63743;</span></div>
+        </div>
+        <div class="a-txt" style="text-align:center;margin-top:5px;font-size:4px;">Don't have an account? Register Now</div>
+      </div>
+    </div>
+    <div class="flow-label">Login / Register</div>
+    <div class="flow-sub">Phone, email, Google or Apple</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">3</div>
+    <div class="phone">
+      <div class="ph-bar"><span>Verify OTP</span></div>
+      <div class="ph-body">
+        <div style="height:6px;"></div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:2px;">Verification Code</div>
+        <div class="a-txt" style="text-align:center;margin-bottom:8px;font-size:4px;">Sent to your registered address</div>
+        <div class="a-otp-row" style="margin-bottom:7px;">
+          <div class="a-otp-cell f"><span>8</span></div>
+          <div class="a-otp-cell f"><span>5</span></div>
+          <div class="a-otp-cell" style="background:var(--green);border-color:var(--green-mid);"><span style="font-size:7px;color:#fff;font-weight:700;">2</span></div>
+          <div class="a-otp-cell"></div>
+        </div>
+        <div class="a-btn"><span>Verify</span></div>
+        <div class="a-txt" style="text-align:center;margin-top:5px;font-size:4px;">Resend OTP in 45s</div>
+      </div>
+    </div>
+    <div class="flow-label">OTP Verification</div>
+    <div class="flow-sub">Secure 4-digit code entry</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">4</div>
+    <div class="phone">
+      <div class="ph-bar"><span>PolicyEase</span></div>
+      <div class="ph-body" style="align-items:center;justify-content:center;">
+        <div class="a-big-check"><span style="font-size:13px;color:#fff;">&#10003;</span></div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:2px;">Success!</div>
+        <div class="a-txt" style="text-align:center;font-size:4px;margin-bottom:8px;">Successfully authenticated</div>
+        <div class="a-btn" style="width:70%;margin:0 auto;"><span>Continue</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Auth Success</div>
+    <div class="flow-sub">Confirmed, ready to explore</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">5</div>
+    <div class="phone">
+      <div class="ph-bar" style="justify-content:space-between;"><span>Hello, Ankur &#128075;</span><span style="font-size:7px;">&#128276;</span></div>
+      <div class="ph-body">
+        <div style="background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:5px;padding:5px;margin-bottom:4px;">
+          <div style="font-size:4.5px;color:rgba(255,255,255,.6);margin-bottom:1px;">Investment Plans</div>
+          <div style="font-size:6px;color:#fff;font-weight:700;margin-bottom:3px;">Secure Your Health</div>
+          <div style="background:rgba(255,255,255,.2);border-radius:2px;padding:1px 5px;display:inline-block;"><span style="font-size:4.5px;color:#fff;font-weight:700;">View Plans</span></div>
+        </div>
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:3px;">Categories</div>
+        <div class="a-icon-grid">
+          <div class="a-icon-cell"><span class="ic">&#127973;</span><span class="lb">Health</span></div>
+          <div class="a-icon-cell"><span class="ic">&#128664;</span><span class="lb">Car</span></div>
+          <div class="a-icon-cell"><span class="ic">&#9992;</span><span class="lb">Travel</span></div>
+          <div class="a-icon-cell"><span class="ic">&#127968;</span><span class="lb">Home</span></div>
+        </div>
+        <div style="background:var(--green);border-radius:4px;padding:4px;display:flex;align-items:center;gap:3px;margin-top:4px;">
+          <span style="font-size:8px;">&#129302;</span>
+          <span style="font-size:4.5px;color:#fff;font-weight:600;">Not sure? Talk with ChatBot!</span>
+        </div>
+      </div>
+      <div class="ph-foot"><span class="ph-fi a">Home</span><span class="ph-fi">Claims</span><span class="ph-fi">&#128203;</span><span class="ph-fi">&#128100;</span><span class="ph-fi">&#10067;</span></div>
+    </div>
+    <div class="flow-label">Home Dashboard</div>
+    <div class="flow-sub">All categories and chatbot prompt</div>
+  </div>
+</div>
+
+<!-- FLOW 2: PURCHASE -->
+<div class="flow-section-title reveal"><span>Flow 2</span> Policy Browsing and Purchase</div>
+<div class="flow-track reveal">
+  <div class="flow-step">
+    <div class="flow-step-num">1</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#8592; 73 Plans for self</span></div>
+      <div class="ph-body">
+        <div class="a-card" style="margin-bottom:3px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="a-txt b">Care Supreme</div><div class="a-txt" style="font-size:4px;">Cover: &#8377;5 Lakhs</div></div><div class="a-pill g">&#8377;593/mo</div></div></div>
+        <div class="a-card" style="margin-bottom:3px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="a-txt b">Max Super Saver</div><div class="a-txt" style="font-size:4px;">Cover: &#8377;1 Crore</div></div><div class="a-pill g">&#8377;890/mo</div></div></div>
+        <div class="a-card" style="margin-bottom:3px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="a-txt b">Young Star Gold</div><div class="a-txt" style="font-size:4px;">Cover: &#8377;4 Lakhs</div></div><div class="a-pill g">&#8377;553/mo</div></div></div>
+        <div class="a-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="a-txt b">Active Fit Plus</div><div class="a-txt" style="font-size:4px;">Cover: &#8377;1 Crore</div></div><div class="a-pill g">&#8377;890/mo</div></div></div>
+      </div>
+      <div class="ph-foot"><span class="ph-fi">&#127968;</span><span class="ph-fi">Claims</span><span class="ph-fi a">&#128203;</span><span class="ph-fi">&#128100;</span><span class="ph-fi">&#10067;</span></div>
+    </div>
+    <div class="flow-label">Plan Listing</div>
+    <div class="flow-sub">Multiple insurers sorted by price</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">2</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#8592; Plan Details</span></div>
+      <div class="ph-body">
+        <div class="a-card" style="margin-bottom:5px;">
+          <div class="a-txt b" style="margin-bottom:2px;">Care Supreme</div>
+          <div style="display:flex;justify-content:space-between;">
+            <div><div class="a-txt" style="font-size:4px;">Cover</div><div class="a-txt b">&#8377;5 Lakhs</div></div>
+            <div><div class="a-txt" style="font-size:4px;">Premium</div><div class="a-txt b">&#8377;716/mo</div></div>
+          </div>
+        </div>
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:3px;">What is covered?</div>
+        <div style="display:flex;gap:3px;align-items:center;margin-bottom:2px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:5px;color:#fff;">&#10003;</span></div><span class="a-txt" style="font-size:4.5px;">Single Private AC Room</span></div>
+        <div style="display:flex;gap:3px;align-items:center;margin-bottom:2px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:5px;color:#fff;">&#10003;</span></div><span class="a-txt" style="font-size:4.5px;">No Claim Bonus</span></div>
+        <div style="display:flex;gap:3px;align-items:center;margin-bottom:2px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:5px;color:#fff;">&#10003;</span></div><span class="a-txt" style="font-size:4.5px;">Cashless Hospitalisation</span></div>
+        <div style="display:flex;gap:3px;align-items:center;margin-bottom:5px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:5px;color:#fff;">&#10003;</span></div><span class="a-txt" style="font-size:4.5px;">Free Health Checkup</span></div>
+        <div class="a-btn"><span>Secure the deal now</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Plan Details</div>
+    <div class="flow-sub">Full coverage breakdown before buying</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">3</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#8592; Payment</span></div>
+      <div class="ph-body">
+        <div class="a-card" style="margin-bottom:4px;">
+          <div class="a-txt b" style="font-size:5px;margin-bottom:3px;">Order Summary</div>
+          <div style="display:flex;justify-content:space-between;"><span class="a-txt" style="font-size:4.5px;">Care Supreme Annual</span><span class="a-txt b" style="font-size:4.5px;">&#8377;8,592</span></div>
+        </div>
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:3px;">Pay via</div>
+        <div style="display:flex;gap:3px;margin-bottom:4px;">
+          <div class="a-pill g">UPI</div>
+          <div class="a-pill">Net Banking</div>
+          <div class="a-pill">Card</div>
+        </div>
+        <div class="a-input" style="margin-bottom:4px;"></div>
+        <div class="a-btn"><span>Pay Now</span></div>
+        <div class="a-txt" style="text-align:center;margin-top:4px;font-size:3.5px;color:rgba(255,255,255,.3);">&#128274; 256-bit encrypted payment</div>
+      </div>
+    </div>
+    <div class="flow-label">Payment</div>
+    <div class="flow-sub">UPI, net banking, or card</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">4</div>
+    <div class="phone">
+      <div class="ph-bar"><span>PolicyEase</span></div>
+      <div class="ph-body" style="align-items:center;justify-content:center;">
+        <div class="a-big-check"><span style="font-size:13px;color:#fff;">&#10003;</span></div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:2px;">Payment Successful!</div>
+        <div class="a-txt" style="text-align:center;font-size:4px;margin-bottom:3px;">Policy issued instantly</div>
+        <div style="background:rgba(29,184,126,.2);border-radius:4px;padding:4px 6px;margin-bottom:6px;"><div class="a-txt" style="font-size:4px;text-align:center;">Policy No: PE-24-08791</div></div>
+        <div class="a-btn" style="width:80%;margin:0 auto;"><span>Download Policy</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Confirmation</div>
+    <div class="flow-sub">Instant policy issuance with number</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">5</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>Your Plans</span></div>
+      <div class="ph-body">
+        <div class="a-card" style="margin-bottom:4px;">
+          <div class="a-txt b">Care Supreme</div>
+          <div class="a-txt" style="font-size:4px;margin-bottom:3px;">Issued: 25/12/25 / Cover: &#8377;5L</div>
+          <div class="a-btn sm"><span>Submit Claim Request</span></div>
+        </div>
+        <div class="a-card" style="margin-bottom:4px;">
+          <div class="a-txt b">Young Star Gold</div>
+          <div class="a-txt" style="font-size:4px;margin-bottom:3px;">Issued: 25/12/25 / Cover: &#8377;4L</div>
+          <div class="a-btn sm"><span>Submit Claim Request</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:4px;padding:4px;margin-top:2px;"><span class="a-txt" style="font-size:4px;">&#128220; Know how to file a claim</span></div>
+      </div>
+      <div class="ph-foot"><span class="ph-fi">&#127968;</span><span class="ph-fi a">Policies</span><span class="ph-fi">Claims</span><span class="ph-fi">&#128100;</span><span class="ph-fi">&#10067;</span></div>
+    </div>
+    <div class="flow-label">My Policies</div>
+    <div class="flow-sub">All purchased plans in one view</div>
+  </div>
+</div>
+
+<!-- FLOW 3: CLAIM -->
+<div class="flow-section-title reveal"><span>Flow 3</span> Claim Tracking and Transparency</div>
+<div class="flow-track reveal">
+  <div class="flow-step">
+    <div class="flow-step-num">1</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#8592; Submit Claim</span></div>
+      <div class="ph-body">
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:2px;">Select Policy</div>
+        <div class="a-input" style="margin-bottom:4px;"></div>
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:2px;">Describe Incident</div>
+        <div style="height:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:3px;margin-bottom:4px;"></div>
+        <div class="a-txt" style="font-size:4.5px;margin-bottom:2px;">Upload Documents</div>
+        <div style="border:1px dashed rgba(255,255,255,.25);border-radius:4px;padding:5px;text-align:center;margin-bottom:4px;">
+          <div style="font-size:10px;">&#128206;</div>
+          <div class="a-txt" style="font-size:3.5px;">Tap to upload (no size limit)</div>
+        </div>
+        <div class="a-btn"><span>Submit Claim</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Initiate Claim</div>
+    <div class="flow-sub">Select policy, describe, upload docs</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">2</div>
+    <div class="phone">
+      <div class="ph-bar"><span>Claim Registered</span></div>
+      <div class="ph-body" style="align-items:center;justify-content:center;">
+        <div class="a-big-check"><span style="font-size:13px;color:#fff;">&#10003;</span></div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:2px;">Claim Registered!</div>
+        <div style="background:rgba(29,184,126,.2);border-radius:4px;padding:3px 6px;margin-bottom:3px;"><div class="a-txt" style="font-size:4px;text-align:center;">Claim ID: CL-2024-4421</div></div>
+        <div class="a-txt" style="text-align:center;font-size:4px;margin-bottom:8px;">Expected: 3 to 7 working days</div>
+        <div class="a-btn" style="width:80%;margin:0 auto;"><span>Track my Claim</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Submission Confirmed</div>
+    <div class="flow-sub">Instant ID and expected timeline</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">3</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>Track Claim CL-4421</span></div>
+      <div class="ph-body">
+        <div class="a-txt" style="font-size:4px;margin-bottom:5px;">Care Supreme / Vehicle Insurance</div>
+        <div class="a-tl">
+          <div class="a-tl-item"><div class="a-tl-dot done"></div><div><div class="a-txt b" style="font-size:4.5px;">Document Submitted</div><div class="a-txt" style="font-size:4px;">21 Sept 2024, 15:02</div></div></div>
+          <div style="margin-left:3px;width:1px;height:8px;background:var(--green);"></div>
+          <div class="a-tl-item"><div class="a-tl-dot prog"></div><div><div class="a-txt b" style="font-size:4.5px;color:var(--green-mid);">Insurer Reviewing</div><div class="a-txt" style="font-size:4px;color:rgba(29,184,126,.7);">In Progress / EST 3 days</div></div></div>
+          <div style="margin-left:3px;width:1px;height:8px;background:rgba(255,255,255,.15);"></div>
+          <div class="a-tl-item"><div class="a-tl-dot pend"></div><div><div class="a-txt" style="font-size:4.5px;">Investigation Firm</div></div></div>
+          <div style="margin-left:3px;width:1px;height:8px;background:rgba(255,255,255,.15);"></div>
+          <div class="a-tl-item"><div class="a-tl-dot pend"></div><div><div class="a-txt" style="font-size:4.5px;">Additional Documents</div></div></div>
+          <div style="margin-left:3px;width:1px;height:8px;background:rgba(255,255,255,.15);"></div>
+          <div class="a-tl-item"><div class="a-tl-dot pend"></div><div><div class="a-txt" style="font-size:4.5px;">Document Validation</div></div></div>
+          <div style="margin-left:3px;width:1px;height:8px;background:rgba(255,255,255,.15);"></div>
+          <div class="a-tl-item"><div class="a-tl-dot pend"></div><div><div class="a-txt" style="font-size:4.5px;">Settlement</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-label">Live Tracking</div>
+    <div class="flow-sub">Real-time visual timeline</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">4</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>Claim Breakdown</span></div>
+      <div class="ph-body">
+        <div class="a-txt b" style="font-size:5px;margin-bottom:5px;">Approved Cost Breakdown</div>
+        <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.1);"><span class="a-txt" style="font-size:4.5px;">Parts Replaced</span><span class="a-txt b" style="font-size:4.5px;">&#8377;12,400</span></div>
+        <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.1);"><span class="a-txt" style="font-size:4.5px;">Labour Charges</span><span class="a-txt b" style="font-size:4.5px;">&#8377;3,200</span></div>
+        <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.1);"><span class="a-txt" style="font-size:4.5px;">Inspection Fee</span><span class="a-txt b" style="font-size:4.5px;">&#8377;800</span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="font-size:5px;font-weight:700;color:var(--green-mid);">Total Approved</span><span style="font-size:5px;font-weight:700;color:var(--green-mid);">&#8377;16,400</span></div>
+        <div class="a-btn sm"><span>View All Documents</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Cost Transparency</div>
+    <div class="flow-sub">Full approved repair breakdown</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">5</div>
+    <div class="phone">
+      <div class="ph-bar"><span>Claim Settled!</span></div>
+      <div class="ph-body" style="align-items:center;justify-content:center;">
+        <div style="font-size:26px;margin-bottom:5px;">&#127881;</div>
+        <div class="a-txt b" style="text-align:center;margin-bottom:2px;">Settlement Complete</div>
+        <div style="background:rgba(29,184,126,.2);border-radius:5px;padding:5px 8px;margin-bottom:5px;text-align:center;">
+          <div class="a-txt" style="font-size:4px;margin-bottom:2px;">Amount Credited</div>
+          <div style="font-size:11px;font-weight:700;color:var(--green-mid);">&#8377;16,400</div>
+        </div>
+        <div class="a-txt" style="text-align:center;font-size:3.5px;margin-bottom:6px;">Credited within 2 hours</div>
+        <div class="a-btn" style="width:85%;margin:0 auto;"><span>Rate Experience</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Claim Settled</div>
+    <div class="flow-sub">Amount credited, rate the experience</div>
+  </div>
+</div>
+
+<!-- FLOW 4: CHATBOT + DOC LOCKER -->
+<div class="flow-section-title reveal"><span>Flow 4</span> Chatbot and Document Locker</div>
+<div class="flow-track reveal">
+  <div class="flow-step">
+    <div class="flow-step-num">1</div>
+    <div class="phone">
+      <div class="ph-bar" style="background:var(--green-dark);justify-content:space-between;"><span>PolicyEase Bot</span><div style="width:5px;height:5px;border-radius:50%;background:#7FFF00;"></div></div>
+      <div class="ph-body" style="gap:4px;">
+        <div class="a-msg usr">I am buying a new car, suggest best policies</div>
+        <div class="a-msg bot">Congrats on your new car! I can offer Comprehensive or Third Party coverage. Which do you prefer?</div>
+        <div style="display:flex;gap:3px;flex-wrap:wrap;">
+          <div class="a-pill g">Comprehensive</div>
+          <div class="a-pill">Third Party</div>
+        </div>
+        <div class="a-msg usr">What documents do I need?</div>
+      </div>
+      <div style="height:15px;background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 5px;gap:4px;">
+        <div style="flex:1;height:7px;background:rgba(255,255,255,.08);border-radius:4px;"></div>
+        <span style="font-size:9px;color:var(--green);">&#9654;</span>
+      </div>
+    </div>
+    <div class="flow-label">Policy Chatbot</div>
+    <div class="flow-sub">AI guidance for buying decisions</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">2</div>
+    <div class="phone">
+      <div class="ph-bar" style="background:var(--green-dark);"><span>PolicyEase Bot</span></div>
+      <div class="ph-body" style="gap:4px;">
+        <div class="a-msg bot" style="font-size:4px;">Here are 2 top options for your car:</div>
+        <div class="a-card">
+          <div class="a-txt b" style="font-size:4.5px;">HDFC ERGO Comprehensive</div>
+          <div class="a-txt" style="font-size:3.5px;">Zero dep + Engine protect</div>
+          <div class="a-pill g" style="font-size:4px;display:inline-block;margin-top:2px;">&#8377;14,200/yr</div>
+        </div>
+        <div class="a-card">
+          <div class="a-txt b" style="font-size:4.5px;">Bajaj Allianz Smart Drive</div>
+          <div class="a-txt" style="font-size:3.5px;">Roadside assist included</div>
+          <div class="a-pill g" style="font-size:4px;display:inline-block;margin-top:2px;">&#8377;11,800/yr</div>
+        </div>
+        <div class="a-msg usr">Go with HDFC ERGO please</div>
+      </div>
+      <div style="height:15px;background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 5px;gap:4px;">
+        <div style="flex:1;height:7px;background:rgba(255,255,255,.08);border-radius:4px;"></div>
+        <span style="font-size:9px;color:var(--green);">&#9654;</span>
+      </div>
+    </div>
+    <div class="flow-label">Policy Comparison</div>
+    <div class="flow-sub">2 options compared side by side</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">3</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#128274; Your Documents</span></div>
+      <div class="ph-body">
+        <div class="a-locker-row" style="margin-bottom:3px;"><span class="a-locker-ic">&#128196;</span><span class="a-locker-nm">Aadhaar Card</span><div class="a-locker-act"><span>&#128065;&#65039;</span><span>&#9999;&#65039;</span></div></div>
+        <div class="a-locker-row" style="margin-bottom:3px;"><span class="a-locker-ic">&#128196;</span><span class="a-locker-nm">PAN Card</span><div class="a-locker-act"><span>&#128065;&#65039;</span><span>&#9999;&#65039;</span></div></div>
+        <div class="a-locker-row" style="margin-bottom:3px;"><span class="a-locker-ic">&#128196;</span><span class="a-locker-nm">Driving License</span><div class="a-locker-act"><span>&#128065;&#65039;</span><span>&#9999;&#65039;</span></div></div>
+        <div class="a-locker-row" style="margin-bottom:5px;"><span class="a-locker-ic">&#128196;</span><span class="a-locker-nm">Passport</span><div class="a-locker-act"><span>&#128065;&#65039;</span><span>&#9999;&#65039;</span></div></div>
+        <div style="border:1px dashed rgba(255,255,255,.25);border-radius:4px;padding:4px;text-align:center;"><span class="a-txt" style="font-size:4.5px;">+ Upload new document</span></div>
+      </div>
+    </div>
+    <div class="flow-label">Document Locker</div>
+    <div class="flow-sub">Encrypted vault for all IDs and docs</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">4</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>&#128276; Notifications</span></div>
+      <div class="ph-body" style="gap:4px;">
+        <div class="a-card" style="border:1px solid rgba(29,184,126,.3);">
+          <div style="display:flex;gap:4px;align-items:flex-start;">
+            <span style="font-size:9px;">&#128276;</span>
+            <div><div class="a-txt b" style="font-size:4.5px;color:var(--green-mid);">Renewal Reminder</div><div class="a-txt" style="font-size:4px;">Car Insurance expires in 7 days. Renew now to avoid a gap.</div><div class="a-btn sm" style="margin-top:3px;width:50%;"><span>Renew Now</span></div></div>
+          </div>
+        </div>
+        <div class="a-card"><div style="display:flex;gap:4px;"><span style="font-size:9px;">&#128200;</span><div><div class="a-txt b" style="font-size:4.5px;">Claim Update</div><div class="a-txt" style="font-size:4px;">Claim CL-4421 approved by insurer.</div></div></div></div>
+        <div class="a-card"><div style="display:flex;gap:4px;"><span style="font-size:9px;">&#127881;</span><div><div class="a-txt b" style="font-size:4.5px;color:var(--green-mid);">Offer</div><div class="a-txt" style="font-size:4px;">Get 15% off Health Insurance this week.</div></div></div></div>
+      </div>
+    </div>
+    <div class="flow-label">Smart Notifications</div>
+    <div class="flow-sub">Renewals, claim updates, offers</div>
+  </div>
+  <div class="flow-arr">&#8250;</div>
+  <div class="flow-step">
+    <div class="flow-step-num">5</div>
+    <div class="phone">
+      <div class="ph-bar dark"><span>Service Add-Ons</span></div>
+      <div class="ph-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:5px;">
+          <div class="a-icon-cell"><span class="ic">&#127970;</span><span class="lb">Centers</span></div>
+          <div class="a-icon-cell"><span class="ic">&#128664;</span><span class="lb">Roadside</span></div>
+          <div class="a-icon-cell"><span class="ic">&#127968;</span><span class="lb">Home</span></div>
+          <div class="a-icon-cell"><span class="ic">&#128170;</span><span class="lb">Fitness</span></div>
+          <div class="a-icon-cell"><span class="ic">&#9981;</span><span class="lb">Fuel</span></div>
+          <div class="a-icon-cell"><span class="ic">&#128222;</span><span class="lb">Emergency</span></div>
+        </div>
+        <div class="a-card">
+          <div class="a-txt b" style="font-size:4.5px;margin-bottom:2px;">Nearby Garages</div>
+          <div class="a-txt" style="font-size:4px;">3 garages within 2 km</div>
+          <div style="display:flex;gap:3px;margin-top:3px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--gold);"></div>
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--muted);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ph-foot"><span class="ph-fi">&#127968;</span><span class="ph-fi">Claims</span><span class="ph-fi a">&#128203;</span><span class="ph-fi">&#128100;</span><span class="ph-fi">&#10067;</span></div>
+    </div>
+    <div class="flow-label">Integrated Services</div>
+    <div class="flow-sub">Nearby centers, roadside, and more</div>
+  </div>
+</div>
+
+<!-- FEATURE DETAIL CARDS -->
+<div class="det-grid reveal">
+  <div class="det-card">
+    <div class="det-head"><div class="det-icon" style="background:var(--green-light);">&#128269;</div><div><div class="det-title">Claim Tracking</div><div class="det-sub">Real-time visibility across all stages</div></div></div>
+    <div class="det-sec">Core Functionalities</div>
+    <div class="det-item">Real-time visual timeline of claim progress across all stages</div>
+    <div class="det-item">Insurers and investigators update case status directly through the platform</div>
+    <div class="det-item">Tracks document submission, verification, and approval with real-time alerts</div>
+    <div class="det-item">Detailed breakdown of approved repair costs and submitted bills</div>
+    <div class="det-item">Time-stamped audit log of all case actions for full accountability</div>
+    <div class="det-sec">Limitations</div>
+    <div class="det-lim">Accuracy depends on timely updates from insurers and investigators</div>
+    <div class="det-lim">Data format variations across firms can cause delays or errors</div>
+    <div class="det-lim">Less tech-savvy users may need guidance navigating the timeline</div>
+  </div>
+  <div class="det-card">
+    <div class="det-head"><div class="det-icon" style="background:var(--gold-light);">&#128274;</div><div><div class="det-title">Document Locker</div><div class="det-sub">Secure cloud vault for IDs and policy docs</div></div></div>
+    <div class="det-sec">Core Functionalities</div>
+    <div class="det-item">Encrypted digital locker with two-step verification</div>
+    <div class="det-item">Auto-checks uploaded documents for clarity and usability before storing</div>
+    <div class="det-item">Stored docs reused for new policy applications without re-upload</div>
+    <div class="det-item">Granular access control: grant or revoke for insurers and investigators</div>
+    <div class="det-item">Full audit trail of every document action taken on the platform</div>
+    <div class="det-sec">Limitations</div>
+    <div class="det-lim">Requires stable internet for all uploads and access</div>
+    <div class="det-lim">Low-quality documents may fail the readability scan</div>
+    <div class="det-lim">Documents not accessible offline in low-connectivity areas</div>
+  </div>
+  <div class="det-card">
+    <div class="det-head"><div class="det-icon" style="background:var(--purple-light);">&#129302;</div><div><div class="det-title">Policy Support Chatbot</div><div class="det-sub">AI assistant for the full insurance journey</div></div></div>
+    <div class="det-sec">Core Functionalities</div>
+    <div class="det-item">Explains policy terms, exclusions, and coverages in plain language</div>
+    <div class="det-item">Compares 2 policies at a time based on premium, depreciation, claim rates</div>
+    <div class="det-item">Matches user queries to FAQs and provides relevant instant solutions</div>
+    <div class="det-item">Accepts voice inputs and media files (JPG or PNG under 2MB) for claims</div>
+    <div class="det-item">Sends renewal reminders and suggests new policies tailored to the user</div>
+    <div class="det-sec">Limitations</div>
+    <div class="det-lim">Complex scenarios redirect to T and Cs or human customer care</div>
+    <div class="det-lim">Cannot compare more than 2 policies in a single session</div>
+    <div class="det-lim">FAQ-bound scope: cannot answer queries outside the predefined list</div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<hr class="sec-divider">
+<div id="roadmap" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">Go-to-Market Roadmap</div>
+  <h2>4 Phases, 180 Days</h2>
+  <p>From market definition to scalable acquisition, each phase builds on the last with a matched marketing strategy.</p>
+</div>
+<div class="card reveal" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <div class="rm-grid">
+    <div class="rm-phase p1"><div class="rm-num">1</div><div class="rm-tag">Market Definition</div><div class="rm-title">Understand and Define</div><div class="rm-dur">60 days</div><div class="rm-desc">Thorough market analysis, deep user empathy, and comprehensive competitor analysis to precisely define the complete product vision.</div><div class="rm-strat">Marketing Strategy</div><div class="rm-strat-v">Silent Discovery</div></div>
+    <div class="rm-phase p2"><div class="rm-num">2</div><div class="rm-tag">MVP and Validation</div><div class="rm-title">Build and Validate</div><div class="rm-dur">45 days</div><div class="rm-desc">Build and launch the MVP to acquire early adopters and validate product-market fit. Feature development limited to fundamentals for hypothesis testing.</div><div class="rm-strat">Marketing Strategy</div><div class="rm-strat-v">Organic Seeding</div></div>
+    <div class="rm-phase p3"><div class="rm-num">3</div><div class="rm-tag">Feedback and Growth</div><div class="rm-title">Iterate and Establish</div><div class="rm-dur">30 days</div><div class="rm-desc">Prioritise customer feedback, resolve bugs, and develop more intricate features that naturally attract users. Establishing market presence begins here.</div><div class="rm-strat">Marketing Strategy</div><div class="rm-strat-v">Partnership Advocacy</div></div>
+    <div class="rm-phase p4"><div class="rm-num">4</div><div class="rm-tag">Feature Expansion</div><div class="rm-title">Scale and Expand</div><div class="rm-dur">45 days</div><div class="rm-desc">Build unique and complex features efficiently. With a stable product and expanding team, focus shifts towards broader market reach and paid acquisition.</div><div class="rm-strat">Marketing Strategy</div><div class="rm-strat-v">Amplified Reach</div></div>
+  </div>
+</div>
+<div class="g2 reveal">
+  <div class="card">
+    <div class="card-label">Marketing Strategy Detail</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+      <div style="padding:12px;background:#FFE8F5;border-radius:8px;border-left:3px solid #B5006A;"><div style="font-size:12px;font-weight:700;color:#B5006A;">Phase 1 / Silent Discovery</div><div style="font-size:12px;color:var(--soft);margin-top:3px;">No external visibility yet. Focus entirely on thorough market analysis, user empathy, and competitor analysis to precisely define the product vision.</div></div>
+      <div style="padding:12px;background:var(--green-light);border-radius:8px;border-left:3px solid var(--green);"><div style="font-size:12px;font-weight:700;color:var(--green-dark);">Phase 2 / Organic Seeding</div><div style="font-size:12px;color:var(--soft);margin-top:3px;">Leverage existing networks to attract initial users. Encourage word-of-mouth to build an early user base and gather initial feedback before scaling.</div></div>
+      <div style="padding:12px;background:var(--gold-light);border-radius:8px;border-left:3px solid var(--gold);"><div style="font-size:12px;font-weight:700;color:#9B6800;">Phase 3 / Partnership Advocacy</div><div style="font-size:12px;color:var(--soft);margin-top:3px;">Engage relevant agents and offer incentives such as commission for recommending the app to their clientele, highlighting its ability to streamline their work.</div></div>
+      <div style="padding:12px;background:#EEF2FF;border-radius:8px;border-left:3px solid #3730A3;"><div style="font-size:12px;font-weight:700;color:#3730A3;">Phase 4 / Amplified Reach</div><div style="font-size:12px;color:var(--soft);margin-top:3px;">Implement paid marketing campaigns, optimise SEO, initiate social media marketing, and explore collaborations within operational capacity.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Future Scope</div>
+    <div class="scope-item"><div class="scope-icon">&#127960;</div><div><div class="scope-title">Tier II and III Town Expansion</div><div class="scope-desc">Target underserved regions with micro-insurance and personalised plans for the under-insured population.</div></div></div>
+    <div class="scope-item"><div class="scope-icon">&#129302;</div><div><div class="scope-title">Further AI Integration</div><div class="scope-desc">Personalised policy recommendations, predictive claim analytics, and enhanced customer support chatbots.</div></div></div>
+    <div class="scope-item"><div class="scope-icon">&#9935;</div><div><div class="scope-title">Blockchain for Claim Transparency</div><div class="scope-desc">Implement blockchain to improve transparency and security in claim processing, reducing fraud.</div></div></div>
+    <div class="scope-item"><div class="scope-icon">&#128241;</div><div><div class="scope-title">Mobile-First for Rural India</div><div class="scope-desc">Simplified SMS updates, offline document uploads, and low-data features for rural users.</div></div></div>
+  </div>
+</div>
+<div class="card reveal">
+  <div class="card-label">Pitfall and Mitigation Strategy</div>
+  <div style="margin-top:6px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;padding:8px 0;border-bottom:1px solid var(--border);"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);">Pitfall</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);">Mitigation Strategy</div></div>
+    <div class="pitfall-row"><div class="pitfall-name">Low Brand Recall in Rural Markets</div><div class="pitfall-fix">Develop offline marketing campaigns and partner with local influencers or community leaders for better outreach.</div></div>
+    <div class="pitfall-row"><div class="pitfall-name">Complex Policy Terms</div><div class="pitfall-fix">Simplify terms using visual aids like videos and infographics, integrate chatbot for real-time clarification.</div></div>
+    <div class="pitfall-row"><div class="pitfall-name">Customer Trust Issues</div><div class="pitfall-fix">Use customer testimonials, third-party endorsements, and case studies to build credibility with transparent processes.</div></div>
+    <div class="pitfall-row"><div class="pitfall-name">High Customer Acquisition Costs</div><div class="pitfall-fix">Optimise digital marketing using AI tools, focus on organic growth through referrals and word-of-mouth.</div></div>
+    <div class="pitfall-row"><div class="pitfall-name">Inefficiencies in Claim Processing</div><div class="pitfall-fix">Invest in digital claim management, AI to automate assessments, and provide regular updates for transparency.</div></div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<hr class="sec-divider">
+<div id="metrics" class="sec-anchor"></div>
+<div class="sec-head reveal">
+  <div class="sec-label">Metrics and Success Framework</div>
+  <h2>How We Measure Success</h2>
+  <p>North Star Metric, scale-up metrics, and adoption and retention KPIs for PolicyEase.</p>
+</div>
+<div class="north-star reveal">
+  <div class="ns-lbl">North Star Metric</div>
+  <div class="ns-metric">Policy Renewals and Claims Processed per User</div>
+  <div class="ns-formula">= (Number of policies renewed per month) x (Number of claims processed per user in a month)</div>
+</div>
+<div class="g2 reveal">
+  <div class="mc"><div class="mc-type">Scale-Up Metric</div><div class="mc-name">Sustainability Index</div><div class="mc-formula">(Customer Retention Rate) x (Policy Renewal Rate) / Customer Acquisition Cost</div><div class="mc-benefit">Tracks the platform's ability to retain users, renew policies, and manage acquisition costs effectively.</div></div>
+  <div class="mc"><div class="mc-type">Scale-Up Metric</div><div class="mc-name">Adoption Rate</div><div class="mc-formula">(New Users per Month) / (Total Target Users) x 100</div><div class="mc-benefit">Tracks the platform's pace of gaining new users relative to the total addressable market size.</div></div>
+</div>
+<div class="g2 reveal">
+  <div class="mc"><div class="mc-type">Adoption and Growth</div><div class="mc-name">User Growth Rate</div><div class="mc-formula">(Total Users at Beginning of Period) / (New Users in Period) x 100</div><div class="mc-benefit">Critical indicator of the app's success in gaining traction, especially important in early phases.</div></div>
+  <div class="mc"><div class="mc-type">Engagement and Retention</div><div class="mc-name">MAU / DAU Ratio</div><div class="mc-formula">(Active Users in Month or Day) / Total Registered Users x 100</div><div class="mc-benefit">Measures the app's ability to keep users engaged over time, a key health indicator for insurance apps.</div></div>
+</div>
+<div class="g3 reveal">
+  <div class="sc g"><div class="v">Renewals</div><div class="lb">Primary engagement loop</div><div class="sb">Policies renewed monthly x claims per user</div></div>
+  <div class="sc o"><div class="v">Retention</div><div class="lb">Sustainability index driver</div><div class="sb">CRR x PRR divided by CAC</div></div>
+  <div class="sc w"><div class="v">Trust</div><div class="lb">Long-term moat metric</div><div class="sb">CSAT, NPS, transparent claims score</div></div>
+</div>
+
+</div>
+<script>
+const sectionIds=['overview','market','sentiment','users','features','appflow','roadmap','metrics'];
+const navLinks=document.querySelectorAll('.nav-link');
+function setActive(){
+  let cur='overview';
+  sectionIds.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY+80>=el.offsetTop)cur=id;});
+  navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+cur));
+}
+window.addEventListener('scroll',setActive,{passive:true});
+setActive();
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');ro.unobserve(x.target);}}),{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+const bo=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){
+    x.target.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';requestAnimationFrame(()=>setTimeout(()=>{b.style.width=w;},80));});
+    bo.unobserve(x.target);
+  }
+}),{threshold:0.3});
+document.querySelectorAll('.bar-chart').forEach(c=>bo.observe(c));
+const co=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){
+    const el=x.target,target=parseFloat(el.dataset.count||0),prefix=el.dataset.prefix||'',suffix=el.dataset.suffix||'';
+    if(!target){co.unobserve(el);return;}
+    let cur=0;const inc=target/(1400/16);
+    const t=setInterval(()=>{cur=Math.min(cur+inc,target);el.textContent=prefix+(target%1===0?Math.floor(cur):cur.toFixed(1))+suffix;if(cur>=target)clearInterval(t);},16);
+    co.unobserve(el);
+  }
+}),{threshold:0.5});
+document.querySelectorAll('.h-stat-val[data-count]').forEach(el=>co.observe(el));
+function showSwot(id,btn){
+  document.querySelectorAll('.swot-panel').forEach(p=>p.classList.remove('visible'));
+  document.querySelectorAll('.swot-tab').forEach(b=>b.classList.remove('active'));
+  const p=document.getElementById('sp-'+id);if(p)p.classList.add('visible');
+  if(btn)btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElectroMart Analytics · IIT KGP General Championship Data Analytics 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@700;900&display=swap');
+  :root {
+    --bg:#0c0e14; --surface:#13161f; --surface2:#1a1e2a; --border:#2a2f3d;
+    --gold:#f4b942; --gold-dim:rgba(244,185,66,.15); --gold-glow:rgba(244,185,66,.06);
+    --cyan:#4fd1c5; --cyan-dim:rgba(79,209,197,.12);
+    --red:#fc5f5f; --green:#4ade80; --purple:#a78bfa; --blue:#60a5fa;
+    --text:#e2e8f0; --muted:#64748b; --label:#94a3b8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+  /* ── NAV ── */
+  nav{position:sticky;top:0;z-index:100;background:rgba(12,14,20,.94);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;
+    justify-content:space-between;height:56px}
+  .nav-brand{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gold);letter-spacing:.05em}
+  .nav-links{display:flex;gap:1.5rem;list-style:none}
+  .nav-links a{font-size:.72rem;font-weight:500;color:var(--muted);text-decoration:none;
+    letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+  .nav-links a:hover{color:var(--gold)}
+  .medal{display:flex;align-items:center;gap:.4rem;background:var(--gold-dim);
+    border:1px solid var(--gold);border-radius:99px;padding:.2rem .8rem;
+    font-size:.73rem;font-weight:700;color:var(--gold);letter-spacing:.04em}
+
+  /* ── HERO ── */
+  .hero{padding:5rem 2rem 3.5rem;max-width:1140px;margin:0 auto;position:relative}
+  .hero::before{content:'';position:absolute;top:0;right:0;width:600px;height:400px;
+    background:radial-gradient(ellipse at 80% 20%,rgba(244,185,66,.07) 0%,transparent 70%);pointer-events:none}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);
+    letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.2rem);
+    font-weight:900;line-height:1.08;margin-bottom:1.3rem}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero-sub{font-size:1rem;color:var(--label);max-width:640px;margin-bottom:2.5rem;line-height:1.8}
+  .stat-row{display:flex;flex-wrap:wrap;gap:2.5rem;padding:1.8rem 0;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .stat{display:flex;flex-direction:column;gap:.2rem}
+  .stat-val{font-family:'JetBrains Mono',monospace;font-size:1.55rem;font-weight:600;color:var(--gold)}
+  .stat-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+
+  /* ── LAYOUT ── */
+  .section{max-width:1140px;margin:0 auto;padding:3.5rem 2rem;border-top:1px solid var(--border)}
+  .sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--cyan);
+    text-transform:uppercase;letter-spacing:.14em;margin-bottom:.4rem}
+  .sec-title{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;margin-bottom:.6rem}
+  .sec-desc{color:var(--label);font-size:.88rem;max-width:680px;margin-bottom:2rem;line-height:1.8}
+
+  /* ── CARDS ── */
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:1.2rem}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+  .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+  .grid-5{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;
+    transition:border-color .2s,transform .2s}
+  .card:hover{border-color:rgba(244,185,66,.5);transform:translateY(-2px)}
+  .card-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--muted);margin-bottom:.55rem}
+  .card-val{font-family:'JetBrains Mono',monospace;font-size:1.75rem;font-weight:600;margin-bottom:.25rem}
+  .card-sub{font-size:.79rem;color:var(--muted);line-height:1.5}
+  .c-gold .card-val{color:var(--gold)}
+  .c-cyan .card-val{color:var(--cyan)}
+  .c-green .card-val{color:var(--green)}
+  .c-red .card-val{color:var(--red)}
+  .c-purple .card-val{color:var(--purple)}
+  .c-blue .card-val{color:var(--blue)}
+
+  /* ── BAR CHART ── */
+  .bar-chart{display:flex;flex-direction:column;gap:.6rem}
+  .bar-row{display:flex;align-items:center;gap:.75rem}
+  .bar-lbl{font-size:.75rem;color:var(--label);min-width:140px;text-align:right;
+    font-family:'JetBrains Mono',monospace;flex-shrink:0}
+  .bar-track{flex:1;height:22px;background:var(--surface2);border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;
+    justify-content:flex-end;padding-right:6px;width:0;transition:width 1.1s ease}
+  .bar-fill span{font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:700;
+    color:rgba(0,0,0,.75)}
+  .bg-gold{background:linear-gradient(90deg,#c8962e,var(--gold))}
+  .bg-cyan{background:linear-gradient(90deg,#2d9188,var(--cyan))}
+  .bg-purple{background:linear-gradient(90deg,#7c5ccc,var(--purple))}
+  .bg-green{background:linear-gradient(90deg,#2a7a44,var(--green))}
+  .bg-blue{background:linear-gradient(90deg,#3b7fd4,var(--blue))}
+  .bg-red{background:linear-gradient(90deg,#c43a3a,var(--red))}
+  .bg-muted{background:linear-gradient(90deg,#3a4050,#64748b)}
+
+  /* ── STEP PROCESS ── */
+  .steps{display:flex;flex-direction:column;gap:0}
+  .step{display:flex;gap:1.1rem;padding:1.25rem 0;border-bottom:1px solid var(--border)}
+  .step:last-child{border-bottom:none}
+  .step-num{font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:700;
+    color:var(--gold);background:var(--gold-dim);border:1px solid rgba(244,185,66,.3);
+    border-radius:6px;padding:.18rem .45rem;height:fit-content;min-width:34px;
+    text-align:center;flex-shrink:0;margin-top:.12rem}
+  .step h4{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+  .step p{font-size:.82rem;color:var(--muted);line-height:1.65}
+  code{font-family:'JetBrains Mono',monospace;font-size:.78rem;background:var(--surface2);
+    border:1px solid var(--border);border-radius:4px;padding:.1rem .4rem;color:var(--cyan)}
+
+  /* ── EQUATIONS ── */
+  .eq{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--cyan);
+    border-radius:0 8px 8px 0;padding:.95rem 1.3rem;margin:.8rem 0;
+    font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--cyan);line-height:2.1}
+  .eq .eq-lbl{font-size:.66rem;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.1em;margin-bottom:.3rem;font-family:'Space Grotesk',sans-serif}
+
+  /* ── INSIGHTS BOX ── */
+  .ibox{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.4rem}
+  .ibox h4{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--gold);margin-bottom:.7rem}
+  .ilist{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+  .ilist li{font-size:.82rem;color:var(--label);padding-left:1.2rem;position:relative;line-height:1.6}
+  .ilist li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:.73rem}
+
+  /* ── ACCENT / GOLD CARD ── */
+  .acard{background:var(--gold-glow);border:1px solid rgba(244,185,66,.25);
+    border-radius:12px;padding:1.8rem 2rem}
+  .acard h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);margin-bottom:.8rem}
+  .acard p{color:var(--label);font-size:.87rem;line-height:1.8}
+
+  /* ── RESULT HERO ── */
+  .result-hero{background:linear-gradient(135deg,rgba(244,185,66,.07),rgba(79,209,197,.07));
+    border:1px solid rgba(244,185,66,.22);border-radius:16px;padding:2.5rem 2rem;text-align:center;
+    margin:1.5rem 0}
+  .rh-big{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;color:var(--gold);line-height:1}
+  .rh-label{font-size:.95rem;color:var(--label);margin-top:.5rem}
+  .rh-stats{display:flex;justify-content:center;gap:2.8rem;margin-top:1.8rem;flex-wrap:wrap}
+  .rh-stat .num{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--cyan)}
+  .rh-stat .lbl{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+
+  /* ── DATA TABLE ── */
+  .dtable{width:100%;border-collapse:collapse;font-size:.82rem}
+  .dtable th{text-align:left;font-size:.67rem;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--muted);padding:.55rem 1rem;border-bottom:1px solid var(--border)}
+  .dtable td{padding:.65rem 1rem;border-bottom:1px solid rgba(42,47,61,.5);color:var(--label)}
+  .dtable tr:hover td{background:rgba(255,255,255,.02)}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--cyan)}
+  .hl{color:var(--gold);font-weight:600}
+  .hl-g{color:var(--green);font-weight:600}
+  .hl-r{color:var(--red)}
+
+  /* ── PILLS ── */
+  .pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.68rem;
+    font-weight:600;letter-spacing:.05em}
+  .p-gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(244,185,66,.3)}
+  .p-cyan{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(79,209,197,.3)}
+  .p-green{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3)}
+  .p-red{background:rgba(252,95,95,.1);color:var(--red);border:1px solid rgba(252,95,95,.3)}
+  .p-purple{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.3)}
+
+  /* ── TIMELINE ── */
+  .tl{display:flex;flex-direction:column;gap:0}
+  .tl-item{display:flex;gap:1rem;padding:.95rem 0;border-bottom:1px solid var(--border)}
+  .tl-item:last-child{border-bottom:none}
+  .tl-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:.5rem;flex-shrink:0}
+  .tl-item h4{font-size:.88rem;font-weight:600;margin-bottom:.2rem}
+  .tl-item p{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+  /* ── CANVAS CHARTS ── */
+  canvas{max-width:100%;border-radius:8px}
+  .chart-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+  .chart-title{font-size:.72rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:.09em;color:var(--muted);margin-bottom:1rem}
+
+  /* ── COMPARISON TABLE ── */
+  .comp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;
+    border-bottom:1px solid var(--border);padding:.6rem 0}
+  .comp-row:first-child{font-size:.68rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--muted);padding-bottom:.8rem}
+  .comp-row .c1{color:var(--label);font-size:.82rem}
+  .comp-row .c2{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--red);text-align:center}
+  .comp-row .c3{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--green);text-align:right}
+
+  /* ── FADE IN ── */
+  .fade-in{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}
+  .fade-in.vis{opacity:1;transform:none}
+
+  /* ── FOOTER ── */
+  footer{max-width:1140px;margin:0 auto;padding:2rem 2rem 3rem;
+    border-top:1px solid var(--border);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:1rem}
+  footer p{font-size:.77rem;color:var(--muted)}
+
+  @media(max-width:700px){.nav-links{display:none}.hero{padding:3rem 1.2rem 2rem}
+    .section{padding:2rem 1.2rem}.rh-big{font-size:3.5rem}.bar-lbl{min-width:90px;font-size:.68rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">ELECTROMART · GC DATA ANALYTICS 2025</span>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#eda">EDA</a></li>
+    <li><a href="#kpis">KPIs</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#inventory">Inventory</a></li>
+    <li><a href="#recs">Recs</a></li>
+  </ul>
+  <div class="medal">🥇 Gold Medal, IIT KGP GC Data Analytics 2025</div>
+</nav>
+
+<!-- ████  HERO  ████ -->
+<section class="hero" id="overview">
+  <p class="eyebrow">IIT Kharagpur · General Championship Data Analytics 2025</p>
+  <h1>ElectroMart<br><em>Marketing Analytics</em><br>& Budget Optimisation</h1>
+  <p class="hero-sub">
+    A full-stack data science case study for an Ontario-based electronics e-commerce firm, spanning exploratory analysis of 1.65M order records, KPI architecture, Ridge Regression modelling with hypothesis testing, and gradient-ascent budget optimisation across 9 marketing channels. Awarded <strong style="color:var(--gold)">Gold Medal</strong> at IIT KGP General Championship Data Analytics 2025.
+  </p>
+  <div class="stat-row">
+    <div class="stat"><span class="stat-val">🥇 Gold</span><span class="stat-label">GC Data Analytics 2025</span></div>
+    <div class="stat"><span class="stat-val">128%</span><span class="stat-label">Optimised ROI</span></div>
+    <div class="stat"><span class="stat-val">₹10.94B</span><span class="stat-label">Projected Revenue</span></div>
+    <div class="stat"><span class="stat-val">0.968</span><span class="stat-label">Ridge R²</span></div>
+    <div class="stat"><span class="stat-val">1.65M</span><span class="stat-label">Order Records</span></div>
+    <div class="stat"><span class="stat-val">7 datasets</span><span class="stat-label">Problem Datasets</span></div>
+    
+  </div>
+</section>
+
+<!-- ████  BUSINESS CONTEXT  ████ -->
+<section class="section fade-in" id="context">
+  <p class="sec-eyebrow">01 · Context</p>
+  <h2 class="sec-title">The Business Problem</h2>
+  <p class="sec-desc">
+    ElectroMart's CFO raised concerns: over the previous 12 months, the company spent ₹8.46B on marketing while generating only ₹4.04B in revenue, meaning spend outpaced revenue by more than 2×. Only <strong style="color:var(--red)">1 of 12 months</strong> saw revenue exceed that month's marketing spend. The question was whether to cut the budget, or prove that smarter allocation of the same budget could turn this around.
+  </p>
+  <div class="grid-2">
+    <div class="card">
+      <p class="card-label">Company Profile</p>
+      <p style="font-size:.87rem;color:var(--label);line-height:1.75">
+        ElectroMart is an Ontario, Canada-based e-commerce firm specialising in consumer electronics, cameras, gaming hardware, speakers, and home audio. They run large-scale promotions (Big Billion Day analogues) and invest heavily in multi-channel advertising: TV, digital, SEM, sponsorship, affiliates, and more. Canada's e-commerce market is on track to exceed <strong style="color:var(--gold)">$130B by 2027</strong>, making smart allocation critical.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem">
+        <span class="pill p-gold">Ontario, Canada</span>
+        <span class="pill p-cyan">Electronics</span>
+        <span class="pill p-cyan">E-Commerce</span>
+        <span class="pill p-gold">B2C</span>
+        <span class="pill p-purple">Jul 2023–Jun 2024</span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-label">Three Core Objectives</p>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <div><h4>Performance Driver Analysis</h4>
+          <p>Which KPIs drive top-line GMV? Used distance correlation (dCor) to capture non-linear dependencies, going beyond Pearson to detect saturation, threshold, and compounding effects.</p></div>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <div><h4>Marketing ROI Impact</h4>
+          <p>Quantify the revenue elasticity of each of 9 advertising channels via a log-linear Ridge Regression model. Log transform captures diminishing returns; Ridge handles multicollinearity between highly correlated channels.</p></div>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div><h4>Budget Optimisation</h4>
+          <p>Apply constrained gradient-ascent optimisation, 100 random restarts, to maximise projected GMV subject to a fixed ₹8.46B total budget with per-channel min/max constraints.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████  DATA  ████ -->
+<section class="section fade-in" id="data">
+  <p class="sec-eyebrow">02 · Data</p>
+  <h2 class="sec-title">Data Sources & Preprocessing</h2>
+  <p class="sec-desc">All datasets were provided as part of the problem statement and integrated into a unified analytical frame covering July 2023 – June 2024. Total processed order records: <strong style="color:var(--gold)">1,648,824</strong>.</p>
+
+  <div class="grid-3" style="margin-bottom:1.4rem">
+    <div class="card c-cyan"><p class="card-label">Customer Orders</p>
+      <p class="card-val">1.65M</p>
+      <p class="card-sub">Daily order records, GMV, units, payment type, SLA, delivery days, FSN ID, customer ID. Shape: (1,648,824 × 34 after feature engineering)</p>
+    </div>
+    <div class="card c-gold"><p class="card-label">Media Investment</p>
+      <p class="card-val">₹8.46B</p>
+      <p class="card-sub">12-month spend across 9 channels: TV, Digital, Sponsorship, Content Mktg, Online, Affiliates, SEM, Radio, Other</p>
+    </div>
+    <div class="card c-purple"><p class="card-label">NPS + Stock Index</p>
+      <p class="card-val">Monthly</p>
+      <p class="card-sub">NPS ranging 44.4–60.0 across the year; monthly stock index as supplementary business health signal</p>
+    </div>
+    <div class="card"><p class="card-label">Sale Calendar</p>
+      <p class="card-val" style="font-size:1.1rem">Special Dates</p>
+      <p class="card-sub">Big-ticket promotional event flags, used to engineer binary <code>sales_mark</code> and <code>is_special_date</code> indicators</p>
+    </div>
+    <div class="card"><p class="card-label">Weather, Ontario</p>
+      <p class="card-val" style="font-size:1.1rem">2023–2024</p>
+      <p class="card-sub">Daily max/min/mean temperature, precipitation, snow cover. Missing values filled with 3-day rolling average (temporal imputation)</p>
+    </div>
+    <div class="card"><p class="card-label">SKU + Holidays</p>
+      <p class="card-val" style="font-size:1.1rem">15 holidays</p>
+      <p class="card-sub">5-level product hierarchy (Super Cat → Cat → Sub-Cat → Vertical → Product). 15 Canadian holidays flagged, 45,449 holiday orders identified</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="ibox">
+      <h4>Cleaning & Imputation Methods</h4>
+      <ul class="ilist">
+        <li>Replaced <code>"\N"</code> and empty strings in <code>deliverybdays</code>/<code>deliverycdays</code> with 0 per case specification</li>
+        <li>Missing GMV imputed via median GMV-per-unit grouped by FSN ID, preserves product-level pricing signal</li>
+        <li>Weather nulls: 3-prior + 3-next rolling average, ensures temporal consistency (MICE also evaluated but local rolling outperformed it on stationarity tests)</li>
+        <li>IQR filtering on GMV and delivery time, removed distorting extreme outliers without losing distribution shape</li>
+        <li>Postal code validation, eliminated geographic inconsistencies in location-based features</li>
+        <li>All timestamps standardised to <code>%Y-%m-%d</code> uniform format</li>
+      </ul>
+    </div>
+    <div class="ibox">
+      <h4>Feature Engineering, 34 Final Columns</h4>
+      <ul class="ilist">
+        <li><code>discount_pct = 100 × (MRP − list_price) / MRP</code>, actual markdown per order</li>
+        <li><code>total_delivery_days = deliverybdays + deliverycdays</code>, end-to-end fulfillment time</li>
+        <li><code>delivery_delay_vs_sla</code>, difference from contracted SLA target</li>
+        <li><code>is_weekend</code>, <code>is_holiday</code>, <code>sales_mark</code>, <code>is_special_date</code>, binary temporal flags</li>
+        <li><code>gmv_category = "Luxury"</code> if GMV > 80th percentile, else <code>"Normal"</code></li>
+        <li>Monthly order frequency per customer; first-order vs. repeat-order flags from customer purchase history</li>
+        <li>SKU merged with product hierarchy enabling Category, Sub_Category, Vertical groupings</li>
+        <li><code>elapsed_time_minutes</code>, minutes since first order in dataset; captures overall trend</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ████  EDA  ████ -->
+<section class="section fade-in" id="eda">
+  <p class="sec-eyebrow">03 · Exploratory Analysis</p>
+  <h2 class="sec-title">Exploratory Data Analysis</h2>
+  <p class="sec-desc">EDA spanned univariate distributions, bivariate correlation analysis, temporal trends, product-level decomposition, payment-type behaviour, weather correlations, and customer segmentation.</p>
+
+  <!-- Monthly GMV + Media chart -->
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div class="chart-wrap">
+      <p class="chart-title">Monthly GMV (₹ Crore), Jul 2023 to Jun 2024</p>
+      <canvas id="gmvChart" height="200"></canvas>
+    </div>
+    <div class="card">
+      <p class="card-label">Product-wise GMV Distribution</p>
+      <p style="font-size:.79rem;color:var(--muted);margin-bottom:.9rem">A small set of products drives the vast majority of revenue. DSLR cameras alone account for 35.4% of all GMV.</p>
+      <div class="bar-chart" id="productBars">
+        <div class="bar-row"><span class="bar-lbl">DSLR</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"><span>35.4%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Speaker</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="28"><span>9.9%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Point & Shoot</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="21"><span>7.3%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Laptop Speaker</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="16"><span>5.5%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Home Audio</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="16"><span>5.5%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Others (&lt;1%)</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="35"><span>12.3%</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category GMV table + key findings -->
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div class="card">
+      <p class="card-label">Category-wise Total GMV (Jul 2023–Jun 2024)</p>
+      <table class="dtable" style="margin-top:.6rem">
+        <tr><th>Category</th><th>Total GMV (₹)</th><th>Share</th></tr>
+        <tr><td>Camera</td><td class="mono hl">1,780,718,983</td><td><span class="pill p-gold">44.0%</span></td></tr>
+        <tr><td>EntertainmentSmall</td><td class="mono">1,293,196,036</td><td><span class="pill p-cyan">32.0%</span></td></tr>
+        <tr><td>GamingHardware</td><td class="mono">454,665,254</td><td><span class="pill p-purple">11.2%</span></td></tr>
+        <tr><td>CameraAccessory</td><td class="mono">303,562,521</td><td><span class="pill p-blue" style="background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.3)">7.5%</span></td></tr>
+        <tr><td>GameCDDVD</td><td class="mono">213,747,898</td><td><span class="pill p-red">5.3%</span></td></tr>
+        <tr><td style="font-weight:600;color:var(--gold)">TOTAL</td><td class="mono hl">4,045,890,692</td><td><span class="pill p-gold">100%</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="grid-2" style="gap:.85rem">
+        <div class="card c-gold"><p class="card-label">Total GMV</p><p class="card-val">₹404Cr</p><p class="card-sub">Total revenue Jul 2023–Jun 2024 across all orders</p></div>
+        <div class="card c-cyan"><p class="card-label">Total Revenue (net)</p><p class="card-val">₹119Cr</p><p class="card-sub">After discount deductions from GMV</p></div>
+        <div class="card c-green"><p class="card-label">Avg Order Value</p><p class="card-val">₹2,695</p><p class="card-sub">Per unique order ID across the study period</p></div>
+        <div class="card c-blue"><p class="card-label">Customer LTV</p><p class="card-val">₹12,379</p><p class="card-sub">AOV × avg purchase freq × 12-month lifespan assumption</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key EDA stats -->
+  <div class="grid-5" style="margin-bottom:1.4rem">
+    <div class="card c-gold"><p class="card-label">Order Fulfilment Rate</p><p class="card-val">81.6%</p><p class="card-sub">Orders delivered on or before SLA</p></div>
+    <div class="card c-green"><p class="card-label">Delivery Timeliness</p><p class="card-val">95.6%</p><p class="card-sub">Orders delivered within SLA window</p></div>
+    <div class="card c-red"><p class="card-label">Customer Churn Rate</p><p class="card-val">95.3%</p><p class="card-sub">Customers who did not repurchase</p></div>
+    <div class="card c-cyan"><p class="card-label">Repeat Purchase Rate</p><p class="card-val">7.7%</p><p class="card-sub">Within the 12-month study window</p></div>
+    <div class="card c-purple"><p class="card-label">Holiday Orders</p><p class="card-val">45,449</p><p class="card-sub">Orders placed on 15 Canadian holidays</p></div>
+    <div class="card c-blue"><p class="card-label">First-order Rate</p><p class="card-val">84.3%</p><p class="card-sub">Orders from new customers, acquisition-heavy business</p></div>
+    <div class="card c-gold"><p class="card-label">Discount Rate (avg)</p><p class="card-val">14.8%</p><p class="card-sub">Average markdown across all orders</p></div>
+    <div class="card c-green"><p class="card-label">COD:Prepaid GMV</p><p class="card-val">1.41×</p><p class="card-sub">COD orders generate 41% more GMV than prepaid</p></div>
+    <div class="card c-red"><p class="card-label">GMV Distribution</p><p class="card-val">Right-Skewed</p><p class="card-sub">Most orders near-zero GMV; few high-value transactions drive totals</p></div>
+    <div class="card c-cyan"><p class="card-label">Delay Threshold</p><p class="card-val">3.5°C</p><p class="card-sub">Temperature above which most delivery delays occur in Ontario</p></div>
+  </div>
+
+  <!-- Marketing Channel Correlation + Weather insight -->
+  <div class="grid-2">
+    <div class="card">
+      <p class="card-label">Marketing Channel Correlation with Revenue (Pearson)</p>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:.9rem">Higher correlations indicate stronger linear relationship. Sponsorship, Online Mktg, and Affiliates are top linear drivers; Digital shows a negative relationship.</p>
+      <div class="bar-chart" id="corrBars">
+        <div class="bar-row"><span class="bar-lbl">Total Investment</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"><span>1.00</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Online Marketing</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="97"><span>0.97</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Affiliates</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="96"><span>0.96</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Sponsorship</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="92"><span>0.92</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">TV</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="91"><span>0.91</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">SEM</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="76"><span>0.76</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Content Mktg</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="73"><span>0.73</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Radio</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="34"><span>0.34</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Digital</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="55"><span>−0.55</span></div></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="acard">
+        <h3>🌡️ Weather Impact Discovery</h3>
+        <p>A threshold effect was identified: delivery delays spike sharply above <strong style="color:var(--gold)">3.5°C</strong>, not during extreme cold. This counterintuitive finding reflects order volume surges in warm months outpacing logistics capacity, rather than weather directly disrupting shipping.
+        <br><br>
+        <strong style="color:var(--gold)">Implication:</strong> Pre-scale logistics before warm season. The 3.5°C threshold provides a data-driven trigger for activating contingency logistics plans.</p>
+      </div>
+      <div class="ibox">
+        <h4>Sales Timing Patterns (2-Hour Heatmap)</h4>
+        <ul class="ilist">
+          <li>Peak sales: <strong style="color:var(--gold)">10am–2pm</strong> consistent across all months</li>
+          <li>Secondary peak: 8pm–10pm, consistent with mobile browsing after work hours</li>
+          <li>Overnight (12am–6am): lowest volume but non-zero, making it a candidate for automated re-marketing</li>
+          <li>Sales event days show sharp intraday concentration vs. distributed daily pattern on normal days</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████  KPIs  ████ -->
+<section class="section fade-in" id="kpis">
+  <p class="sec-eyebrow">04 · KPI Framework</p>
+  <h2 class="sec-title">Key Performance Indicators</h2>
+  <p class="sec-desc">A three-tier KPI architecture was designed: Sales & Revenue KPIs, Risk Indicators (KRIs), and Environmental Factors. Distance correlation (dCor) was used to rank importance, capturing both linear and non-linear dependencies with GMV.</p>
+
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div>
+      <p style="font-size:.74rem;color:var(--muted);margin-bottom:.9rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em">KPI Importance for Revenue, Distance Correlation (dCor)</p>
+      <div class="bar-chart" id="kpiBars">
+        <div class="bar-row"><span class="bar-lbl">Total GMV</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Total Units</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="93"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">NPS Score</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="84"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Unique Customers</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="78"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">First Orders</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="74"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Total Orders</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="71"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Weekend Sales</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="68"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Churn Rate</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="63"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Repeat Orders</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="58"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">AOV Growth %</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="48"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Discount Rate</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="43"></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Delivery Risk</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="27"></div></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="ibox">
+        <h4>Why Distance Correlation (dCor)?</h4>
+        <ul class="ilist">
+          <li>Pearson correlation only captures <em>linear</em> relationships, which is insufficient for marketing data exhibiting saturation curves, thresholds, and interaction effects</li>
+          <li>dCor detects any statistical dependency including non-linear and non-monotonic ones; zero dCor implies true independence</li>
+          <li>Key finding: <strong style="color:var(--gold)">NPS emerged as a stronger revenue driver</strong> than Pearson suggested, because satisfaction has compounding, lagged future revenue effects that linear measures miss</li>
+          <li>VIF analysis confirmed no problematic multicollinearity among KPIs (no VIF > 5 found)</li>
+        </ul>
+      </div>
+      <div class="ibox">
+        <h4>Pairwise t-Test Significance (p &lt; 0.05)</h4>
+        <ul class="ilist">
+          <li><code>total_gmv vs total_units</code>: p = 0.0000 ✓</li>
+          <li><code>total_gmv vs total_orders</code>: p = 0.0000 ✓</li>
+          <li><code>total_gmv vs weekend_sales</code>: p = 0.0000 ✓</li>
+          <li><code>total_gmv vs discount_rate</code>: p = 0.0000 ✓</li>
+          <li><code>total_gmv vs repeat_orders</code>: p = 0.0000 ✓</li>
+          <li>All major KPI pairs significant, confirms these are genuine revenue drivers, not noise</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <p class="card-label">Sales & Revenue KPIs</p>
+      <table class="dtable" style="margin-top:.5rem">
+        <tr><td>Delivery Timeliness</td><td class="mono hl-g">95.6%</td></tr>
+        <tr><td>First Order Rate</td><td class="mono hl">84.3%</td></tr>
+        <tr><td>Repeat Order Rate</td><td class="mono">15.7%</td></tr>
+        <tr><td>Retention Rate</td><td class="mono hl-r">7.7%</td></tr>
+        <tr><td>Avg Order Value</td><td class="mono hl">₹2,695</td></tr>
+        <tr><td>Customer LTV</td><td class="mono hl">₹12,379</td></tr>
+        <tr><td>High Spender</td><td class="mono">&gt;75th pctile GMV</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <p class="card-label">Risk Indicators (KRIs)</p>
+      <table class="dtable" style="margin-top:.5rem">
+        <tr><td>High Churn Risk</td><td class="mono hl-r">95.3%</td></tr>
+        <tr><td>Low NPS Risk</td><td class="mono">% Detractors</td></tr>
+        <tr><td>Delivery Risk</td><td class="mono">Delayed/Total × 100</td></tr>
+        <tr><td>Proc. SLA Variance</td><td class="mono hl-r">σ = 53.46</td></tr>
+        <tr><td>SLA Compliance</td><td class="mono hl-g">81.6%</td></tr>
+        <tr><td>NPS Range (year)</td><td class="mono">44.4 – 60.0</td></tr>
+        <tr><td>Repeat Purchase</td><td class="mono">23.8% (6mo window)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <p class="card-label">Environmental & Seasonal KPIs</p>
+      <table class="dtable" style="margin-top:.5rem">
+        <tr><td>Weekend GMV vs Weekday</td><td class="mono hl-g">+19% lift</td></tr>
+        <tr><td>Delay Temperature Threshold</td><td class="mono hl">3.5°C</td></tr>
+        <tr><td>Holiday Orders</td><td class="mono">45,449</td></tr>
+        <tr><td>COD:Prepaid GMV Ratio</td><td class="mono hl">1.41×</td></tr>
+        <tr><td>Luxury vs Normal split</td><td class="mono">80th pctile threshold</td></tr>
+        <tr><td>SKU Pareto Threshold</td><td class="mono hl">~2k SKUs = 80% GMV</td></tr>
+        <tr><td>Discount Seeker %</td><td class="mono">disc. orders / total</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ████  MODEL  ████ -->
+<section class="section fade-in" id="model">
+  <p class="sec-eyebrow">05 · Modelling</p>
+  <h2 class="sec-title">Ridge Regression + Hypothesis Testing</h2>
+  <p class="sec-desc">A log-linear model was built to capture diminishing marginal returns, reflecting the economic reality that doubling ad spend does not double revenue. Ridge regularisation handles multicollinearity between highly correlated channels (SEM and Digital: r=0.97; Online and Affiliates: r=0.99).</p>
+
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div>
+      <div class="eq">
+        <div class="eq-lbl">Per-Channel Revenue Model (Log-Linear)</div>
+        R_i = a_i + b_i · log(S_i)
+        <br>
+        <div class="eq-lbl" style="margin-top:.5rem">Aggregate Revenue (9 channels)</div>
+        R_total = Σ(i=1→9) [a_i + b_i · log(S_i)]
+        <br>
+        <div class="eq-lbl" style="margin-top:.5rem">Where</div>
+        R_i = revenue from channel i | S_i = spend on channel i<br>
+        a_i, b_i = Ridge regression coefficients (α = 0.14)
+      </div>
+      <div class="eq">
+        <div class="eq-lbl">Hypothesis Test (t-statistic)</div>
+        t = β / SE(β) &nbsp;→&nbsp; Hessian H = ∂²J(w)/∂w²
+        <br>Cov(w) = H⁻¹ &nbsp;→&nbsp; σ² = diag(H⁻¹)
+        <br>
+        <div class="eq-lbl" style="margin-top:.5rem">F-Statistic</div>
+        F = Explained Variance / Unexplained Variance
+        <br>F_computed = 6.70 | F_critical (5%) = 19.38
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="card c-gold">
+        <p class="card-label">Model Performance, Final Ridge (α=0.14)</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
+          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.55rem;color:var(--gold)">0.968</p><p style="font-size:.72rem;color:var(--muted)">R² Score</p></div>
+          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.55rem;color:var(--cyan)">₹13M</p><p style="font-size:.72rem;color:var(--muted)">Mean Abs. Error</p></div>
+          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--purple)">α=0.14</p><p style="font-size:.72rem;color:var(--muted)">Ridge Alpha (GridSearchCV)</p></div>
+          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--green)">3-fold CV</p><p style="font-size:.72rem;color:var(--muted)">Cross-validation strategy</p></div>
+        </div>
+      </div>
+      <div class="ibox">
+        <h4>All Coefficients Statistically Significant (t >> t_crit = 2.26)</h4>
+        <ul class="ilist">
+          <li>SEM: t = <strong style="color:var(--gold)">10,080</strong>, most precisely estimated coefficient</li>
+          <li>Content Marketing: t = <strong style="color:var(--gold)">9,800</strong></li>
+          <li>Sponsorship: t = <strong style="color:var(--gold)">9,775</strong></li>
+          <li>Online Marketing: t = 8,307 | TV: t = 7,807 | Affiliates: t = 7,900</li>
+          <li>Radio: t = 4,577 | Other: t = 4,050 | Digital: t = 260 (weakest)</li>
+          <li>All t-values >> 2.26 critical value → all channels statistically significant at 5% level</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ridge Coefficients bar + why ridge -->
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div class="card">
+      <p class="card-label">Ridge Coefficients (b_i), Revenue Elasticity per Channel</p>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:.9rem">Higher coefficient = 1% increase in log-spend drives more GMV. Represents the marginal revenue elasticity after regularisation.</p>
+      <div class="bar-chart" id="coefBars">
+        <div class="bar-row"><span class="bar-lbl">SEM</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"><span>101.6M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Content Mktg</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="94"><span>96.0M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Sponsorship</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="94"><span>95.6M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Online Mktg</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="68"><span>69.0M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Affiliates</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="61"><span>62.4M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">TV</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="60"><span>61.0M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Radio</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="21"><span>21.0M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Other</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="16"><span>16.4M</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Digital</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="1"><span>~0.07M</span></div></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="ibox">
+        <h4>Why Log Transformation?</h4>
+        <ul class="ilist">
+          <li>Marketing exhibits <em>diminishing returns</em>: early ad spend is highly effective, but each incremental dollar yields less as the audience saturates, a core microeconomic principle</li>
+          <li>Log-transform linearises this relationship for OLS/Ridge without losing the underlying economic structure</li>
+          <li>Eliminates heteroscedasticity in residuals, confirmed by visual inspection of residual plots</li>
+          <li>All significant pairs of log-transformed columns have p &lt; 1e-12, confirming strong log-linear relationships</li>
+        </ul>
+      </div>
+      <div class="ibox">
+        <h4>Why Ridge Regression?</h4>
+        <ul class="ilist">
+          <li>SEM and Digital correlation: <strong style="color:var(--gold)">r = 0.97</strong>; Online and Affiliates: <strong style="color:var(--gold)">r = 0.99</strong>. This level of multicollinearity makes OLS coefficients unstable and unreliable</li>
+          <li>Ridge adds L2 penalty (λ‖β‖²) shrinking correlated coefficients toward each other → stable, interpretable estimates across all 9 channels simultaneously</li>
+          <li>α = 0.14 selected via GridSearchCV over [0.001, 0.01, 0.1, 1, 10, 100]; k-fold CV confirmed generalisability</li>
+          <li>Hessian-based uncertainty quantification validates coefficient reliability across channels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████  BUDGET OPTIMISATION  ████ -->
+<section class="section fade-in" id="budget">
+  <p class="sec-eyebrow">06 · Optimisation</p>
+  <h2 class="sec-title">Marketing Budget Optimisation</h2>
+  <p class="sec-desc">Constrained gradient ascent was applied to find the optimal allocation of ₹8.46B across 9 channels, with 100 random restarts to escape local optima. The result: on the same budget, projected revenue rises from ₹4.04B to ₹10.94B, making the spend profitable for the first time.</p>
+
+  <div class="result-hero">
+    <div class="rh-big">128%</div>
+    <div class="rh-label">Projected ROI on ₹8.46B budget, up from a spend-to-revenue ratio where spend outpaced revenue by 2× under historical channel allocation</div>
+    <div class="rh-stats">
+      <div class="rh-stat"><div class="num">₹8.46B</div><div class="lbl">Total Budget (unchanged)</div></div>
+      <div class="rh-stat"><div class="num">₹10.94B</div><div class="lbl">Projected Revenue</div></div>
+      <div class="rh-stat"><div class="num">+7.76%</div><div class="lbl">Net Profit Margin</div></div>
+      <div class="rh-stat"><div class="num">2.25×</div><div class="lbl">vs. Historical Revenue (₹4.04B)</div></div>
+      <div class="rh-stat"><div class="num">1 of 12</div><div class="lbl">Months Where Revenue Exceeded Spend (historical)</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div class="card">
+      <p class="card-label">Optimal Budget Allocation (% of ₹8.46B total)</p>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:.9rem">Gradient ascent iteratively adjusts weights proportional to marginal revenue gain. High-elasticity channels (SEM, Content Mktg, Sponsorship) receive the most allocation.</p>
+      <div class="bar-chart" id="budgetBars">
+        <div class="bar-row"><span class="bar-lbl">Content Mktg</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"><span>19.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">SEM</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="90"><span>17.8%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Online Mktg</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="85"><span>16.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Sponsorship</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="81"><span>16.0%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Affiliates</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="66"><span>12.9%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">TV</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="54"><span>10.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Radio</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="18"><span>3.5%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Other</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="19"><span>3.8%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Digital</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="1"><span>~0%</span></div></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="eq">
+        <div class="eq-lbl">Optimisation Objective</div>
+        Maximise: Σ(i=1→9) [a_i + b_i · log(S_i)]
+        <br>Subject to: Σ S_i = ₹8,463,280,932
+        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S_min ≤ S_i ≤ S_max for all i
+        <br>
+        <div class="eq-lbl" style="margin-top:.5rem">Method: Gradient Ascent (100 restarts)</div>
+        w ← w + η · ∇_w R(w), normalise Σw=1
+      </div>
+      <div class="ibox">
+        <h4>Optimisation Design Choices</h4>
+        <ul class="ilist">
+          <li><strong style="color:var(--gold)">Gradient ascent</strong> chosen over scipy minimize for speed and transparency, with rapid convergence well-suited to marketing planning timelines</li>
+          <li>100 random restarts used to avoid local optima; best solution selected by maximum objective value</li>
+          <li>Normalisation constraint ensures Σwᵢ = 1 at every step, so the budget is never exceeded</li>
+          <li>Channel min/max bounds reflect real-world operational constraints: no active channel is fully zeroed, and no single channel absorbs the entire budget</li>
+          <li>Sensitivity analysis confirmed model robustness across ±20% budget variation scenarios</li>
+          <li><strong style="color:var(--red)">Digital receives near-zero allocation</strong>, consistent with its near-zero ridge coefficient (0.07M) and negative Pearson correlation with revenue (-0.55)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Before/After Comparison Table -->
+  <div class="card" style="margin-bottom:1.4rem">
+    <p class="card-label" style="margin-bottom:1rem">Before vs. After: Channel-Level Budget Comparison</p>
+    <div class="comp-row">
+      <div>Channel</div><div style="text-align:center">Historical Budget (₹Cr)</div><div style="text-align:right">Optimised Budget (₹Cr)</div>
+    </div>
+    <div class="comp-row"><div class="c1">TV</div><div class="c2">~44Cr</div><div class="c3">90.5Cr ↑</div></div>
+    <div class="comp-row"><div class="c1">Digital</div><div class="c2">~24Cr</div><div class="c3">0.08Cr ↓↓</div></div>
+    <div class="comp-row"><div class="c1">Sponsorship</div><div class="c2">~280Cr (peak Oct)</div><div class="c3">135Cr (steady)</div></div>
+    <div class="comp-row"><div class="c1">Content Marketing</div><div class="c2">~7Cr</div><div class="c3">166Cr ↑↑</div></div>
+    <div class="comp-row"><div class="c1">Online Marketing</div><div class="c2">~158Cr</div><div class="c3">141Cr (optimised)</div></div>
+    <div class="comp-row"><div class="c1">Affiliates</div><div class="c2">~55Cr</div><div class="c3">109Cr ↑</div></div>
+    <div class="comp-row"><div class="c1">SEM</div><div class="c2">~72Cr</div><div class="c3">150Cr ↑↑</div></div>
+    <div class="comp-row"><div class="c1">Radio + Other</div><div class="c2">~50Cr (variable)</div><div class="c3">62Cr (stable)</div></div>
+    <div class="comp-row" style="border-bottom:none;font-weight:600">
+      <div style="color:var(--text)">TOTAL</div>
+      <div style="text-align:center;color:var(--red)">₹846Cr spent, ₹404Cr earned</div>
+      <div style="text-align:right;color:var(--green)">₹846Cr spent, ₹1,094Cr projected</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card c-red"><p class="card-label">Historical Performance</p><p class="card-val">2× overspend</p>
+      <p class="card-sub">₹8.46B spent to earn ₹4.04B in revenue. Spend exceeded revenue by more than 2×, and only 1 of 12 months saw revenue outpace that month's marketing investment.</p></div>
+    <div class="card c-gold"><p class="card-label">Optimised Performance</p><p class="card-val">+128%</p>
+      <p class="card-sub">Projected GMV ₹10.94B on the same ₹8.46B budget, a 2.25× increase in revenue. Net profit margin of +7.76%, with spend now comfortably below projected revenue.</p></div>
+    <div class="card c-cyan"><p class="card-label">Root Cause</p><p class="card-val" style="font-size:.95rem">Misallocated to Saturated Channels</p>
+      <p class="card-sub">Historical budgets over-weighted Digital (coeff ~0, corr -0.55) while under-investing in Content Marketing and SEM, the two highest-elasticity channels.</p></div>
+  </div>
+</section>
+
+<!-- ████  INVENTORY  ████ -->
+<section class="section fade-in" id="inventory">
+  <p class="sec-eyebrow">07 · Operations</p>
+  <h2 class="sec-title">Inventory Optimisation</h2>
+  <p class="sec-desc">Warehouse unit allocation was optimised across 14 product sub-categories using a weighted objective combining procurement SLA efficiency and actual sales contribution percentage. Gradient descent converged in just <strong style="color:var(--gold)">3 iterations</strong>.</p>
+
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div>
+      <div class="eq">
+        <div class="eq-lbl">Inventory Objective Function</div>
+        Maximise: Σ(i=1→14) [SLA_i × Sale%_i × Units_i]
+        <br>
+        <div class="eq-lbl" style="margin-top:.4rem">Where:</div>
+        SLA_i = weighted avg procurement SLA for sub-cat i<br>
+        Sale%_i = sub-category % contribution to total GMV<br>
+        Units_i = warehouse units allocated
+        <br>
+        <div class="eq-lbl" style="margin-top:.4rem">Gradient Descent Update</div>
+        y ← y + α · ∇f(y), α = 0.001
+        <br>Converged in 3 iterations | Optimal value: ₹5.70B
+      </div>
+      <div class="ibox" style="margin-top:1rem">
+        <h4>Design Rationale</h4>
+        <ul class="ilist">
+          <li>SLA weight captures procurement difficulty: faster-to-procure items should be stocked more aggressively to reduce stockout risk</li>
+          <li>Sales % ensures allocation reflects the actual demand signal from real order data</li>
+          <li>Joint multiplication penalises high-SLA, low-sales categories from consuming disproportionate warehouse space</li>
+          <li>Gradient descent preferred over CVXPY LP, faster for this non-linear formulation with 14 variables and achieving the theoretical optimum with standard convergence</li>
+          <li>GameMembershipCards receive ~0% allocation: digital fulfilment products require no physical warehouse space</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <p style="font-size:.74rem;color:var(--muted);margin-bottom:.9rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em">Optimal Warehouse Allocation (% of total units)</p>
+      <div class="bar-chart" id="invBars">
+        <div class="bar-row"><span class="bar-lbl">Game</span>
+          <div class="bar-track"><div class="bar-fill bg-gold" data-w="100"><span>46.1%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Camera</span>
+          <div class="bar-track"><div class="bar-fill bg-cyan" data-w="54"><span>24.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Speaker</span>
+          <div class="bar-track"><div class="bar-fill bg-purple" data-w="17"><span>8.0%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">GamingConsole</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="15"><span>6.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">CameraAccessory</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="8"><span>3.7%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">TVVideoSmall</span>
+          <div class="bar-track"><div class="bar-fill bg-green" data-w="5"><span>2.4%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">HomeAudio</span>
+          <div class="bar-track"><div class="bar-fill bg-blue" data-w="7"><span>3.4%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">AudioMP3Player</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="4"><span>1.9%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">GamingAccessory</span>
+          <div class="bar-track"><div class="bar-fill bg-muted" data-w="5"><span>2.2%</span></div></div></div>
+        <div class="bar-row"><span class="bar-lbl">Others (5 cats)</span>
+          <div class="bar-track"><div class="bar-fill bg-red" data-w="3"><span>~1%</span></div></div></div>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <p class="card-label">Allocation Rationale</p>
+        <p style="font-size:.82rem;color:var(--label);line-height:1.7">
+          <strong style="color:var(--gold)">Games (46.1%):</strong> Highest combined SLA-weighted sales value. Fast-moving, strong margin, wide SKU range.<br><br>
+          <strong style="color:var(--cyan)">Camera (24.7%):</strong> DSLR accounts for 35.4% of GMV, but its high procurement SLA requires large buffer stock to maintain fulfilment rates.<br><br>
+          <strong style="color:var(--red)">GameMembershipCards (~0%):</strong> Digital fulfilment product; physical warehouse allocation is counterproductive.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████  RECOMMENDATIONS  ████ -->
+<section class="section fade-in" id="recs">
+  <p class="sec-eyebrow">08 · Recommendations</p>
+  <h2 class="sec-title">Strategic Recommendations</h2>
+  <p class="sec-desc">Data-driven recommendations across marketing strategy, product targeting, channel selection, and operations, directly derived from model outputs and EDA findings.</p>
+
+  <div class="grid-2" style="margin-bottom:1.4rem">
+    <div class="acard">
+      <h3>🎯 Products to Target in Campaigns</h3>
+      <p>
+        <strong style="color:var(--gold)">Primary targets:</strong> DSLR cameras (35.4% GMV), Speakers (9.9%), Point & Shoot cameras (7.3%). Highest absolute revenue contribution, campaigns here generate proportionate returns.<br><br>
+        <strong style="color:var(--cyan)">Growth targets:</strong> Gaming Consoles and TVVideoSmall, data shows strong sub-category growth trajectory; ideal for next-quarter campaign expansion before competition intensifies.<br><br>
+        <strong style="color:var(--muted)">De-prioritise:</strong> GameMembershipCards (digital) and AmplifierReceiver. Both show minimal sales contribution relative to campaign cost, and their low SLA-weighted inventory scores reinforce this.
+      </p>
+    </div>
+    <div class="acard">
+      <h3>📡 Channel Strategy by Product Category</h3>
+      <p>
+        <strong style="color:var(--gold)">SEM + Content Marketing for Camera/DSLR:</strong> High-intent search traffic converts well for premium, considered-purchase electronics. How-to content and review-driven pieces support informed buyer journeys.<br><br>
+        <strong style="color:var(--cyan)">Sponsorship + Online Mktg → Speakers & Gaming:</strong> Brand awareness and influencer/affiliate campaigns align with the younger demographic and discovery-driven purchasing behaviour of gaming and audio products.<br><br>
+        <strong style="color:var(--muted)">TV + Radio for seasonal peaks only (Nov–Dec):</strong> High reach but lowest elasticity year-round. Best reserved for broad awareness during major promotional events such as Black Friday and Boxing Day, when audience saturation temporarily resets.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="ibox">
+      <h4>Budget Reallocation Actions</h4>
+      <ul class="ilist">
+        <li>Increase Content Marketing by +22%, highest Ridge coefficient at 101.6M</li>
+        <li>Increase SEM allocation to 17.8%, second-highest elasticity at 96.0M</li>
+        <li>Reduce Digital to near-zero; Ridge coefficient ≈ 0.07M and Pearson correlation of -0.55 both indicate negligible revenue impact</li>
+        <li>Reduce Radio by 50%; t-value of 4,577 vs. 10,080 for SEM reflects substantially lower confidence in its revenue returns</li>
+        <li>Stabilise Sponsorship at 16%; strong Pearson correlation (0.92) with GMV confirms its continued relevance</li>
+        <li>Increase Affiliates to 12.9%; correlation of 0.96 with revenue suggests significant untapped leverage</li>
+      </ul>
+    </div>
+    <div class="ibox">
+      <h4>Operational Improvements</h4>
+      <ul class="ilist">
+        <li>Pre-scale logistics capacity before April–June (warm season, where the 3.5°C delay trigger activates)</li>
+        <li>Negotiate tighter supplier procurement SLA contracts to reduce σ = 53.46 variance; high unpredictability creates stockout and overstock cycles</li>
+        <li>Schedule campaign bursts on weekends, +19% GMV lift is already present organically, amplify with targeted push</li>
+        <li>Reallocate warehouse: 46% Games, 25% Camera, 8% Speaker per optimised inventory model</li>
+        <li>Improve prepaid checkout UX; a COD:Prepaid GMV ratio of 1.41× suggests prepaid is under-leveraged despite its lower operational risk</li>
+      </ul>
+    </div>
+    <div class="ibox">
+      <h4>Future Research & Model Extensions</h4>
+      <ul class="ilist">
+        <li>Integrate macroeconomic indicators (CAD inflation, GDP, consumer confidence) to refine spending elasticity estimates, especially for the luxury/DSLR segment</li>
+        <li>Apply Reinforcement Learning for dynamic real-time budget allocation, where each period updates the model with new revenue observations</li>
+        <li>Multi-touch attribution modelling to quantify cross-channel interaction effects (TV awareness → SEM conversion funnel)</li>
+        <li>Build a customer churn prediction model using behavioural sequences; at 95.3%, churn represents a major growth lever if reduced even modestly</li>
+        <li>Develop live Tableau dashboard with real-time data feed for month-over-month optimisation loop</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ████  TECH STACK  ████ -->
+<section class="section fade-in" id="tech">
+  <p class="sec-eyebrow">09 · Technology</p>
+  <h2 class="sec-title">Tech Stack & Methodology</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <p class="card-label">Python Data Stack</p>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot"></div><div><h4>Pandas & NumPy</h4><p>Data wrangling, feature engineering, and aggregation across 7 datasets</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--cyan)"></div><div><h4>Scikit-learn</h4><p>Ridge Regression (α=0.14), MinMaxScaler, GridSearchCV, train-test split, k-fold cross-validation</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div><h4>SciPy + Autograd</h4><p>Differential evolution for optimisation, Hessian matrix computation for coefficient uncertainty, statistical tests (t, F)</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><h4>CVXPY</h4><p>Convex optimisation framework for inventory LP formulation, used alongside gradient descent for comparison</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div><h4>SHAP</h4><p>SHapley Additive exPlanations for model-agnostic feature importance validation</p></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-label">Visualisation & Reporting</p>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot"></div><div><h4>Matplotlib & Seaborn</h4><p>Correlation heatmaps, GMV distributions, Pareto charts, time-series overlays, scatter plots, box plots</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--cyan)"></div><div><h4>Tableau</h4><p>4 interactive dashboards: Performance Overview, KPI Impact, Budget Optimisation, Product Performance</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div><div><h4>Google Colab / Jupyter</h4><p>Collaborative notebook environment across 4 notebooks with inline markdown documentation throughout</p></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-label">Statistical Methods</p>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot"></div><div><h4>Distance Correlation (dCor)</h4><p>Non-linear dependency measurement for KPI importance ranking; detects relationships Pearson misses</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--cyan)"></div><div><h4>F-test & t-test</h4><p>Model significance at 5% level; per-coefficient significance via Hessian-derived standard errors</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div><h4>Rolling-Average Imputation</h4><p>3-prior + 3-next rolling average for weather missing data, preferred over MICE for temporal consistency</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--green)"></div><div><h4>IQR + Pairwise t-Tests</h4><p>Outlier filtering on GMV/delivery time; pairwise significance testing across all KPI pairs</p></div></div>
+        <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div><h4>Granger Causality</h4><p>Time-series analysis on GMV vs. total media investment to test for lagged causal effects</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████  FOOTER  ████ -->
+<footer>
+  <div>
+    <p style="font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.3rem">🥇 Gold Medal, IIT KGP General Championship Data Analytics 2025</p>
+    <p>Data Analytics Case Study, AnalytiXLabs x IIT Kharagpur</p>
+  </div>
+  <div style="text-align:right">
+    <p>Python · Scikit-learn · CVXPY · SciPy · SHAP · Tableau</p>
+  </div>
+</footer>
+
+<!-- ════ SCRIPTS ════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── Scroll Fade-in ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis'); obs.unobserve(e.target);} });
+}, {threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// ── Animate Bars on scroll ──
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(f => {
+        const w = f.getAttribute('data-w') + '%';
+        f.style.width = '0%';
+        requestAnimationFrame(()=>{ setTimeout(()=>{ f.style.width = w; }, 80); });
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, {threshold:.15});
+document.querySelectorAll('.bar-chart').forEach(el => barObs.observe(el));
+
+// ── Monthly GMV Chart ──
+const ctx = document.getElementById('gmvChart');
+if(ctx){
+  const months = ['Jul-23','Aug-23','Sep-23','Oct-23','Nov-23','Dec-23',
+                  'Jan-24','Feb-24','Mar-24','Apr-24','May-24','Jun-24'];
+  const gmv =    [17.42, 0.04, 42.18, 50.27, 33.14, 43.58,
+                  38.72, 33.16, 40.40, 33.97, 40.95, 30.59];
+  const invest = [17.06, 5.06, 96.25, 170.16, 51.22, 106.75,
+                  74.20, 48.60, 81.58, 63.19, 53.04, 32.83];
+
+  new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: months,
+      datasets:[
+        { label:'GMV (₹ Cr)', data: gmv,
+          backgroundColor: 'rgba(244,185,66,0.75)',
+          borderColor: '#f4b942', borderWidth:1, borderRadius:4, yAxisID:'y' },
+        { label:'Media Spend (₹ Cr)', data: invest,
+          type:'line', borderColor:'#4fd1c5', backgroundColor:'rgba(79,209,197,0.08)',
+          borderWidth:2, pointRadius:3, tension:.35, fill:true, yAxisID:'y1' }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{labels:{color:'#94a3b8',font:{size:11,family:'Space Grotesk'}}},
+        tooltip:{backgroundColor:'#1a1e2a',borderColor:'#2a2f3d',borderWidth:1,
+          titleColor:'#e2e8f0',bodyColor:'#94a3b8',padding:10}
+      },
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(42,47,61,.5)'}},
+        y:{ticks:{color:'#f4b942',font:{size:10}},grid:{color:'rgba(42,47,61,.4)'},
+          title:{display:true,text:'GMV (₹ Cr)',color:'#f4b942',font:{size:10}}},
+        y1:{position:'right',ticks:{color:'#4fd1c5',font:{size:10}},
+          grid:{drawOnChartArea:false},
+          title:{display:true,text:'Spend (₹ Cr)',color:'#4fd1c5',font:{size:10}}}
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

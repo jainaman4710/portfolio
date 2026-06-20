@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MagentaCard: Strategy Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --magenta: #E20074;
+    --magenta-light: #FF4DA6;
+    --magenta-dim: rgba(226,0,116,0.15);
+    --magenta-dim2: rgba(226,0,116,0.08);
+    --bg: #0D0D1A;
+    --card: #141428;
+    --card2: #1A1A32;
+    --border: rgba(226,0,116,0.2);
+    --border2: rgba(255,255,255,0.07);
+    --text: #F0F0F5;
+    --text-dim: #9090A8;
+    --text-dimmer: #5A5A70;
+    --green: #00D4A0;
+    --amber: #FFB800;
+    --blue: #4A90E2;
+    --red: #FF4757;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  .section { scroll-margin-top: 130px; }
+  /* Section separator line above each section except first */
+  .section + .section {
+    border-top: 1px solid var(--border2);
+    padding-top: 3.5rem;
+  }
+  /* Section number badge shown inline with title */
+  .section-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--magenta);
+    background: var(--magenta-dim);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0D0D1A 0%, #1A0020 50%, #0D0D1A 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .header-left { display: flex; align-items: center; gap: 1rem; }
+  .dt-logo {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1.1rem; color: var(--magenta);
+  }
+  .dt-t {
+    width: 32px; height: 32px;
+    background: var(--magenta);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 900; color: white;
+  }
+  .header-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem; color: var(--text-dim);
+    border-left: 1px solid var(--border2);
+    padding-left: 1rem;
+  }
+  .header-badge {
+    background: var(--magenta-dim);
+    border: 1px solid var(--border);
+    color: var(--magenta-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .captain-tag {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-align: right;
+  }
+  .captain-tag strong { color: var(--text); }
+
+  /* NAV */
+  .nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border2);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 2rem;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-dim);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem; font-weight: 500;
+    padding: 0.9rem 1.2rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .nav-btn:hover { color: var(--text); border-bottom-color: rgba(226,0,116,0.4); }
+  .nav-btn.active { color: var(--magenta); border-bottom-color: var(--magenta); }
+
+  /* MAIN */
+  .main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  .section { display: block; margin-bottom: 4rem; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .card-magenta {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .gap-lg { gap: 1.5rem; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem; font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+  .section-sub {
+    color: var(--text-dim); font-size: 0.88rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+  }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+  .card-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--magenta);
+    margin-bottom: 0.5rem;
+  }
+  .card-body {
+    font-size: 0.85rem; color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  /* KPI STRIP */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 1.1rem 1rem;
+    text-align: center;
+  }
+  .kpi-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--magenta);
+    line-height: 1;
+  }
+  .kpi-label {
+    font-size: 0.72rem; color: var(--text-dim);
+    margin-top: 0.3rem; line-height: 1.3;
+  }
+
+  /* PILL TAGS */
+  .tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.72rem; font-weight: 600;
+    margin: 0.15rem 0.15rem 0.15rem 0;
+  }
+  .tag-magenta { background: var(--magenta-dim); color: var(--magenta-light); border: 1px solid var(--border); }
+  .tag-green { background: rgba(0,212,160,0.12); color: var(--green); border: 1px solid rgba(0,212,160,0.3); }
+  .tag-amber { background: rgba(255,184,0,0.12); color: var(--amber); border: 1px solid rgba(255,184,0,0.3); }
+  .tag-blue { background: rgba(74,144,226,0.12); color: var(--blue); border: 1px solid rgba(74,144,226,0.3); }
+  .tag-red { background: rgba(255,71,87,0.12); color: var(--red); border: 1px solid rgba(255,71,87,0.3); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border2); margin: 1.5rem 0; }
+  .mb-1 { margin-bottom: 0.75rem; }
+  .mb-2 { margin-bottom: 1.25rem; }
+  .mb-3 { margin-bottom: 1.75rem; }
+  .mt-2 { margin-top: 1.25rem; }
+
+  /* HYPOTHESIS CARDS */
+  .hyp-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border-top: 3px solid var(--magenta);
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .hyp-card:hover { border-top-color: var(--magenta-light); transform: translateY(-2px); }
+  .hyp-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: rgba(226,0,116,0.55);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+  }
+  .hyp-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--magenta);
+    margin-bottom: 0.5rem;
+  }
+  .hyp-body { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 0.75rem; }
+  .backing-box {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.78rem; color: var(--text-dim);
+    border-left: 3px solid var(--magenta-dim);
+    line-height: 1.5;
+  }
+  .backing-label { font-size: 0.68rem; color: var(--magenta); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+
+  /* COMPETITOR TABLE */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .comp-table th {
+    background: var(--bg);
+    color: var(--magenta);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 0.75rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-table td {
+    padding: 0.65rem 0.9rem;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border2);
+    vertical-align: middle;
+  }
+  .comp-table tr:hover td { background: var(--card2); }
+  .comp-table td:first-child { font-weight: 600; color: var(--text); }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-amber { background: var(--amber); }
+  .dot-red { background: var(--red); }
+
+  /* JOURNEY FUNNEL */
+  .journey-phase {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .phase-num-circle {
+    width: 36px; height: 36px; min-width: 36px;
+    border-radius: 50%;
+    background: var(--magenta-dim);
+    border: 2px solid var(--magenta);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem; font-weight: 700; color: var(--magenta);
+  }
+  .phase-connector {
+    width: 2px; height: 28px; background: var(--border); margin: 0 auto;
+  }
+  .phase-content { flex: 1; }
+  .phase-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 700; color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .phase-sub { font-size: 0.78rem; color: var(--magenta); font-weight: 600; margin-bottom: 0.3rem; }
+  .phase-desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 0.4rem; }
+  .friction-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  /* EMOTION BAR */
+  .emotion-strip {
+    display: flex;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 28px;
+    margin-bottom: 1.25rem;
+  }
+  .emotion-seg {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: default;
+    transition: flex 0.3s;
+  }
+
+  /* GTM PHASES */
+  .gtm-phase {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .gtm-phase:hover { border-color: var(--border); }
+  .gtm-phase-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: rgba(226,0,116,0.5);
+    line-height: 1;
+    min-width: 3rem;
+    letter-spacing: -0.02em;
+  }
+  .gtm-phase-inner { flex: 1; }
+  .gtm-phase-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--magenta);
+    margin-bottom: 0.25rem;
+  }
+  .gtm-phase-obj { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.6rem; }
+  .gtm-phase-exec { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 0.6rem; }
+  .gtm-metric {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.77rem; color: var(--green); font-weight: 600;
+  }
+
+  /* GANTT */
+  .gantt-wrap { overflow-x: auto; }
+  .gantt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    min-width: 700px;
+  }
+  .gantt th {
+    background: var(--bg);
+    color: var(--text-dimmer);
+    font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.68rem;
+    padding: 0.5rem 0.6rem;
+    text-align: center;
+    border: 1px solid var(--border2);
+  }
+  .gantt td {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--border2);
+    color: var(--text-dim);
+  }
+  .gantt td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+  .gantt-bar {
+    height: 18px; border-radius: 4px;
+    background: linear-gradient(90deg, var(--magenta), var(--magenta-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; color: white; font-weight: 600;
+  }
+  .gantt-bar-dim {
+    background: linear-gradient(90deg, #4A4A6A, #6A6A8A);
+  }
+  .gantt-bar-green {
+    background: linear-gradient(90deg, #00A080, var(--green));
+  }
+
+  /* METRICS / KPI SECTION */
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .metric-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem; font-weight: 700; color: var(--text);
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .metric-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border2);
+    font-size: 0.82rem;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-row-label { color: var(--text-dim); }
+  .metric-row-val { color: var(--text); font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+  .metric-row-val.green { color: var(--green); }
+  .metric-row-val.magenta { color: var(--magenta); }
+  .metric-row-val.amber { color: var(--amber); }
+
+  /* NORTH STAR */
+  .north-star {
+    background: linear-gradient(135deg, #1A0020, #0D001A);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .north-star::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--magenta), transparent);
+  }
+  .north-star-label { font-size: 0.75rem; color: var(--magenta); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .north-star-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+  .north-star-def { font-size: 0.82rem; color: var(--text-dim); max-width: 500px; margin: 0 auto; }
+
+  /* IMPACT ESTIMATOR */
+  .estimator { }
+  .slider-row {
+    margin-bottom: 1.1rem;
+  }
+  .slider-label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem; margin-bottom: 0.4rem;
+  }
+  .slider-label span:first-child { color: var(--text-dim); }
+  .slider-val { color: var(--magenta); font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%; height: 4px;
+    background: var(--border2);
+    border-radius: 2px; outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    background: var(--magenta);
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+  .impact-output {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    text-align: center;
+  }
+  .impact-out-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem; font-weight: 700; color: var(--green);
+  }
+  .impact-out-label { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+  /* RISK */
+  .risk-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border-left: 4px solid var(--red);
+    margin-bottom: 1rem;
+  }
+  .risk-card.amber { border-left-color: var(--amber); }
+  .risk-card.green { border-left-color: var(--green); }
+  .risk-card-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 0.6rem;
+  }
+  .risk-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 700; color: var(--text);
+  }
+  .risk-badge {
+    font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+  }
+  .risk-badge.high { background: rgba(255,71,87,0.15); color: var(--red); border: 1px solid rgba(255,71,87,0.3); }
+  .risk-badge.med { background: rgba(255,184,0,0.15); color: var(--amber); border: 1px solid rgba(255,184,0,0.3); }
+  .risk-badge.low { background: rgba(0,212,160,0.12); color: var(--green); border: 1px solid rgba(0,212,160,0.3); }
+  .risk-risk { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.6rem; line-height: 1.55; }
+  .risk-mit { font-size: 0.8rem; color: var(--green); line-height: 1.55; }
+  .risk-mit-label { font-size: 0.68rem; color: var(--green); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .risk-gap-label { font-size: 0.68rem; color: var(--amber); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.5rem; margin-bottom: 0.2rem; }
+  .risk-gap { font-size: 0.8rem; color: var(--amber); line-height: 1.5; }
+
+  /* PROGRESS BAR */
+  .prog-bar-wrap { background: var(--bg); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 0.3rem; }
+  .prog-bar { height: 100%; border-radius: 4px; }
+
+  /* OVERVIEW HERO */
+  .hero {
+    background: linear-gradient(135deg, #1A0020 0%, #0D001A 60%, #001A1A 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(226,0,116,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 0.75rem; color: var(--magenta); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .hero-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem; font-weight: 800; line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .hero-sub { font-size: 0.9rem; color: var(--text-dim); line-height: 1.65; max-width: 600px; margin-bottom: 1.5rem; }
+  .hero-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  /* COMPETITIVE MATRIX CHART */
+  .matrix-wrap { position: relative; }
+
+  /* PREV ATTEMPTS */
+  .attempt-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .attempt-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 0.6rem;
+  }
+  .attempt-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--text);
+  }
+  .attempt-body { font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 0.6rem; }
+  .insight-box {
+    background: var(--bg);
+    border-left: 3px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.78rem; color: var(--green); line-height: 1.5;
+  }
+
+  /* FEATURE BLOCKS */
+  .feature-block {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    height: 100%;
+  }
+  .feature-icon {
+    width: 36px; height: 36px;
+    background: var(--magenta-dim);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .feature-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 700; color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .feature-body { font-size: 0.82rem; color: var(--text-dim); line-height: 1.65; }
+  .bullet-list { list-style: none; }
+  .bullet-list li {
+    padding: 0.3rem 0;
+    font-size: 0.82rem; color: var(--text-dim);
+    border-bottom: 1px solid var(--border2);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .bullet-list li::before {
+    content: '→';
+    color: var(--magenta);
+    position: absolute; left: 0;
+    font-size: 0.75rem;
+  }
+  .bullet-list li:last-child { border-bottom: none; }
+
+  /* CANVAS CHART */
+  canvas { max-width: 100%; }
+
+  /* FEASIBILITY BREAKDOWN */
+  .feas-row {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border2);
+    font-size: 0.82rem;
+  }
+  .feas-row:last-child { border-bottom: none; }
+  .feas-label { color: var(--text-dim); width: 160px; flex-shrink: 0; }
+  .feas-bar-wrap { flex: 1; background: var(--bg); height: 6px; border-radius: 3px; }
+  .feas-bar { height: 100%; border-radius: 3px; }
+  .feas-tag { width: 80px; text-align: right; }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  @media (max-width: 768px) {
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .hero-headline { font-size: 1.5rem; }
+    .impact-output { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="dt-logo">
+      <div class="dt-t">T</div>
+      Deutsche Telekom
+    </div>
+    <div class="header-title">MagentaCard · Fintech Flywheel Strategy</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="captain-tag">Captain: <strong>Aman Tater</strong><br>Meghnad Saha Hall of Residence · IIT Kharagpur</div>
+    
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-btn" href="#overview">01 Overview</a>
+  <a class="nav-btn" href="#hypothesis">02 Hypotheses</a>
+  <a class="nav-btn" href="#product">03 Core Product</a>
+  <a class="nav-btn" href="#journey">04 Customer Journey</a>
+  <a class="nav-btn" href="#gtm">05 GTM</a>
+  <a class="nav-btn" href="#metrics">06 Metrics &amp; Impact</a>
+  <a class="nav-btn" href="#risk">07 Risk</a>
+</nav>
+
+<!-- MAIN -->
+<div class="main" id="top">
+
+  <!-- ===== SECTION 1: OVERVIEW ===== -->
+  <div id="overview" class="section">
+    <div class="hero">
+      <div class="hero-eyebrow"><span class="section-num" style="background:rgba(226,0,116,0.2);border-color:rgba(226,0,116,0.4);">01</span>General Championship · Product Management 2026</div>
+      <div class="hero-headline">Building Germany's First<br><span style="color:var(--magenta)">Telco-Native Fintech Flywheel</span></div>
+      <div class="hero-sub">Deutsche Telekom's MagentaCard sits at a rare strategic intersection: 54.2M customers, a live payments engine in Payzy, and a captive app channel in MeinMagenta. The challenge isn't distribution; it's trust, activation, and habit. This strategy reframes MagentaCard not as a bank product, but as a utility optimization tool woven into everyday telecom behavior.</div>
+      <div class="hero-chips">
+        <span class="tag tag-magenta">Germany-First</span>
+        <span class="tag tag-green">12-Month Horizon</span>
+        <span class="tag tag-blue">BaFin Compliant</span>
+        <span class="tag tag-amber">5-Phase GTM</span>
+        <span class="tag tag-magenta">Payzy + MeinMagenta Integration</span>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div style="background:linear-gradient(135deg,#1A0020,#0D0D1A);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.75rem;">
+      <div class="card-label" style="margin-bottom:0.75rem;">Executive Summary</div>
+      <div class="grid-2" style="gap:1.25rem;">
+        <div>
+          <div style="font-size:0.8rem;color:var(--text-dimmer);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.4rem;">The Problem</div>
+          <div style="font-size:0.88rem;color:var(--text);line-height:1.65;">MagentaCard has strong distribution but weak activation. Germany's cash-dominant culture, 70% data-sharing reluctance, and structural Girocard dominance mean that standard fintech playbooks fail. Previous telco-led banking ventures (Orange Bank, O2 Banking) lost hundreds of millions on the same mistake: competing as a bank instead of extending as a telecom utility.</div>
+        </div>
+        <div>
+          <div style="font-size:0.8rem;color:var(--text-dimmer);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.4rem;">The Solution in One Line</div>
+          <div style="font-size:1.05rem;color:var(--magenta);font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.4;margin-bottom:0.75rem;">"Make MagentaCard the invisible engine that silently shrinks your Telekom bill every month."</div>
+          <div style="font-size:0.8rem;color:var(--text-dimmer);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.4rem;">The Flywheel</div>
+          <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;font-size:0.8rem;color:var(--text-dim);">
+            <span style="background:var(--magenta-dim);border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.6rem;color:var(--magenta-light);font-weight:600;">Bill Hook</span>
+            <span style="color:var(--text-dimmer);">→</span>
+            <span style="background:var(--magenta-dim);border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.6rem;color:var(--magenta-light);font-weight:600;">30s KYC</span>
+            <span style="color:var(--text-dimmer);">→</span>
+            <span style="background:rgba(74,144,226,0.12);border:1px solid rgba(74,144,226,0.3);border-radius:6px;padding:0.25rem 0.6rem;color:var(--blue);font-weight:600;">First Spend</span>
+            <span style="color:var(--text-dimmer);">→</span>
+            <span style="background:rgba(0,212,160,0.1);border:1px solid rgba(0,212,160,0.3);border-radius:6px;padding:0.25rem 0.6rem;color:var(--green);font-weight:600;">Bill Reduces</span>
+            <span style="color:var(--text-dimmer);">→</span>
+            <span style="background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.3);border-radius:6px;padding:0.25rem 0.6rem;color:var(--amber);font-weight:600;">Household Expands</span>
+            <span style="color:var(--text-dimmer);">→</span>
+            <span style="background:var(--magenta-dim);border:1px solid var(--border);border-radius:6px;padding:0.25rem 0.6rem;color:var(--magenta-light);font-weight:600;">Viral Share</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-val">54.2M</div><div class="kpi-label">Total DT Customers</div></div>
+      <div class="kpi"><div class="kpi-val">10M</div><div class="kpi-label">MeinMagenta MAUs</div></div>
+      <div class="kpi"><div class="kpi-val">14.8M</div><div class="kpi-label">Broadband Lines</div></div>
+      <div class="kpi"><div class="kpi-val">130%</div><div class="kpi-label">Mobile Penetration</div></div>
+      <div class="kpi"><div class="kpi-val">1.5 to 2%</div><div class="kpi-label">YoY Revenue Growth</div></div>
+    </div>
+
+    <div class="grid-2 mb-3">
+      <div class="card">
+        <div class="card-label">The German Market</div>
+        <div class="card-title">Three Structural Headwinds</div>
+        <div class="feas-row">
+          <div class="feas-label">Cash-dominant POS</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:58%;background:var(--red)"></div></div>
+          <div class="feas-tag"><span class="tag tag-red">58%</span></div>
+        </div>
+        <div class="feas-row">
+          <div class="feas-label">Girocard circulation</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:100%;background:var(--amber)"></div></div>
+          <div class="feas-tag"><span class="tag tag-amber">100M cards</span></div>
+        </div>
+        <div class="feas-row">
+          <div class="feas-label">Anti-data sharing</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:70%;background:var(--red)"></div></div>
+          <div class="feas-tag"><span class="tag tag-red">70%</span></div>
+        </div>
+        <div style="margin-top:1rem;" class="card-body">Germany's structural resistance to digital financial products is not a blocker; it's a design constraint that, if embraced, becomes a moat. The strategy leans into this culture rather than fighting it.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Existing Assets (Levers)</div>
+        <div class="card-title">What We Already Have</div>
+        <ul class="bullet-list">
+          <li>MeinMagenta: 10M MAU captive channel, short session duration, transactional intent</li>
+          <li>Payzy (Cosmote-proven): active wallet with payments, transfers, rewards (already live)</li>
+          <li>Moments: rewards & offers platform, proven engagement driver</li>
+          <li>OneCampaign: segmentation-capable push notification engine</li>
+          <li>Telecom usage data: behavioral signals for segmentation without 3rd-party data</li>
+          <li>Family broadband plans: 50% lower churn (natural expansion surface)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-label">Why Previous Telco Fintech Attempts Failed: What We Do Differently</div>
+      <div class="grid-4" style="margin-top:0.75rem;">
+        <div class="attempt-card">
+          <div class="attempt-header">
+            <div class="attempt-name">Orange Bank 🇫🇷</div>
+            <span class="tag tag-red">Failed</span>
+          </div>
+          <div class="attempt-body">Positioned as a full bank. Lost €1B competing with N26 and Revolut. Identity crisis between telco and bank.</div>
+          <div class="insight-box">Never claim to be a bank. Position as a telecom utility tool.</div>
+        </div>
+        <div class="attempt-card">
+          <div class="attempt-header">
+            <div class="attempt-name">O2 Banking 🇩🇪</div>
+            <span class="tag tag-red">Failed</span>
+          </div>
+          <div class="attempt-body">Required users to open a new separate bank account (too much behavioral change). Low adoption despite Germany presence.</div>
+          <div class="insight-box">Layer on top of existing accounts. No primary banking replacement.</div>
+        </div>
+        <div class="attempt-card">
+          <div class="attempt-header">
+            <div class="attempt-name">Vodafone M-Pesa 🇪🇺</div>
+            <span class="tag tag-red">Failed</span>
+          </div>
+          <div class="attempt-body">Solved a problem that doesn't exist in Europe (basic transfers). Shut down by 2017 due to zero adoption.</div>
+          <div class="insight-box">Add lifestyle value. Don't replace infrastructure that already works.</div>
+        </div>
+        <div class="attempt-card">
+          <div class="attempt-header">
+            <div class="attempt-name">Swisscom TWINT 🇨🇭</div>
+            <span class="tag tag-green">Succeeded</span>
+          </div>
+          <div class="attempt-body">Integrated with existing bank accounts. Focused on payments. Now used by 70%+ of Switzerland's population.</div>
+          <div class="insight-box">Be a seamless lifestyle bridge. Integrate, don't replace.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Competitive Differentiation Matrix</div>
+      <div class="card-title">MagentaCard vs. Market Alternatives</div>
+      <table class="comp-table" style="margin-top:0.75rem;">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>MagentaCard</th>
+            <th>Revolut</th>
+            <th>N26</th>
+            <th>PayPal</th>
+            <th>Girocard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Telecom bill integration</td>
+            <td><span class="dot dot-green"></span> Native</td>
+            <td><span class="dot dot-red"></span> None</td>
+            <td><span class="dot dot-red"></span> None</td>
+            <td><span class="dot dot-red"></span> None</td>
+            <td><span class="dot dot-red"></span> None</td>
+          </tr>
+          <tr>
+            <td>KYC friction (Germany)</td>
+            <td><span class="dot dot-green"></span> Bank-Ident / eID</td>
+            <td><span class="dot dot-amber"></span> Medium</td>
+            <td><span class="dot dot-amber"></span> Medium</td>
+            <td><span class="dot dot-green"></span> Low</td>
+            <td><span class="dot dot-green"></span> None</td>
+          </tr>
+          <tr>
+            <td>Household / family features</td>
+            <td><span class="dot dot-green"></span> Digital Allowance</td>
+            <td><span class="dot dot-amber"></span> Revolut <18</td>
+            <td><span class="dot dot-red"></span> None</td>
+            <td><span class="dot dot-red"></span> None</td>
+            <td><span class="dot dot-red"></span> None</td>
+          </tr>
+          <tr>
+            <td>Rewards framing (Germany-fit)</td>
+            <td><span class="dot dot-green"></span> Inflation Shield / Discount</td>
+            <td><span class="dot dot-amber"></span> Cashback</td>
+            <td><span class="dot dot-amber"></span> Cashback</td>
+            <td><span class="dot dot-amber"></span> Cashback</td>
+            <td><span class="dot dot-red"></span> None</td>
+          </tr>
+          <tr>
+            <td>Captive acquisition channel</td>
+            <td><span class="dot dot-green"></span> 10M MAU app</td>
+            <td><span class="dot dot-red"></span> No</td>
+            <td><span class="dot dot-red"></span> No</td>
+            <td><span class="dot dot-amber"></span> Email only</td>
+            <td><span class="dot dot-red"></span> No</td>
+          </tr>
+          <tr>
+            <td>Schufa-free onboarding</td>
+            <td><span class="dot dot-green"></span> Explicitly</td>
+            <td><span class="dot dot-amber"></span> Partial</td>
+            <td><span class="dot dot-amber"></span> Partial</td>
+            <td><span class="dot dot-green"></span> Yes</td>
+            <td><span class="dot dot-green"></span> N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: HYPOTHESES ===== -->
+  <div id="hypothesis" class="section">
+    <div class="section-title"><span class="section-num">02</span>Strategic Hypotheses</div>
+    <div class="section-sub">Five behavior-based hypotheses rooted in German market psychology. Each drives a specific product or GTM decision; they are not assumptions, but testable propositions with empirical backing.</div>
+
+    <div class="grid-2 mb-3" style="grid-template-columns:1fr 1fr 1fr; gap:1rem;">
+      <div class="hyp-card">
+        <div class="hyp-num">01</div>
+        <div class="hyp-title">Utility Camouflage</div>
+        <div class="hyp-body">German consumers reject "telco as bank" but readily adopt financial services framed as telecom utility tools. The product label, not the product itself, determines acceptance.</div>
+        <div class="backing-box">
+          <div class="backing-label">Backing</div>
+          Orange Bank's €1B loss despite large user base; brand framing drove rejection, not product quality.
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-num">02</div>
+        <div class="hyp-title">Shadow Endowment</div>
+        <div class="hyp-body">With 35 to 40% VideoIdent KYC abandonment, users only complete verification when they're protecting value they perceive as already theirs, not gaining future rewards.</div>
+        <div class="backing-box">
+          <div class="backing-label">Backing</div>
+          Loss aversion (Kahneman & Tversky): losing €5 feels worse than gaining €5. Shadow account + locked reward leverages this.
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-num">03</div>
+        <div class="hyp-title">Household Ledger</div>
+        <div class="hyp-body">Utility billing is organized at the household level. While individual debit markets are fragmented, DT's family plan penetration gives a structural advantage for multi-user adoption.</div>
+        <div class="backing-box">
+          <div class="backing-label">Backing</div>
+          Household telecom plans show up to 50% lower churn vs. single-line users.
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-num">04</div>
+        <div class="hyp-title">Inflation Shield</div>
+        <div class="hyp-body">Framing the same 1% reward as "Cashback" underperforms in Germany vs. framing it as a "Discount" or "Inflation Shield." The emotional trigger is cost reduction, not earning.</div>
+        <div class="backing-box">
+          <div class="backing-label">Backing</div>
+          ~70% of German household assets sit in low-risk instruments, reflecting capital preservation bias over return-seeking.
+        </div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-num">05</div>
+        <div class="hyp-title">Girocard Gap</div>
+        <div class="hyp-body">MagentaCard (Visa) cannot form top-of-wallet physical habits because Visa acceptance at high-frequency German micro-merchants is inconsistent. Digital-first usage is the correct default.</div>
+        <div class="backing-box">
+          <div class="backing-label">Backing</div>
+          Girocard dominates 42% of German retail POS with near-universal acceptance. Digital platforms (Netflix, Spotify, Lieferando) have 100% Visa acceptance.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Hypothesis → Design Decision Mapping</div>
+      <div class="card-title">How Each Hypothesis Shapes Product & GTM</div>
+      <table class="comp-table" style="margin-top:0.75rem;">
+        <thead><tr><th>Hypothesis</th><th>Product Implication</th><th>GTM Implication</th><th>Test Signal</th></tr></thead>
+        <tbody>
+          <tr><td>Utility Camouflage</td><td>Never say "wallet"; instead say "bill optimizer"</td><td>All copy uses "reduce your bill" framing</td><td>A/B test: "wallet" vs "bill shield" CTR</td></tr>
+          <tr><td>Shadow Endowment</td><td>Shadow account created at bill view, not signup</td><td>Loss-framed push: "You have €5 locked"</td><td>KYC completion rate pre/post shadow account</td></tr>
+          <tr><td>Household Ledger</td><td>Digital Allowance sub-wallet feature</td><td>Phase 3 targets family plan holders</td><td>Household penetration rate &gt;25%</td></tr>
+          <tr><td>Inflation Shield</td><td>Reward labelled "Inflation Shield" in UI</td><td>Seasonal Deflation Wraps every quarter</td><td>A/B: "Cashback 1%" vs "Bill Discount 1%" conversion</td></tr>
+          <tr><td>Girocard Gap</td><td>Digital-first merchant integrations (Phase 4)</td><td>Launch with DB Navigator, Lieferando first</td><td>Digital vs physical card transaction ratio</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: CORE PRODUCT ===== -->
+  <div id="product" class="section">
+    <div class="section-title"><span class="section-num">03</span>Core Product Strategy</div>
+    <div class="section-sub">MagentaCard is positioned as a smart utility layer on top of the existing telecom relationship: not a bank, not a neobank competitor. Four interconnected features serve three clearly defined user segments.</div>
+
+    <!-- TARGET SEGMENTS -->
+    <div class="card mb-3">
+      <div class="card-label">Target Segmentation</div>
+      <div class="card-title">Three Primary Personas: Sized, Prioritized, and Behaviorally Distinct</div>
+      <div class="grid-3" style="margin-top:1rem;">
+        <div style="background:var(--bg);border-radius:10px;padding:1.1rem;border:1px solid var(--border);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--magenta),var(--magenta-light));"></div>
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+            <div style="width:36px;height:36px;background:var(--magenta-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">👨‍💼</div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:var(--text);">The Bill-Conscious Payer</div>
+              <div style="font-size:0.72rem;color:var(--magenta);">PRIMARY · ~3.5M addressable</div>
+            </div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.75rem;">Age 30–50. Actively checks their Telekom bill in MeinMagenta. Sensitive to fixed monthly costs. Risk-averse, no interest in "banking" products. Motivated by the prospect of reducing a bill they already resent paying.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            <span class="tag tag-magenta">Bill discount hook</span>
+            <span class="tag tag-magenta">Inflation Shield framing</span>
+            <span class="tag tag-magenta">Deflation Dashboard</span>
+          </div>
+          <div style="margin-top:0.75rem;font-size:0.77rem;color:var(--text-dimmer);">Primary channel: MeinMagenta bill view intercept</div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:1.1rem;border:1px solid rgba(74,144,226,0.3);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#7EC8FA);"></div>
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+            <div style="width:36px;height:36px;background:rgba(74,144,226,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">👨‍👩‍👧</div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:var(--text);">The Family Plan Holder</div>
+              <div style="font-size:0.72rem;color:var(--blue);">GROWTH · ~2.1M addressable</div>
+            </div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.75rem;">Age 35–55. Holds multi-line broadband or family data plan. Already manages household finances. Values control and visibility over family spending. Receptive to digital allowance tools; the parental approval mechanic fits existing behavior.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            <span class="tag tag-blue">Digital Allowance</span>
+            <span class="tag tag-blue">Household dashboard</span>
+            <span class="tag tag-blue">Multi-wallet control</span>
+          </div>
+          <div style="margin-top:0.75rem;font-size:0.77rem;color:var(--text-dimmer);">Primary channel: Family plan targeted push via OneCampaign</div>
+        </div>
+
+        <div style="background:var(--bg);border-radius:10px;padding:1.1rem;border:1px solid rgba(0,212,160,0.3);position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#00FFC8);"></div>
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+            <div style="width:36px;height:36px;background:rgba(0,212,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🎧</div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:var(--text);">The Digital Native</div>
+              <div style="font-size:0.72rem;color:var(--green);">EXPANSION · ~1.8M addressable</div>
+            </div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.75rem;">Age 18–30. Heavy Spotify / Netflix / Lieferando user. Already uses multiple payment methods. Not loyal to any single card; motivated by perks and seamlessness. MagentaCard wins here through guaranteed Visa acceptance on their highest-frequency digital spend.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
+            <span class="tag tag-green">Magenta Sparks</span>
+            <span class="tag tag-green">Digital partner perks</span>
+            <span class="tag tag-green">Gamified streaks</span>
+          </div>
+          <div style="margin-top:0.75rem;font-size:0.77rem;color:var(--text-dimmer);">Primary channel: Phase 4 partner integrations + referral mechanics</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE ORIGIN MAP -->
+    <div class="card mb-3">
+      <div class="card-label">Feature Origin Map</div>
+      <div class="card-title">Where each feature comes from: the pain point it addresses and the hypothesis it tests</div>
+      <div style="overflow-x:auto;margin-top:0.75rem;">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>User Pain Point</th>
+              <th>Hypothesis it Validates</th>
+              <th>Why it's the right solution</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bill Intercept Toggle</td>
+              <td>Users open MeinMagenta only for transactional tasks; no reason to discover a new financial product</td>
+              <td><span class="tag tag-magenta">H1 Utility Camouflage</span></td>
+              <td>Embeds acquisition inside an existing high-intent moment. The user doesn't feel recruited; they feel like they found a shortcut on a task they were already doing.</td>
+              <td><span class="tag tag-green">Acquisition</span></td>
+            </tr>
+            <tr>
+              <td>Bank-Ident KYC</td>
+              <td>35 to 40% of users abandon VideoIdent; regulatory friction kills momentum right after interest is sparked</td>
+              <td><span class="tag tag-magenta">H2 Shadow Endowment</span></td>
+              <td>Reuses a gesture (FaceID bank transfer) users perform hundreds of times already. Zero new behaviour required. The locked reward creates urgency to push through the one new step.</td>
+              <td><span class="tag tag-blue">Enabler</span></td>
+            </tr>
+            <tr>
+              <td>Deflation Dashboard Widget</td>
+              <td>After KYC, users forget the card exists; reward accumulation is invisible until billing month</td>
+              <td><span class="tag tag-amber">H4 Inflation Shield</span></td>
+              <td>Makes the running savings total visible on the app homescreen every session. Converts a monthly reward event into a continuous, emotionally satisfying signal. Craving is built between billing cycles.</td>
+              <td><span class="tag tag-green">Retention</span></td>
+            </tr>
+            <tr>
+              <td>Digital Allowance Sub-Wallet</td>
+              <td>Family plan holders are DT's lowest-churn segment but have no financial product that uses the family relationship as a feature</td>
+              <td><span class="tag tag-blue">H3 Household Ledger</span></td>
+              <td>Turns a single verified account into 2 to 3 activated accounts at near-zero marginal acquisition cost. The parent's trust in DT transfers to the child's wallet. Network effect within the household.</td>
+              <td><span class="tag tag-green">Growth</span></td>
+            </tr>
+            <tr>
+              <td>Magenta Sparks (Partner Perks)</td>
+              <td>MagentaCard is digital-only; Girocard dominates physical POS so the card has no natural high-frequency use case in day-to-day life</td>
+              <td><span class="tag tag-red">H5 Girocard Gap</span></td>
+              <td>Shifts usage entirely to digital environments (Spotify, Netflix, Lieferando) where Visa acceptance is 100%. Habit is formed on guaranteed-success transactions, not POS friction.</td>
+              <td><span class="tag tag-amber">Habit Formation</span></td>
+            </tr>
+            <tr>
+              <td>Smart Vault (5% yield)</td>
+              <td>Users who build a habit still keep minimal balance; DT captures no liquidity value from engaged users</td>
+              <td><span class="tag tag-amber">H4 Inflation Shield</span></td>
+              <td>Repositions idle savings as an active cost-reduction tool, consistent with the Inflation Shield framing. "Move €200 here and erase €10 from your next bill" is a clear, loss-aversion-compatible prompt for a risk-averse German user.</td>
+              <td><span class="tag tag-blue">Monetisation</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+        <span style="font-size:0.72rem;color:var(--text-dimmer);">Feature types:</span>
+        <span class="tag tag-green">Acquisition / Retention / Growth</span>: directly drives the North Star (MAP)
+        <span class="tag tag-blue">Enabler / Monetisation</span>: unlocks or extracts value from acquired users
+        <span class="tag tag-amber">Habit Formation</span>: converts activated users into habitual users
+      </div>
+    </div>
+
+    <!-- RICE PRIORITIZATION -->
+    <div class="card mb-3">
+      <div class="card-label">Feature Prioritization</div>
+      <div class="card-title">RICE Score Framework: What Ships When and Why</div>
+      <div style="overflow-x:auto;margin-top:0.75rem;">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Reach (K users)</th>
+              <th>Impact (1–5)</th>
+              <th>Confidence (%)</th>
+              <th>Effort (eng-weeks)</th>
+              <th style="color:var(--magenta);">RICE Score</th>
+              <th>Phase</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bill Intercept Toggle</td>
+              <td>10,000</td>
+              <td>5</td>
+              <td>90%</td>
+              <td>3</td>
+              <td><span style="color:var(--green);font-weight:700;font-family:'Space Grotesk',sans-serif;">15,000</span></td>
+              <td><span class="tag tag-magenta">P1</span></td>
+            </tr>
+            <tr>
+              <td>Bank-Ident KYC (PSD2)</td>
+              <td>8,500</td>
+              <td>5</td>
+              <td>85%</td>
+              <td>5</td>
+              <td><span style="color:var(--green);font-weight:700;font-family:'Space Grotesk',sans-serif;">7,225</span></td>
+              <td><span class="tag tag-magenta">P1</span></td>
+            </tr>
+            <tr>
+              <td>Deflation Dashboard Widget</td>
+              <td>10,000</td>
+              <td>4</td>
+              <td>80%</td>
+              <td>4</td>
+              <td><span style="color:var(--green);font-weight:700;font-family:'Space Grotesk',sans-serif;">8,000</span></td>
+              <td><span class="tag tag-magenta">P1</span></td>
+            </tr>
+            <tr>
+              <td>Digital Allowance Sub-Wallet</td>
+              <td>2,100</td>
+              <td>4</td>
+              <td>75%</td>
+              <td>8</td>
+              <td><span style="color:var(--amber);font-weight:700;font-family:'Space Grotesk',sans-serif;">788</span></td>
+              <td><span class="tag tag-blue">P3</span></td>
+            </tr>
+            <tr>
+              <td>eID NFC Verification</td>
+              <td>5,000</td>
+              <td>3</td>
+              <td>80%</td>
+              <td>4</td>
+              <td><span style="color:var(--amber);font-weight:700;font-family:'Space Grotesk',sans-serif;">3,000</span></td>
+              <td><span class="tag tag-blue">P2</span></td>
+            </tr>
+            <tr>
+              <td>Magenta Sparks (Partner Perks)</td>
+              <td>1,800</td>
+              <td>3</td>
+              <td>70%</td>
+              <td>10</td>
+              <td><span style="color:var(--amber);font-weight:700;font-family:'Space Grotesk',sans-serif;">378</span></td>
+              <td><span class="tag tag-green">P4</span></td>
+            </tr>
+            <tr>
+              <td>Smart Vault (5% yield)</td>
+              <td>900</td>
+              <td>4</td>
+              <td>65%</td>
+              <td>12</td>
+              <td><span style="color:var(--text-dim);font-weight:700;font-family:'Space Grotesk',sans-serif;">195</span></td>
+              <td><span class="tag tag-green">P5</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:0.75rem;color:var(--text-dimmer);margin-top:0.6rem;">RICE = (Reach × Impact × Confidence) / Effort. Reach in thousands of addressable MeinMagenta MAUs. Confidence reflects engineering + regulatory feasibility.</div>
+    </div>
+
+    <!-- UI MOCKUP WIREFRAME -->
+    <div class="card mb-3">
+      <div class="card-label">UI Concept</div>
+      <div class="card-title">MeinMagenta Bill Intercept: The Acquisition Moment</div>
+      <div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;align-items:flex-start;">
+        <!-- Phone mockup SVG -->
+        <div style="flex-shrink:0;display:flex;justify-content:center;">
+          <svg width="220" height="400" viewBox="0 0 220 400" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <!-- Phone frame -->
+            <rect x="10" y="4" width="200" height="392" rx="28" ry="28" fill="#1A1A2E" stroke="#3A3A5E" stroke-width="2"/>
+            <rect x="16" y="12" width="188" height="376" rx="22" ry="22" fill="#0D0D1A"/>
+            <!-- Notch -->
+            <rect x="75" y="14" width="70" height="16" rx="8" fill="#1A1A2E"/>
+            <!-- Status bar -->
+            <text x="28" y="44" font-size="9" fill="#9090A8" font-family="Inter">9:41</text>
+            <text x="168" y="44" font-size="9" fill="#9090A8" font-family="Inter">●●●</text>
+            <!-- App header -->
+            <rect x="16" y="54" width="188" height="40" rx="0" fill="#141428"/>
+            <circle cx="38" cy="74" r="12" fill="#E20074" opacity="0.2"/>
+            <text x="34" y="79" font-size="13" fill="#E20074" font-weight="bold" font-family="sans-serif">T</text>
+            <text x="54" y="79" font-size="11" fill="#F0F0F5" font-weight="600" font-family="Inter">MeinMagenta</text>
+            <circle cx="186" cy="74" r="10" fill="#1A1A32"/>
+            <text x="182" y="78" font-size="10" fill="#9090A8" font-family="sans-serif">☰</text>
+            <!-- Bill card -->
+            <rect x="22" y="104" width="176" height="90" rx="10" fill="#141428" stroke="#2A2A44" stroke-width="1"/>
+            <text x="34" y="124" font-size="9" fill="#9090A8" font-family="Inter">AUGUST INVOICE</text>
+            <text x="34" y="146" font-size="20" fill="#F0F0F5" font-weight="700" font-family="'Space Grotesk',sans-serif">€ 49.99</text>
+            <text x="34" y="162" font-size="8.5" fill="#9090A8" font-family="Inter">Due 15 Sep · MagentaMobil L</text>
+            <rect x="126" y="134" width="60" height="22" rx="6" fill="#E20074" opacity="0.15" stroke="#E20074" stroke-width="0.8"/>
+            <text x="156" y="149" font-size="8" fill="#E20074" font-weight="600" font-family="Inter" text-anchor="middle">Pay Now</text>
+            <!-- Intercept banner -->
+            <rect x="22" y="204" width="176" height="68" rx="10" fill="#1E0028" stroke="#E20074" stroke-width="1.2"/>
+            <!-- Glow effect -->
+            <rect x="22" y="204" width="176" height="3" rx="1.5" fill="#E20074" opacity="0.8"/>
+            <text x="34" y="223" font-size="8" fill="#FF4DA6" font-weight="700" font-family="Inter">💡 SAVE ON THIS BILL</text>
+            <text x="34" y="238" font-size="9.5" fill="#F0F0F5" font-weight="600" font-family="Inter">Activate MagentaCard</text>
+            <text x="34" y="251" font-size="8.5" fill="#9090A8" font-family="Inter">and get €5 off this invoice</text>
+            <!-- Toggle -->
+            <rect x="152" y="232" width="36" height="20" rx="10" fill="#E20074"/>
+            <circle cx="178" cy="242" r="8" fill="white"/>
+            <!-- Locked reward -->
+            <rect x="22" y="282" width="176" height="48" rx="10" fill="#0D1A10" stroke="rgba(0,212,160,0.3)" stroke-width="1"/>
+            <text x="34" y="300" font-size="8" fill="#00D4A0" font-weight="700" font-family="Inter">🔒 €5.00 REWARD LOCKED</text>
+            <text x="34" y="315" font-size="8" fill="#9090A8" font-family="Inter">Complete identity check to unlock</text>
+            <rect x="110" y="302" width="76" height="18" rx="5" fill="rgba(0,212,160,0.15)" stroke="#00D4A0" stroke-width="0.8"/>
+            <text x="148" y="314" font-size="8" fill="#00D4A0" font-weight="600" font-family="Inter" text-anchor="middle">Verify Now →</text>
+            <!-- Bottom nav -->
+            <rect x="16" y="352" width="188" height="36" rx="0" fill="#141428"/>
+            <text x="46" y="374" font-size="8" fill="#9090A8" font-family="Inter" text-anchor="middle">Home</text>
+            <text x="88" y="374" font-size="8" fill="#9090A8" font-family="Inter" text-anchor="middle">Bills</text>
+            <text x="132" y="374" font-size="8" fill="#E20074" font-family="Inter" text-anchor="middle">Offers</text>
+            <text x="174" y="374" font-size="8" fill="#9090A8" font-family="Inter" text-anchor="middle">Account</text>
+          </svg>
+        </div>
+        <!-- Annotation callouts -->
+        <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:0.85rem;padding-top:0.5rem;">
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--magenta);">
+            <div style="font-size:0.72rem;color:var(--magenta);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.25rem;">① Bill View Intercept</div>
+            <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.5;">The activation hook lives inside the existing bill view, not a separate onboarding page. User intent is already present (they opened the app to check their bill). Zero new navigation required.</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--magenta-light);">
+            <div style="font-size:0.72rem;color:var(--magenta-light);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.25rem;">② One-Tap Toggle Activation</div>
+            <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.5;">The toggle creates the shadow Payzy wallet instantly. The user sees the card activated, with no form, no redirect. The €5 appears immediately but in a locked state.</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--green);">
+            <div style="font-size:0.72rem;color:var(--green);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.25rem;">③ Locked Reward (Shadow Endowment)</div>
+            <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.5;">The locked €5 banner is the behavioral hook. It is immediately visible, green-coded for "money," and uses loss-aversion framing: "Verify Now" to unlock what's already theirs, not "earn future cashback."</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--amber);">
+            <div style="font-size:0.72rem;color:var(--amber);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.25rem;">④ Design Principles Applied</div>
+            <div style="font-size:0.8rem;color:var(--text-dim);line-height:1.5;">No "bank" language anywhere. No logo of Payzy on this screen. The product is presented as a MeinMagenta native feature, consistent with Hypothesis 1 (Utility Camouflage). Schufa-free badge visible in the full KYC flow.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-3">
+      <div class="feature-block">
+        <div class="feature-icon">🪝</div>
+        <div class="feature-title">Acquisition: The Bill Intercept</div>
+        <div class="feature-body">User views their Telekom bill inside MeinMagenta. A toggle appears: "Save €5 on this bill." One tap creates a shadow wallet in Payzy and locks the reward. The discount appears but is grayed out (accessible only after KYC completion). Th KYC completion. This is the Zomato-style intercept: acquisition happens inside an existing high-intent moment with zero separate onboarding.</div>
+        <div style="margin-top:1rem;">
+          <div class="backing-label">Feasibility</div>
+          <div class="feas-row"><div class="feas-label">Technical complexity</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:55%;background:var(--amber)"></div></div><div class="feas-tag"><span class="tag tag-amber">Medium</span></div></div>
+          <div class="feas-row"><div class="feas-label">Regulatory (BaFin)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:30%;background:var(--green)"></div></div><div class="feas-tag"><span class="tag tag-green">Low risk</span></div></div>
+          <div class="feas-row"><div class="feas-label">User behavior change</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:25%;background:var(--green)"></div></div><div class="feas-tag"><span class="tag tag-green">Minimal</span></div></div>
+        </div>
+        <div style="margin-top:0.85rem;background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--amber);">
+          <div style="font-size:0.68rem;color:var(--amber);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;">If It Doesn't Work + Backup</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.55;"><strong style="color:var(--text);">Risk:</strong> Low CTR on the bill intercept banner (below 8%) means the funnel never seeds. Most likely cause: users mentally file it as an ad. <strong style="color:var(--text);">Backup:</strong> A/B test intercept placement inside the payment confirmation screen instead of bill view (post-payment state has higher relief and lower defensiveness). Secondary: SIM activation intercept for new customers; zero competition for attention at that moment.</div>
+        </div>
+      </div>
+      <div class="feature-block">
+        <div class="feature-icon">🔐</div>
+        <div class="feature-title">Retention: Smart-Yield + Inflation Shield</div>
+        <div class="feature-body">The product is framed not as interest or cashback but as a recurring bill reduction engine. Users earn "Coins" on every transaction which directly offset their next Telekom invoice. The "Deflation Dashboard" widget on MeinMagenta home screen shows cumulative savings in real time, turning passive reward accumulation into a visible, emotionally satisfying score.</div>
+        <div style="margin-top:1rem;">
+          <div class="backing-label">Retention Mechanics</div>
+          <ul class="bullet-list">
+            <li>Smart Vault: idle balance earns up to 5% yield in ecosystem Coins</li>
+            <li>Quarterly Deflation Wrap: seasonal storytelling of savings avoided</li>
+            <li>Gamified streaks: bonus multipliers for consecutive monthly card use</li>
+          </ul>
+        </div>
+        <div style="margin-top:0.85rem;background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--amber);">
+          <div style="font-size:0.68rem;color:var(--amber);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;">If It Doesn't Work + Backup</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.55;"><strong style="color:var(--text);">Risk:</strong> If Coin accumulation is too slow (user sees €0.50 saved after a month), the "Inflation Shield" framing collapses and feels like marketing spin. <strong style="color:var(--text);">Backup:</strong> Introduce a guaranteed first-month bill credit (flat €2 off, regardless of spend) to establish the reward-loop viscerally before Coins kick in. This is a customer acquisition cost that pays for itself in reduced churn over 3 months.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-3">
+      <div class="feature-block">
+        <div class="feature-icon">👨‍👩‍👧</div>
+        <div class="feature-title">Add-On: Digital Allowance (Household Ledger)</div>
+        <div class="feature-body">A family-based sub-wallet system where the verified parent account is the master wallet. Teens get a linked sub-wallet with configurable spending limits and merchant whitelisting. Parents approve transfers in real time via MeinMagenta. This is the growth multiplier: one acquired parent = two or three activated accounts. It also solves the lowest-churn segment (family plan holders) with a product that deepens lock-in.</div>
+        <div style="margin-top:1rem;">
+          <div class="backing-label">Competitive Moat</div>
+          <div class="card-body">No German telco offers this. Revolut has a <18 product but without telecom bill integration. This feature uniquely leverages DT's family plan data to drive warm acquisition; the primary account holder becomes an internal sales agent.</div>
+        </div>
+        <div style="margin-top:0.85rem;background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--amber);">
+          <div style="font-size:0.68rem;color:var(--amber);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;">If It Doesn't Work + Backup</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.55;"><strong style="color:var(--text);">Risk:</strong> Parents may not trust a telecom wallet for a child's spending, particularly given German data-privacy culture and liability concerns. <strong style="color:var(--text);">Backup:</strong> Launch first as "Bill Contribution" mode only; teen earns bill discounts by completing tasks set by parents, with no direct spending card. This builds trust over 2 to 3 months before introducing the full sub-wallet, and sidesteps BaFin's minor-account requirements at launch.</div>
+        </div>
+      </div>
+      <div class="feature-block">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">KYC: Frictionless Verification Stack</div>
+        <div class="feature-body">Three-tier verification ladder designed to maximize completion rate at every audience segment.</div>
+        <div style="margin-top:0.75rem;">
+          <div class="feas-row"><div class="feas-label">Bank-Ident (Primary)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:85%;background:var(--green)"></div></div><div class="feas-tag"><span class="tag tag-green">~85% reach</span></div></div>
+          <div class="card-body" style="font-size:0.77rem;padding:0.3rem 0 0.75rem 0;">Authorize a €0.01 transfer via existing bank app using FaceID/TouchID. BaFin-accepted. No documents, no video call. 30 seconds.</div>
+          <div class="feas-row"><div class="feas-label">eID via NFC (Secondary)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:50%;background:var(--amber)"></div></div><div class="feas-tag"><span class="tag tag-amber">~50% reach</span></div></div>
+          <div class="card-body" style="font-size:0.77rem;padding:0.3rem 0 0.75rem 0;">NFC-tap German ID card. 6-digit government PIN. Seconds, no uploads. Secondary due to PIN recall friction.</div>
+          <div class="feas-row"><div class="feas-label">VideoIdent (Fallback)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:35%;background:var(--red)"></div></div><div class="feas-tag"><span class="tag tag-red">Last resort</span></div></div>
+          <div class="card-body" style="font-size:0.77rem;padding:0.3rem 0 0;">35 to 40% abandonment rate. Only triggered when Bank-Ident and eID both fail.</div>
+        </div>
+        <div style="margin-top:0.85rem;background:var(--bg);border-radius:8px;padding:0.75rem 0.9rem;border-left:3px solid var(--amber);">
+          <div style="font-size:0.68rem;color:var(--amber);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;">If It Doesn't Work + Backup</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.55;"><strong style="color:var(--text);">Risk:</strong> Bank-Ident relies on PSD2 open banking APIs which major German banks (Sparkasse, Volksbank) have historically under-implemented or rate-limited. If the primary path fails for 30%+ of users, the funnel breaks at its most critical step. <strong style="color:var(--text);">Backup:</strong> Pre-integrate with a dedicated PSD2 aggregator (e.g. Finleap Connect or Tink) rather than direct bank APIs. This provides a single failover layer across all banks. Additionally, for new DT SIM activations, telecom identity can serve as a soft KYC signal to pre-qualify users before they ever open Payzy.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Product Architecture Overview</div>
+      <div class="card-title">System Layers</div>
+      <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:180px;background:var(--bg);border-radius:8px;padding:1rem;border:1px solid var(--border2);text-align:center;">
+          <div style="color:var(--magenta);font-weight:700;font-size:0.8rem;margin-bottom:0.5rem;">DISCOVERY LAYER</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);">MeinMagenta App<br><span style="color:var(--text-dimmer);">Bill intercept · Moments · Deflation Dashboard widget</span></div>
+        </div>
+        <div style="display:flex;align-items:center;color:var(--magenta);font-size:1.2rem;">→</div>
+        <div style="flex:1;min-width:180px;background:var(--bg);border-radius:8px;padding:1rem;border:1px solid var(--border2);text-align:center;">
+          <div style="color:var(--magenta);font-weight:700;font-size:0.8rem;margin-bottom:0.5rem;">IDENTITY LAYER</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);">Bank-Ident / eID / VideoIdent<br><span style="color:var(--text-dimmer);">PSD2 Open Banking API · Biometric device-binding</span></div>
+        </div>
+        <div style="display:flex;align-items:center;color:var(--magenta);font-size:1.2rem;">→</div>
+        <div style="flex:1;min-width:180px;background:var(--bg);border-radius:8px;padding:1rem;border:1px solid var(--border2);text-align:center;">
+          <div style="color:var(--magenta);font-weight:700;font-size:0.8rem;margin-bottom:0.5rem;">PAYMENTS LAYER</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);">Payzy Wallet · MagentaCard Visa<br><span style="color:var(--text-dimmer);">Smart Vault · Sub-wallets · Merchant integrations</span></div>
+        </div>
+        <div style="display:flex;align-items:center;color:var(--magenta);font-size:1.2rem;">→</div>
+        <div style="flex:1;min-width:180px;background:var(--bg);border-radius:8px;padding:1rem;border:1px solid var(--border2);text-align:center;">
+          <div style="color:var(--magenta);font-weight:700;font-size:0.8rem;margin-bottom:0.5rem;">REWARDS LAYER</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);">Coins → Bill offset<br><span style="color:var(--text-dimmer);">Magenta Moments · Quarterly Deflation Wrap</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEFLATION DASHBOARD MOCKUP + HABIT LOOP -->
+    <div class="grid-2 mb-3" style="margin-top:1.25rem;">
+      <!-- Deflation Dashboard Mockup -->
+      <div class="card">
+        <div class="card-label">UI Concept: Retention State</div>
+        <div class="card-title">Deflation Dashboard Widget (MeinMagenta Home)</div>
+        <div style="display:flex;justify-content:center;margin-top:1rem;">
+          <svg width="200" height="340" viewBox="0 0 200 340" xmlns="http://www.w3.org/2000/svg">
+            <!-- Phone frame -->
+            <rect x="8" y="4" width="184" height="332" rx="24" fill="#1A1A2E" stroke="#3A3A5E" stroke-width="1.5"/>
+            <rect x="14" y="10" width="172" height="320" rx="18" fill="#0D0D1A"/>
+            <!-- Notch -->
+            <rect x="66" y="12" width="68" height="13" rx="6" fill="#1A1A2E"/>
+            <!-- Status -->
+            <text x="24" y="35" font-size="8" fill="#9090A8" font-family="Inter">9:41</text>
+            <text x="155" y="35" font-size="8" fill="#9090A8" font-family="Inter">●●●</text>
+            <!-- Widget header -->
+            <rect x="18" y="45" width="164" height="80" rx="10" fill="#1E0028" stroke="#E20074" stroke-width="0.8"/>
+            <rect x="18" y="45" width="164" height="3" rx="1.5" fill="#E20074"/>
+            <text x="30" y="63" font-size="8" fill="#FF4DA6" font-weight="700" font-family="Inter">🛡️ INFLATION SHIELD</text>
+            <text x="30" y="82" font-size="18" fill="#F0F0F5" font-weight="800" font-family="'Space Grotesk',sans-serif">€ 47.50</text>
+            <text x="30" y="96" font-size="8" fill="#9090A8" font-family="Inter">saved on bills this year</text>
+            <!-- Progress bar -->
+            <rect x="30" y="108" width="138" height="8" rx="4" fill="#2A2A44"/>
+            <rect x="30" y="108" width="95" height="8" rx="4" fill="url(#progressGrad)"/>
+            <defs>
+              <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#E20074"/>
+                <stop offset="100%" stop-color="#FF4DA6"/>
+              </linearGradient>
+            </defs>
+            <text x="170" y="116" font-size="7" fill="#E20074" font-family="Inter" text-anchor="end">69%</text>
+            <!-- Transactions list -->
+            <rect x="18" y="138" width="164" height="96" rx="10" fill="#141428" stroke="#2A2A44" stroke-width="0.8"/>
+            <text x="30" y="156" font-size="7.5" fill="#9090A8" font-family="Inter" font-weight="600">RECENT SAVINGS</text>
+            <!-- Row 1 -->
+            <text x="30" y="173" font-size="8.5" fill="#F0F0F5" font-family="Inter">Spotify Premium</text>
+            <text x="170" y="173" font-size="8.5" fill="#00D4A0" font-family="'Space Grotesk',sans-serif" text-anchor="end">–€1.80</text>
+            <text x="30" y="184" font-size="7" fill="#5A5A70" font-family="Inter">via MagentaCard · 2 days ago</text>
+            <!-- Row 2 -->
+            <rect x="18" y="187" width="164" height="0.5" fill="#2A2A44"/>
+            <text x="30" y="202" font-size="8.5" fill="#F0F0F5" font-family="Inter">DB Navigator</text>
+            <text x="170" y="202" font-size="8.5" fill="#00D4A0" font-family="'Space Grotesk',sans-serif" text-anchor="end">–€3.20</text>
+            <text x="30" y="213" font-size="7" fill="#5A5A70" font-family="Inter">via MagentaCard · 5 days ago</text>
+            <!-- Row 3 -->
+            <rect x="18" y="216" width="164" height="0.5" fill="#2A2A44"/>
+            <text x="30" y="231" font-size="8.5" fill="#F0F0F5" font-family="Inter">Lieferando</text>
+            <text x="170" y="231" font-size="8.5" fill="#00D4A0" font-family="'Space Grotesk',sans-serif" text-anchor="end">–€0.45</text>
+            <!-- Family sub-wallet card -->
+            <rect x="18" y="245" width="164" height="54" rx="10" fill="#0A1A28" stroke="rgba(74,144,226,0.4)" stroke-width="0.8"/>
+            <text x="30" y="262" font-size="7.5" fill="#4A90E2" font-weight="700" font-family="Inter">👨‍👩‍👧 FAMILY WALLET</text>
+            <text x="30" y="277" font-size="8.5" fill="#F0F0F5" font-family="Inter">Jonas (16) spent €12.00</text>
+            <text x="30" y="289" font-size="7.5" fill="#9090A8" font-family="Inter">Remaining allowance: €38.00 / €50.00</text>
+            <!-- Bottom tab -->
+            <rect x="14" y="300" width="172" height="28" rx="0" fill="#141428"/>
+            <text x="40" y="317" font-size="7.5" fill="#9090A8" font-family="Inter" text-anchor="middle">Home</text>
+            <text x="80" y="317" font-size="7.5" fill="#9090A8" font-family="Inter" text-anchor="middle">Bills</text>
+            <text x="120" y="317" font-size="7.5" fill="#E20074" font-family="Inter" text-anchor="middle">Savings</text>
+            <text x="160" y="317" font-size="7.5" fill="#9090A8" font-family="Inter" text-anchor="middle">Account</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Habit Loop Diagram -->
+      <div class="card">
+        <div class="card-label">Behavioral Design</div>
+        <div class="card-title">The MagentaCard Habit Loop</div>
+        <div style="display:flex;justify-content:center;align-items:center;margin-top:0.5rem;">
+          <svg width="280" height="280" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer ring -->
+            <circle cx="140" cy="140" r="118" fill="none" stroke="rgba(226,0,116,0.1)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <!-- Center -->
+            <circle cx="140" cy="140" r="42" fill="#1E0028" stroke="#E20074" stroke-width="1.5"/>
+            <text x="140" y="136" font-size="9.5" fill="#FF4DA6" font-weight="700" font-family="'Space Grotesk',sans-serif" text-anchor="middle">HABIT</text>
+            <text x="140" y="150" font-size="9.5" fill="#FF4DA6" font-weight="700" font-family="'Space Grotesk',sans-serif" text-anchor="middle">LOOP</text>
+            <!-- Nodes: 4 positions -->
+            <!-- Top: CUE -->
+            <circle cx="140" cy="28" r="26" fill="#1A0020" stroke="#E20074" stroke-width="1.5"/>
+            <text x="140" y="24" font-size="8" fill="#FF4DA6" font-weight="700" font-family="Inter" text-anchor="middle">CUE</text>
+            <text x="140" y="36" font-size="7" fill="#9090A8" font-family="Inter" text-anchor="middle">Bill arrives</text>
+            <!-- Right: ROUTINE -->
+            <circle cx="252" cy="140" r="26" fill="#0A1A28" stroke="#4A90E2" stroke-width="1.5"/>
+            <text x="252" y="136" font-size="8" fill="#4A90E2" font-weight="700" font-family="Inter" text-anchor="middle">ROUTINE</text>
+            <text x="252" y="148" font-size="7" fill="#9090A8" font-family="Inter" text-anchor="middle">Pay w/ card</text>
+            <!-- Bottom: REWARD -->
+            <circle cx="140" cy="252" r="26" fill="#0A1A0A" stroke="#00D4A0" stroke-width="1.5"/>
+            <text x="140" y="248" font-size="8" fill="#00D4A0" font-weight="700" font-family="Inter" text-anchor="middle">REWARD</text>
+            <text x="140" y="260" font-size="7" fill="#9090A8" font-family="Inter" text-anchor="middle">Bill shrinks</text>
+            <!-- Left: CRAVING -->
+            <circle cx="28" cy="140" r="26" fill="#1A1A00" stroke="#FFB800" stroke-width="1.5"/>
+            <text x="28" y="136" font-size="8" fill="#FFB800" font-weight="700" font-family="Inter" text-anchor="middle">CRAVING</text>
+            <text x="28" y="148" font-size="7" fill="#9090A8" font-family="Inter" text-anchor="middle">See dashboard</text>
+            <!-- Arrows curved -->
+            <path d="M158 46 Q210 46 230 118" fill="none" stroke="#E20074" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowM)"/>
+            <path d="M240 162 Q240 210 162 238" fill="none" stroke="#4A90E2" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowB)"/>
+            <path d="M118 238 Q40 210 40 162" fill="none" stroke="#00D4A0" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowG)"/>
+            <path d="M40 118 Q40 46 122 46" fill="none" stroke="#FFB800" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowA)"/>
+            <defs>
+              <marker id="arrowM" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#E20074"/></marker>
+              <marker id="arrowB" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#4A90E2"/></marker>
+              <marker id="arrowG" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#00D4A0"/></marker>
+              <marker id="arrowA" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#FFB800"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.5rem;">
+          <div style="font-size:0.76rem;color:var(--text-dim);padding:0.5rem;background:var(--bg);border-radius:6px;border-left:2px solid var(--magenta);"><strong style="color:var(--magenta);">CUE:</strong> Monthly Telekom bill triggers MeinMagenta open</div>
+          <div style="font-size:0.76rem;color:var(--text-dim);padding:0.5rem;background:var(--bg);border-radius:6px;border-left:2px solid var(--blue);"><strong style="color:var(--blue);">ROUTINE:</strong> User pays with MagentaCard (digital subscriptions, transport)</div>
+          <div style="font-size:0.76rem;color:var(--text-dim);padding:0.5rem;background:var(--bg);border-radius:6px;border-left:2px solid var(--green);"><strong style="color:var(--green);">REWARD:</strong> Next bill is lower. Visible on dashboard. Tangible, immediate.</div>
+          <div style="font-size:0.76rem;color:var(--text-dim);padding:0.5rem;background:var(--bg);border-radius:6px;border-left:2px solid var(--amber);"><strong style="color:var(--amber);">CRAVING:</strong> User checks dashboard between billing cycles, building engagement between natural touch points</div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ===== SECTION 4: CUSTOMER JOURNEY ===== -->
+  <div id="journey" class="section">
+    <div class="section-title"><span class="section-num">04</span>Customer Journey</div>
+    <div class="section-sub">Six emotional phases from first contact to organic advocacy. Each phase is named for the emotional state it produces, not just the action taken. Friction is a design input, not an obstacle.</div>
+
+    <div class="card mb-3">
+      <div class="card-label">Emotional Progression Map</div>
+      <div class="emotion-strip" style="margin-top:0.75rem;">
+        <div class="emotion-seg" style="background:#2A1020;color:#FF4DA6;">Intrigued</div>
+        <div class="emotion-seg" style="background:#2A1530;color:#C084FC;">Endowed</div>
+        <div class="emotion-seg" style="background:#0A2030;color:#60A5FA;">Impressed</div>
+        <div class="emotion-seg" style="background:#0A2010;color:#34D399;">Empowered</div>
+        <div class="emotion-seg" style="background:#1A2010;color:#86EFAC;">Secure</div>
+        <div class="emotion-seg" style="background:#2A1A00;color:#FCD34D;">Proud</div>
+      </div>
+    </div>
+
+    <div id="journey-phases">
+      <!-- Phase 1 -->
+      <div class="journey-phase">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle">1</div>
+          <div class="phase-connector"></div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">Discovery & The Hook</div>
+              <div class="phase-sub">"The Zomato-Style Intercept" · User emotion: Intrigued</div>
+            </div>
+            <span class="tag tag-magenta">MeinMagenta App</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">User opens MeinMagenta to check their bill. A contextual banner appears within the bill view, not as a generic ad, but as a toggle directly on their invoice: "Save €5 on this bill." This is the critical moment: acquisition is embedded in an existing high-intent task. A shadow Payzy wallet is created instantly. The discount is visible but locked.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: Banner blindness</span>
+            <span class="tag tag-green">Mitigation: Framed as a bill discount, not an ad</span>
+            <span class="tag tag-blue">Metric: Bill intercept CTR</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phase 2 -->
+      <div class="journey-phase">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle">2</div>
+          <div class="phase-connector"></div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">The "Shadow" Opt-In</div>
+              <div class="phase-sub">"The Shadow Endowment" · User emotion: Endowed</div>
+            </div>
+            <span class="tag tag-magenta">Payzy App</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">The shadow wallet is created. The user sees a pending reward of €5, but it's locked until KYC is complete. The key behavioral insight here is loss aversion: the user is not trying to gain €5, they're trying to recover €5 that already feels like theirs. This reframing dramatically increases KYC motivation.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: App switch (MMA → Payzy)</span>
+            <span class="tag tag-green">Mitigation: Deep link, loss aversion drives action</span>
+            <span class="tag tag-blue">Metric: Shadow wallet → KYC start rate</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phase 3 -->
+      <div class="journey-phase">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle">3</div>
+          <div class="phase-connector"></div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">30-Second KYC Bridge</div>
+              <div class="phase-sub">"Frictionless Verification" · User emotion: Impressed</div>
+            </div>
+            <span class="tag tag-green">Bank-Ident Primary</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">The default KYC flow is Bank-Ident: the user authorizes a €0.01 micro-transfer from their existing bank account using FaceID or TouchID. BaFin accepts this as proof of identity. No video call, no document upload. The experience takes under 30 seconds and mirrors a normal banking gesture the user has already performed hundreds of times.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: Strict German KYC regulation</span>
+            <span class="tag tag-green">Mitigation: Bank-Ident eliminates video + docs</span>
+            <span class="tag tag-amber">Fallback: eID NFC → VideoIdent</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phase 4 -->
+      <div class="journey-phase">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle">4</div>
+          <div class="phase-connector"></div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">"Smart-Pay" Activation</div>
+              <div class="phase-sub">"The Magenta Spark Habit" · User emotion: Empowered</div>
+            </div>
+            <span class="tag tag-magenta">Digital-First Usage</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">Post-KYC, a gamified onboarding sequence prompts the user to set MagentaCard as default for one digital subscription (Netflix, Spotify, DB Navigator, with guaranteed Visa acceptance). A reward multiplier is active for the first 30 days. The user experiences the reward loop immediately: spend → earn Coins → bill reduces next month.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: Visa acceptance inconsistency at POS</span>
+            <span class="tag tag-green">Mitigation: Digital-first onboarding avoids POS entirely</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phase 5 -->
+      <div class="journey-phase">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle">5</div>
+          <div class="phase-connector"></div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">Ecosystem Lock-In</div>
+              <div class="phase-sub">"The Deflation Dashboard" · User emotion: Secure</div>
+            </div>
+            <span class="tag tag-green">Family + Vault</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">The Deflation Dashboard widget on MeinMagenta home screen shows total bill savings to date. The user is prompted to onboard family members (Digital Allowance) and move idle cash to Smart Vault for 5% yield in Coins. At this stage, the product is embedded in the household financial structure. Churn now means losing accumulated savings visibility and family infrastructure.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: Trust barrier for idle cash</span>
+            <span class="tag tag-green">Mitigation: Low-risk pooled usage, not investment framing</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phase 6 -->
+      <div class="journey-phase" style="margin-bottom:0;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="phase-num-circle" style="border-color:var(--amber);color:var(--amber);">6</div>
+        </div>
+        <div class="phase-content card" style="margin-bottom:0;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <div class="phase-name">Organic Advocacy</div>
+              <div class="phase-sub">"The Life Hack Share" · User emotion: Proud</div>
+            </div>
+            <span class="tag tag-amber">K-Factor &gt; 1.15</span>
+          </div>
+          <div class="phase-desc" style="margin-top:0.6rem;">Quarterly Deflation Wrap: a shareable, visual summary of how much the user avoided in fixed costs. Framed as a "life hack" rather than a financial product. The seasonal context (Winter Heating Offset, Summer Travel Smasher) gives users a culturally resonant story to share, not just a number. Visual milestone badges create referral moments at natural sharing occasions.</div>
+          <div class="friction-row">
+            <span class="tag tag-red">Friction: Low organic talk about fintech products</span>
+            <span class="tag tag-green">Mitigation: Visual milestones, shareable wraps, savings story</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 5: GTM ===== -->
+  <div id="gtm" class="section">
+    <div class="section-title"><span class="section-num">05</span>Go-To-Market Strategy</div>
+    <div class="section-sub">Five sequenced phases over 12 months. Each phase has a distinct product positioning, execution plan, and success metric. The strategy moves from internal integration to viral household expansion.</div>
+
+    <div class="card mb-3">
+      <div class="card-label">12-Month Execution Roadmap</div>
+      <div class="gantt-wrap" style="margin-top:0.75rem;">
+        <table class="gantt">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Initiative</th>
+              <th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th>
+              <th>M7</th><th>M8</th><th>M9</th><th>M10</th><th>M11</th><th>M12</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Phase 1: API Bridge & Integration</td>
+              <td colspan="2"><div class="gantt-bar">Build</div></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td>Phase 2: Pilot Beta (Top 5% MAU)</td>
+              <td></td><td></td>
+              <td colspan="2"><div class="gantt-bar">Pilot</div></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td>Phase 3: Household Land-Grab</td>
+              <td></td><td></td><td></td><td></td>
+              <td colspan="3"><div class="gantt-bar">Scale</div></td>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td>Phase 4: Digital Partner Expansion</td>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              <td colspan="3"><div class="gantt-bar-green gantt-bar">Expand</div></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Phase 5: Liquidity Capture</td>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              <td colspan="2"><div class="gantt-bar-dim gantt-bar">Retain</div></td>
+            </tr>
+            <tr>
+              <td>A/B Testing (discount threshold)</td>
+              <td></td><td></td><td></td>
+              <td colspan="2"><div class="gantt-bar-dim gantt-bar">€2 vs €5</div></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td>Digital Allowance Launch</td>
+              <td></td><td></td><td></td><td></td><td></td>
+              <td colspan="2"><div class="gantt-bar">Launch</div></td>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td>Q1 Deflation Wrap</td>
+              <td></td><td></td>
+              <td><div class="gantt-bar-green gantt-bar" style="font-size:0.6rem;">Q1</div></td>
+              <td></td><td></td>
+              <td><div class="gantt-bar-green gantt-bar" style="font-size:0.6rem;">Q2</div></td>
+              <td></td><td></td>
+              <td><div class="gantt-bar-green gantt-bar" style="font-size:0.6rem;">Q3</div></td>
+              <td></td><td></td>
+              <td><div class="gantt-bar-green gantt-bar" style="font-size:0.6rem;">Q4</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">1</div>
+      <div class="gtm-phase-inner">
+        <div class="gtm-phase-title">Product Integration & API Bridge</div>
+        <div class="gtm-phase-obj">Build the conversion bridge between MeinMagenta and Payzy. Internal development sprint (no external positioning).</div>
+        <div class="gtm-phase-exec">The 30-day sprint builds three things: (1) the dynamic discount toggle within MeinMagenta's bill view with deep-link handoff to Payzy, (2) PSD2 Open Banking API integration for Bank-Ident KYC, and (3) biometric device-binding to ensure BaFin compliance without SMS OTP dependency. Resource requirement: 2 BE engineers, 1 FE engineer, 1 product designer, 1 compliance officer. Cost estimate: ~€80K to 120K in engineering time.</div>
+        <div class="gtm-metric">📊 Metric: API success rate &gt;99.5% · KYC flow completion in &lt;90 seconds</div>
+      </div>
+    </div>
+
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">2</div>
+      <div class="gtm-phase-inner">
+        <div class="gtm-phase-title">Pilot & Conversion Optimisation</div>
+        <div class="gtm-phase-obj">Validate the discount hook and optimize the funnel in a live, controlled environment. Product positioning: "A native feature to instantly reduce your Telekom bill."</div>
+        <div class="gtm-phase-exec">Closed beta with top 5% of MeinMagenta power users (those who actively check bills or claim Moments (~500K users)). A/B test the discount threshold: €2 vs €3 vs. €5 to find the lowest CAC that still drives KYC completion. Secondary A/B: "Cashback" vs "Discount" vs "Inflation Shield" label. All variants run for 4 weeks minimum for statistical significance. Target: identify a cost-per-activation below €8.</div>
+        <div class="gtm-metric">📊 Metric: Up to 50% of beta users pre-converted · CAC &lt; €8</div>
+      </div>
+    </div>
+
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">3</div>
+      <div class="gtm-phase-inner">
+        <div class="gtm-phase-title">Household Land-Grab</div>
+        <div class="gtm-phase-obj">Scale aggressively by leveraging Telekom's existing family plan infrastructure. Positioning: "The smart way to manage pocket money and shrink the bills."</div>
+        <div class="gtm-phase-exec">Launch permanent Deflation Dashboard widget to wider MeinMagenta base. Concurrently launch Digital Allowance. Marketing targets all users with multi-line broadband contracts or family data plans. Push notifications framed as: "Your household could be saving €X/month." Primary account holders become internal sales agents, activating sub-wallets for teens requires no new KYC (piggybacking verified parent identity).</div>
+        <div class="gtm-metric">📊 Metric: Household penetration &gt;25% of family plan base</div>
+      </div>
+    </div>
+
+    <div class="gtm-phase">
+      <div class="gtm-phase-num">4</div>
+      <div class="gtm-phase-inner">
+        <div class="gtm-phase-title">Digital Partnership Expansion</div>
+        <div class="gtm-phase-obj">Grow daily transaction volume by capturing share-of-wallet in digital environments where Visa acceptance is guaranteed.</div>
+        <div class="gtm-phase-exec">API integrations with DB Navigator, Lieferando, Netflix, Spotify. Introduce "Magenta Sparks", gamified, time-sensitive yield boosts (e.g., "3x Coins on Lieferando this weekend"). The user perceives these as exclusive Telekom perks on partner services. The reality is that they are forming a Visa card habit in digital-native environments where Girocard is irrelevant. Priority order: DB Navigator (high-frequency commuters), Lieferando (weekly repeat), streaming (recurring default card behavior).</div>
+        <div class="gtm-metric">📊 Metric: Average monthly transactions 3 to 4 per active user</div>
+      </div>
+    </div>
+
+    <div class="gtm-phase" style="margin-bottom:0;">
+      <div class="gtm-phase-num">5</div>
+      <div class="gtm-phase-inner">
+        <div class="gtm-phase-title">Liquidity Capture & Retention</div>
+        <div class="gtm-phase-obj">Transition users from transacting to storing idle cash within the ecosystem. Positioning: "Your Financial Utility Shield: beat inflation and erase fixed costs automatically."</div>
+        <div class="gtm-phase-exec">Target habitual bill-offsetters (3+ months of consecutive card use) with Smart Vault prompt: "Move idle cash to earn up to 5% in Coins." Launch Q4 Deflation Wrap as an annual shareable showing total fixed costs avoided in 2026. This is the organic viral moment. Each user shares a customized savings story, not a generic referral link. K-Factor target above 1.15 means each active user brings in at least 1.15 new users organically.</div>
+        <div class="gtm-metric">📊 Metric: K-Factor &gt; 1.15 · Smart Vault opt-in rate &gt;20%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 6: METRICS ===== -->
+  <div id="metrics" class="section">
+    <div class="section-title"><span class="section-num">06</span>Metrics &amp; Impact Measurement</div>
+    <div class="section-sub">A rigorous measurement framework with a single North Star, leading indicators that predict it, and lagging indicators that confirm it. Plus an interactive 12-month impact estimator.</div>
+
+    <div class="north-star">
+      <div class="north-star-label">⭐ North Star Metric</div>
+      <div class="north-star-val">Monthly Active Payers (MAP)</div>
+      <div class="north-star-def">The number of unique users who complete at least one MagentaCard transaction in a given calendar month. This metric simultaneously captures activation (not just signup), habit formation (recurring monthly behavior), and revenue generation (each transaction generates interchange). It cannot be gamed by free signups or dormant accounts.</div>
+    </div>
+
+    <div class="grid-2 mb-3">
+      <div class="metric-card">
+        <div class="metric-title">📈 Leading Indicators <span style="font-size:0.75rem;color:var(--text-dimmer);font-weight:400;">(predict MAP growth)</span></div>
+        <div class="metric-row"><div class="metric-row-label">Bill intercept CTR</div><div class="metric-row-val magenta">Target: &gt;12%</div></div>
+        <div class="metric-row"><div class="metric-row-label">Shadow wallet → KYC start rate</div><div class="metric-row-val magenta">Target: &gt;45%</div></div>
+        <div class="metric-row"><div class="metric-row-label">KYC completion rate (Bank-Ident)</div><div class="metric-row-val green">Target: &gt;70%</div></div>
+        <div class="metric-row"><div class="metric-row-label">Time to first transaction (T2FT)</div><div class="metric-row-val green">Target: &lt;7 days</div></div>
+        <div class="metric-row"><div class="metric-row-label">Digital Allowance sub-wallet activations</div><div class="metric-row-val amber">Target: 25% of parents</div></div>
+        <div class="metric-row"><div class="metric-row-label">Magenta Sparks redemption rate</div><div class="metric-row-val amber">Target: &gt;30%</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">📊 Lagging Indicators <span style="font-size:0.75rem;color:var(--text-dimmer);font-weight:400;">(confirm long-term health)</span></div>
+        <div class="metric-row"><div class="metric-row-label">Monthly Active Payers (North Star)</div><div class="metric-row-val magenta">Target: 1.5M by M12</div></div>
+        <div class="metric-row"><div class="metric-row-label">Average monthly transactions / user</div><div class="metric-row-val green">Target: 3 to 4</div></div>
+        <div class="metric-row"><div class="metric-row-label">Telecom churn rate (card users vs base)</div><div class="metric-row-val green">Target: 20% lower</div></div>
+        <div class="metric-row"><div class="metric-row-label">Revenue per user (ARPU uplift)</div><div class="metric-row-val amber">Target: +€2.5/month</div></div>
+        <div class="metric-row"><div class="metric-row-label">Organic Viral Factor (K-Factor)</div><div class="metric-row-val amber">Target: &gt;1.15</div></div>
+        <div class="metric-row"><div class="metric-row-label">Smart Vault balance (liquidity captured)</div><div class="metric-row-val green">Target: €50M by M12</div></div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-label">Interactive Impact Estimator</div>
+      <div class="card-title">Adjust assumptions to model 12-month outcomes</div>
+      <div class="estimator" style="margin-top:1rem;">
+        <div class="grid-2" style="gap:1.5rem;">
+          <div>
+            <div class="slider-row">
+              <div class="slider-label"><span>MeinMagenta MAU base (M)</span><span class="slider-val" id="v-mau">10</span>M</div>
+              <input type="range" min="7" max="13" value="10" step="0.5" oninput="updateEstimator()">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label"><span>Bill intercept CTR (%)</span><span class="slider-val" id="v-ctr">12</span>%</div>
+              <input type="range" min="5" max="25" value="12" step="1" oninput="updateEstimator()">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label"><span>KYC completion rate (%)</span><span class="slider-val" id="v-kyc">65</span>%</div>
+              <input type="range" min="30" max="90" value="65" step="5" oninput="updateEstimator()">
+            </div>
+          </div>
+          <div>
+            <div class="slider-row">
+              <div class="slider-label"><span>Monthly active rate of activated (%)</span><span class="slider-val" id="v-active">55</span>%</div>
+              <input type="range" min="20" max="80" value="55" step="5" oninput="updateEstimator()">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label"><span>Avg. monthly spend per user (€)</span><span class="slider-val" id="v-spend">180</span>€</div>
+              <input type="range" min="50" max="400" value="180" step="10" oninput="updateEstimator()">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label"><span>K-Factor (organic virality)</span><span class="slider-val" id="v-kfactor">1.1</span>x</div>
+              <input type="range" min="0.8" max="1.5" value="1.1" step="0.05" oninput="updateEstimator()">
+            </div>
+          </div>
+        </div>
+        <div class="impact-output">
+          <div>
+            <div class="impact-out-val" id="out-map">—</div>
+            <div class="impact-out-label">Est. Monthly Active Payers (M12)</div>
+          </div>
+          <div>
+            <div class="impact-out-val" id="out-rev">—</div>
+            <div class="impact-out-label">Est. Annual Interchange Revenue</div>
+          </div>
+          <div>
+            <div class="impact-out-val" id="out-arpu">—</div>
+            <div class="impact-out-label">Implied ARPU Uplift / User / Month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Execution Feasibility Assessment</div>
+      <div class="card-title">Resource & Timeline Realism</div>
+      <div style="margin-top:0.75rem;">
+        <div class="feas-row">
+          <div class="feas-label">Engineering complexity</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:55%;background:var(--amber)"></div></div>
+          <div class="feas-tag"><span class="tag tag-amber">Medium</span></div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-dimmer);padding:0.25rem 0 0.75rem 0;">PSD2 Bank-Ident API integration and deep-link handoff are the only novel builds. Payzy infrastructure already exists. Estimated: 8-person team, 30-day Phase 1 sprint.</div>
+        <div class="feas-row">
+          <div class="feas-label">Regulatory (BaFin / PSD2)</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:40%;background:var(--amber)"></div></div>
+          <div class="feas-tag"><span class="tag tag-amber">Manageable</span></div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-dimmer);padding:0.25rem 0 0.75rem 0;">Bank-Ident is BaFin-compliant today. Biometric device-binding eliminates SMS OTP dependency. No new banking license needed; Payzy holds existing e-money license via Cosmote.</div>
+        <div class="feas-row">
+          <div class="feas-label">Marketing budget requirements</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:25%;background:var(--green)"></div></div>
+          <div class="feas-tag"><span class="tag tag-green">Low</span></div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-dimmer);padding:0.25rem 0 0.75rem 0;">Acquisition is embedded in the existing MeinMagenta bill flow; zero paid media required for Phases 1 to 3. The 10M MAU base is the distribution channel. Budget primarily covers the discount incentive (~€2 to 5 per activation) and partner integration work.</div>
+        <div class="feas-row">
+          <div class="feas-label">Organizational alignment risk</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:60%;background:var(--amber)"></div></div>
+          <div class="feas-tag"><span class="tag tag-amber">Moderate</span></div>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-dimmer);padding:0.25rem 0 0.75rem 0;">Requires coordination between DT Digital Labs (MeinMagenta), Payzy product team, and compliance. Largest risk is cross-team prioritization. Mitigation: dedicated product owner bridges DT ↔ Payzy with clear API contract and SLA.</div>
+        <div class="feas-row" style="border:none;">
+          <div class="feas-label">Overall feasibility score</div>
+          <div class="feas-bar-wrap"><div class="feas-bar" style="width:78%;background:linear-gradient(90deg,var(--magenta),var(--magenta-light))"></div></div>
+          <div class="feas-tag"><span class="tag tag-magenta">High (7.8/10)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7: RISK ===== -->
+  <div id="risk" class="section">
+    <div class="section-title"><span class="section-num">07</span>Risk Mitigation</div>
+    <div class="section-sub">Four primary risk categories with assessed severity, mitigation strategy, and an honest acknowledgment of residual gaps. Risk is not just managed; it is stress-tested.</div>
+
+    <div class="grid-2 mb-1">
+      <div>
+        <div class="risk-card">
+          <div class="risk-card-head">
+            <div class="risk-title">Competitor Sabotage</div>
+            <span class="risk-badge high">High Priority</span>
+          </div>
+          <div class="risk-risk">Traditional banks may deliberately disrupt Open Banking APIs, impose transaction flagging, or introduce friction to block seamless Bank-Ident KYC. This is a structural threat to the primary acquisition flow.</div>
+          <div class="risk-mit-label">Mitigation</div>
+          <div class="risk-mit">Multi-path KYC ladder: Bank-Ident → eID NFC → VideoIdent. No single bank can block all paths. API provider diversification across 5+ major German banks reduces single-point-of-failure risk. Biometric device-binding ensures BaFin compliance independent of bank cooperation.</div>
+          <div class="risk-gap-label">Residual Gap</div>
+          <div class="risk-gap">If all Bank-Ident paths are blocked simultaneously, fallback to eID NFC increases PIN recall friction. Estimated 15-20% additional drop-off in that scenario.</div>
+        </div>
+
+        <div class="risk-card amber">
+          <div class="risk-card-head">
+            <div class="risk-title">Brand & Trust (Schufa Fear)</div>
+            <span class="risk-badge med">Medium Priority</span>
+          </div>
+          <div class="risk-risk">German consumers have documented anxiety around credit score implications of new financial products. Fear of hidden Schufa impact can trigger immediate churn even after successful activation.</div>
+          <div class="risk-mit-label">Mitigation</div>
+          <div class="risk-mit">Prominent "Schufa-free" labeling at every onboarding touchpoint, not just fine print. In-app FAQ module addressing Schufa concern specifically. Backed by DT's existing brand trust: consumers already share financial data with DT for billing purposes.</div>
+          <div class="risk-gap-label">Residual Gap</div>
+          <div class="risk-gap">A single negative press story about credit impact (even incorrect) could create outsized reputational damage. Proactive PR playbook with legal review of all Schufa-related claims is required.</div>
+        </div>
+      </div>
+      <div>
+        <div class="risk-card amber">
+          <div class="risk-card-head">
+            <div class="risk-title">Acquisition Funnel Drop-Off</div>
+            <span class="risk-badge med">Medium Priority</span>
+          </div>
+          <div class="risk-risk">Slow reward accumulation post-activation reduces urgency. Users who complete KYC but don't transact within 7 days have historically very low 30-day retention across fintech products.</div>
+          <div class="risk-mit-label">Mitigation</div>
+          <div class="risk-mit">Time-limited first-transaction multiplier (3x Coins for first 30 days). Digital-first merchant suggestions (Netflix, Spotify) shown immediately post-KYC, guaranteed quick win. Day-3 and Day-7 push notifications: "Your €5 is still waiting; here's how to use it."</div>
+          <div class="risk-gap-label">Residual Gap</div>
+          <div class="risk-gap">Dynamic nudges require OneCampaign integration with behavioral triggers. If personalization is not implemented in Phase 1, generic push notifications will underperform vs. targeted ones by an estimated 40–60%.</div>
+        </div>
+
+        <div class="risk-card green">
+          <div class="risk-card-head">
+            <div class="risk-title">Regulatory & Teen Safety (PR Risk)</div>
+            <span class="risk-badge low">Managed Risk</span>
+          </div>
+          <div class="risk-risk">Digital Allowance sub-wallets for teens carry compliance exposure: teens may attempt to bypass merchant restrictions via indirect methods (gift cards, peer transfers), creating potential BaFin and PR risk.</div>
+          <div class="risk-mit-label">Mitigation</div>
+          <div class="risk-mit">Strict merchant whitelist enforced at Payzy network level (not app-level, which can be bypassed). Real-time parental approval for any transfer above €20. Transaction monitoring with anomaly alerts. Automatic spending cap: €50/day on sub-wallets. BaFin sandbox pre-registration before launch.</div>
+          <div class="risk-gap-label">Residual Gap</div>
+          <div class="risk-gap">Whitelist maintenance is ongoing; new merchant categories require continuous review. A dedicated compliance resource (0.5 FTE) should own the whitelist and flag emerging risk categories quarterly.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-2">
+      <div class="card-label">Risk × Impact Matrix</div>
+      <div style="margin-top:1rem;">
+        <table class="comp-table">
+          <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation Confidence</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Bank API disruption</td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><span class="tag tag-red">High</span></td>
+              <td><div class="prog-bar-wrap"><div class="prog-bar" style="width:75%;background:var(--green)"></div></div></td>
+              <td><span class="tag tag-red">P1</span></td>
+            </tr>
+            <tr>
+              <td>Schufa fear-driven churn</td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><div class="prog-bar-wrap"><div class="prog-bar" style="width:85%;background:var(--green)"></div></div></td>
+              <td><span class="tag tag-amber">P2</span></td>
+            </tr>
+            <tr>
+              <td>Post-KYC dormancy</td>
+              <td><span class="tag tag-red">High</span></td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><div class="prog-bar-wrap"><div class="prog-bar" style="width:60%;background:var(--amber)"></div></div></td>
+              <td><span class="tag tag-red">P1</span></td>
+            </tr>
+            <tr>
+              <td>Teen sub-wallet compliance</td>
+              <td><span class="tag tag-green">Low</span></td>
+              <td><span class="tag tag-red">High</span></td>
+              <td><div class="prog-bar-wrap"><div class="prog-bar" style="width:90%;background:var(--green)"></div></div></td>
+              <td><span class="tag tag-amber">P2</span></td>
+            </tr>
+            <tr>
+              <td>Neobank competitive response</td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><span class="tag tag-amber">Medium</span></td>
+              <td><div class="prog-bar-wrap"><div class="prog-bar" style="width:70%;background:var(--amber)"></div></div></td>
+              <td><span class="tag tag-amber">P2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<script>
+  // ─── ESTIMATOR ───────────────────────────────────────────────────────────────
+  function updateEstimator() {
+    const inputs = document.querySelectorAll('.estimator input[type=range]');
+    if (!inputs.length) return;
+    const vals = Array.from(inputs).map(i => parseFloat(i.value));
+    const [mau, ctr, kyc, active, spend, kfactor] = vals;
+
+    const elIds = ['v-mau','v-ctr','v-kyc','v-active','v-spend','v-kfactor'];
+    const displays = [mau, ctr, kyc, active, spend, kfactor.toFixed(2)];
+    elIds.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = displays[i];
+    });
+
+    const intercepted = mau * 1e6 * (ctr / 100);
+    const activated   = intercepted * (kyc / 100);
+    const map_base    = activated * (active / 100);
+    const map_final   = map_base * Math.pow(kfactor, 3);
+    const annual_rev  = map_final * 12 * spend * 0.001;
+    const arpu        = spend * 0.01;
+
+    const outMap  = document.getElementById('out-map');
+    const outRev  = document.getElementById('out-rev');
+    const outArpu = document.getElementById('out-arpu');
+    if (outMap)  outMap.textContent  = (map_final / 1e6).toFixed(2) + 'M';
+    if (outRev)  outRev.textContent  = '€' + (annual_rev / 1e6).toFixed(1) + 'M';
+    if (outArpu) outArpu.textContent = '€' + arpu.toFixed(2);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const metricsSection = document.getElementById('metrics');
+    if (metricsSection) {
+      metricsSection.addEventListener('input', function(e) {
+        if (e.target.type === 'range' && e.target.closest('.estimator')) {
+          updateEstimator();
+        }
+      });
+    }
+  });
+</script>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ─── CHART INITIALIZERS ───────────────────────────────────────────────────────
+// Run after DOM is ready, charts are rendered lazily when their section is first shown
+
+const MAGENTA = '#E20074';
+const MAGENTA_LIGHT = '#FF4DA6';
+const GREEN = '#00D4A0';
+const AMBER = '#FFB800';
+const BLUE = '#4A90E2';
+const TEXT_DIM = '#9090A8';
+const GRID = 'rgba(255,255,255,0.05)';
+
+Chart.defaults.color = TEXT_DIM;
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 11;
+
+const chartsInitialized = {};
+
+function initChartsForSection(sectionId) {
+  if (chartsInitialized[sectionId]) return;
+  chartsInitialized[sectionId] = true;
+
+  if (sectionId === 'overview') initOverviewCharts();
+  if (sectionId === 'hypothesis') initHypothesisCharts();
+  if (sectionId === 'metrics') initMetricsCharts();
+  if (sectionId === 'gtm') initGTMCharts();
+}
+
+// ─── OVERVIEW CHARTS ─────────────────────────────────────────────────────────
+function initOverviewCharts() {
+  // ── Part 1: Static conversion funnel (what happens at a single moment in time) ──
+  const funnelCanvas = document.getElementById('funnel-chart');
+  if (funnelCanvas) {
+    funnelCanvas.width  = funnelCanvas.offsetWidth || 560;
+    funnelCanvas.height = 300;
+    const ctx = funnelCanvas.getContext('2d');
+    const W = funnelCanvas.width, H = funnelCanvas.height;
+
+    // 5 funnel stages (conversion logic only, no time dimension)
+    const stages = [
+      { label: 'MeinMagenta MAU',   sub: '10,000K',  val: 10000, note: 'Pool'  },
+      { label: 'Bill Intercept CTR',sub: '1,200K',   val: 1200,  note: '12%'   },
+      { label: 'KYC Started',        sub: '540K',     val: 540,   note: '45%'   },
+      { label: 'KYC Complete',       sub: '378K',     val: 378,   note: '70%'   },
+      { label: 'First Transaction',  sub: '208K',     val: 208,   note: '55%'   },
+    ];
+    const clrs = [MAGENTA, '#C40062', '#9A0052', '#6A003A', '#3A0022'];
+    const n = stages.length;
+    const rowH = Math.floor((H - 30) / n) - 5;
+    const maxW = W * 0.68;
+    const minW = W * 0.24;
+
+    ctx.clearRect(0, 0, W, H);
+    stages.forEach((s, i) => {
+      const frac = s.val / stages[0].val;
+      const bw = minW + (maxW - minW) * frac;
+      const x  = (W - bw) / 2;
+      const y  = 10 + i * (rowH + 5);
+
+      // Trapezoid-ish via rounded rect
+      const g = ctx.createLinearGradient(x, 0, x + bw, 0);
+      g.addColorStop(0, clrs[i] + 'DD');
+      g.addColorStop(1, clrs[i] + '99');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.roundRect(x, y, bw, rowH, 5);
+      ctx.fill();
+
+      // Stage label + value
+      ctx.fillStyle = '#fff';
+      ctx.textAlign  = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `600 10.5px Inter`;
+      ctx.fillText(s.label, W / 2, y + rowH / 2 - 7);
+      ctx.font = `700 13px 'Space Grotesk'`;
+      ctx.fillText(s.sub, W / 2, y + rowH / 2 + 8);
+
+      // Left: conversion rate badge
+      if (i > 0) {
+        ctx.fillStyle = TEXT_DIM;
+        ctx.textAlign = 'right';
+        ctx.font = '9.5px Inter';
+        ctx.fillText('conv. ' + s.note, x - 8, y + rowH / 2);
+      } else {
+        ctx.fillStyle = TEXT_DIM;
+        ctx.textAlign = 'right';
+        ctx.font = '9px Inter';
+        ctx.fillText(s.note, x - 8, y + rowH / 2);
+      }
+
+      // Right: absolute drop-off
+      if (i > 0) {
+        const drop = stages[i-1].val - s.val;
+        ctx.fillStyle = '#FF6B6B';
+        ctx.textAlign = 'left';
+        ctx.font = '9px Inter';
+        ctx.fillText(`-${(drop/1000).toFixed(0)}K`, x + bw + 8, y + rowH / 2);
+      }
+    });
+
+    ctx.fillStyle = TEXT_DIM;
+    ctx.font = '9px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Conversion logic per billing cycle (single cohort). Time dimension shown in chart below.', W/2, H - 6);
+  }
+
+  // ── Part 2: Time-phased MAP ramp with GTM phase bands (Chart.js) ──────────────
+  const rampCanvas = document.getElementById('ramp-chart');
+  if (!rampCanvas) return;
+
+  // Monthly Active Payers (K): base case, cohort-by-cohort compounding
+  // Phase boundaries: P1=M1-2, P2=M3-4, P3=M5-7, P4=M8-10, P5=M11-12
+  const months = ['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'];
+  const mapBase = [0, 8, 65, 185, 340, 490, 630, 760, 920, 1080, 1280, 1520];
+  const mapCons = [0, 5, 40, 110, 210, 310, 410, 510, 620, 730,  870, 1050];
+  const mapOpt  = [0, 12, 90, 250, 460, 670, 860, 1040, 1220, 1400, 1610, 1900];
+
+  // Phase band annotations via plugin
+  const phasePlugin = {
+    id: 'phaseBands',
+    beforeDraw(chart) {
+      const {ctx: c, chartArea: {left, right, top, bottom}, scales: {x}} = chart;
+      const phases = [
+        { from: 0, to: 1,  label: 'P1: API Build',        color: 'rgba(226,0,116,0.07)'  },
+        { from: 2, to: 3,  label: 'P2: Pilot',            color: 'rgba(74,144,226,0.07)' },
+        { from: 4, to: 6,  label: 'P3: Household',        color: 'rgba(255,184,0,0.06)'  },
+        { from: 7, to: 9,  label: 'P4: Digital Partners', color: 'rgba(0,212,160,0.06)'  },
+        { from: 10, to: 11,label: 'P5: Liquidity',        color: 'rgba(160,100,220,0.07)'},
+      ];
+      const phaseClrs = ['#E20074','#4A90E2','#FFB800','#00D4A0','#A064DC'];
+      phases.forEach((ph, pi) => {
+        const x0 = x.getPixelForValue(ph.from) - (x.getPixelForValue(1) - x.getPixelForValue(0)) / 2;
+        const x1 = x.getPixelForValue(ph.to)   + (x.getPixelForValue(1) - x.getPixelForValue(0)) / 2;
+        // Band fill
+        c.fillStyle = ph.color;
+        c.fillRect(x0, top, x1 - x0, bottom - top);
+        // Top label
+        c.fillStyle = phaseClrs[pi];
+        c.font = '8.5px Inter';
+        c.textAlign = 'center';
+        c.fillText(ph.label, (x0 + x1) / 2, top + 10);
+      });
+    }
+  };
+
+  new Chart(rampCanvas, {
+    type: 'line',
+    plugins: [phasePlugin],
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Conservative',
+          data: mapCons,
+          borderColor: TEXT_DIM,
+          borderWidth: 1.5,
+          borderDash: [4, 3],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.45,
+        },
+        {
+          label: 'Base Case',
+          data: mapBase,
+          borderColor: MAGENTA,
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: MAGENTA,
+          pointBorderColor: '#0D0D1A',
+          pointBorderWidth: 2,
+          fill: { target: 'origin', above: 'rgba(226,0,116,0.08)' },
+          tension: 0.45,
+        },
+        {
+          label: 'Optimistic',
+          data: mapOpt,
+          borderColor: GREEN,
+          borderWidth: 1.5,
+          borderDash: [4, 3],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.45,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      layout: { padding: { top: 20 } },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 16, font: { size: 10 } } },
+        tooltip: {
+          callbacks: {
+            label: c => ` ${c.dataset.label}: ${c.parsed.y}K active payers`,
+            afterBody: (items) => {
+              const m = items[0].dataIndex;
+              const phases = ['API Build (internal)', 'API Build (internal)', 'Pilot Beta', 'Pilot Beta',
+                              'Household Land-Grab', 'Household Land-Grab', 'Household Land-Grab',
+                              'Digital Partners', 'Digital Partners', 'Digital Partners',
+                              'Liquidity Capture', 'Liquidity Capture'];
+              return [`Phase: ${phases[m]}`];
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: GRID } },
+        y: {
+          grid: { color: GRID },
+          ticks: { callback: v => v + 'K' },
+          title: { display: true, text: 'Monthly Active Payers', color: TEXT_DIM },
+        }
+      }
+    }
+  });
+}
+
+// ─── HYPOTHESIS CHARTS ───────────────────────────────────────────────────────
+function initHypothesisCharts() {
+  // KYC Abandonment comparison bar chart
+  const kycCtx = document.getElementById('kyc-chart');
+  if (!kycCtx) return;
+  new Chart(kycCtx, {
+    type: 'bar',
+    data: {
+      labels: ['VideoIdent\n(Status Quo)', 'eID NFC', 'Bank-Ident\n(Proposed)'],
+      datasets: [{
+        label: 'Completion Rate (%)',
+        data: [62, 74, 88],
+        backgroundColor: [
+          'rgba(255,71,87,0.7)',
+          'rgba(255,184,0,0.7)',
+          'rgba(0,212,160,0.7)',
+        ],
+        borderColor: ['#FF4757', '#FFB800', '#00D4A0'],
+        borderWidth: 1.5,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.parsed.y}% completion` }
+        }
+      },
+      scales: {
+        x: { grid: { color: GRID }, ticks: { font: { size: 10 } } },
+        y: {
+          grid: { color: GRID },
+          min: 0, max: 100,
+          ticks: { callback: v => v + '%' }
+        }
+      }
+    }
+  });
+
+  // German consumer sentiment radar
+  const radarCtx = document.getElementById('radar-chart');
+  if (!radarCtx) return;
+  new Chart(radarCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Trust in telco\nfinance', 'Cash preference', 'Data privacy\nconcern', 'Inflation\nawareness', 'Girocard\nreliance', 'Family finance\ncollaboration'],
+      datasets: [
+        {
+          label: 'German Consumer Baseline',
+          data: [28, 75, 72, 80, 82, 55],
+          backgroundColor: 'rgba(226,0,116,0.12)',
+          borderColor: MAGENTA,
+          borderWidth: 2,
+          pointBackgroundColor: MAGENTA,
+          pointRadius: 4,
+        },
+        {
+          label: 'MagentaCard Strategy Alignment',
+          data: [70, 30, 80, 90, 45, 85],
+          backgroundColor: 'rgba(0,212,160,0.08)',
+          borderColor: GREEN,
+          borderWidth: 2,
+          pointBackgroundColor: GREEN,
+          pointRadius: 4,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { padding: 16, font: { size: 10 } }
+        }
+      },
+      scales: {
+        r: {
+          grid: { color: GRID },
+          angleLines: { color: GRID },
+          ticks: { display: false },
+          min: 0, max: 100,
+          pointLabels: { font: { size: 9.5 }, color: TEXT_DIM }
+        }
+      }
+    }
+  });
+}
+
+// ─── METRICS CHARTS ──────────────────────────────────────────────────────────
+function initMetricsCharts() {
+  // ARPU breakdown donut
+  const arpuCtx = document.getElementById('arpu-chart');
+  if (!arpuCtx) return;
+  new Chart(arpuCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Interchange Revenue', 'Churn Reduction Value', 'Cross-sell Uplift', 'Smart Vault Yield'],
+      datasets: [{
+        data: [35, 30, 22, 13],
+        backgroundColor: [MAGENTA, BLUE, AMBER, GREEN],
+        borderColor: '#0D0D1A',
+        borderWidth: 3,
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '68%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12, font: { size: 10 } } },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}% of total value` }
+        }
+      }
+    }
+  });
+}
+
+// ─── GTM CHARTS ──────────────────────────────────────────────────────────────
+function initGTMCharts() {
+  const ctx = document.getElementById('phase-metric-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['P1: API\nBridge', 'P2: Pilot\nBeta', 'P3: Household\nLand-Grab', 'P4: Digital\nPartners', 'P5: Liquidity\nCapture'],
+      datasets: [
+        {
+          label: 'Cumulative Active Users (K)',
+          data: [0, 250, 680, 1100, 1500],
+          backgroundColor: 'rgba(226,0,116,0.75)',
+          borderColor: MAGENTA,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          yAxisID: 'y',
+        },
+        {
+          label: 'Avg. Transactions / User',
+          data: [0, 1.2, 2.1, 3.5, 4.2],
+          backgroundColor: 'rgba(0,212,160,0.6)',
+          borderColor: GREEN,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 14, font: { size: 10 } } }
+      },
+      scales: {
+        x: { grid: { color: GRID } },
+        y: {
+          grid: { color: GRID },
+          ticks: { callback: v => v + 'K' },
+          title: { display: true, text: 'Active Users', color: TEXT_DIM },
+          position: 'left',
+        },
+        y1: {
+          grid: { drawOnChartArea: false },
+          ticks: { callback: v => v + 'x' },
+          title: { display: true, text: 'Transactions/User', color: GREEN },
+          position: 'right',
+          min: 0, max: 6,
+        }
+      }
+    }
+  });
+}
+
+// Init all charts on load (scrollable page; no lazy loading needed)
+document.addEventListener('DOMContentLoaded', () => {
+  injectCanvases();
+  // Small delay so canvases are in DOM before Chart.js tries to use them
+  setTimeout(() => {
+    ['overview','hypothesis','metrics','gtm'].forEach(id => initChartsForSection(id));
+    if (typeof updateEstimator === 'function') updateEstimator();
+  }, 350);
+});
+
+// ─── SCROLL SPY: highlight active nav link ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.nav-btn');
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if (top <= 140) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+function injectCanvases() {
+  // ── Overview: two-part funnel ───────────────────────────────────────
+  const overviewSection = document.getElementById('overview');
+  const funnelCard = document.createElement('div');
+  funnelCard.className = 'card mt-2';
+  funnelCard.style.marginTop = '1.25rem';
+  funnelCard.innerHTML = `
+    <div class="card-label">Acquisition Funnel + Growth Projection</div>
+    <div class="grid-2" style="gap:1.5rem;margin-top:0.75rem;align-items:start;">
+      <div>
+        <div style="font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:0.4rem;">Conversion Logic <span style="color:var(--text-dimmer);font-weight:400;">(per billing cycle, single cohort)</span></div>
+        <div style="font-size:0.75rem;color:var(--text-dimmer);margin-bottom:0.6rem;">Shows what fraction of the MAU base progresses through each step. This is a structural snapshot, not a time series. Each monthly billing cycle seeds a new cohort into this funnel.</div>
+        <canvas id="funnel-chart" style="width:100%;height:290px;display:block;"></canvas>
+      </div>
+      <div>
+        <div style="font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:0.4rem;">Monthly Active Payers: 12-Month Ramp <span style="color:var(--text-dimmer);font-weight:400;">(cumulative cohorts + virality)</span></div>
+        <div style="font-size:0.75rem;color:var(--text-dimmer);margin-bottom:0.6rem;">MAP compounds monthly as new cohorts enter the funnel and retained users keep transacting. Shaded bands show which GTM phase drives each growth jump. Note: P3 household expansion (M5 to M7) is the steepest ramp.</div>
+        <canvas id="ramp-chart" style="width:100%;height:290px;display:block;"></canvas>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;margin-top:1rem;">
+      <div style="background:rgba(226,0,116,0.08);border:1px solid rgba(226,0,116,0.2);border-radius:6px;padding:0.5rem;text-align:center;font-size:0.72rem;color:var(--magenta);">P1: API Build<br><span style="color:var(--text-dimmer);">M1-M2 · Seed</span></div>
+      <div style="background:rgba(74,144,226,0.08);border:1px solid rgba(74,144,226,0.2);border-radius:6px;padding:0.5rem;text-align:center;font-size:0.72rem;color:#4A90E2;">P2: Pilot Beta<br><span style="color:var(--text-dimmer);">M3-M4 · 500K users</span></div>
+      <div style="background:rgba(255,184,0,0.08);border:1px solid rgba(255,184,0,0.2);border-radius:6px;padding:0.5rem;text-align:center;font-size:0.72rem;color:#FFB800;">P3: Household<br><span style="color:var(--text-dimmer);">M5-M7 · Steepest ramp</span></div>
+      <div style="background:rgba(0,212,160,0.08);border:1px solid rgba(0,212,160,0.2);border-radius:6px;padding:0.5rem;text-align:center;font-size:0.72rem;color:#00D4A0;">P4: Partners<br><span style="color:var(--text-dimmer);">M8-M10 · Habit formation</span></div>
+      <div style="background:rgba(160,100,220,0.08);border:1px solid rgba(160,100,220,0.2);border-radius:6px;padding:0.5rem;text-align:center;font-size:0.72rem;color:#A064DC;">P5: Liquidity<br><span style="color:var(--text-dimmer);">M11-M12 · K-factor &gt;1.15</span></div>
+    </div>
+  `;
+  overviewSection.appendChild(funnelCard);
+
+  // ── Hypothesis: KYC + radar charts ──────────────────────────────
+  const hypSection = document.getElementById('hypothesis');
+  const hypChartsDiv = document.createElement('div');
+  hypChartsDiv.className = 'grid-2 mt-2';
+  hypChartsDiv.style.marginTop = '1.25rem';
+  hypChartsDiv.innerHTML = `
+    <div class="card">
+      <div class="card-label">KYC Method Comparison (H2: Shadow Endowment)</div>
+      <div class="card-title">Estimated Completion Rates by Verification Path</div>
+      <canvas id="kyc-chart" style="max-height:220px;margin-top:0.75rem;"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-label">German Consumer Profile (H1, H4, H5)</div>
+      <div class="card-title">Baseline Behavior vs. Strategy Alignment</div>
+      <canvas id="radar-chart" style="max-height:240px;margin-top:0.5rem;"></canvas>
+    </div>
+  `;
+  hypSection.appendChild(hypChartsDiv);
+
+  // ── Metrics: ARPU breakdown only (MAP ramp now lives in Overview) ─────
+  const metricsSection = document.getElementById('metrics');
+  const metricsChartsDiv = document.createElement('div');
+  metricsChartsDiv.className = 'grid-2';
+  metricsChartsDiv.style.marginTop = '1.25rem';
+  metricsChartsDiv.innerHTML = `
+    <div class="card">
+      <div class="card-label">Value Attribution per Active User</div>
+      <div class="card-title">Breakdown of revenue and retention value generated by each MAP user</div>
+      <canvas id="arpu-chart" style="max-height:260px;margin-top:0.75rem;"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-label">Scenario Assumptions</div>
+      <div class="card-title">What drives the gap between Conservative and Optimistic</div>
+      <div style="margin-top:0.75rem;">
+        <div class="feas-row"><div class="feas-label" style="width:200px;">Pilot CTR (conservative)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:32%;background:var(--text-dimmer)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">8%</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">Pilot CTR (base)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:48%;background:var(--magenta)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">12%</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">Pilot CTR (optimistic)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:72%;background:var(--green)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">18%</div></div>
+        <div class="divider"></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">KYC completion (cons.)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:50%;background:var(--text-dimmer)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">50%</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">KYC completion (base)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:70%;background:var(--magenta)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">70%</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">KYC completion (opt.)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:87%;background:var(--green)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">87%</div></div>
+        <div class="divider"></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">K-Factor (cons.)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:53%;background:var(--text-dimmer)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">0.9x</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">K-Factor (base)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:73%;background:var(--magenta)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">1.15x</div></div>
+        <div class="feas-row"><div class="feas-label" style="width:200px;">K-Factor (optimistic)</div><div class="feas-bar-wrap"><div class="feas-bar" style="width:90%;background:var(--green)"></div></div><div class="feas-tag" style="width:60px;text-align:right;font-size:0.75rem;color:var(--text-dim);">1.35x</div></div>
+        <div style="font-size:0.75rem;color:var(--text-dimmer);margin-top:0.6rem;">The P3 Household phase (M5 to M7) is the single biggest swing factor: if Digital Allowance adoption is above 30% of family plan holders, the base case tips toward optimistic without additional marketing spend.</div>
+      </div>
+    </div>
+  `;
+  metricsSection.appendChild(metricsChartsDiv);
+
+  // ── GTM: phase progress chart ─────────────────────────────────────
+  const gtmSection = document.getElementById('gtm');
+  const gtmChartDiv = document.createElement('div');
+  gtmChartDiv.className = 'card';
+  gtmChartDiv.style.marginTop = '1.25rem';
+  gtmChartDiv.innerHTML = `
+    <div class="card-label">GTM Phase Performance Targets</div>
+    <div class="card-title">Cumulative Active Users & Transaction Frequency by Phase-End</div>
+    <canvas id="phase-metric-chart" style="max-height:240px;margin-top:0.75rem;"></canvas>
+  `;
+  gtmSection.appendChild(gtmChartDiv);
+
+  // Trigger estimator initial render after all elements are injected
+  setTimeout(function() { if (typeof updateEstimator === 'function') updateEstimator(); }, 400);
+}
+</script>
+</body>
+</html>

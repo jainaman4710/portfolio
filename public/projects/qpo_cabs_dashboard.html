@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QPo Cabs: Case Study Dashboard | Team C-53</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --qpo-blue: #1E3A8A;
+    --qpo-indigo: #3B4FD4;
+    --qpo-violet: #6366F1;
+    --qpo-sky: #38BDF8;
+    --qpo-light: #EEF2FF;
+    --qpo-dark: #0F1729;
+    --qpo-mid: #1E2D5A;
+    --qpo-grad: linear-gradient(135deg, #1E3A8A 0%, #3B4FD4 50%, #6366F1 100%);
+    --accent-teal: #0EA5E9;
+    --accent-pink: #EC4899;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-light: #94A3B8;
+    --surface: #F8FAFC;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 2px 16px rgba(30,58,138,0.08);
+    --shadow-hover: 0 8px 32px rgba(30,58,138,0.16);
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  /* == NAV == */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0; height: 56px;
+  }
+  .nav-logo {
+    font-weight: 700; font-size: 1.1rem; color: var(--qpo-blue);
+    margin-right: 2rem; letter-spacing: -0.3px; white-space: nowrap;
+  }
+  .nav-logo span { color: var(--qpo-violet); }
+  .nav-tabs {
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none; flex: 1;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 0 1rem; height: 56px; display: flex; align-items: center;
+    font-size: 0.82rem; font-weight: 500; color: var(--text-secondary);
+    cursor: pointer; border-bottom: 2px solid transparent;
+    white-space: nowrap; transition: all 0.2s; letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+  .nav-tab:hover { color: var(--qpo-indigo); }
+  .nav-tab.active { color: var(--qpo-indigo); border-bottom-color: var(--qpo-indigo); }
+  .nav-badge {
+    margin-left: 0.35rem; background: var(--qpo-light); color: var(--qpo-indigo);
+    font-size: 0.65rem; font-weight: 700; padding: 1px 5px; border-radius: 4px;
+  }
+
+  /* == SECTIONS == */
+  .section {
+    display: block !important;
+    padding: 3rem 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-of-type { border-bottom: none; }
+
+  /* == SCROLL MARGIN for sticky nav offset == */
+  .scroll-anchor {
+    display: block;
+    height: 0;
+    visibility: hidden;
+    margin-top: -72px;
+    padding-top: 72px;
+  }
+  .hero-wrapper {
+    background: var(--qpo-grad);
+    border-radius: 20px; padding: 3rem 3.5rem;
+    display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: center;
+    overflow: hidden; position: relative;
+  }
+  .hero-wrapper::before {
+    content: '';
+    position: absolute; top: -60px; right: 200px;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.05); border-radius: 50%;
+  }
+  .hero-wrapper::after {
+    content: '';
+    position: absolute; bottom: -80px; right: 80px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.04); border-radius: 50%;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--qpo-sky); text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem; line-height: 1.1; color: #fff;
+    margin-bottom: 1rem;
+  }
+  .hero-title span { color: var(--qpo-sky); }
+  .hero-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.6;
+    max-width: 520px; margin-bottom: 1.5rem;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .hero-pill {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 0.75rem; font-weight: 500;
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .hero-stats {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    backdrop-filter: blur(8px);
+  }
+  .hero-stat-val {
+    font-size: 2rem; font-weight: 700; color: #fff; line-height: 1;
+  }
+  .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 4px; }
+
+  /* == SECTION HEADER == */
+  .section-header { margin-bottom: 1.75rem; }
+  .section-eyebrow {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--qpo-violet); margin-bottom: 0.4rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.9rem; color: var(--text-primary); line-height: 1.2;
+  }
+  .section-desc {
+    font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.4rem; max-width: 640px;
+  }
+
+  /* == CARDS == */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    box-shadow: var(--shadow); transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-hover); }
+  .card-title {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-secondary); margin-bottom: 1rem;
+  }
+
+  /* == GRID LAYOUTS == */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+
+  /* == STAT TILES == */
+  .stat-tile {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .stat-val {
+    font-size: 2rem; font-weight: 700; color: var(--qpo-blue); line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+  .stat-sub { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+  .stat-badge {
+    display: inline-block; margin-top: 0.5rem;
+    background: var(--qpo-light); color: var(--qpo-indigo);
+    font-size: 0.68rem; font-weight: 600; padding: 2px 7px; border-radius: 4px;
+  }
+
+  /* == CHART CONTAINERS == */
+  .chart-wrap { position: relative; width: 100%; }
+  .chart-wrap canvas { max-height: 280px; }
+  .chart-wrap-tall canvas { max-height: 340px; }
+
+  /* == COMPETITOR TABLE == */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .comp-table th {
+    background: var(--qpo-blue); color: #fff;
+    padding: 0.65rem 1rem; text-align: left; font-weight: 600;
+    font-size: 0.75rem; letter-spacing: 0.04em;
+  }
+  .comp-table th:first-child { border-radius: 8px 0 0 0; }
+  .comp-table th:last-child { border-radius: 0 8px 0 0; }
+  .comp-table td {
+    padding: 0.65rem 1rem; border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.45;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:nth-child(even) td { background: var(--surface); }
+  .comp-table tr:hover td { background: var(--qpo-light); }
+  .comp-table .feature-col { font-weight: 600; color: var(--qpo-blue); white-space: nowrap; }
+  .comp-table .qpo-col { color: var(--qpo-indigo); font-weight: 500; }
+  .badge-green { background: #DCFCE7; color: #15803D; font-size: 0.7rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+  .badge-blue { background: var(--qpo-light); color: var(--qpo-indigo); font-size: 0.7rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+  .badge-grey { background: #F1F5F9; color: #64748B; font-size: 0.7rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+
+  /* == PERSONA CARDS == */
+  .persona-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  }
+  .persona-header {
+    background: var(--qpo-grad); padding: 1.25rem 1.5rem; color: #fff;
+  }
+  .persona-name { font-weight: 700; font-size: 1.1rem; }
+  .persona-role { font-size: 0.78rem; opacity: 0.8; margin-top: 2px; }
+  .persona-meta { font-size: 0.72rem; opacity: 0.65; margin-top: 4px; }
+  .persona-body { padding: 1.25rem 1.5rem; }
+  .persona-row { margin-bottom: 0.9rem; }
+  .persona-row-title {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--qpo-violet); margin-bottom: 0.35rem;
+  }
+  .persona-row ul { list-style: none; }
+  .persona-row ul li {
+    font-size: 0.8rem; color: var(--text-secondary); padding: 2px 0;
+    padding-left: 1rem; position: relative;
+  }
+  .persona-row ul li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--qpo-sky); font-size: 0.7rem;
+  }
+  .persona-solution {
+    background: var(--qpo-light); border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--qpo-blue); font-weight: 500;
+  }
+
+  /* == HOTSPOT LIST == */
+  .hotspot-item {
+    display: flex; align-items: flex-start; gap: 0.85rem;
+    padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  }
+  .hotspot-item:last-child { border-bottom: none; }
+  .hotspot-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--qpo-light); color: var(--qpo-indigo);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .hotspot-name { font-weight: 600; font-size: 0.86rem; color: var(--text-primary); }
+  .hotspot-desc { font-size: 0.77rem; color: var(--text-secondary); margin-top: 2px; }
+  .hotspot-tag {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 0.68rem; font-weight: 600; padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .tag-high { background: #FEE2E2; color: #DC2626; }
+  .tag-med { background: #FEF3C7; color: #D97706; }
+  .tag-under { background: #DCFCE7; color: #16A34A; }
+
+  /* == CAC METRICS == */
+  .cac-flow {
+    display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+  .cac-step {
+    background: var(--qpo-light); border-radius: 8px;
+    padding: 0.6rem 1rem; text-align: center; flex: 1; min-width: 100px;
+  }
+  .cac-step-val { font-size: 1.2rem; font-weight: 700; color: var(--qpo-blue); }
+  .cac-step-label { font-size: 0.68rem; color: var(--text-secondary); margin-top: 2px; }
+  .cac-arrow { color: var(--qpo-violet); font-size: 1.2rem; font-weight: 700; }
+
+  /* == SAFETY FEATURES == */
+  .safety-feature {
+    display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .safety-feature:last-child { border-bottom: none; }
+  .safety-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--qpo-grad); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .safety-title { font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
+  .safety-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+
+  /* == CHALLENGE GRID == */
+  .challenge-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.1rem;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+  }
+  .challenge-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--qpo-violet); margin-top: 5px; flex-shrink: 0;
+  }
+  .challenge-problem { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
+  .challenge-solution { font-size: 0.77rem; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+
+  /* == PRICING TABLE == */
+  .pricing-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.83rem;
+  }
+  .pricing-row:last-child { border-bottom: none; }
+  .pricing-range { color: var(--text-secondary); }
+  .pricing-rate { font-weight: 700; color: var(--qpo-blue); }
+  .pricing-discount {
+    font-size: 0.7rem; background: #DCFCE7; color: #16A34A;
+    padding: 2px 6px; border-radius: 4px; font-weight: 600;
+  }
+
+  /* == PROGRAM SUMMARY == */
+  .prog-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow);
+  }
+  .prog-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .prog-title { font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+  .prog-tag {
+    font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 4px;
+    background: var(--qpo-light); color: var(--qpo-indigo);
+  }
+  .prog-metric {
+    padding: 0.85rem; background: var(--surface); border-radius: var(--radius-sm);
+    text-align: center; border: 1px solid var(--border);
+  }
+  .prog-metric-val { font-size: 1.4rem; font-weight: 700; color: var(--qpo-blue); }
+  .prog-metric-label { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; }
+  .prog-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.6rem; }
+
+  /* == SCROLLBAR == */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+  /* == DIVIDER == */
+  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+  /* == TECH CARD == */
+  .tech-feature {
+    display: flex; gap: 0.85rem; padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
+  }
+  .tech-feature:last-child { border-bottom: none; }
+  .tech-bullet {
+    width: 6px; height: 6px; background: var(--qpo-violet);
+    border-radius: 50%; margin-top: 7px; flex-shrink: 0;
+  }
+  .tech-feature-title { font-weight: 600; font-size: 0.84rem; color: var(--text-primary); }
+  .tech-feature-desc { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; line-height: 1.5; }
+
+  /* == RESPONSIVE == */
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .col-span-2, .col-span-3 { grid-column: span 1; }
+    .hero-wrapper { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; }
+    .hero-stat { flex: 1; min-width: 140px; }
+    .section { padding: 1rem; }
+    .hero-title { font-size: 2rem; }
+    .prog-metrics { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">QPo <span>Cabs</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <a class="nav-tab active" href="#sec-hero">Overview</a>
+    <a class="nav-tab" href="#sec-market">Market <span class="nav-badge">96Bn</span></a>
+    <a class="nav-tab" href="#sec-competitor">Competitors</a>
+    <a class="nav-tab" href="#sec-personas">User Personas</a>
+    <a class="nav-tab" href="#sec-entry">Market Entry</a>
+    <a class="nav-tab" href="#sec-driver">Drivers</a>
+    <a class="nav-tab" href="#sec-safety">Women Safety</a>
+    <a class="nav-tab" href="#sec-challenges">Challenges</a>
+    <a class="nav-tab" href="#sec-marketing">Marketing</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     SECTION: OVERVIEW / HERO
+══════════════════════════════════════════ -->
+<div id="sec-hero" class="section" style="padding-top:2rem;">
+  <div class="hero-wrapper">
+    <div>
+      <div class="hero-eyebrow">Open IIT Case Study · Team C-53</div>
+      <h1 class="hero-title">Genuinely<br><span>Pocket-Friendly</span><br>Cabs</h1>
+      <p class="hero-sub">QPo Cabs is redefining ride-sharing in Chennai, a hotspot-based shared auto service connecting metro hubs to underserved areas, with a strong focus on safety, affordability, and women-first design.</p>
+      <div class="hero-pills">
+        <span class="hero-pill">🚖 Shared Auto</span>
+        <span class="hero-pill">🔒 Women Safety</span>
+        <span class="hero-pill">📍 Hotspot Model</span>
+        <span class="hero-pill">💳 Subscription Rides</span>
+        <span class="hero-pill">🤝 Corporate ETS</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">₹96Bn</div>
+        <div class="hero-stat-label">India Shared Mobility Market (2024)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">6.95%</div>
+        <div class="hero-stat-label">CAGR through 2029</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">₹28/km</div>
+        <div class="hero-stat-label">QPo Cabs base fare rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 summary tiles -->
+  <div class="grid-4" style="margin-top:1.5rem;">
+    <div class="stat-tile">
+      <div class="stat-val">5</div>
+      <div class="stat-label">Competitors Benchmarked</div>
+      <div class="stat-sub">Ola, Uber, MetroRide, QuicReach + QPo</div>
+      <span class="stat-badge">Competitive Edge: Safety + Fixed Pricing</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">3</div>
+      <div class="stat-label">User Personas Mapped</div>
+      <div class="stat-sub">Daily commuter, Female exec, College student</div>
+      <span class="stat-badge">Diverse Rider Segments</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">₹35</div>
+      <div class="stat-label">Lowest CAC Achieved</div>
+      <div class="stat-sub">Via college partnership program</div>
+      <span class="stat-badge">vs ₹84 referral CAC</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">4,840</div>
+      <div class="stat-label">Monthly Downloads Projected</div>
+      <div class="stat-sub">From expanded marketing campaign</div>
+      <span class="stat-badge">CAC: ₹51.65/user</a>
+    </div>
+  </div>
+
+  <!-- Flow diagram -->
+  <div class="card" style="margin-top:1.5rem;">
+    <div class="card-title">How QPo Cabs Works: Rider Journey</div>
+    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;justify-content:center;padding:1rem 0;">
+      <div style="text-align:center;padding:1rem 1.25rem;background:var(--qpo-light);border-radius:var(--radius);flex:1;min-width:120px;">
+        <div style="font-size:1.5rem;">📍</div>
+        <div style="font-weight:600;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Reach Nearby Stop</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;">Find nearby hotspot</div>
+      </div>
+      <div style="color:var(--qpo-violet);font-size:1.5rem;">→</div>
+      <div style="text-align:center;padding:1rem 1.25rem;background:var(--qpo-light);border-radius:var(--radius);flex:1;min-width:120px;">
+        <div style="font-size:1.5rem;">🗺️</div>
+        <div style="font-weight:600;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Select Route</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;">Choose preferred path</div>
+      </div>
+      <div style="color:var(--qpo-violet);font-size:1.5rem;">→</div>
+      <div style="text-align:center;padding:1rem 1.25rem;background:var(--qpo-light);border-radius:var(--radius);flex:1;min-width:120px;">
+        <div style="font-size:1.5rem;">🚖</div>
+        <div style="font-weight:600;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Request Share Auto</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;">App-based booking</div>
+      </div>
+      <div style="color:var(--qpo-violet);font-size:1.5rem;">→</div>
+      <div style="text-align:center;padding:1rem 1.25rem;background:var(--qpo-light);border-radius:var(--radius);flex:1;min-width:120px;">
+        <div style="font-size:1.5rem;">✅</div>
+        <div style="font-weight:600;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Ride & Arrive</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;">Track in real-time</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: MARKET OVERVIEW
+══════════════════════════════════════════ -->
+<div id="sec-market" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Market Overview</div>
+    <h2 class="section-title">India's Shared Mobility Landscape</h2>
+    <p class="section-desc">The market is projected to grow from $96Bn in 2024 to $551.57Bn by 2029 at a CAGR of 6.95%, driven by urbanisation and sustainable transport demand.</p>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:1.25rem;">
+    <div class="stat-tile">
+      <div class="stat-val">$96Bn</div>
+      <div class="stat-label">Market Size 2024</div>
+      <span class="stat-badge">→ $551Bn by 2029</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">88.1%</div>
+      <div class="stat-label">User Penetration by 2029</div>
+      <span class="stat-badge">Up from 76.4% in 2024</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">71%</div>
+      <div class="stat-label">Revenue via Digital by 2029</div>
+      <span class="stat-badge">Online channel dominance</a>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val">1.2Bn</div>
+      <div class="stat-label">Public Transport Users</div>
+      <span class="stat-badge">Projected by 2029</a>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-title">India Shared Mobility Revenue Growth (₹ Bn)</div>
+      <div class="chart-wrap chart-wrap-tall">
+        <canvas id="marketGrowthChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Transport Mode Preference: Pre vs Post COVID-19 (%)</div>
+      <div class="chart-wrap chart-wrap-tall">
+        <canvas id="covidChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Chennai Context</div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;">🕗</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">Peak Commute Hours</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">8AM–10AM and 5PM–8PM, coinciding with work timings, causing heavy congestion across major corridors.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;">🚌</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">75% Rely on Public Transport</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">A large majority of Chennai's daily commuters depend on public or shared transport options.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.2rem;">📈</span>
+          <div>
+            <div style="font-weight:600;font-size:0.85rem;">6.4% CAGR Locally</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Chennai's shared mobility segment is growing steadily, driven by IT corridor demand and metro expansion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">QPo Carpooling Pricing Tiers</div>
+      <div style="margin-top:0.5rem;">
+        <div class="pricing-row">
+          <span class="pricing-range">0 – 5 km</span>
+          <span class="pricing-rate">₹4 / km</span>
+          <span class="pricing-discount">Base Rate</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-range">11 – 15 km</span>
+          <span class="pricing-rate">₹3.4 / km</span>
+          <span class="pricing-discount">15% off</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-range">21 – 30 km</span>
+          <span class="pricing-rate">₹2.6 / km</span>
+          <span class="pricing-discount">35% off</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-range">51 – 80 km</span>
+          <span class="pricing-rate">₹1.8 / km</span>
+          <span class="pricing-discount">55% off</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-range">301 – 500 km</span>
+          <span class="pricing-rate">₹1.2 / km</span>
+          <span class="pricing-discount">70% off</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;background:var(--qpo-light);border-radius:var(--radius-sm);padding:0.75rem 1rem;">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--qpo-blue);margin-bottom:0.4rem;">Top Carpooling Routes in Chennai</div>
+        <div style="font-size:0.77rem;color:var(--text-secondary);line-height:1.8;">
+          Adambakkam → Anna Nagar (15.4 km) · <b>₹57</b><br>
+          Kodambakkam → Guindy (7.4 km) · <b>₹36</b><br>
+          Ashok Nagar → Adyar (10 km) · <b>₹40</b><br>
+          Ambattur → Mylapore (22 km) · <b>₹57</b><br>
+          Perambur → Perungudi (25 km) · <b>₹71</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: COMPETITOR ANALYSIS
+══════════════════════════════════════════ -->
+<div id="sec-competitor" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Competitive Landscape</div>
+    <h2 class="section-title">Where QPo Cabs Stands Out</h2>
+    <p class="section-desc">Benchmarked across 5 players on service model, safety, pricing, and operational focus. QPo's hotspot-based fixed-pricing model is a clear differentiator.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-title">Safety Feature Comparison</div>
+      <div class="chart-wrap">
+        <canvas id="safetyRadarChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Pricing Model Type by Competitor</div>
+      <div class="chart-wrap">
+        <canvas id="pricingCompChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Full Feature Matrix</div>
+    <div style="overflow-x:auto;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>QPo Cabs ★</th>
+            <th>MetroRide</th>
+            <th>QuicReach</th>
+            <th>Ola Share</th>
+            <th>Uber Pool</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-col">Service Model</td>
+            <td class="qpo-col">Share Auto, Female-only, Hotspot-based</td>
+            <td>First/Last-mile (EV)</td>
+            <td>Fixed-route Vans</td>
+            <td>Point-to-point Sharing</td>
+            <td>Shared rides w/ co-riders</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Target Users</td>
+            <td class="qpo-col">Daily Commuters, Metro-linked riders</td>
+            <td>Metro Commuters</td>
+            <td>Daily Office Commuters</td>
+            <td>Occasional Riders</td>
+            <td>Occasional Riders</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Unique Edge</td>
+            <td class="qpo-col"><span class="badge-green">Subscription + Female-Centric</span></td>
+            <td>Zero emissions, EV fleet</td>
+            <td>Affordable fixed routes</td>
+            <td>Real-time ride matching</td>
+            <td>Dynamic traffic pricing</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Safety Features</td>
+            <td class="qpo-col"><span class="badge-green">SOS + Live Track + Female-only</span></td>
+            <td>SOS, live tracking</td>
+            <td><span class="badge-grey">Not prominent</span></td>
+            <td>Basic + ride history</td>
+            <td>Live location sharing</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Pricing Model</td>
+            <td class="qpo-col"><span class="badge-blue">Affordable Fixed</span></td>
+            <td>Flat-rate metro rides</td>
+            <td>Low-cost shared rides</td>
+            <td>Dynamic (demand-based)</td>
+            <td>Dynamic (traffic-based)</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Revenue Sources</td>
+            <td class="qpo-col">Ride commissions + Subscriptions</td>
+            <td>Commissions + Green incentives</td>
+            <td>Commissions (occupancy)</td>
+            <td>Commissions + Promotions</td>
+            <td>Pooled ride commissions</td>
+          </tr>
+          <tr>
+            <td class="feature-col">Operational Focus</td>
+            <td class="qpo-col">First/last mile in Chennai OMR</td>
+            <td>Major metro cities</td>
+            <td>Small region shuttles</td>
+            <td>Nationwide urban ops</td>
+            <td>Nationwide cost-effective</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: USER PERSONAS
+══════════════════════════════════════════ -->
+<div id="sec-personas" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">User Research</div>
+    <h2 class="section-title">Who QPo Cabs Serves</h2>
+    <p class="section-desc">Three distinct user segments with distinct pain points, key needs, and motivations, each addressed by tailored QPo features.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="persona-card">
+      <div class="persona-header">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">👨‍💻</div>
+        <div class="persona-name">Suresh</div>
+        <div class="persona-role">Software Engineer</div>
+        <div class="persona-meta">Age 30 · OMR, Chennai · ₹50,000/mo</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-row">
+          <div class="persona-row-title">Pain Points</div>
+          <ul>
+            <li>Traffic congestion on OMR daily</li>
+            <li>Inconsistent public transport</li>
+            <li>Unpredictable fares spike costs</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Key Needs</div>
+          <ul>
+            <li>Reliable, affordable daily commute</li>
+            <li>Minimal wait time</li>
+            <li>Predictable travel cost</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Motivation</div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Save time, reduce daily commute stress associated with unpredictable traffic and transport delays.</div>
+        </div>
+        <div class="persona-solution">
+          ✅ QPo Solution: Subscription rides, hotspot-to-hotspot model, real-time tracking
+        </div>
+      </div>
+    </div>
+
+    <div class="persona-card">
+      <div class="persona-header">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">👩‍💼</div>
+        <div class="persona-name">Priya</div>
+        <div class="persona-role">Marketing Executive</div>
+        <div class="persona-meta">Age 27 · Velachery, Chennai · ₹35,000/mo</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-row">
+          <div class="persona-row-title">Pain Points</div>
+          <ul>
+            <li>Safety concerns during late commutes</li>
+            <li>High ride-hailing fares at night</li>
+            <li>Unreliable public transport options</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Key Needs</div>
+          <ul>
+            <li>Safe, secure transportation</li>
+            <li>Affordable daily rides</li>
+            <li>Convenience and reliability</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Motivation</div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Personal safety and peace of mind during commuting, especially during late evening hours.</div>
+        </div>
+        <div class="persona-solution">
+          ✅ QPo Solution: Female-only rides, SOS button, subscription-based rides, live tracking
+        </div>
+      </div>
+    </div>
+
+    <div class="persona-card">
+      <div class="persona-header">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🎒</div>
+        <div class="persona-name">Amit</div>
+        <div class="persona-role">College Student</div>
+        <div class="persona-meta">Age 22 · Adyar, Chennai · ₹10,000/mo</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-row">
+          <div class="persona-row-title">Pain Points</div>
+          <ul>
+            <li>High fares for short trips</li>
+            <li>Inconsistent shared auto availability</li>
+            <li>Tight student budget</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Key Needs</div>
+          <ul>
+            <li>Affordable first/last-mile connectivity</li>
+            <li>Reliable metro-linked rides</li>
+            <li>Budget-friendly options</li>
+          </ul>
+        </div>
+        <div class="persona-row">
+          <div class="persona-row-title">Motivation</div>
+          <div style="font-size:0.8rem;color:var(--text-secondary);">Cost savings while maintaining reliable transportation to reach classes and internship on time.</div>
+        </div>
+        <div class="persona-solution">
+          ✅ QPo Solution: Metro-linked rides, hotspot pickups, student discounts, subscriptions
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.25rem;">
+    <div class="card-title">Needs vs. QPo Solutions: At a Glance</div>
+    <div class="chart-wrap">
+      <canvas id="personaChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: MARKET ENTRY
+══════════════════════════════════════════ -->
+<div id="sec-entry" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Market Entry Strategy</div>
+    <h2 class="section-title">Expanding Across Chennai</h2>
+    <p class="section-desc">A hotspot-first expansion strategy targeting high-traffic zones, underserved suburbs, and institutional partnerships with college societies and corporates.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-title">High-Priority Hotspots</div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🚇</div>
+        <div>
+          <div class="hotspot-name">Chennai Central Metro</div>
+          <div class="hotspot-desc">Major transit hub with highest daily commuter demand in the city</div>
+        </div>
+        <span class="hotspot-tag tag-high">High Traffic</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🏢</div>
+        <div>
+          <div class="hotspot-name">Guindy & Taramani Metro</div>
+          <div class="hotspot-desc">Office hubs with heavy professional traffic on weekdays</div>
+        </div>
+        <span class="hotspot-tag tag-high">High Traffic</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">💻</div>
+        <div>
+          <div class="hotspot-name">Velachery Metro</div>
+          <div class="hotspot-desc">IT corridor commuters heading to nearby tech parks</div>
+        </div>
+        <span class="hotspot-tag tag-high">High Traffic</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🛍️</div>
+        <div>
+          <div class="hotspot-name">Phoenix MarketCity</div>
+          <div class="hotspot-desc">High shopper density with mixed-use ridership needs</div>
+        </div>
+        <span class="hotspot-tag tag-med">Medium</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🎓</div>
+        <div>
+          <div class="hotspot-name">Anna University & IIT Madras</div>
+          <div class="hotspot-desc">Large student population with demand for affordable rides</div>
+        </div>
+        <span class="hotspot-tag tag-med">Medium</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Underserved Hotspots (Expansion Targets)</div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">📍</div>
+        <div>
+          <div class="hotspot-name">Perungudi Metro (OMR)</div>
+          <div class="hotspot-desc">Residential and business area with strong unmet demand</div>
+        </div>
+        <span class="hotspot-tag tag-under">Underserved</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🏘️</div>
+        <div>
+          <div class="hotspot-name">Pallavaram Metro</div>
+          <div class="hotspot-desc">Suburban area with poor transport connectivity to city</div>
+        </div>
+        <span class="hotspot-tag tag-under">Underserved</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🖥️</div>
+        <div>
+          <div class="hotspot-name">OMR Tech Parks (Sholinganallur)</div>
+          <div class="hotspot-desc">IT workers underserved by existing options; daily commuter need</div>
+        </div>
+        <span class="hotspot-tag tag-under">Underserved</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🏠</div>
+        <div>
+          <div class="hotspot-name">Tambaram</div>
+          <div class="hotspot-desc">Dense residential area lacking reliable connections to metro</div>
+        </div>
+        <span class="hotspot-tag tag-under">Underserved</span>
+      </div>
+      <div class="hotspot-item">
+        <div class="hotspot-icon">🏥</div>
+        <div>
+          <div class="hotspot-name">Apollo Hospital, Greams Road</div>
+          <div class="hotspot-desc">High traffic from patients and visitors needing transit links</div>
+        </div>
+        <span class="hotspot-tag tag-under">Underserved</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAC Comparison -->
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="card-title">Customer Acquisition Cost (CAC) Across Channels</div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <canvas id="cacChart"></canvas>
+      </div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:0.85rem;padding-top:0.5rem;">
+          <div style="background:var(--qpo-light);border-radius:var(--radius-sm);padding:1rem;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--qpo-blue);margin-bottom:0.35rem;">Referral Program</div>
+            <div class="cac-flow">
+              <div class="cac-step"><div class="cac-step-val">₹42</div><div class="cac-step-label">Referrer discount</div></div>
+              <div class="cac-arrow">+</div>
+              <div class="cac-step"><div class="cac-step-val">₹42</div><div class="cac-step-label">New user discount</div></div>
+              <div class="cac-arrow">=</div>
+              <div class="cac-step" style="background:#fff;border:2px solid var(--qpo-indigo);"><div class="cac-step-val" style="color:var(--qpo-indigo);">₹84</div><div class="cac-step-label">Total CAC</div></div>
+            </div>
+            <div style="font-size:0.77rem;color:var(--text-secondary);">Breakeven within 1 month. Monthly revenue per customer = ₹280 (20% of ₹1,400)</div>
+          </div>
+          <div style="background:var(--qpo-light);border-radius:var(--radius-sm);padding:1rem;">
+            <div style="font-weight:700;font-size:0.85rem;color:var(--qpo-blue);margin-bottom:0.35rem;">"Ride More, Save More": 11th Ride Free</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6;">
+              Ride 5 km/day × 10 days → 50 km total · ₹1,400 fare<br>
+              QPo earns ₹280 (20% commission)<br>
+              11th ride cost: ₹140 → <b style="color:var(--qpo-blue);">Net Revenue: ₹140</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Programs -->
+  <div class="grid-2">
+    <div class="prog-card">
+      <div class="prog-header">
+        <div>
+          <div class="prog-title">College Partnership Program</div>
+          <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:3px;">Partner with 20 colleges · 10% discount on all rides</div>
+        </div>
+        <div class="prog-tag">Students</div>
+      </div>
+      <div class="prog-metrics">
+        <div class="prog-metric">
+          <div class="prog-metric-val">15,000</div>
+          <div class="prog-metric-label">Students Reached</div>
+        </div>
+        <div class="prog-metric">
+          <div class="prog-metric-val">3,750</div>
+          <div class="prog-metric-label">Converted Users (25%)</div>
+        </div>
+        <div class="prog-metric">
+          <div class="prog-metric-val" style="color:#16A34A;">₹35.33</div>
+          <div class="prog-metric-label">CAC per User</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;font-size:0.78rem;color:var(--text-secondary);">
+        Total monthly cost: ₹1,32,500 · Marketing: ₹20,000 · Discount cost: ₹1,12,500<br>
+        KPIs: 85%+ CSAT · 80% retention · 70% monthly active users
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="prog-header">
+        <div>
+          <div class="prog-title">Corporate Partnership Program</div>
+          <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:3px;">ETS + CCR for 20 corporate offices in Chennai</div>
+        </div>
+        <div class="prog-tag">Corporate</div>
+      </div>
+      <div class="prog-metrics">
+        <div class="prog-metric">
+          <div class="prog-metric-val">6,000</div>
+          <div class="prog-metric-label">Employees Reached</div>
+        </div>
+        <div class="prog-metric">
+          <div class="prog-metric-val">1,200</div>
+          <div class="prog-metric-label">Converted Users (20%)</div>
+        </div>
+        <div class="prog-metric">
+          <div class="prog-metric-val" style="color:#16A34A;">₹25</div>
+          <div class="prog-metric-label">CAC per User</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;font-size:0.78rem;color:var(--text-secondary);">
+        Marketing budget: ₹30,000 · ETS market: ~₹50,350 Cr in 2023 → ₹1.09T by 2030<br>
+        KPIs: 85%+ CSAT · 80% retention · 15 rides/user/month
+      </div>
+    </div>
+  </div>
+
+  <!-- Future Expansion -->
+  <div class="card" style="margin-top:1.25rem;">
+    <div class="card-title">Future Marketing Campaign: Monthly Budget Allocation</div>
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <canvas id="marketingChart"></canvas>
+      </div>
+      <div style="padding-top:0.5rem;">
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);">
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Google Ads</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary);">Local ride-hailing search terms</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:700;color:var(--qpo-blue);">₹1,20,000</div>
+              <div style="font-size:0.72rem;color:#16A34A);">1,440 expected downloads</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);">
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Billboard Advertising</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary);">4 high-traffic locations + metro exits</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:700;color:var(--qpo-blue);">₹1,00,000</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">1,200 expected downloads</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);">
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Metro Hotspot Discounts</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary);">30% off for new users at metro stations</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:700;color:var(--qpo-blue);">₹30,000</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">2,200 expected downloads</div>
+            </div>
+          </div>
+          <div style="background:var(--qpo-light);border-radius:var(--radius-sm);padding:0.85rem;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-weight:700;font-size:0.9rem;color:var(--qpo-blue);">Total Monthly</div>
+            <div style="text-align:right;">
+              <div style="font-weight:700;font-size:1.2rem;color:var(--qpo-blue);">₹2,50,000</div>
+              <div style="font-size:0.75rem;color:var(--qpo-violet);">4,840 downloads · CAC ₹51.65</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: WOMEN SAFETY
+══════════════════════════════════════════ -->
+<div id="sec-safety" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Women Safety Framework</div>
+    <h2 class="section-title">Empowering Community Through Safety</h2>
+    <p class="section-desc">QPo Cabs builds trust with female riders through a layered safety system, from nominee monitoring to an exclusive women-driver program.</p>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:1.25rem;">
+    <div class="stat-tile" style="border-top:3px solid var(--qpo-indigo);">
+      <div style="font-size:1.8rem;">👤</div>
+      <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;color:var(--text-primary);">QPo Nominee</div>
+      <div class="stat-sub" style="margin-top:0.35rem;">Trusted person receives real-time ride updates and emergency alerts</div>
+    </div>
+    <div class="stat-tile" style="border-top:3px solid var(--qpo-violet);">
+      <div style="font-size:1.8rem;">📡</div>
+      <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;color:var(--text-primary);">Real-Time Monitoring</div>
+      <div class="stat-sub" style="margin-top:0.35rem;">Live GPS + geofencing detects route deviations and auto-alerts nominee</div>
+    </div>
+    <div class="stat-tile" style="border-top:3px solid var(--accent-teal);">
+      <div style="font-size:1.8rem;">🚨</div>
+      <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;color:var(--text-primary);">Emergency SOS</div>
+      <div class="stat-sub" style="margin-top:0.35rem;">Panic button alerts nearest police station; hidden SOS mode known only to user</div>
+    </div>
+    <div class="stat-tile" style="border-top:3px solid var(--accent-pink);">
+      <div style="font-size:1.8rem;">🚕</div>
+      <div style="font-weight:700;font-size:0.9rem;margin-top:0.5rem;color:var(--text-primary);">Women at the Wheel</div>
+      <div class="stat-sub" style="margin-top:0.35rem;">Exclusive women-driver program empowering female drivers to join the transport sector</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Safety Feature Deep Dive</div>
+      <div class="safety-feature">
+        <div class="safety-icon">👤</div>
+        <div>
+          <div class="safety-title">QPo Nominee System</div>
+          <div class="safety-desc">Riders register a trusted relative or friend as their nominee. During rides, the nominee receives real-time location updates. Geofencing triggers automatic alerts for route deviations, providing constant oversight without active monitoring.</div>
+        </div>
+      </div>
+      <div class="safety-feature">
+        <div class="safety-icon">📡</div>
+        <div>
+          <div class="safety-title">Live GPS & Geofencing</div>
+          <div class="safety-desc">Advanced real-time tracking monitors the driver's exact route. Any deviation from the planned path instantly notifies both the nominee and the platform operations team for rapid response.</div>
+        </div>
+      </div>
+      <div class="safety-feature">
+        <div class="safety-icon">🚨</div>
+        <div>
+          <div class="safety-title">Emergency SOS Button</div>
+          <div class="safety-desc">In-app panic button directly connects to the nearest police station. A secondary hidden SOS feature (visible only to the rider) enables discreet activation in high-risk scenarios without alerting the driver.</div>
+        </div>
+      </div>
+      <div class="safety-feature">
+        <div class="safety-icon">🛡️</div>
+        <div>
+          <div class="safety-title">Driver Training & Community Partnerships</div>
+          <div class="safety-desc">All drivers undergo safety training including risk and fatigue management. QPo partners with local communities and authorities to build awareness and maintain accountability standards.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:1.25rem;">
+        <div class="card-title">Safety Benefits for QPo's Business</div>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;margin-top:0.5rem;">
+          <div style="padding:0.75rem;background:var(--qpo-light);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-primary);">
+            <b>Customer Loyalty:</b> Safety-first reputation turns female riders into repeat users and active brand advocates.
+          </div>
+          <div style="padding:0.75rem;background:var(--qpo-light);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-primary);">
+            <b>Market Differentiation:</b> Women-only rides and nominee system distinguishing QPo from Ola Share and Uber Pool; neither offers these.
+          </div>
+          <div style="padding:0.75rem;background:var(--qpo-light);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-primary);">
+            <b>Regulatory Goodwill:</b> Proactive safety measures build positive relationships with local police and municipal authorities.
+          </div>
+          <div style="padding:0.75rem;background:var(--qpo-light);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--text-primary);">
+            <b>Driver Supply:</b> Women-at-the-Wheel program unlocks an underutilised driver segment, expanding fleet supply.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">QPo vs. Competitors: Safety Score</div>
+        <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.5rem;">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:3px;"><span style="font-weight:600;color:var(--qpo-blue);">QPo Cabs</span><span style="font-weight:700;">95/100</span></div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:95%;height:100%;background:var(--qpo-grad);border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:3px;"><span>MetroRide</span><span>70/100</span></div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:70%;height:100%;background:#94A3B8;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:3px;"><span>Ola Share</span><span>55/100</span></div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:55%;height:100%;background:#94A3B8;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:3px;"><span>Uber Pool</span><span>50/100</span></div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:50%;height:100%;background:#94A3B8;border-radius:4px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:3px;"><span>QuicReach</span><span>25/100</span></div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:25%;height:100%;background:#CBD5E1;border-radius:4px;"></div></div>
+          </div>
+        </div>
+        <div style="font-size:0.7rem;color:var(--text-light);margin-top:0.75rem;">Scored on: SOS, live tracking, female-only options, nominee system, driver training</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: CHALLENGES & SOLUTIONS
+══════════════════════════════════════════ -->
+<div id="sec-challenges" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Challenges & Solutions</div>
+    <h2 class="section-title">Addressing Ride-Sharing's Hardest Problems</h2>
+    <p class="section-desc">Six categories of systemic challenges, each paired with a concrete, implementable solution built into QPo's platform strategy.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-title" style="color:var(--qpo-blue);">💳 Pricing & Payment Issues</div>
+      <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.5rem;">
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Surge pricing during peak hours</div>
+            <div class="challenge-solution">→ Predictive pricing alerts + off-peak ride discounts to smooth demand</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Lack of fare transparency</div>
+            <div class="challenge-solution">→ Detailed fare breakdown and pre-ride cost calculator shown before booking</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Payment processing failures</div>
+            <div class="challenge-solution">→ Multiple payment options + offline payment backup system</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Limited loyalty rewards</div>
+            <div class="challenge-solution">→ Tiered rewards program with surge-period protection for frequent riders</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--qpo-blue);">⭐ Service Quality</div>
+      <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.5rem;">
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Inconsistent service standards</div>
+            <div class="challenge-solution">→ Standardised training programs with quarterly quality audits</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Poor customer support</div>
+            <div class="challenge-solution">→ 24/7 live support + AI-powered chat assistance for fast resolution</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Language barriers</div>
+            <div class="challenge-solution">→ In-app translation + multi-language support (Tamil, English, Hindi)</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Lost item recovery</div>
+            <div class="challenge-solution">→ Automated lost-and-found tracking system built into the app</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--qpo-blue);">⏱️ Availability & Timing</div>
+      <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.5rem;">
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Frequent driver cancellations</div>
+            <div class="challenge-solution">→ Penalty system for unjustified cancellations + driver incentive bonuses</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Long wait times in busy areas</div>
+            <div class="challenge-solution">→ Smart driver allocation + dynamic supply management at hotspots</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Inaccurate arrival estimates</div>
+            <div class="challenge-solution">→ Real-time traffic integration + AI-powered ETA calculations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--qpo-blue);">🛡️ Safety & Trust</div>
+      <div style="display:flex;flex-direction:column;gap:0.65rem;margin-top:0.5rem;">
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Unclear driver ratings</div>
+            <div class="challenge-solution">→ Detailed rating categories with verified customer reviews</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Account security concerns</div>
+            <div class="challenge-solution">→ Two-factor authentication + real-time fraud detection</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Driver fatigue issues</div>
+            <div class="challenge-solution">→ Mandatory rest periods + working hours monitoring dashboard</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-dot"></div>
+          <div>
+            <div class="challenge-problem">Privacy concerns</div>
+            <div class="challenge-solution">→ Enhanced data encryption + customisable privacy settings</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Enhancements -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🤖 AI-Powered Customer Support</div>
+      <div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">24/7 Chatbot + Voice Assistant</div><div class="tech-feature-desc">Always-on support using AI-powered chatbots handling common queries without human escalation</div></div>
+        </div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">Personalised Recommendations</div><div class="tech-feature-desc">AI analyses ride history to offer tailored route suggestions and subscription nudges</div></div>
+        </div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">Data-Driven Service Insights</div><div class="tech-feature-desc">Customer interaction patterns feed back into product improvement cycles</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏙️ Smart City Integration</div>
+      <div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">Real-Time Traffic Data</div><div class="tech-feature-desc">Live city feeds and GPS data adjust routes instantly, minimising delays across corridors</div></div>
+        </div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">Dynamic Route Optimisation</div><div class="tech-feature-desc">AI continuously recalculates optimal paths, reducing vehicle idle time and fuel costs</div></div>
+        </div>
+        <div class="tech-feature">
+          <div class="tech-bullet"></div>
+          <div><div class="tech-feature-title">Predictive Congestion Modelling</div><div class="tech-feature-desc">Historical data trains models to anticipate peak-time congestion for proactive driver deployment</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Financial Sustainability -->
+  <div class="card" style="margin-top:1.25rem;">
+    <div class="card-title">Financial Sustainability Roadmap</div>
+    <div class="grid-4">
+      <div style="text-align:center;padding:1.25rem;background:var(--qpo-light);border-radius:var(--radius);">
+        <div style="font-size:1.5rem;">⚙️</div>
+        <div style="font-weight:700;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Operational Efficiency</div>
+        <div style="font-size:0.77rem;color:var(--text-secondary);margin-top:4px;">Reduce costs and optimise driver pay while maintaining service quality</div>
+      </div>
+      <div style="text-align:center;padding:1.25rem;background:var(--qpo-light);border-radius:var(--radius);">
+        <div style="font-size:1.5rem;">💰</div>
+        <div style="font-weight:700;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Revenue Diversification</div>
+        <div style="font-size:0.77rem;color:var(--text-secondary);margin-top:4px;">In-app advertising + premium subscription tiers beyond basic rides</div>
+      </div>
+      <div style="text-align:center;padding:1.25rem;background:var(--qpo-light);border-radius:var(--radius);">
+        <div style="font-size:1.5rem;">📊</div>
+        <div style="font-weight:700;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Gradual Expansion</div>
+        <div style="font-size:0.77rem;color:var(--text-secondary);margin-top:4px;">Scale sustainably by validating each hotspot before broadening fleet</div>
+      </div>
+      <div style="text-align:center;padding:1.25rem;background:var(--qpo-light);border-radius:var(--radius);">
+        <div style="font-size:1.5rem;">💛</div>
+        <div style="font-weight:700;font-size:0.85rem;margin-top:0.5rem;color:var(--qpo-blue);">Customer Loyalty</div>
+        <div style="font-size:0.77rem;color:var(--text-secondary);margin-top:4px;">Tiered rewards + subscription lock-in to reduce churn in competitive market</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.chartsInit = {};
+
+  // == CHART LAZY INIT on scroll ==
+  function maybeInitCharts(id) {
+    if (id === 'sec-market' && !window.chartsInit.market) initMarketCharts();
+    if (id === 'sec-competitor' && !window.chartsInit.competitor) initCompetitorCharts();
+    if (id === 'sec-personas' && !window.chartsInit.personas) initPersonaCharts();
+    if (id === 'sec-entry' && !window.chartsInit.entry) initEntryCharts();
+    if (id === 'sec-driver' && !window.chartsInit.driver) initDriverCharts();
+    if (id === 'sec-marketing' && !window.chartsInit.marketing) initMarketingCharts();
+  }
+
+  // == SCROLL SPY for active nav highlight ==
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section[id]');
+    const navLinks = document.querySelectorAll('.nav-tab');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+          maybeInitCharts(id);
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Init first section charts immediately
+    initMarketCharts();
+  });
+
+
+  function initMarketCharts() {
+      window.chartsInit.market = true;
+  
+      new Chart(document.getElementById('marketGrowthChart'), {
+        type: 'bar',
+        data: {
+          labels: ['2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029'],
+          datasets: [{
+            label: 'Revenue (₹ Bn)',
+            data: [42, 38, 45, 55, 68, 96, 115, 145, 185, 240, 315],
+            backgroundColor: (ctx) => {
+              const g = ctx.chart.ctx.createLinearGradient(0,0,0,300);
+              g.addColorStop(0, '#3B4FD4'); g.addColorStop(1, '#6366F1');
+              return g;
+            },
+            borderRadius: 6, borderSkipped: false,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { grid: { color: '#F1F5F9' }, ticks: { callback: v => '₹'+v } }
+          }
+        }
+      });
+  
+      new Chart(document.getElementById('covidChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Private Car','2 Wheeler','Bus/Metro','Taxi','Car Hailing','Car Sharing'],
+          datasets: [
+            { label: 'Pre COVID-19', data: [65,45,45,24,21,3], backgroundColor: '#3B4FD4', borderRadius: 4 },
+            { label: 'Post COVID-19', data: [56,56,24,15,21,5], backgroundColor: '#38BDF8', borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+            y: { grid: { color: '#F1F5F9' }, ticks: { callback: v => v+'%' } }
+          }
+        }
+      });
+    }
+
+  function initCompetitorCharts() {
+      window.chartsInit.competitor = true;
+  
+      new Chart(document.getElementById('safetyRadarChart'), {
+        type: 'radar',
+        data: {
+          labels: ['SOS Button','Live Tracking','Female-Only Rides','Nominee System','Driver Training','Geofencing'],
+          datasets: [
+            { label: 'QPo Cabs', data: [10,10,10,10,9,9], borderColor: '#3B4FD4', backgroundColor: 'rgba(59,79,212,0.15)', pointBackgroundColor: '#3B4FD4', borderWidth: 2 },
+            { label: 'Ola Share', data: [7,8,0,0,5,4], borderColor: '#94A3B8', backgroundColor: 'rgba(148,163,184,0.08)', pointBackgroundColor: '#94A3B8', borderWidth: 1.5 },
+            { label: 'Uber Pool', data: [5,9,0,0,4,3], borderColor: '#CBD5E1', backgroundColor: 'rgba(203,213,225,0.08)', pointBackgroundColor: '#CBD5E1', borderWidth: 1.5 },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } },
+          scales: { r: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 9 } }, grid: { color: '#E2E8F0' }, pointLabels: { font: { size: 10 } } } }
+        }
+      });
+  
+      new Chart(document.getElementById('pricingCompChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Fixed Pricing (QPo, QuicReach)', 'Dynamic Pricing (Ola, Uber)', 'Flat-Rate (MetroRide)'],
+          datasets: [{
+            data: [2, 2, 1],
+            backgroundColor: ['#3B4FD4', '#94A3B8', '#CBD5E1'],
+            borderWidth: 0, hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.label } }
+          }
+        }
+      });
+    }
+
+  function initPersonaCharts() {
+      window.chartsInit.personas = true;
+  
+      new Chart(document.getElementById('personaChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Safety Features','Pricing Affordability','Reliability','Female-Only Rides','Metro Connectivity','Student Discounts'],
+          datasets: [
+            { label: 'Suresh (Engineer)', data: [7, 9, 10, 2, 8, 3], backgroundColor: '#3B4FD4', borderRadius: 4 },
+            { label: 'Priya (Executive)', data: [10, 8, 9, 10, 7, 4], backgroundColor: '#6366F1', borderRadius: 4 },
+            { label: 'Amit (Student)', data: [5, 10, 8, 3, 9, 10], backgroundColor: '#38BDF8', borderRadius: 4 },
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } },
+          scales: {
+            x: { grid: { display: false }, stacked: false },
+            y: { grid: { color: '#F1F5F9' }, max: 10, ticks: { callback: v => v+'/10' } }
+          }
+        }
+      });
+    }
+
+  function initEntryCharts() {
+      window.chartsInit.entry = true;
+  
+      new Chart(document.getElementById('cacChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Corporate Program', 'College Program', 'Referral Scheme', 'Metro Hotspot Ads', 'Billboard Ads', 'Google Ads'],
+          datasets: [{
+            label: 'CAC (₹)',
+            data: [25, 35.33, 84, 13.6, 83.3, 83.3],
+            backgroundColor: ['#16A34A','#22C55E','#94A3B8','#3B4FD4','#94A3B8','#94A3B8'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: '#F1F5F9' }, ticks: { callback: v => '₹'+v } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+  
+      new Chart(document.getElementById('marketingChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Google Ads ₹1,20,000', 'Billboards ₹1,00,000', 'Metro Hotspot ₹30,000'],
+          datasets: [{
+            data: [120000, 100000, 30000],
+            backgroundColor: ['#3B4FD4', '#6366F1', '#38BDF8'],
+            borderWidth: 0, hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.label + ' (' + Math.round(ctx.parsed/2500).toFixed(0)+'%)' } }
+          }
+        }
+      });
+    }
+</script>
+
+<!-- ══════════════════════════════════════════
+     SECTION: DRIVER ONBOARDING (added via nav)
+══════════════════════════════════════════ -->
+<style> to { opacity:1; transform:translateY(0); } }
+
+  /* Driver economics table */
+  .econ-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+  .econ-table td { padding:0.6rem 1rem; border-bottom:1px solid var(--border); }
+  .econ-table td:first-child { color:var(--text-secondary); }
+  .econ-table td:last-child { font-weight:700; color:var(--qpo-blue); text-align:right; }
+  .econ-table tr:last-child td { border-bottom:none; }
+  .econ-table tr:nth-child(even) td { background:var(--surface); }
+
+  /* Onboarding step */
+  .onboard-step {
+    display:flex; gap:1rem; align-items:flex-start; padding:0.9rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  .onboard-step:last-child { border-bottom:none; }
+  .step-num {
+    width:32px; height:32px; border-radius:50%; flex-shrink:0;
+    background:var(--qpo-grad); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.85rem;
+  }
+  .step-title { font-weight:600; font-size:0.88rem; color:var(--text-primary); }
+  .step-desc { font-size:0.78rem; color:var(--text-secondary); margin-top:3px; line-height:1.5; }
+
+  /* KPI card */
+  .kpi-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--radius); padding:1.25rem 1.5rem;
+    text-align:center; box-shadow:var(--shadow);
+    transition:box-shadow 0.2s;
+  }
+  .kpi-card:hover { box-shadow:var(--shadow-hover); }
+  .kpi-val { font-size:2rem; font-weight:700; color:var(--qpo-blue); line-height:1; }
+  .kpi-label { font-size:0.77rem; color:var(--text-secondary); margin-top:5px; }
+  .kpi-icon { font-size:1.6rem; margin-bottom:0.4rem; }
+
+  /* Timeline */
+  .timeline { position:relative; padding-left:2rem; }
+  .timeline::before { content:''; position:absolute; left:7px; top:4px; bottom:4px; width:2px; background:var(--border); }
+  .timeline-item { position:relative; margin-bottom:1.2rem; }
+  .timeline-item:last-child { margin-bottom:0; }
+  .timeline-dot {
+    position:absolute; left:-2rem; top:3px;
+    width:16px; height:16px; border-radius:50%;
+    background:var(--qpo-grad); border:2px solid #fff;
+    box-shadow:0 0 0 2px var(--qpo-indigo);
+  }
+  .timeline-title { font-weight:600; font-size:0.86rem; color:var(--text-primary); }
+  .timeline-desc { font-size:0.78rem; color:var(--text-secondary); margin-top:2px; line-height:1.5; }
+
+  /* Wet wipe / marketing card */
+  .marketing-pill {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    background:var(--qpo-light); border:1px solid #C7D2FE;
+    border-radius:20px; padding:4px 12px;
+    font-size:0.75rem; font-weight:500; color:var(--qpo-indigo);
+    margin:3px;
+  }
+
+  /* Footer */
+  footer {
+    margin-top:3rem; background:var(--qpo-dark);
+    padding:2rem 3rem; color:rgba(255,255,255,0.6);
+    font-size:0.8rem;
+  }
+  .footer-inner { max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .footer-logo { font-weight:700; font-size:1rem; color:#fff; }
+  .footer-logo span { color:var(--qpo-sky); }
+  .footer-links { display:flex; gap:1.5rem; flex-wrap:wrap; }
+  .footer-link { color:rgba(255,255,255,0.5); text-decoration:none; cursor:pointer; transition:color 0.2s; display:inline-block; }
+  .footer-link:hover { color:#fff; }
+</style>
+
+<!-- Driver Onboarding injected into nav dynamically -->
+<div id="sec-driver" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Supply Side Strategy</div>
+    <h2 class="section-title">Driver Onboarding & Economics</h2>
+    <p class="section-desc">A structured three-step onboarding process, referral-based recruitment, and driver retention mechanisms to build a reliable fleet in Chennai.</p>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="grid-4" style="margin-bottom:1.25rem;">
+    <div class="kpi-card">
+      <div class="kpi-icon">👤</div>
+      <div class="kpi-val">32</div>
+      <div class="kpi-label">Average Driver Age (years)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📚</div>
+      <div class="kpi-val">70%</div>
+      <div class="kpi-label">Drivers with Secondary Education</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">💼</div>
+      <div class="kpi-val">60%</div>
+      <div class="kpi-label">Primary Family Earners</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🕐</div>
+      <div class="kpi-val">12–16</div>
+      <div class="kpi-label">Working Hours per Day</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <!-- Onboarding Steps -->
+    <div class="card">
+      <div class="card-title">Core Onboarding Process</div>
+      <div class="onboard-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Background Check & Eligibility Verification</div>
+          <div class="step-desc">Driving license validation, criminal background review, proficiency check in local language (Tamil), and eligibility criteria confirmation before proceeding.</div>
+        </div>
+      </div>
+      <div class="onboard-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">App Training & Policy Orientation</div>
+          <div class="step-desc">Hands-on app functionality training, customer service guidelines, safety protocol orientation, and emergency procedure walkthroughs. Cost: INR 100.</div>
+        </div>
+      </div>
+      <div class="onboard-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Vehicle Inspection & Documentation</div>
+          <div class="step-desc">Physical vehicle check at designated inspection centres: age verification, condition assessment, safety feature check. Documents: Driver's licence, RC, insurance, Aadhaar, PAN. Cost: INR 80 + 70 (skills test).</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;background:var(--qpo-light);border-radius:var(--radius-sm);padding:0.85rem 1rem;">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--qpo-blue);margin-bottom:0.5rem;">Total Driver Onboarding Cost Breakdown</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;padding:3px 0;border-bottom:1px solid #C7D2FE;"><span>App Training</span><span style="font-weight:600;">INR 100</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;padding:3px 0;border-bottom:1px solid #C7D2FE;"><span>Vehicle Physical Checkup</span><span style="font-weight:600;">INR 80</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;padding:3px 0;border-bottom:1px solid #C7D2FE;"><span>Driving Skills Testing</span><span style="font-weight:600;">INR 70</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.8rem;padding:3px 0;border-bottom:1px solid #C7D2FE;"><span>Miscellaneous Expenses</span><span style="font-weight:600;">INR 50</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.84rem;padding:5px 0;font-weight:700;color:var(--qpo-blue);"><span>Total</span><span>INR 300</span></div>
+      </div>
+    </div>
+
+    <!-- Driver Economics -->
+    <div>
+      <div class="card" style="margin-bottom:1.25rem;">
+        <div class="card-title">Driver Economics (Daily)</div>
+        <table class="econ-table">
+          <tr><td>Daily Average Rides</td><td>INR 30</td></tr>
+          <tr><td>Earnings per Ride</td><td>INR 140</td></tr>
+          <tr><td>Commission to QPo (daily)</td><td>INR 30 / Day</td></tr>
+          <tr><td>Average Ride Distance</td><td>5 km</td></tr>
+          <tr><td>Maintenance Cost</td><td>₹0.61 / km</td></tr>
+          <tr><td>Daily Maintenance</td><td>INR 91.5</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Driver Referral Program: "Refer &amp; Ride"</div>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;margin-top:0.5rem;">
+          <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+            <span style="font-size:1.1rem;">🔗</span>
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Unique Referral Link / Code</div>
+              <div style="font-size:0.77rem;color:var(--text-secondary);">Existing drivers share via social media, messaging apps, or email to recruit new drivers.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+            <span style="font-size:1.1rem;">🎁</span>
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Rewards for Both Referrer &amp; Referee</div>
+              <div style="font-size:0.77rem;color:var(--text-secondary);">One free vehicle maintenance service (inspection) + 10% discount at authorised partner mechanics near Chennai.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+            <span style="font-size:1.1rem;">🔧</span>
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;">Driver Retention: Servicing Partnerships</div>
+              <div style="font-size:0.77rem;color:var(--text-secondary);">10% ongoing discount on servicing costs via partnerships with authorised mechanics across Chennai corridors.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Training Types -->
+    <div class="card">
+      <div class="card-title">Driver Training Curriculum</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-title">Safety Training</div>
+          <div class="timeline-desc">Covers QPo safety policies, passenger management protocols, risk mitigation, and fatigue management. Includes emergency procedure drills.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-title">Operational Training</div>
+          <div class="timeline-desc">Driver obligations under QPo's terms, incident reporting procedures, hotspot navigation, and managing shared-ride etiquette.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-title">App & Navigation Training</div>
+          <div class="timeline-desc">Hands-on walkthrough of the QPo driver app: accepting rides, , route optimisation, real-time GPS, earnings dashboard, and customer rating system.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-title">Specialised Training</div>
+          <div class="timeline-desc">Mandatory for drivers handling accessibility-oriented vehicles. Covers wheelchair boarding, patient-transport etiquette, and senior rider assistance.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Driver Demographics Chart -->
+    <div class="card">
+      <div class="card-title">Driver Demographics: At a Glance</div>
+      <div class="chart-wrap" style="margin-bottom:1rem;">
+        <canvas id="driverDemoChart"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.5rem;">
+        <div style="background:var(--surface);border-radius:var(--radius-sm);padding:0.75rem;text-align:center;border:1px solid var(--border);">
+          <div style="font-weight:700;font-size:1.1rem;color:var(--qpo-blue);">6–7</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);">Work days per week</div>
+        </div>
+        <div style="background:var(--surface);border-radius:var(--radius-sm);padding:0.75rem;text-align:center;border:1px solid var(--border);">
+          <div style="font-weight:700;font-size:1.1rem;color:var(--qpo-blue);">20–35%</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);">Platform commission per ride</div>
+        </div>
+        <div style="background:var(--surface);border-radius:var(--radius-sm);padding:0.75rem;text-align:center;border:1px solid var(--border);">
+          <div style="font-weight:700;font-size:1.1rem;color:var(--qpo-blue);">40%</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);">Are migrants to work city</div>
+        </div>
+        <div style="background:var(--surface);border-radius:var(--radius-sm);padding:0.75rem;text-align:center;border:1px solid var(--border);">
+          <div style="font-weight:700;font-size:1.1rem;color:var(--qpo-blue);">5</div>
+          <div style="font-size:0.72rem;color:var(--text-secondary);">Avg. family members</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION: MARKETING (Wet Wipes + Strategy)
+══════════════════════════════════════════ -->
+<div id="sec-marketing" class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Growth & Marketing</div>
+    <h2 class="section-title">Brand Building in Chennai</h2>
+    <p class="section-desc">QPo's grassroots marketing strategy combines hyperlocal partnerships, campus engagement, and a creative wet-wipe co-branding play suited to Chennai's tropical climate.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-title">🧻 Wet Wipes Co-Branding Campaign</div>
+      <div style="background:var(--qpo-light);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem;">
+        <div style="font-weight:700;font-size:0.9rem;color:var(--qpo-blue);margin-bottom:0.4rem;">Why Wet Wipes in Chennai?</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6;">Chennai's tropical climate (avg. 30°C year-round) creates real hygiene needs for daily commuters. QPo Labs partners with a local FMCG brand to place QPo-branded wet wipe packets across distribution channels. Barter model: with zero cash outlay.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.7rem;">
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🤝</span>
+          <div>
+            <div style="font-weight:600;font-size:0.84rem;">Co-branded Products</div>
+            <div style="font-size:0.77rem;color:var(--text-secondary);">Company A integrates QPo Labs branding on wet wipe packaging, visible at point of purchase.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.1rem;flex-shrink:0;">📣</span>
+          <div>
+            <div style="font-weight:600;font-size:0.84rem;">Fleet Advertising</div>
+            <div style="font-size:0.77rem;color:var(--text-secondary);">QPo's auto fleet carries Company A's branding for mobile OOH exposure across all city hotspots.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🏪</span>
+          <div>
+            <div style="font-weight:600;font-size:0.84rem;">In-Store Promotional Materials</div>
+            <div style="font-size:0.77rem;color:var(--text-secondary);">QPo-branded posters and standees at Company A's retail outlets drive app download awareness.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;">
+        <span class="marketing-pill">♻️ Zero-cash barter model</span>
+        <span class="marketing-pill">🌡️ Climate-relevant product</span>
+        <span class="marketing-pill">📍 Hyperlocal reach</span>
+        <span class="marketing-pill">🚖 Mobile OOH via fleet</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Multi-Channel Marketing Strategy Overview</div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:0.5rem;">
+        <div style="padding:0.9rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+            <div style="font-weight:600;font-size:0.85rem;">Phase 1: Organic Growth</div>
+            <span style="font-size:0.68rem;background:#DCFCE7;color:#16A34A;padding:2px 7px;border-radius:4px;font-weight:600;">Current</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-secondary);">Local business partnerships, college society collaborations, corporate ETS/CCR tie-ups. Focus on word-of-mouth and subscription conversion.</div>
+        </div>
+        <div style="padding:0.9rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+            <div style="font-weight:600;font-size:0.85rem;">Phase 2: Paid Expansion</div>
+            <span style="font-size:0.68rem;background:#FEF3C7;color:#D97706;padding:2px 7px;border-radius:4px;font-weight:600;">Upcoming</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-secondary);">Google Ads (₹1.2L/mo), Billboard at 4 high-traffic locations (₹1L/mo), Metro Hotspot discount ads (₹30K/mo). Projected 4,840 downloads/month at ₹51.65 CAC.</div>
+        </div>
+        <div style="padding:0.9rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+            <div style="font-weight:600;font-size:0.85rem;">Phase 3: Brand Dominance</div>
+            <span style="font-size:0.68rem;background:var(--qpo-light);color:var(--qpo-indigo);padding:2px 7px;border-radius:4px;font-weight:600;">Future</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-secondary);">Citywide brand recall, smart city integrations, AI-driven personalised push campaigns, and influencer partnerships with Chennai commuter communities.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAC comparison across all channels -->
+  <div class="card">
+    <div class="card-title">CAC Efficiency Across All Acquisition Channels</div>
+    <div class="chart-wrap chart-wrap-tall">
+      <canvas id="fullCacChart"></canvas>
+    </div>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(5,1fr);gap:0.6rem;text-align:center;">
+      <div style="padding:0.6rem;background:#DCFCE7;border-radius:var(--radius-sm);">
+        <div style="font-weight:700;font-size:0.95rem;color:#16A34A;">₹25</div>
+        <div style="font-size:0.7rem;color:#15803D;">Corporate</div>
+      </div>
+      <div style="padding:0.6rem;background:#DCFCE7;border-radius:var(--radius-sm);">
+        <div style="font-weight:700;font-size:0.95rem;color:#16A34A;">₹35</div>
+        <div style="font-size:0.7rem;color:#15803D;">College</div>
+      </div>
+      <div style="padding:0.6rem;background:#FEF3C7;border-radius:var(--radius-sm);">
+        <div style="font-weight:700;font-size:0.95rem;color:#D97706;">₹52</div>
+        <div style="font-size:0.7rem;color:#B45309;">Metro Ads</div>
+      </div>
+      <div style="padding:0.6rem;background:#FEE2E2;border-radius:var(--radius-sm);">
+        <div style="font-weight:700;font-size:0.95rem;color:#DC2626;">₹83</div>
+        <div style="font-size:0.7rem;color:#B91C1C;">Billboards</div>
+      </div>
+      <div style="padding:0.6rem;background:#FEE2E2;border-radius:var(--radius-sm);">
+        <div style="font-weight:700;font-size:0.95rem;color:#DC2626;">₹84</div>
+        <div style="font-size:0.7rem;color:#B91C1C;">Referral</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">QPo <span>Cabs</span></div>
+      <div style="margin-top:4px;font-size:0.75rem;">Genuinely pocket-friendly cabs. Redefining ride-sharing.</div>
+    </div>
+    <div class="footer-links">
+      <a class="footer-link" href="#sec-hero">Overview</a>
+      <a class="footer-link" href="#sec-market">Market</a>
+      <a class="footer-link" href="#sec-competitor">Competitors</a>
+      <a class="footer-link" href="#sec-personas">Personas</a>
+      <a class="footer-link" href="#sec-entry">Market Entry</a>
+      <a class="footer-link" href="#sec-driver">Drivers</a>
+      <a class="footer-link" href="#sec-safety">Safety</a>
+      <a class="footer-link" href="#sec-challenges">Challenges</a>
+      <a class="footer-link" href="#sec-marketing">Marketing</a>
+    </div>
+    <div style="text-align:right;">
+      <div style="color:rgba(255,255,255,0.4);font-size:0.72rem;">Open IIT Case Study · Team C-53</div>
+      <div style="color:rgba(255,255,255,0.4);font-size:0.72rem;margin-top:2px;">IIT Kharagpur · Mechanical Engineering</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function initDriverCharts() {
+    if (window.chartsInit.driver) return;
+    window.chartsInit.driver = true;
+    new Chart(document.getElementById('driverDemoChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Secondary Edu', 'Sole Earners', 'Migrants', 'Work 6-7 Days', 'Work 12-16 hrs'],
+        datasets: [{
+          label: '% of Drivers',
+          data: [70, 60, 40, 85, 90],
+          backgroundColor: ['#3B4FD4','#6366F1','#38BDF8','#3B4FD4','#6366F1'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          y: { grid: { color: '#F1F5F9' }, max: 100, ticks: { callback: v => v + '%' } }
+        }
+      }
+    });
+  }
+
+  function initMarketingCharts() {
+    if (window.chartsInit.marketing) return;
+    window.chartsInit.marketing = true;
+    new Chart(document.getElementById('fullCacChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Corporate Program', 'College Partnership', 'Metro Hotspot Ads', 'Billboard Ads', 'Referral Scheme', 'Google Ads'],
+        datasets: [{
+          label: 'CAC (Rs. per user)',
+          data: [25, 35.33, 13.6, 83.3, 84, 83.3],
+          backgroundColor: (ctx) => {
+            const v = ctx.raw;
+            if (v <= 36) return '#22C55E';
+            if (v <= 60) return '#F59E0B';
+            return '#EF4444';
+          },
+          borderRadius: 8
+        }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ' Rs.' + ctx.parsed.x + ' per user' } }
+        },
+        scales: {
+          x: { grid: { color: '#F1F5F9' }, ticks: { callback: v => 'Rs.' + v } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  function animateCounters() {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = parseFloat(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const decimals = el.dataset.decimals || 0;
+      const duration = 1200;
+      const start = performance.now();
+      const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const val = (target * ease).toFixed(decimals);
+        el.textContent = prefix + val + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      };
+      requestAnimationFrame(update);
+    });
+  }
+</script>
+</body>
+</html>

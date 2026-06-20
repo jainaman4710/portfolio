@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethical Supply Chain in Electronics | Aman Tater</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g50:#f2f7ee;--g100:#deeece;--g200:#b9d997;--g400:#7ab648;--g600:#4a7c2a;--g800:#2a4a16;--g900:#182b0d;
+  --t50:#e6f4f0;--t400:#2ea87e;--t600:#1a7a5a;
+  --a50:#fdf5e6;--a400:#e09b28;
+  --c50:#fdf0eb;--c400:#d95f38;
+  --b50:#eaf3fc;--b400:#3a8bd8;
+  --gray50:#f8f7f5;--gray100:#eeede9;--gray200:#d4d2cc;--gray400:#8a8880;--gray600:#5c5b57;--gray800:#2e2d2b;
+  --text:#1a1a18;--muted:#5c5b57;--hint:#8a8880;
+  --border:rgba(0,0,0,0.09);--bmed:rgba(0,0,0,0.14);
+  --bg:#fafaf8;--surf:#ffffff;
+  --r:10px;--rl:14px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;min-height:100vh}
+nav{background:var(--surf);border-bottom:0.5px solid var(--bmed);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:var(--g400)}
+.nav-title{font-size:13px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--g600)}
+.nav-author{font-size:12px;color:var(--hint)}
+.hero{padding:72px 48px 56px;border-bottom:0.5px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--g50);color:var(--g600);font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;margin-bottom:20px}
+.hero h1{font-family:'Playfair Display',serif;font-size:44px;font-weight:500;line-height:1.2;color:var(--text);margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--g600)}
+.hero-desc{font-size:16px;color:var(--muted);line-height:1.7;max-width:420px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:20px 22px}
+.stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;line-height:1;margin-bottom:6px}
+.stat-label{font-size:12px;color:var(--muted);line-height:1.4}
+.sg{color:var(--g600)}.sa{color:var(--a400)}.sc{color:var(--c400)}.st{color:var(--t400)}
+section{padding:60px 48px;border-bottom:0.5px solid var(--border)}
+.sec-hdr{display:flex;align-items:baseline;gap:16px;margin-bottom:36px}
+.sec-num{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--hint);white-space:nowrap}
+.sec-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:var(--text)}
+.sec-div{flex:1;height:0.5px;background:var(--border)}
+.problem-grid{display:grid;grid-template-columns:2fr 1fr;gap:32px;margin-bottom:36px}
+.chart-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:24px}
+.chart-label{font-size:12px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.ebar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ebar-label{font-size:12px;color:var(--muted);width:130px;flex-shrink:0}
+.ebar-track{flex:1;height:8px;background:var(--gray100);border-radius:4px;overflow:hidden}
+.ebar-fill{height:100%;border-radius:4px}
+.ebar-val{font-size:12px;font-weight:500;width:36px;text-align:right}
+.lc-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.lc-row:last-child{border-bottom:none}
+.lc-name{font-size:12px;color:var(--muted)}
+.lc-pct{font-size:13px;font-weight:500;color:var(--g600)}
+.co2-hl{background:var(--g50);border:0.5px solid var(--g200);border-radius:var(--rl);padding:28px 32px;display:flex;gap:40px;align-items:center;margin-bottom:32px}
+.co2-item{text-align:center}
+.co2-big{font-family:'Playfair Display',serif;font-size:42px;font-weight:500;color:var(--g600);line-height:1}
+.co2-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+.co2-div{width:0.5px;background:var(--g200);align-self:stretch}
+.crit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.crit-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:20px;position:relative;overflow:hidden}
+.crit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.crit-card.mfg::before{background:var(--c400)}
+.crit-card.asm::before{background:var(--a400)}
+.crit-card.tst::before{background:var(--b400)}
+.crit-card.src::before{background:var(--t400)}
+.crit-card.afm::before{background:var(--g400)}
+.crit-card.ent::before{background:var(--gray400)}
+.crit-title{font-size:13px;font-weight:500;margin-bottom:12px;margin-top:4px}
+.crit-issue{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.cdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.cdot.c{background:var(--c400)}.cdot.a{background:var(--a400)}.cdot.b{background:var(--b400)}.cdot.t{background:var(--t400)}.cdot.g{background:var(--g400)}.cdot.gr{background:var(--gray400)}
+
+/* BENCHMARKS: 3-col grid, each card has its own mini radar */
+.bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bench-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:20px}
+.bench-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:0.5px solid var(--border)}
+.bench-name{font-size:13px;font-weight:500}
+.bench-sector{font-size:10px;color:var(--hint);letter-spacing:0.04em;text-transform:uppercase;margin-top:2px}
+.bench-pill{font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px;letter-spacing:0.03em}
+.pill-g{background:var(--g50);color:var(--g600)}
+.pill-t{background:var(--t50);color:var(--t600)}
+.pill-a{background:var(--a50);color:#7a5210}
+.bench-radar-wrap{width:100%;height:140px;position:relative;margin-bottom:12px}
+.bench-metrics{display:flex;flex-direction:column;gap:6px}
+.bm-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.bm-text{font-size:11px;color:var(--muted);line-height:1.4;flex:1}
+.bm-num{font-size:12px;font-weight:500;color:var(--g600);white-space:nowrap}
+
+/* SOLUTIONS TABS */
+.sol-tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--gray100);padding:4px;border-radius:var(--r);width:fit-content}
+.sol-tab{padding:7px 16px;font-size:13px;font-weight:400;color:var(--muted);border-radius:7px;cursor:pointer;transition:all .15s;border:none;background:none;font-family:'DM Sans',sans-serif}
+.sol-tab.active{background:var(--surf);color:var(--text);font-weight:500;border:0.5px solid var(--bmed)}
+.sol-pane{display:none}
+.sol-pane.active{display:block}
+.policy-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.sol-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:22px}
+.sol-card-title{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.sol-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.sol-list{display:flex;flex-direction:column;gap:5px}
+.sol-li{display:flex;gap:8px;font-size:12px;color:var(--muted);line-height:1.5}
+.sol-li::before{content:'>';color:var(--g400);flex-shrink:0;font-size:10px;margin-top:3px}
+.sol-impact{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:12px;color:var(--g800);background:var(--g50);border:0.5px solid var(--g200);line-height:1.5}
+.imp-label{font-weight:500;margin-bottom:2px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--g600)}
+.ptable-wrap{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);overflow:hidden;margin-top:24px}
+.ptable-hdr{background:var(--g50);padding:14px 20px;font-size:12px;font-weight:500;color:var(--g800);letter-spacing:0.04em;text-transform:uppercase}
+table.pt{width:100%;border-collapse:collapse}
+table.pt th{font-size:11px;font-weight:500;color:var(--hint);text-transform:uppercase;letter-spacing:0.05em;padding:10px 20px;text-align:left;border-bottom:0.5px solid var(--border)}
+table.pt td{font-size:13px;padding:10px 20px;border-bottom:0.5px solid var(--border);color:var(--text)}
+table.pt tr:last-child td{border-bottom:none}
+table.pt td.pos{color:var(--g600);font-weight:500}
+
+/* policy chart row */
+.policy-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.pol-chart-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:20px}
+
+/* TECH CARDS with visual bars */
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tech-card{background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--rl);padding:22px}
+.tech-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.tech-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tech-icon.g{background:var(--g50)}.tech-icon.t{background:var(--t50)}.tech-icon.a{background:var(--a50)}.tech-icon.b{background:var(--b50)}
+.tech-title{font-size:14px;font-weight:500;margin-bottom:4px}
+.tech-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.tech-bars{margin-top:14px}
+.tbar-row{margin-bottom:8px}
+.tbar-label{font-size:11px;color:var(--muted);margin-bottom:3px;display:flex;justify-content:space-between}
+.tbar-track{height:6px;background:var(--gray100);border-radius:3px;overflow:hidden}
+.tbar-fill{height:100%;border-radius:3px}
+.tech-feat{font-size:11.5px;color:var(--muted);padding-left:12px;position:relative;line-height:1.5;margin-bottom:4px}
+.tech-feat::before{content:'·';position:absolute;left:2px;color:var(--hint)}
+
+/* OPS VISUAL IMPACT BLOCKS */
+.ops-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ops-vis{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.ops-vis-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--g600);font-weight:500;line-height:1}
+.ops-vis-label{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.3}
+
+/* ENDUSER: funnel visual */
+.enduser-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.funnel-wrap{margin-top:14px}
+.funnel-step{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.funnel-bar{height:28px;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:500;color:white;min-width:60px;transition:width .5s ease}
+.funnel-label{font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* COLLAB: flow arrows */
+.collab-flow{display:flex;align-items:center;gap:0;margin:16px 0;overflow-x:auto}
+.cf-node{background:var(--g50);border:0.5px solid var(--g200);border-radius:6px;padding:8px 12px;font-size:11px;color:var(--g800);text-align:center;white-space:nowrap;flex-shrink:0}
+.cf-arrow{color:var(--g400);font-size:16px;padding:0 6px;flex-shrink:0}
+
+/* CLASSIFICATION */
+.class-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.class-row{display:grid;grid-template-columns:28px 220px 1fr auto;align-items:center;gap:16px;background:var(--surf);border:0.5px solid var(--bmed);border-radius:var(--r);padding:14px 20px}
+.class-num{font-family:'Playfair Display',serif;font-size:20px;color:var(--g400);font-weight:500}
+.class-name{font-size:13px;font-weight:500}
+.class-desc{font-size:12px;color:var(--muted)}
+.class-cos{display:flex;gap:6px;flex-wrap:wrap}
+.class-co{font-size:10px;font-weight:500;padding:3px 8px;background:var(--gray50);border:0.5px solid var(--bmed);border-radius:4px;color:var(--muted)}
+.quote-section{padding:56px 48px;background:var(--g800);text-align:center}
+.quote-text{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;color:var(--g100);line-height:1.5;max-width:700px;margin:0 auto 16px}
+.quote-author{font-size:13px;color:var(--g400);letter-spacing:0.05em}
+footer{padding:28px 48px;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--bmed);background:var(--surf)}
+.footer-name{font-size:13px;font-weight:500}
+.footer-note{font-size:12px;color:var(--hint)}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.fade-up.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand"><div class="nav-dot"></div><span class="nav-title">Ethical Supply Chain | Electronics</span></div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#critical">Supply Chain</a>
+    <a href="#benchmarks">Benchmarks</a>
+    <a href="#classification">Industry</a>
+    <a href="#solutions">Solutions</a>
+  </div>
+  <div class="nav-author">Aman Tater</div>
+</nav>
+
+<div class="hero fade-up">
+  <div>
+    <div class="hero-tag">Portfolio Case Study</div>
+    <h1>Ethical Supply Chain in <em>Electronics</em></h1>
+    <p class="hero-desc">A deep-dive into the environmental, social, and governance challenges embedded in the global electronics supply chain, with actionable policy, tech, and operational solutions.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card"><div class="stat-num sc">28Mn</div><div class="stat-label">People in forced labour globally in 2022</div></div>
+    <div class="stat-card"><div class="stat-num sa">82%</div><div class="stat-label">Indians report shopping more sustainably in recent years</div></div>
+    <div class="stat-card"><div class="stat-num st">37%</div><div class="stat-label">Of total electronics emissions from semiconductor manufacturing alone</div></div>
+    <div class="stat-card"><div class="stat-num sg">64Kg</div><div class="stat-label">Total CO2 per iPhone; only 10Kg from actual usage</div></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem" class="fade-up">
+  <div class="sec-hdr"><span class="sec-num">01</span><h2 class="sec-title">Understanding the problem</h2><div class="sec-div"></div></div>
+  <div class="co2-hl">
+    <div class="co2-item"><div class="co2-big">1 Kg</div><div class="co2-sub">of electronics<br>= 25 Kg CO2</div></div>
+    <div class="co2-div"></div>
+    <div class="co2-item"><div class="co2-big">580M</div><div class="co2-sub">metric tons CO2<br>(2020)</div></div>
+    <div class="co2-div"></div>
+    <div class="co2-item"><div class="co2-big">852M</div><div class="co2-sub">metric tons CO2<br>projected 2030</div></div>
+    <div class="co2-div"></div>
+    <div class="co2-item"><div class="co2-big">47%</div><div class="co2-sub">projected growth<br>in CO2 emissions</div></div>
+  </div>
+  <div class="problem-grid">
+    <div class="chart-card">
+      <div class="chart-label">Indian consumer lifecycle habits (%)</div>
+      <div class="ebar-row"><span class="ebar-label">Reducing energy use</span><div class="ebar-track"><div class="ebar-fill" style="width:39%;background:var(--g400)"></div></div><span class="ebar-val" style="color:var(--g600)">39%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Carrying reusable items</span><div class="ebar-track"><div class="ebar-fill" style="width:38%;background:var(--g400)"></div></div><span class="ebar-val" style="color:var(--g600)">38%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Being vegetarian</span><div class="ebar-track"><div class="ebar-fill" style="width:33%;background:var(--t400)"></div></div><span class="ebar-val" style="color:var(--t400)">33%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Avoiding driving</span><div class="ebar-track"><div class="ebar-fill" style="width:32%;background:var(--t400)"></div></div><span class="ebar-val" style="color:var(--t400)">32%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Recycling</span><div class="ebar-track"><div class="ebar-fill" style="width:31%;background:var(--a400)"></div></div><span class="ebar-val" style="color:var(--a400)">31%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Composting</span><div class="ebar-track"><div class="ebar-fill" style="width:31%;background:var(--a400)"></div></div><span class="ebar-val" style="color:var(--a400)">31%</span></div>
+      <div class="ebar-row"><span class="ebar-label">Avoiding disposables</span><div class="ebar-track"><div class="ebar-fill" style="width:31%;background:var(--a400)"></div></div><span class="ebar-val" style="color:var(--a400)">31%</span></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-label">iPhone 13 supply network</div>
+      <div class="lc-row"><span class="lc-name">Countries sourced from</span><span class="lc-pct">50+</span></div>
+      <div class="lc-row"><span class="lc-name">Individual components</span><span class="lc-pct">1000+</span></div>
+      <div class="lc-row"><span class="lc-name">Solder joints</span><span class="lc-pct">1200+</span></div>
+      <div class="lc-row"><span class="lc-name">PCB layers</span><span class="lc-pct">6</span></div>
+      <div class="lc-row"><span class="lc-name">Unique suppliers</span><span class="lc-pct">300+</span></div>
+      <div class="lc-row"><span class="lc-name">CO2 from usage only</span><span class="lc-pct" style="color:var(--t400)">10 Kg</span></div>
+      <div class="lc-row"><span class="lc-name">Total lifecycle CO2</span><span class="lc-pct" style="color:var(--c400)">64 Kg</span></div>
+    </div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-label">CO2 emissions trajectory: electronics industry</div>
+    <div style="position:relative;width:100%;height:200px"><canvas id="emissionsChart" role="img" aria-label="Bar chart: electronics CO2 emissions 580M in 2020, rising to estimated 852M by 2030.">CO2: 580M (2020) to 852M (2030).</canvas></div>
+  </div>
+</section>
+
+<!-- CRITICAL POINTS -->
+<section id="critical" class="fade-up">
+  <div class="sec-hdr"><span class="sec-num">02</span><h2 class="sec-title">Critical points in supply chain steps</h2><div class="sec-div"></div></div>
+  <div class="crit-grid">
+    <div class="crit-card mfg">
+      <div class="crit-title">Core manufacturing</div>
+      <div class="crit-issue"><div class="cdot c"></div>High incidence of labour rights violations: excessive overtime, workplace abuse, high turnover</div>
+      <div class="crit-issue"><div class="cdot c"></div>Significant energy and water consumption, contributing heavily to industry emissions</div>
+      <div class="crit-issue"><div class="cdot c"></div>Generation of hazardous waste (chemicals, heavy metals) requiring strict disposal protocols</div>
+    </div>
+    <div class="crit-card asm">
+      <div class="crit-title">Assembly and packaging</div>
+      <div class="crit-issue"><div class="cdot a"></div>Overuse of plastics and non-recyclable materials leads to substantial packaging waste</div>
+      <div class="crit-issue"><div class="cdot a"></div>Persistent labour issues: lack of social benefits and wage theft among temporary workers</div>
+      <div class="crit-issue"><div class="cdot a"></div>Balancing protective packaging needs against sustainability and recyclability standards</div>
+    </div>
+    <div class="crit-card tst">
+      <div class="crit-title">Testing</div>
+      <div class="crit-issue"><div class="cdot b"></div>High risk of counterfeit components entering the supply chain, threatening product quality</div>
+      <div class="crit-issue"><div class="cdot b"></div>Poor-quality components increase failure rates and environmental impact from frequent replacements</div>
+      <div class="crit-issue"><div class="cdot b"></div>Limited integration of ethical sourcing verification in standard testing protocols</div>
+    </div>
+    <div class="crit-card src">
+      <div class="crit-title">Component sourcing</div>
+      <div class="crit-issue"><div class="cdot t"></div>Lack of visibility over tier 2 and tier 3 suppliers increases exposure to unethical sourcing</div>
+      <div class="crit-issue"><div class="cdot t"></div>Supplier data is often fragmented, outdated, and difficult to verify, hindering traceability</div>
+      <div class="crit-issue"><div class="cdot t"></div>Cost and resource constraints make robust tracking systems difficult for SMEs</div>
+    </div>
+    <div class="crit-card afm">
+      <div class="crit-title">Aftermarket services</div>
+      <div class="crit-issue"><div class="cdot g"></div>End-of-life processes generate significant e-waste often containing toxic substances</div>
+      <div class="crit-issue"><div class="cdot g"></div>Limited infrastructure and inconsistent quality for recycling and remanufacturing</div>
+      <div class="crit-issue"><div class="cdot g"></div>Short product lifecycles and lack of spare parts contribute to increased waste</div>
+    </div>
+    <div class="crit-card ent">
+      <div class="crit-title">Enterprise logistics</div>
+      <div class="crit-issue"><div class="cdot gr"></div>Inefficiencies in inventory, warehousing, and transport lead to excess resource use</div>
+      <div class="crit-issue"><div class="cdot gr"></div>Poor internal coordination results in resource wastage and higher environmental impact</div>
+      <div class="crit-issue"><div class="cdot gr"></div>Organisational resistance and lack of integration slow adoption of sustainable practices</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section id="benchmarks" class="fade-up">
+  <div class="sec-hdr"><span class="sec-num">03</span><h2 class="sec-title">Industry benchmarks</h2><div class="sec-div"></div></div>
+  <div class="bench-grid">
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Apple</div><div class="bench-sector">Consumer electronics</div></div><span class="bench-pill pill-g">Leader</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc0" role="img" aria-label="Apple sustainability radar.">Apple radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">Worker interviews annually</span><span class="bm-num">25,000+</span></div>
+        <div class="bm-row"><span class="bm-text">GHG emissions cut since 2015</span><span class="bm-num">55%</span></div>
+        <div class="bm-row"><span class="bm-text">Renewable energy in supply chain</span><span class="bm-num">16.5 GW</span></div>
+        <div class="bm-row"><span class="bm-text">Suppliers on 100% RE by 2030</span><span class="bm-num">320+</span></div>
+      </div>
+    </div>
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Mahindra &amp; Mahindra</div><div class="bench-sector">Automotive</div></div><span class="bench-pill pill-t">Strong</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc1" role="img" aria-label="Mahindra sustainability radar.">Mahindra radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">Suppliers trained yearly on ethics</span><span class="bm-num">606+</span></div>
+        <div class="bm-row"><span class="bm-text">Water-positive status since</span><span class="bm-num">2014</span></div>
+        <div class="bm-row"><span class="bm-text">EV adoption in fleets by 2030</span><span class="bm-num">70%</span></div>
+        <div class="bm-row"><span class="bm-text">Suppliers screened for human rights</span><span class="bm-num">100%</span></div>
+      </div>
+    </div>
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Brambles</div><div class="bench-sector">Logistics</div></div><span class="bench-pill pill-g">Strong</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc2" role="img" aria-label="Brambles sustainability radar.">Brambles radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">Certified ethical timber sourcing</span><span class="bm-num">100%</span></div>
+        <div class="bm-row"><span class="bm-text">Meals donated yearly via waste reduction</span><span class="bm-num">10M+</span></div>
+        <div class="bm-row"><span class="bm-text">Waste avoided per year via reuse</span><span class="bm-num">1.2M t</span></div>
+        <div class="bm-row"><span class="bm-text">Recycled plastics in products</span><span class="bm-num">42%</span></div>
+      </div>
+    </div>
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Flex</div><div class="bench-sector">Electronics manufacturing</div></div><span class="bench-pill pill-t">Advancing</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc3" role="img" aria-label="Flex sustainability radar.">Flex radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">New suppliers screened for ethics</span><span class="bm-num">98%</span></div>
+        <div class="bm-row"><span class="bm-text">Circular economy solutions achieved</span><span class="bm-num">69%</span></div>
+        <div class="bm-row"><span class="bm-text">Target: supplier GHG reduction by 2030</span><span class="bm-num">100%</span></div>
+        <div class="bm-row"><span class="bm-text">High-risk suppliers audited</span><span class="bm-num">Yes</span></div>
+      </div>
+    </div>
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Nestlé</div><div class="bench-sector">Food and beverages</div></div><span class="bench-pill pill-a">Progressing</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc4" role="img" aria-label="Nestle sustainability radar.">Nestle radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">Farmers trained on ethical practices</span><span class="bm-num">500K+</span></div>
+        <div class="bm-row"><span class="bm-text">Methane emissions cut in 2023</span><span class="bm-num">15.3%</span></div>
+        <div class="bm-row"><span class="bm-text">Renewable electricity in production</span><span class="bm-num">91.9%</span></div>
+        <div class="bm-row"><span class="bm-text">Human Rights Roadmap active</span><span class="bm-num">Yes</span></div>
+      </div>
+    </div>
+    <div class="bench-card">
+      <div class="bench-hdr"><div><div class="bench-name">Interface</div><div class="bench-sector">Commercial flooring</div></div><span class="bench-pill pill-g">Leader</span></div>
+      <div class="bench-radar-wrap"><canvas id="rc5" role="img" aria-label="Interface sustainability radar.">Interface radar.</canvas></div>
+      <div class="bench-metrics">
+        <div class="bm-row"><span class="bm-text">Emissions cut since 1996</span><span class="bm-num">98%</span></div>
+        <div class="bm-row"><span class="bm-text">Recycled or biobased materials</span><span class="bm-num">52%</span></div>
+        <div class="bm-row"><span class="bm-text">Zero tolerance for forced labour</span><span class="bm-num">Enforced</span></div>
+        <div class="bm-row"><span class="bm-text">Suppliers trained on conflict minerals</span><span class="bm-num">All</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSIFICATION -->
+<section id="classification" class="fade-up">
+  <div class="sec-hdr"><span class="sec-num">04</span><h2 class="sec-title">Electronics industry classification</h2><div class="sec-div"></div></div>
+  <div class="class-grid">
+    <div class="class-row"><div class="class-num">1</div><div class="class-name">Semiconductor manufacturing</div><div class="class-desc">Microprocessors, integrated circuits, and basic components: the foundation layer</div><div class="class-cos"><span class="class-co">Samsung</span><span class="class-co">TSMC</span><span class="class-co">Korea / Taiwan</span></div></div>
+    <div class="class-row"><div class="class-num">2</div><div class="class-name">Consumer electronics</div><div class="class-desc">Smartphones, televisions, gaming systems, and smart home devices</div><div class="class-cos"><span class="class-co">Apple</span><span class="class-co">Samsung</span><span class="class-co">USA / China</span></div></div>
+    <div class="class-row"><div class="class-num">3</div><div class="class-name">Industrial electronics</div><div class="class-desc">Industrial robots, automation controls, and manufacturing equipment</div><div class="class-cos"><span class="class-co">Siemens</span><span class="class-co">ABB</span><span class="class-co">Germany / China</span></div></div>
+    <div class="class-row"><div class="class-num">4</div><div class="class-name">Communications and networking</div><div class="class-desc">Routers, switches, telecom infrastructure, and networking hardware</div><div class="class-cos"><span class="class-co">Nokia</span><span class="class-co">Huawei</span><span class="class-co">USA / China</span></div></div>
+    <div class="class-row"><div class="class-num">5</div><div class="class-name">Computer and electronic equipment</div><div class="class-desc">Personal computers, servers, workstations, and office electronic equipment</div><div class="class-cos"><span class="class-co">HP</span><span class="class-co">Lenovo</span><span class="class-co">USA / China</span></div></div>
+    <div class="class-row"><div class="class-num">6</div><div class="class-name">Medical electronics</div><div class="class-desc">Imaging equipment, diagnostic devices, and precision measurement tools</div><div class="class-cos"><span class="class-co">J&amp;J</span><span class="class-co">Medtronic</span><span class="class-co">Japan / USA</span></div></div>
+  </div>
+</section>
+
+<!-- SOLUTIONS -->
+<section id="solutions" class="fade-up">
+  <div class="sec-hdr"><span class="sec-num">05</span><h2 class="sec-title">Solutions framework</h2><div class="sec-div"></div></div>
+  <div class="sol-tabs">
+    <button class="sol-tab active" onclick="switchTab('policy',this)">Policy &amp; Regulation</button>
+    <button class="sol-tab" onclick="switchTab('tech',this)">Digital &amp; Tech</button>
+    <button class="sol-tab" onclick="switchTab('ops',this)">Operational</button>
+    <button class="sol-tab" onclick="switchTab('enduser',this)">End-User</button>
+    <button class="sol-tab" onclick="switchTab('collab',this)">Stakeholder Collab</button>
+  </div>
+
+  <!-- POLICY PANE -->
+  <div class="sol-pane active" id="pane-policy">
+    <div class="policy-grid">
+      <div class="sol-card">
+        <div class="sol-card-title">Equity investments in certified green companies</div>
+        <div class="sol-desc">100% LTCG exemption on shares held 24+ months in green-certified companies. Aims to channel private capital toward low-carbon startups in India.</div>
+        <div class="sol-list">
+          <div class="sol-li">Qualifying companies listed on BSE/NSE or via SEBI-compliant private placements</div>
+          <div class="sol-li">Max investment of Rs 25 lakh per investor per financial year</div>
+          <div class="sol-li">Up to Rs 1 lakh profits per year tax-exempt</div>
+          <div class="sol-li">Green Registry certification number required for automatic exemption</div>
+        </div>
+        <div class="sol-impact"><div class="imp-label">Mechanism</div>Green Registry Portal (SEBI/MoEFCC) verifies status every 3 years via audited environmental data and on-site audits.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-title">Certified green bonds</div>
+        <div class="sol-desc">Interest income on certified green bonds exempt up to Rs 2 lakh/year. Full LTCG exemption on bonds held 36+ months. Issued by IREDA, REC, PSUs or private issuers.</div>
+        <div class="sol-list">
+          <div class="sol-li">Maximum of Rs 50 lakh per individual investor annually</div>
+          <div class="sol-li">Issuers apply 0% TDS with valid KYC and declaration</div>
+          <div class="sol-li">Special "Green Code" or ISIN tagging for automatic exemptions</div>
+          <div class="sol-li">Proceeds ring-fenced for solar parks, EVs, afforestation</div>
+        </div>
+        <div class="sol-impact"><div class="imp-label">Target sectors</div>Solar parks, electric mobility, afforestation, and circular economy projects requiring large-scale patient capital.</div>
+      </div>
+    </div>
+    <div class="policy-chart-row">
+      <div class="pol-chart-card">
+        <div class="chart-label">Projected funds mobilised (lakh Cr)</div>
+        <div style="position:relative;width:100%;height:180px"><canvas id="policyChart" role="img" aria-label="Bar chart of projected fund mobilisation with and without green scheme 2025-2029.">Fund projections 2025-2029.</canvas></div>
+      </div>
+      <div class="ptable-wrap" style="margin-top:0">
+        <div class="ptable-hdr">Year-wise projection</div>
+        <table class="pt">
+          <thead><tr><th>Year</th><th>Baseline</th><th>With scheme</th><th>Uplift</th></tr></thead>
+          <tbody>
+            <tr><td>2025</td><td>Rs 160</td><td>Rs 172.5</td><td class="pos">+7.8%</td></tr>
+            <tr><td>2026</td><td>Rs 180</td><td>Rs 205</td><td class="pos">+13.9%</td></tr>
+            <tr><td>2027</td><td>Rs 200</td><td>Rs 242.5</td><td class="pos">+21.2%</td></tr>
+            <tr><td>2028</td><td>Rs 220</td><td>Rs 280</td><td class="pos">+27.3%</td></tr>
+            <tr><td>2029</td><td>Rs 240</td><td>Rs 325</td><td class="pos">+35.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH PANE -->
+  <div class="sol-pane" id="pane-tech">
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-top"><div class="tech-icon g" style="font-size:20px">&#9889;</div><div><div class="tech-title">Renewable energy optimiser</div><div class="tech-desc">Intelligent energy management platform: analyses consumption across manufacturing, warehouses, and transport to drive sustainable energy adoption.</div></div></div>
+        <div class="tech-bars">
+          <div class="tbar-row"><div class="tbar-label"><span>Cost reduction</span><span style="color:var(--g600);font-weight:500">High</span></div><div class="tbar-track"><div class="tbar-fill" style="width:80%;background:var(--g400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Carbon footprint minimisation</span><span style="color:var(--g600);font-weight:500">Very high</span></div><div class="tbar-track"><div class="tbar-fill" style="width:90%;background:var(--g400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Operational efficiency</span><span style="color:var(--g600);font-weight:500">High</span></div><div class="tbar-track"><div class="tbar-fill" style="width:75%;background:var(--t400)"></div></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="tech-feat">Neural networks, decision trees, and random forests analyse historical energy patterns</div>
+          <div class="tech-feat">Time-series forecasting optimises energy procurement and scheduling</div>
+          <div class="tech-feat">Multi-objective algorithms balance cost, carbon, and operational efficiency</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-top"><div class="tech-icon b" style="font-size:20px">&#128279;</div><div><div class="tech-title">Blockchain product traceability</div><div class="tech-desc">Distributed ledger creating an immutable product journey record from raw materials to end consumers, providing visibility into tier 2, 3, and 4 suppliers.</div></div></div>
+        <div class="tech-bars">
+          <div class="tbar-row"><div class="tbar-label"><span>Supply chain visibility</span><span style="color:var(--b400);font-weight:500">Full</span></div><div class="tbar-track"><div class="tbar-fill" style="width:95%;background:var(--b400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Data privacy</span><span style="color:var(--b400);font-weight:500">High</span></div><div class="tbar-track"><div class="tbar-fill" style="width:80%;background:var(--b400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Implementation complexity</span><span style="color:var(--c400);font-weight:500">High</span></div><div class="tbar-track"><div class="tbar-fill" style="width:78%;background:var(--c400)"></div></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="tech-feat">Permissioned blockchain with smart contracts records every transaction</div>
+          <div class="tech-feat">RFID tags and sensors auto-capture product info at each supply chain stage</div>
+          <div class="tech-feat">Cryptographic techniques maintain privacy while ensuring transparency</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-top"><div class="tech-icon t" style="font-size:20px">&#127758;</div><div><div class="tech-title">Carbon footprint tracker</div><div class="tech-desc">Processes complex supply chain data across transport, energy, manufacturing, and materials to calculate accurate Scope 1, 2, and 3 emissions.</div></div></div>
+        <div class="tech-bars">
+          <div class="tbar-row"><div class="tbar-label"><span>Scope 1 + 2 accuracy</span><span style="color:var(--t400);font-weight:500">Very high</span></div><div class="tbar-track"><div class="tbar-fill" style="width:92%;background:var(--t400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Scope 3 coverage</span><span style="color:var(--t400);font-weight:500">High</span></div><div class="tbar-track"><div class="tbar-fill" style="width:78%;background:var(--t400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Automated reporting</span><span style="color:var(--g600);font-weight:500">Full</span></div><div class="tbar-track"><div class="tbar-fill" style="width:95%;background:var(--g400)"></div></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="tech-feat">Standardised methodologies per international carbon accounting standards</div>
+          <div class="tech-feat">Advanced analytics identify emission patterns and optimisation opportunities</div>
+          <div class="tech-feat">Continuous tracking with automated trend analysis and reporting</div>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-top"><div class="tech-icon a" style="font-size:20px">&#128230;</div><div><div class="tech-title">Sustainable packaging advisor</div><div class="tech-desc">PackSustain Advisor analyses packaging requirements: strength, durability, lifecycle, and protection needs to recommend optimal sustainable solutions.</div></div></div>
+        <div class="tech-bars">
+          <div class="tbar-row"><div class="tbar-label"><span>LCA datasets</span><span style="color:var(--a400);font-weight:500">8,000+</span></div><div class="tbar-track"><div class="tbar-fill" style="width:85%;background:var(--a400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Impact categories evaluated</span><span style="color:var(--a400);font-weight:500">17</span></div><div class="tbar-track"><div class="tbar-fill" style="width:70%;background:var(--a400)"></div></div></div>
+          <div class="tbar-row"><div class="tbar-label"><span>Database integrations</span><span style="color:var(--g600);font-weight:500">3+</span></div><div class="tbar-track"><div class="tbar-fill" style="width:60%;background:var(--g400)"></div></div></div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="tech-feat">Evaluates 17 LCA-based categories including carbon footprint and land use</div>
+          <div class="tech-feat">Connects to ecoinvent, EU Product Environmental Footprint, material libraries</div>
+          <div class="tech-feat">Recommends optimal packaging balancing protection and recyclability</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPS PANE -->
+  <div class="sol-pane" id="pane-ops">
+    <div class="ops-grid">
+      <div class="sol-card">
+        <div class="sol-card-title">Native set-up for audits</div>
+        <div class="sol-desc">Leveraging cultural proximity, language fluency, and local relationships to uncover supplier issues earlier and foster trust, with measurably better outcomes than remote reviews.</div>
+        <div class="sol-list">
+          <div class="sol-li">Recruit in-country audit officers fluent in regional languages and local norms</div>
+          <div class="sol-li">Partner with NGOs or civil-society groups for joint inspection programs</div>
+          <div class="sol-li">Establish confidential hotlines and digital platforms moderated by native staff</div>
+        </div>
+        <div class="ops-vis">
+          <div><div class="ops-vis-num">30-40%</div><div class="ops-vis-label">More non-conformities detected vs remote reviews</div></div>
+          <div><div class="ops-vis-num">25-30%</div><div class="ops-vis-label">Faster corrective-action timelines</div></div>
+          <div><div class="ops-vis-num">50%</div><div class="ops-vis-label">Higher remediation engagement</div></div>
+        </div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-title">Circular economy solutions</div>
+        <div class="sol-desc">A digital marketplace connecting stakeholders for circular packaging flows: integrated logistics, on-site inspection stations, and automated profit calculators for optimal reuse.</div>
+        <div class="sol-list">
+          <div class="sol-li">Digital marketplace with logistics and cost optimisation (50% resale value target)</div>
+          <div class="sol-li">On-site inspection stations evaluate reusability by wear, contamination, and integrity</div>
+          <div class="sol-li">Automated profit calculator factors in half-price resale and incremental fuel costs</div>
+        </div>
+        <div class="ops-vis">
+          <div><div class="ops-vis-num" style="color:var(--t400)">60%</div><div class="ops-vis-label">Reduction in wood-waste streams from packaging reuse</div></div>
+          <div><div class="ops-vis-num" style="color:var(--t400)">15-20%</div><div class="ops-vis-label">Lower supply-chain emissions from optimised routes</div></div>
+          <div><div class="ops-vis-num" style="color:var(--t400)">50%</div><div class="ops-vis-label">Resale value retained on reused packaging</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENDUSER PANE -->
+  <div class="sol-pane" id="pane-enduser">
+    <div class="enduser-grid">
+      <div class="sol-card">
+        <div class="sol-card-title">In-store waste management</div>
+        <div class="sol-desc">Empowering customers to sort waste on-site via clearly labelled bin stations, elevating recycling rates and strengthening brand loyalty by aligning shopping with eco-values.</div>
+        <div class="funnel-wrap">
+          <div class="funnel-step"><div class="funnel-bar" style="width:100%;background:var(--g600)">Waste generated in-store</div></div>
+          <div class="funnel-step"><div class="funnel-bar" style="width:80%;background:var(--g400)">Sorted at labelled bin stations</div></div>
+          <div class="funnel-step"><div class="funnel-bar" style="width:60%;background:var(--t400)">Collected by certified recyclers</div></div>
+          <div class="funnel-step"><div class="funnel-bar" style="width:40%;background:var(--t600)">Diverted from landfill (60%)</div></div>
+        </div>
+        <div class="sol-impact" style="margin-top:12px"><div class="imp-label">Expected impact</div>Up to 60% waste diverted from landfills. Green-Points system drives repeat visits and reduced demand for virgin materials.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-title">CO2 footprint transparency</div>
+        <div class="sol-desc">Publicly displaying per-product carbon footprints via LCA empowers informed choices, nudging demand toward lower-emission goods and driving manufacturers to decarbonise.</div>
+        <div style="margin:14px 0 10px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+            <div style="flex:1;min-width:120px;background:var(--g50);border:0.5px solid var(--g200);border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;color:var(--g600);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Front-of-pack</div><div style="font-size:22px;font-weight:500;color:var(--g600)">CO2e</div><div style="font-size:10px;color:var(--muted)">icon + numeric value</div></div>
+            <div style="flex:1;min-width:120px;background:var(--t50);border:0.5px solid var(--t400);border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;color:var(--t600);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Shelf tags</div><div style="font-size:22px;font-weight:500;color:var(--t600)">4.2</div><div style="font-size:10px;color:var(--muted)">kg CO2e per item</div></div>
+            <div style="flex:1;min-width:120px;background:var(--b50);border:0.5px solid var(--b400);border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;color:var(--b400);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">App/Receipt</div><div style="font-size:22px;font-weight:500;color:var(--b400)">QR</div><div style="font-size:10px;color:var(--muted)">links to LCA portal</div></div>
+          </div>
+        </div>
+        <div class="sol-impact"><div class="imp-label">Expected impact</div>12-32% of consumers choosing lower-footprint products. Competitive pressure leads to industry-wide emissions reductions.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLAB PANE -->
+  <div class="sol-pane" id="pane-collab">
+    <div class="ops-grid">
+      <div class="sol-card">
+        <div class="sol-card-title">Collaborative supply chain audits</div>
+        <div class="sol-desc">Large companies pool resources to audit shared suppliers, reducing costs while improving ethical oversight and eliminating audit fatigue for suppliers.</div>
+        <div class="collab-flow">
+          <div class="cf-node">2-4 companies<br>form consortium</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Unified<br>audit checklist</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Joint<br>on-site audits</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Shared findings<br>platform</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Coordinated<br>remediation</div>
+        </div>
+        <div class="ops-vis" style="margin-top:10px">
+          <div><div class="ops-vis-num">25%</div><div class="ops-vis-label">Cut in audit expenses</div></div>
+          <div><div class="ops-vis-num">95%</div><div class="ops-vis-label">Decline in repeated audit requests</div></div>
+          <div><div class="ops-vis-num" style="color:var(--t400)">Lasting</div><div class="ops-vis-label">Environmental performance improvements</div></div>
+        </div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-card-title">MSME circular economy networks</div>
+        <div class="sol-desc">Large companies leverage networks to connect MSMEs for circular economy implementation, combining scale with agility while supporting India's 111 million MSME employees.</div>
+        <div class="collab-flow">
+          <div class="cf-node">Map MSME<br>waste streams</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Portal matches<br>by-products</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Workshops on<br>circular practices</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Pilot material<br>reuse projects</div><div class="cf-arrow">&#8594;</div>
+          <div class="cf-node">Dashboard<br>tracks savings</div>
+        </div>
+        <div class="ops-vis" style="margin-top:10px">
+          <div><div class="ops-vis-num" style="color:var(--t400)">Rs 40L Cr</div><div class="ops-vis-label">Economic benefits for India by 2050</div></div>
+          <div><div class="ops-vis-num" style="color:var(--t400)">20%</div><div class="ops-vis-label">Material cost savings for MSMEs</div></div>
+          <div><div class="ops-vis-num" style="color:var(--t400)">23%</div><div class="ops-vis-label">National GHG reduction by 2030</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quote-section">
+  <div class="quote-text">"Ethics is no longer a luxury or a choice, but a fundamental requirement for business success in today's world."</div>
+  <div class="quote-author">Klaus Schwab | Founder and Executive Chairman, World Economic Forum</div>
+</div>
+
+<footer>
+  <div class="footer-name">Aman Tater</div>
+  <div class="footer-note">Ethical Supply Chain in Electronics Industry | Portfolio Case Study</div>
+  <div class="footer-note">amantater026@gmail.com</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function switchTab(name,btn){
+  document.querySelectorAll('.sol-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sol-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+name).classList.add('active');
+}
+
+var g6='#4a7c2a',g4='#7ab648',t4='#2ea87e',a4='#e09b28',c4='#d95f38',b4='#3a8bd8',gr4='#8a8880';
+
+new Chart(document.getElementById('emissionsChart'),{
+  type:'bar',
+  data:{labels:['2020 (actual)','2025 (est.)','2030 (projected)'],
+    datasets:[{label:'CO2 (M metric tons)',data:[580,716,852],backgroundColor:[g6,g4,c4],borderRadius:4,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y+'M metric tons'}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:12},color:'#5c5b57'}},
+      y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:11},color:'#8a8880',callback:v=>v+'M'},beginAtZero:true}}}
+});
+
+new Chart(document.getElementById('policyChart'),{
+  type:'bar',
+  data:{labels:['2025','2026','2027','2028','2029'],
+    datasets:[
+      {label:'Baseline',data:[160,180,200,220,240],backgroundColor:'rgba(74,124,42,0.25)',borderRadius:3,borderSkipped:false},
+      {label:'With scheme',data:[172.5,205,242.5,280,325],backgroundColor:g4,borderRadius:3,borderSkipped:false}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'top',labels:{font:{size:11},color:'#5c5b57',boxWidth:10,boxHeight:10}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:11},color:'#5c5b57'}},
+      y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#8a8880',callback:v=>'Rs '+v},beginAtZero:false,min:120}}}
+});
+
+var radarLabels=['Labour\nethics','Renewable\nenergy','GHG\nreduction','Circular\neconomy','Supplier\ntraining','Transparency'];
+var radarData=[
+  {data:[90,95,90,70,85,88],border:'#4a7c2a',bg:'rgba(74,124,42,0.15)'},
+  {data:[88,70,75,72,90,80],border:'#2ea87e',bg:'rgba(46,168,126,0.15)'},
+  {data:[75,80,72,90,70,78],border:'#d95f38',bg:'rgba(217,95,56,0.15)'},
+  {data:[80,72,75,69,80,85],border:'#e09b28',bg:'rgba(224,155,40,0.15)'},
+  {data:[78,85,70,65,88,72],border:'#8a8880',bg:'rgba(138,136,128,0.15)'},
+  {data:[85,78,98,80,75,82],border:'#3a8bd8',bg:'rgba(58,139,216,0.15)'}
+];
+for(var i=0;i<6;i++){
+  (function(idx){
+    var d=radarData[idx];
+    new Chart(document.getElementById('rc'+idx),{
+      type:'radar',
+      data:{labels:radarLabels,datasets:[{data:d.data,borderColor:d.border,backgroundColor:d.bg,pointBackgroundColor:d.border,pointRadius:2,borderWidth:1.5}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(0,0,0,0.07)'},ticks:{display:false},pointLabels:{font:{size:8},color:'#5c5b57'}}}}
+    });
+  })(i);
+}
+
+var obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

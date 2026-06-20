@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Bin / Product Design Report</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --ink-2: #3a3d47;
+    --ink-3: #6b7080;
+    --ink-4: #9ea4b0;
+    --bg: #f5f6f8;
+    --bg-card: #ffffff;
+    --border: #dde0e8;
+    --border-strong: #b0b5c2;
+    --accent: #1a6b3c;
+    --accent-2: #2e9e5a;
+    --accent-bg: #eaf4ee;
+    --accent-mid: #c0e4ce;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --warn: #b35c00;
+    --warn-bg: #fef3e6;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    position: absolute; inset: 0;
+  }
+  .header-inner {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 40px 48px;
+  }
+  .header-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent-mid);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .header-title {
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #fff;
+  }
+  .header-title strong {
+    font-weight: 500;
+    color: #fff;
+  }
+  .header-sub {
+    margin-top: 12px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    max-width: 520px;
+    font-weight: 300;
+  }
+  .header-meta {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 2;
+  }
+  .header-stat-row {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 40px;
+    padding-top: 24px;
+    display: flex;
+    gap: 0;
+  }
+  .header-stat {
+    flex: 1;
+    padding: 0 24px 0 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    margin-right: 24px;
+  }
+  .header-stat:last-child { border-right: none; }
+  .header-stat-val {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+  .header-stat-accent { color: var(--accent-2); }
+
+  /* ── NAV TABS ── */
+  .nav {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+  }
+  .nav-tab {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 13px 12px;
+    color: var(--ink-3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    text-decoration: none;
+    flex: 1;
+    text-align: center;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 56px 0 0;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: 0.08em;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .section-tag {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    background: var(--accent-bg);
+    color: var(--accent);
+    padding: 3px 10px;
+    border: 1px solid var(--accent-mid);
+    text-transform: uppercase;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+  .card-sm { padding: 18px 20px; }
+  .card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 10px;
+  }
+  .card-val {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .card-val-sm {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .card-sub {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-warn { border-left: 3px solid var(--warn); }
+
+  /* ── GRIDS ── */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .problem-cell {
+    background: var(--bg-card);
+    padding: 24px;
+  }
+  .problem-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  .problem-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .problem-text {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* ── STAT HIGHLIGHT ── */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 20px;
+  }
+  .stat-cell {
+    background: var(--ink);
+    padding: 20px 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell-val {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--accent-2);
+    line-height: 1;
+  }
+  .stat-cell-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 5px;
+  }
+  .stat-cell-src {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── MECHANISM ── */
+  .mechanism-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+  .mechanism-header {
+    background: var(--ink);
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mechanism-header::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent-2);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .mechanism-body { padding: 24px; }
+  .mechanism-step {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .mechanism-step:last-child { border-bottom: none; }
+  .mechanism-step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 24px;
+    font-weight: 500;
+    padding-top: 2px;
+  }
+  .mechanism-step-text {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .mechanism-step-title {
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  /* ── COMPACTION VIZ ── */
+  .compaction-bar-wrap {
+    margin-top: 6px;
+  }
+  .compaction-bar {
+    height: 20px;
+    background: var(--border);
+    border: 1px solid var(--border-strong);
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .compaction-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 1s ease;
+  }
+  .compaction-fill-2 {
+    background: var(--accent-2);
+  }
+  .bar-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  /* ── MATERIALS TABLE ── */
+  .mat-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .mat-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border-strong);
+    background: var(--bg);
+  }
+  .mat-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    vertical-align: top;
+  }
+  .mat-table tr:last-child td { border-bottom: none; }
+  .mat-name { font-weight: 500; color: var(--ink); font-size: 13px; }
+  .mat-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-mid);
+    padding: 2px 7px;
+    text-transform: uppercase;
+  }
+  .mat-tag-gray {
+    background: #f0f1f4;
+    color: var(--ink-3);
+    border-color: var(--border-strong);
+  }
+
+  /* ── COST TABLE ── */
+  .cost-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cost-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 2px solid var(--border-strong);
+    background: var(--bg);
+  }
+  .cost-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+  }
+  .cost-table .cost-val {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    text-align: right;
+  }
+  .cost-table .cost-total {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    border-top: 2px solid var(--border-strong);
+  }
+  .cost-table .cost-total td {
+    border-top: 2px solid var(--border-strong);
+    background: var(--bg);
+    font-weight: 500;
+  }
+
+  /* ── WEIGHT BARS ── */
+  .weight-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .weight-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-2);
+    min-width: 140px;
+  }
+  .weight-bar-bg {
+    flex: 1;
+    height: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .weight-bar-fill {
+    height: 100%;
+    background: var(--ink);
+  }
+  .weight-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    min-width: 70px;
+    text-align: right;
+  }
+
+  /* ── FUTURE PROSPECTS ── */
+  .prospect-card {
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    padding: 22px 24px;
+    position: relative;
+  }
+  .prospect-num {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--border);
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    line-height: 1;
+    user-select: none;
+  }
+  .prospect-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .prospect-text {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .prospect-badge {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 1px solid var(--border-strong);
+    color: var(--ink-3);
+  }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--ink);
+    padding: 16px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    line-height: 2;
+    border-left: 3px solid var(--accent-2);
+  }
+  .formula-result {
+    color: var(--accent-2);
+    font-weight: 500;
+  }
+  .formula-comment {
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ── DENSITY TABLE ── */
+  .density-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .density-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border-strong);
+    background: var(--bg);
+    text-align: left;
+  }
+  .density-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+  }
+  .density-table tr:last-child td { border-bottom: none; }
+  .density-table .d-val { font-family: var(--mono); text-align: right; }
+
+  /* ── SOLUTION COMPARE ── */
+  .solution-col { border: 1px solid var(--border); background: var(--bg-card); }
+  .solution-col-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .solution-col-header-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+  }
+  .badge-exists { background: var(--warn-bg); color: var(--warn); border: 1px solid #f5d9b8; }
+  .badge-new { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-mid); }
+  .solution-col-body { padding: 18px 20px; }
+  .solution-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .solution-row:last-child { border-bottom: none; }
+  .solution-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    .header-inner { padding: 36px 20px 32px; }
+    .main { padding: 0 20px 60px; }
+    .grid-4, .grid-3, .grid-2, .grid-2-1 { grid-template-columns: 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: 1fr; }
+    .header-stat-row { flex-wrap: wrap; gap: 16px; }
+    .nav-inner { padding: 0 8px; }
+    .nav-tab { font-size: 9px; padding: 12px 6px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="header">
+  <div class="header-grid"></div>
+  <div class="header-inner">
+    <div>
+      <div class="header-eyebrow">General Championship · Product Design 2024</div>
+      <h1 class="header-title">Smart Bin<br><strong>Waste Compaction System</strong></h1>
+      <p class="header-sub">A mechanically-compacting smart dustbin engineered to double waste capacity, prevent animal access, and optimise municipal collection intervals, designed for India's commercial waste challenge.</p>
+      <div class="header-stat-row">
+        <div class="header-stat">
+          <div class="header-stat-val header-stat-accent">2×</div>
+          <div class="header-stat-label">Waste capacity increase</div>
+        </div>
+        <div class="header-stat">
+          <div class="header-stat-val">30 kN</div>
+          <div class="header-stat-label">Max compaction force</div>
+        </div>
+        <div class="header-stat">
+          <div class="header-stat-val">₹73,588</div>
+          <div class="header-stat-label">Estimated unit cost</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#problem" class="nav-tab active">01 Problem</a>
+    <a href="#solution" class="nav-tab">02 Existing Solutions</a>
+    <a href="#product" class="nav-tab">03 Product</a>
+    <a href="#mechanism" class="nav-tab">04 Mechanism</a>
+    <a href="#calculations" class="nav-tab">05 Calculations</a>
+    <a href="#materials" class="nav-tab">06 Materials</a>
+    <a href="#cost" class="nav-tab">07 Cost & Weight</a>
+    <a href="#prospects" class="nav-tab">08 Future</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ══════════ 01 PROBLEM ══════════ -->
+  <section class="section" id="problem">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Problem Statement</h2>
+      <span class="section-tag">Context</span>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-cell">
+        <div class="problem-icon">⚠</div>
+        <div class="problem-title">The Core Problem</div>
+        <div class="problem-text">Trash bins overflow because they are not emptied frequently enough, cannot hold sufficient waste, and waste is not separated properly. This makes cities and villages dirty and spreads diseases across communities.</div>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-icon">🦟</div>
+        <div class="problem-title">Health Risks</div>
+        <div class="problem-text">Overflowing trash attracts insects and mosquitoes, spreading typhoid and malaria. Dust and gases from decomposing waste cause respiratory illness. Stray animals are injured or killed from ingesting plastic.</div>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-icon">💧</div>
+        <div class="problem-title">Hygiene & Environment</div>
+        <div class="problem-text">During monsoon, overflow washes into rivers and lakes, contaminating water used for drinking and agriculture. This creates cascading public health risks across both urban and rural populations.</div>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-icon">₹</div>
+        <div class="problem-title">Economic Burden</div>
+        <div class="problem-text">Cleaning up overflowing waste consumes a disproportionate share of municipal budgets. Inefficient collection routing and bin overflow together raise operational costs far beyond what is necessary.</div>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <div class="stat-cell-val">150M+</div>
+        <div class="stat-cell-label">Tonnes of waste generated annually in India</div>
+        <div class="stat-cell-src">SOURCE · CPCB ANNUAL REPORT</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-val">31%</div>
+        <div class="stat-cell-label">Collection gap &ndash; waste that goes uncollected</div>
+        <div class="stat-cell-src">SOURCE · WORLD BANK, 2019</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-val">1.3M</div>
+        <div class="stat-cell-label">Global deaths annually from unsafe waste management</div>
+        <div class="stat-cell-src">SOURCE · WHO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 02 EXISTING SOLUTIONS ══════════ -->
+  <section class="section" id="solution">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Existing Solutions & Limitations</h2>
+      <span class="section-tag">Analysis</span>
+    </div>
+
+    <div class="grid-2" style="align-items: start;">
+      <div class="solution-col">
+        <div class="solution-col-header">
+          Swachh Bharat Mission / Dual-bin system
+          <span class="solution-col-header-badge badge-exists">Existing</span>
+        </div>
+        <div class="solution-col-body">
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#2e9e5a;">✓</span>
+            Green bin (wet waste) + Blue bin (dry waste) segregation rollout across municipalities
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#2e9e5a;">✓</span>
+            Encourages citizen participation and community ownership of cleanliness
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#b35c00;">✗</span>
+            Entirely dependent on citizen compliance and attitude, not enforceable by design
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#b35c00;">✗</span>
+            No mechanism to increase bin capacity or reduce overflow frequency
+          </div>
+        </div>
+      </div>
+      <div class="solution-col">
+        <div class="solution-col-header">
+          SBM / Bin every 500m initiative
+          <span class="solution-col-header-badge badge-exists">Existing</span>
+        </div>
+        <div class="solution-col-body">
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#2e9e5a;">✓</span>
+            Increases proximity of bins to citizens, reducing littering from inconvenience
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#2e9e5a;">✓</span>
+            Raises visibility of waste infrastructure in public spaces
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#b35c00;">✗</span>
+            Multiplying bins without improving capacity management scales the problem
+          </div>
+          <div class="solution-row">
+            <span class="solution-icon" style="color:#b35c00;">✗</span>
+            No efficient waste compaction or smart collection mechanism in place
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-warn" style="margin-top: 20px;">
+      <div class="card-label">Gap identified</div>
+      <p style="font-size: 13px; color: var(--ink-2); line-height: 1.65;">Neither existing solution addresses the root engineering problem: bins fill up faster than they are collected. Our product targets this gap directly. By compressing waste at the point of disposal, we effectively double bin capacity and extend the viable collection interval, independent of citizen behaviour.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ 03 PRODUCT ══════════ -->
+  <section class="section" id="product">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Product Overview</h2>
+      <span class="section-tag">Design</span>
+    </div>
+
+    <div class="grid-3" style="margin-bottom: 20px;">
+      <div class="card card-accent">
+        <div class="card-label">Core feature</div>
+        <div class="card-val-sm" style="color:var(--accent); margin-bottom:8px;">Compaction System</div>
+        <div class="card-sub" style="font-size:13px;">Worm gear + lead screw mechanism compresses waste, minimising air voids and maximising usable bin volume. Operated by cleaning staff via a hand wheel.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-label">Security feature</div>
+        <div class="card-val-sm" style="color:var(--accent); margin-bottom:8px;">Human-only Lid</div>
+        <div class="card-sub" style="font-size:13px;">Sophisticated lid mechanism restricts access to humans only, preventing stray animal interference and reducing litter spread around the bin.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-label">Maintenance feature</div>
+        <div class="card-val-sm" style="color:var(--accent); margin-bottom:8px;">Side-exit Clearance</div>
+        <div class="card-sub" style="font-size:13px;">Internal container slides out sideways (not lifted from the top), allowing easy emptying into waste trucks and simple removal for cleaning.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-label">Target deployment</div>
+      <p style="font-size: 13px; color: var(--ink-2); line-height: 1.65;">The product is designed for <strong style="font-weight:500;">commercial zones in Swachh Bharat Mission cities</strong>, where household waste systems are established but commercial waste relies only on static open bins. These high-footfall areas generate the greatest overflow frequency and benefit most from compaction.</p>
+    </div>
+
+    <div class="card" style="background: var(--bg);">
+      <div class="card-label" style="margin-bottom: 16px;">Commercial waste density &ndash; reference values</div>
+      <table class="density-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th style="text-align:right;">Min (kg/m³)</th>
+            <th style="text-align:right;">Max (kg/m³)</th>
+            <th style="text-align:right;">Typical (kg/m³)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Food wastes</td><td class="d-val">130</td><td class="d-val">480</td><td class="d-val" style="font-weight:500;color:var(--ink);">290</td></tr>
+          <tr><td>Paper</td><td class="d-val">40</td><td class="d-val">130</td><td class="d-val" style="font-weight:500;color:var(--ink);">89</td></tr>
+          <tr><td>Plastics</td><td class="d-val">40</td><td class="d-val">130</td><td class="d-val" style="font-weight:500;color:var(--ink);">64</td></tr>
+          <tr><td>Yard waste</td><td class="d-val">65</td><td class="d-val">225</td><td class="d-val" style="font-weight:500;color:var(--ink);">100</td></tr>
+          <tr><td>Glass</td><td class="d-val">160</td><td class="d-val">480</td><td class="d-val" style="font-weight:500;color:var(--ink);">194</td></tr>
+          <tr><td>Tin cans</td><td class="d-val">50</td><td class="d-val">160</td><td class="d-val" style="font-weight:500;color:var(--ink);">89</td></tr>
+          <tr><td>Aluminium</td><td class="d-val">65</td><td class="d-val">240</td><td class="d-val" style="font-weight:500;color:var(--ink);">160</td></tr>
+          <tr style="background:var(--accent-bg);">
+            <td style="font-weight:500;color:var(--accent);font-size:12px;">Commercial average (design basis)</td>
+            <td class="d-val">—</td><td class="d-val">—</td>
+            <td class="d-val" style="font-weight:500;color:var(--accent);">314</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════ 04 MECHANISM ══════════ -->
+  <section class="section" id="mechanism">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Mechanisms & Working Principle</h2>
+      <span class="section-tag">Engineering</span>
+    </div>
+
+    <div class="grid-2" style="align-items: start; margin-bottom: 20px;">
+      <div class="mechanism-box">
+        <div class="mechanism-header">Compression mechanism</div>
+        <div class="mechanism-body">
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">01</div>
+            <div>
+              <div class="mechanism-step-title">Waste deposit</div>
+              <div class="mechanism-step-text">User lifts lid and deposits waste into the bin. Bin fills progressively over time via normal use.</div>
+            </div>
+          </div>
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">02</div>
+            <div>
+              <div class="mechanism-step-title">Staff actuates wheel</div>
+              <div class="mechanism-step-text">Cleaning staff rotates the hand wheel, transmitting rotational force into the worm gear assembly.</div>
+            </div>
+          </div>
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">03</div>
+            <div>
+              <div class="mechanism-step-title">Force amplification</div>
+              <div class="mechanism-step-text">The worm gear (steel worm + brass wheel) amplifies the input force by a factor of 50, changing the plane of rotation by 90°.</div>
+            </div>
+          </div>
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">04</div>
+            <div>
+              <div class="mechanism-step-title">Lead screw drives piston</div>
+              <div class="mechanism-step-text">Amplified torque drives the lead screw, pushing the piston downward. Air voids collapse; waste density rises from 314 to ~650 kg/m³.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mechanism-box">
+        <div class="mechanism-header">Garbage clearing mechanism</div>
+        <div class="mechanism-body">
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">01</div>
+            <div>
+              <div class="mechanism-step-title">Side-opening design</div>
+              <div class="mechanism-step-text">Unlike conventional top-lift bins, the outer casing opens sideways when the waste truck arrives for collection.</div>
+            </div>
+          </div>
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">02</div>
+            <div>
+              <div class="mechanism-step-title">Interior container slides out</div>
+              <div class="mechanism-step-text">The interior container is mounted on caster wheels and slides out laterally, eliminating the need to lift heavy compacted waste.</div>
+            </div>
+          </div>
+          <div class="mechanism-step">
+            <div class="mechanism-step-num">03</div>
+            <div>
+              <div class="mechanism-step-title">Emptied into truck</div>
+              <div class="mechanism-step-text">Container contents are discharged into the waste dumping truck. The container is reinserted and the outer cover re-locked.</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 24px 20px;">
+          <div class="card-label" style="margin-bottom:10px;">Key component roles</div>
+          <div style="font-size:12px; color:var(--ink-2); line-height:1.8;">
+            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:5px 0;"><span><strong style="font-weight:500;color:var(--ink);">Lead screw</strong></span><span>High-force linear actuation, large mechanical advantage</span></div>
+            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:5px 0;"><span><strong style="font-weight:500;color:var(--ink);">Worm gear</strong></span><span>90° force redirection + 50× amplification</span></div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;"><span><strong style="font-weight:500;color:var(--ink);">Caster wheels</strong></span><span>Forged steel, container mobility</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 05 CALCULATIONS ══════════ -->
+  <section class="section" id="calculations">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Engineering Calculations</h2>
+      <span class="section-tag">Quantitative</span>
+    </div>
+
+    <div class="grid-2" style="margin-bottom: 20px; align-items: start;">
+      <div>
+        <div class="formula-box" style="margin-bottom:16px;">
+          <div class="formula-comment">// Bin dimensions (L × B × D)</div>
+          <div>Volume = 1.5 × 2.5 × 1.5 m³ = <span class="formula-result">5.625 m³</span></div>
+          <div style="margin-top:8px;" class="formula-comment">// Before compaction</div>
+          <div>Mass = 314 kg/m³ × 5.625 m³ = <span class="formula-result">1,766 kg</span></div>
+          <div style="margin-top:8px;" class="formula-comment">// After compaction (research basis)</div>
+          <div>Mass = 650 kg/m³ × 5.625 m³ = <span class="formula-result">3,656 kg</span></div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-label">Capacity improvement</div>
+          <div class="card-val">2.07×</div>
+          <div class="card-sub">Same physical volume, more than double the waste mass accommodated after compaction</div>
+        </div>
+      </div>
+      <div>
+        <div class="formula-box" style="margin-bottom:16px;">
+          <div class="formula-comment">// Force pathway</div>
+          <div>Input force (human) = <span class="formula-result">300 N</span></div>
+          <div>Worm gear amplification = 50×</div>
+          <div>Handle amplification = 2×</div>
+          <div style="margin-top:8px;" class="formula-comment">// Maximum achievable force</div>
+          <div>F_max = 300 × 50 × 2 = <span class="formula-result">30,000 N (30 kN)</span></div>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--warn);">
+          <div class="card-label">Safety constraint &ndash; Li-ion batteries</div>
+          <p style="font-size:13px; color:var(--ink-2); line-height:1.6;">E-waste in bins may contain Li-ion cells that rupture above <strong style="font-weight:500;">30–35 kPa</strong>. The 30 kN maximum force, distributed across the bin's compaction area, remains within safe limits. No thermal runaway risk is introduced by normal operation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="background: var(--bg);">
+      <div class="card-label" style="margin-bottom:16px;">Space optimisation &ndash; density progression</div>
+      <div>
+        <div class="bar-label"><span>Before compaction</span><span>314 kg/m³</span></div>
+        <div class="compaction-bar"><div class="compaction-fill" id="bar1" style="width:48%;"></div></div>
+        <div class="bar-label" style="margin-top:10px;"><span>After compaction (50% volume reduction)</span><span>650 kg/m³</span></div>
+        <div class="compaction-bar"><div class="compaction-fill compaction-fill-2" id="bar2" style="width:100%;"></div></div>
+        <div class="bar-label" style="margin-top:10px; color:var(--ink-3); font-size:10px;"><span>Force range: 5–30 kN compresses waste first to 75%, then to 50% of original volume</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; position:relative; height:300px;">
+      <canvas id="densityChart" role="img" aria-label="Bar chart comparing waste density before compaction (314 kg/m³) and after compaction (650 kg/m³)">Waste density increases from 314 kg/m³ before compaction to 650 kg/m³ after compaction.</canvas>
+    </div>
+  </section>
+
+  <!-- ══════════ 06 MATERIALS ══════════ -->
+  <section class="section" id="materials">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Materials Used</h2>
+      <span class="section-tag">Specification</span>
+    </div>
+
+    <table class="mat-table">
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Application</th>
+          <th>Key Properties</th>
+          <th>Grade / Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="mat-name">HDPE</div><div style="font-size:11px;color:var(--ink-4);font-family:var(--mono);">High Density Polyethylene</div></td>
+          <td>Main container / bin body</td>
+          <td>Durable, lightweight, recyclable, chemical resistant</td>
+          <td><span class="mat-tag">3 mm thick</span></td>
+        </tr>
+        <tr>
+          <td><div class="mat-name">Forged steel</div></td>
+          <td>Caster wheels</td>
+          <td>Unbreakable in service, shock-absorbing, high-temperature rated, highest load capacity</td>
+          <td><span class="mat-tag mat-gray">4 units</span></td>
+        </tr>
+        <tr>
+          <td><div class="mat-name">Mild steel</div></td>
+          <td>Structural frame members</td>
+          <td>Low cost, ferromagnetic, suitable for general engineering loads, easy to weld and form</td>
+          <td><span class="mat-tag mat-gray">Structural</span></td>
+        </tr>
+        <tr>
+          <td><div class="mat-name">Stainless steel</div></td>
+          <td>Worm gear (worm shaft) / exposed fittings</td>
+          <td>200× corrosion resistance vs plain steel (due to Cr content), high tensile strength, temperature resistant, low maintenance</td>
+          <td><span class="mat-tag">Chromium grade</span></td>
+        </tr>
+        <tr>
+          <td><div class="mat-name">Brass</div></td>
+          <td>Worm wheel</td>
+          <td>Low friction against steel worm, self-lubricating tendency, good machinability</td>
+          <td><span class="mat-tag mat-gray">Standard worm wheel</span></td>
+        </tr>
+        <tr>
+          <td><div class="mat-name">Rubber</div></td>
+          <td>Stoppers (4 units) between bin and outer cover</td>
+          <td>High impact absorption, prevents metal-to-metal contact, vibration dampening</td>
+          <td><span class="mat-tag mat-gray">4 units</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════ 07 COST & WEIGHT ══════════ -->
+  <section class="section" id="cost">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Cost & Weight Analysis</h2>
+      <span class="section-tag">Analysis</span>
+    </div>
+
+    <!-- Weight methodology note -->
+    <div class="card card-warn" style="margin-bottom:20px;">
+      <div class="card-label">Weight methodology</div>
+      <p style="font-size:13px; color:var(--ink-2); line-height:1.65;">
+        Weight is calculated from first principles using material density and actual surface/volume estimates for each component. The HDPE container uses 3 mm wall thickness across its surface area (19.5 m²) at 950 kg/m³. The outer cover is mild steel sheet at 1 mm gauge over a partial enclosure area (~12 m²) at 7,850 kg/m³. The main mechanism accounts for a 4 mm mild-steel piston plate (1.5 m × 2.5 m), scissor-lift frame members, worm gearbox, lead screw assembly, support columns, and hand wheel shaft. This approach yields a total unit weight of <strong style="font-weight:500; color:var(--ink);">~325 kg</strong>, which is consistent with comparable industrial compactor bins of this volume (250–500 kg range per industry reference).
+      </p>
+    </div>
+
+    <!-- Weight breakdown detail table -->
+    <div class="card" style="background:var(--bg); margin-bottom:20px;">
+      <div class="card-label" style="margin-bottom:14px;">Component-level weight derivation</div>
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Sub-component</th>
+            <th>Material</th>
+            <th>Basis</th>
+            <th style="text-align:right;">Est. weight (kg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container / Bin walls</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">HDPE, 3 mm</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">19.5 m² × 0.003 m × 950 kg/m³</td>
+            <td class="cost-val">56</td>
+          </tr>
+          <tr>
+            <td>Outer cover (partial enclosure)</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel, 1 mm</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">12 m² × 0.001 m × 7,850 kg/m³</td>
+            <td class="cost-val">94</td>
+          </tr>
+          <tr>
+            <td>Piston plate</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel, 4 mm</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">1.5 × 2.5 × 0.004 m × 7,850 kg/m³</td>
+            <td class="cost-val">118</td>
+          </tr>
+          <tr>
+            <td>Scissor-lift frame</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel sections</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Estimated from CAD geometry</td>
+            <td class="cost-val">22</td>
+          </tr>
+          <tr>
+            <td>Lead screw + nut assembly</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Steel</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Standard industrial unit</td>
+            <td class="cost-val">8</td>
+          </tr>
+          <tr>
+            <td>Worm gearbox</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Steel worm / brass wheel</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Standard 50:1 ratio unit</td>
+            <td class="cost-val">12</td>
+          </tr>
+          <tr>
+            <td>Support columns + hand wheel shaft</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild / stainless steel</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 columns + shaft</td>
+            <td class="cost-val">15</td>
+          </tr>
+          <tr style="background:var(--accent-bg);">
+            <td colspan="3" style="font-weight:500; color:var(--accent); font-size:13px;">Total unit weight</td>
+            <td class="cost-val" style="font-weight:500; color:var(--accent); font-size:14px;">325</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="align-items: start;">
+      <div>
+        <table class="cost-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Qty / Spec</th>
+              <th style="text-align:right;">Estimated cost (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Container / Bin</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">HDPE, 3 mm, ~56 kg</td>
+              <td class="cost-val">3,800</td>
+            </tr>
+            <tr>
+              <td>Caster wheels</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 units × ₹350</td>
+              <td class="cost-val">1,400</td>
+            </tr>
+            <tr>
+              <td>Ball bearings</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">2 units × ₹40</td>
+              <td class="cost-val">80</td>
+            </tr>
+            <tr>
+              <td>Outer cover</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">MS sheet, 1 mm, ~94 kg</td>
+              <td class="cost-val">8,200</td>
+            </tr>
+            <tr>
+              <td>Rubber cork</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 units × ₹27</td>
+              <td class="cost-val">108</td>
+            </tr>
+            <tr>
+              <td>Main mechanism</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Piston + scissor + gearbox</td>
+              <td class="cost-val">60,000</td>
+            </tr>
+            <tr class="cost-total">
+              <td colspan="2">Total unit cost</td>
+              <td class="cost-val" style="font-size:16px;">₹73,588</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--ink-4);margin-top:10px;line-height:1.8;">
+          Outer cover revised from 0.024 m³ solid volume to 1 mm sheet<br>
+          calculation (94 kg vs 188 kg). Mechanism cost reflects optimised<br>
+          4 mm piston plate and standard-grade gearbox procurement.
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:16px; background:var(--bg);">
+          <div class="card-label" style="margin-bottom:16px;">Weight distribution: 325 kg total</div>
+          <div class="weight-row">
+            <div class="weight-label">Piston plate</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:100%; background:var(--ink);"></div></div>
+            <div class="weight-val">118 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Outer cover</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:80%; background:var(--ink-2);"></div></div>
+            <div class="weight-val">94 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Container / Bin</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:47%; background:var(--ink-3);"></div></div>
+            <div class="weight-val">56 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Scissor frame</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:19%; background:var(--ink-4);"></div></div>
+            <div class="weight-val">22 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Columns + shaft</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:13%; background:var(--border-strong);"></div></div>
+            <div class="weight-val">15 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Worm gearbox</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:10%; background:var(--border-strong);"></div></div>
+            <div class="weight-val">12 kg</div>
+          </div>
+          <div class="weight-row">
+            <div class="weight-label">Lead screw + nut</div>
+            <div class="weight-bar-bg"><div class="weight-bar-fill" style="width:7%; background:var(--border);"></div></div>
+            <div class="weight-val">8 kg</div>
+          </div>
+        </div>
+        <div style="position:relative; height:220px;">
+          <canvas id="costChart" role="img" aria-label="Donut chart of unit cost breakdown: main mechanism ₹60,000, outer cover ₹8,200, container ₹3,800, other ₹1,588 of ₹73,588 total">Unit cost: Main mechanism ₹60,000; Outer cover ₹8,200; Container ₹3,800; Other ₹1,588.</canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 08 FUTURE PROSPECTS ══════════ -->
+  <section class="section" id="prospects">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Future Prospects</h2>
+      <span class="section-tag">Roadmap</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="prospect-card">
+        <div class="prospect-num">01</div>
+        <div class="prospect-title">IoT & solar automation</div>
+        <div class="prospect-text">Solar-powered sensors monitor fill levels and transmit real-time alerts to the municipal authority. Enables dynamic route optimisation for collection vehicles, reducing fuel consumption and ensuring timely emptying before overflow occurs. IoT integration also automates bin compaction at scheduled intervals.</div>
+        <div class="prospect-badge">Phase 2 · IoT / Solar</div>
+      </div>
+      <div class="prospect-card">
+        <div class="prospect-num">02</div>
+        <div class="prospect-title">Biogas generation chamber</div>
+        <div class="prospect-text">A dedicated compartment separates organic waste and initiates anaerobic decomposition to produce biogas. The generated biogas is stored and made available to local municipal bodies as a supplementary, sustainable energy source, converting a waste problem into an energy asset.</div>
+        <div class="prospect-badge">Phase 3 · Renewable energy</div>
+      </div>
+      <div class="prospect-card">
+        <div class="prospect-num">03</div>
+        <div class="prospect-title">Automated disinfectant chamber</div>
+        <div class="prospect-text">An integrated chamber releases disinfectant at programmed intervals, maintaining hygiene inside the bin without requiring manual cleaning. This reduces pathogen build-up, odour, and insect attraction, particularly important in high-footfall commercial deployment locations.</div>
+        <div class="prospect-badge">Phase 3 · Hygiene tech</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div>Smart Bin / General Championship Product Design 2024</div>
+  <div>Data sourced from CPCB · World Bank · WHO · Research literature</div>
+</footer>
+
+<script>
+  const monoFont = "'IBM Plex Mono', monospace";
+
+  new Chart(document.getElementById('densityChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Before compaction', 'After compaction'],
+      datasets: [{
+        label: 'Waste density (kg/m³)',
+        data: [314, 650],
+        backgroundColor: ['#b0b5c2', '#1a6b3c'],
+        borderColor: ['#888', '#1a6b3c'],
+        borderWidth: 1,
+        borderRadius: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.parsed.y + ' kg/m³'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 750,
+          ticks: {
+            font: { family: monoFont, size: 11 },
+            color: '#6b7080',
+            callback: v => v + ' kg/m³'
+          },
+          grid: { color: '#dde0e8' },
+          border: { color: '#dde0e8' }
+        },
+        x: {
+          ticks: { font: { family: monoFont, size: 11 }, color: '#6b7080' },
+          grid: { display: false },
+          border: { color: '#dde0e8' }
+        }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('costChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Main mechanism', 'Outer cover', 'Container/Bin', 'Other components'],
+      datasets: [{
+        data: [60000, 8200, 3800, 1588],
+        backgroundColor: ['#0f1117', '#1a6b3c', '#6b7080', '#b0b5c2'],
+        borderColor: '#f5f6f8',
+        borderWidth: 3,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ₹' + ctx.parsed.toLocaleString('en-IN')
+          }
+        }
+      }
+    }
+  });
+
+  const tabs = document.querySelectorAll('.nav-tab');
+  const sections = document.querySelectorAll('.section');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tabs.forEach(t => t.classList.remove('active'));
+        const id = e.target.id;
+        const match = document.querySelector(`.nav-tab[href="#${id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

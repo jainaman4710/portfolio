@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intimuse — BCG Bruce Henderson 2025</title>
+<style>
+  :root {
+    --p50: #FBEAF0;
+    --p100: #F4C0D1;
+    --p200: #ED93B1;
+    --p400: #D4537E;
+    --p600: #993556;
+    --p800: #72243E;
+    --p900: #4B1528;
+    --txt: #1a1a1a;
+    --txt2: #555;
+    --txt3: #888;
+    --bg: #fff;
+    --bg2: #f9f4f7;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --r: 8px;
+    --rl: 14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);color:var(--txt);font-size:14px;line-height:1.65;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);border-bottom:0.5px solid var(--p100);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:54px;}
+  .nav-left{display:flex;align-items:center;gap:12px;}
+  .nav-logo svg{display:block;}
+  .nav-brand{font-size:15px;font-weight:700;letter-spacing:3px;color:var(--p400);}
+  .nav-links{display:flex;gap:20px;flex-wrap:wrap;}
+  .nav-links a{font-size:11px;font-weight:500;color:var(--txt3);text-decoration:none;letter-spacing:0.8px;text-transform:uppercase;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--p400);}
+
+  /* HERO */
+  .hero{background:linear-gradient(155deg,#fff 0%,var(--p50) 55%,#fce4ee 100%);padding:5rem 2rem 4rem;text-align:center;border-bottom:0.5px solid var(--p100);}
+  .hero-badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--p600);background:var(--p50);border:0.5px solid var(--p100);border-radius:20px;padding:5px 16px;margin-bottom:24px;}
+  .hero-logo-wrap{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px;}
+  .hero-brand{font-size:clamp(52px,9vw,88px);font-weight:700;letter-spacing:10px;color:var(--p400);line-height:1;}
+  .hero-tagline{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--p600);margin-top:12px;}
+  .hero-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-top:3rem;}
+  .hs{text-align:center;}
+  .hs-num{font-size:26px;font-weight:700;color:var(--p400);}
+  .hs-label{font-size:11px;color:var(--txt3);margin-top:3px;letter-spacing:0.3px;}
+
+  /* PAGE */
+  .page{max-width:980px;margin:0 auto;padding:0 1.5rem 5rem;}
+  section{padding:3.5rem 0 0;}
+  .sec-eye{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--p400);margin-bottom:6px;}
+  .sec-title{font-size:21px;font-weight:700;color:var(--txt);margin-bottom:22px;}
+
+  /* CARDS */
+  .card{background:#fff;border:0.5px solid var(--border);border-radius:var(--rl);padding:1.4rem;}
+  .card-pink{background:var(--p50);border:0.5px solid var(--p100);border-radius:var(--rl);padding:1.4rem;}
+  .card-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:14px;}
+
+  /* GRIDS */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+
+  /* METRIC CARDS */
+  .mc{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:12px;text-align:center;}
+  .mc-num{font-size:19px;font-weight:700;color:var(--p400);}
+  .mc-label{font-size:11px;color:var(--txt3);margin-top:2px;line-height:1.3;}
+
+  /* PAIN POINTS */
+  .pp{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border);}
+  .pp:last-child{border-bottom:none;}
+  .pp-label{font-size:12px;color:var(--txt);flex:1;}
+  .pp-bar-bg{width:90px;height:5px;background:var(--p100);border-radius:3px;flex-shrink:0;}
+  .pp-bar{height:5px;background:var(--p400);border-radius:3px;}
+  .pp-pct{font-size:13px;font-weight:700;color:var(--p400);min-width:46px;text-align:right;}
+
+  /* CAGR */
+  .cagr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .ci{text-align:center;padding:16px 10px;background:#fff;border:0.5px solid var(--border);border-radius:var(--r);}
+  .ci-num{font-size:24px;font-weight:700;color:var(--p400);}
+  .ci-label{font-size:11px;color:var(--p600);margin-top:5px;line-height:1.4;}
+
+  /* FUNNEL */
+  .funnel-wrap{overflow-x:auto;}
+  .funnel-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:nowrap;}
+  .funnel-box{background:var(--p50);border:0.5px solid var(--p100);border-radius:var(--r);padding:8px 12px;text-align:center;min-width:120px;}
+  .funnel-box.highlight{background:var(--p400);color:#fff;}
+  .funnel-box.highlight .fb-num{color:#fff;}
+  .funnel-box.highlight .fb-label{color:rgba(255,255,255,0.8);}
+  .fb-num{font-size:16px;font-weight:700;color:var(--p400);}
+  .fb-label{font-size:10px;color:var(--p600);margin-top:2px;line-height:1.3;}
+  .funnel-arrow{color:var(--p400);font-size:16px;flex-shrink:0;}
+  .funnel-pct{font-size:10px;color:var(--txt3);text-align:center;min-width:30px;}
+
+  /* PERSONA */
+  .persona-card{background:#fff;border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
+  .persona-header{background:var(--p50);padding:1.1rem 1.3rem;border-bottom:0.5px solid var(--p100);display:flex;align-items:center;gap:12px;}
+  .persona-avatar{width:44px;height:44px;border-radius:50%;background:var(--p400);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;}
+  .persona-name{font-size:16px;font-weight:700;color:var(--p800);}
+  .persona-sub{font-size:11px;color:var(--p600);margin-top:1px;}
+  .persona-body{padding:1.1rem 1.3rem;}
+  .persona-section-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--p400);margin-bottom:8px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .tag{font-size:11px;padding:3px 10px;background:var(--p50);color:var(--p800);border:0.5px solid var(--p100);border-radius:20px;}
+  .pain-need-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .pn-item{background:var(--bg2);border-radius:var(--r);padding:8px 10px;}
+  .pn-icon{font-size:11px;font-weight:700;color:var(--p400);margin-bottom:3px;}
+  .pn-text{font-size:12px;color:var(--txt2);}
+
+  /* OFFERINGS */
+  .seg-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .seg-icon{width:32px;height:32px;background:var(--p50);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+  .seg-title{font-size:14px;font-weight:700;color:var(--txt);}
+  .ol{list-style:none;}
+  .ol li{font-size:12px;color:var(--txt2);padding:6px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+  .ol li:last-child{border-bottom:none;}
+  .ol li::before{content:"*";color:var(--p400);flex-shrink:0;font-size:14px;line-height:1;}
+  .seg-benefit{font-size:11px;color:var(--p600);margin-top:10px;font-style:italic;}
+  .assoc-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--p400);margin:12px 0 6px;}
+  .assoc-item{font-size:11px;color:var(--txt2);padding:4px 0;display:flex;gap:6px;}
+  .assoc-item::before{content:">";color:var(--p400);}
+
+  /* PHASES */
+  .phase-card{background:#fff;border:0.5px solid var(--border);border-radius:var(--r);padding:1.2rem;border-top:3px solid var(--p400);}
+  .phase-q{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--p400);margin-bottom:4px;}
+  .phase-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:10px;}
+  .phase-target{font-size:20px;font-weight:700;color:var(--p400);margin:8px 0 6px;}
+  .phase-row{font-size:11px;color:var(--txt2);margin-bottom:5px;}
+  .phase-key{font-size:10px;font-weight:700;color:var(--p600);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:1px;}
+
+  /* FINANCIALS */
+  .fin-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .fin-table th{font-size:11px;font-weight:600;color:var(--txt3);text-align:right;padding:7px 10px;border-bottom:1px solid var(--border2);letter-spacing:0.3px;}
+  .fin-table th:first-child{text-align:left;}
+  .fin-table td{padding:9px 10px;border-bottom:0.5px solid var(--border);text-align:right;}
+  .fin-table td:first-child{text-align:left;color:var(--txt2);}
+  .fin-table tr:last-child td{border-bottom:none;}
+  .pos{color:#2e7d32;font-weight:700;}
+  .neg{color:var(--p600);font-weight:700;}
+  .cost-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);}
+  .cost-row:last-child{border-bottom:none;}
+  .cost-label{font-size:12px;color:var(--txt2);}
+  .cost-sublabel{font-size:11px;color:var(--txt3);margin-top:1px;}
+  .cost-val{font-size:14px;font-weight:700;color:var(--p400);text-align:right;}
+  .breakeven-banner{background:var(--p50);border:0.5px solid var(--p100);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--p800);margin-bottom:14px;}
+  .be-num{font-size:20px;font-weight:700;color:var(--p400);}
+
+  /* UNIT ECONOMICS */
+  .ue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+  .ue-card{background:var(--p50);border:0.5px solid var(--p100);border-radius:var(--r);padding:12px;text-align:center;}
+  .ue-num{font-size:18px;font-weight:700;color:var(--p400);}
+  .ue-label{font-size:11px;color:var(--p600);margin-top:3px;line-height:1.3;}
+
+  /* COMP TABLE */
+  .comp-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .comp-table th{padding:9px 12px;font-size:11px;font-weight:700;color:var(--txt3);border-bottom:1px solid var(--border2);text-align:center;}
+  .comp-table th:first-child{text-align:left;}
+  .comp-table td{padding:9px 12px;border-bottom:0.5px solid var(--border);text-align:center;}
+  .comp-table td:first-child{text-align:left;color:var(--txt2);}
+  .us-col{background:var(--p50);color:var(--p800);font-weight:600;}
+  .us-head{background:var(--p100);color:var(--p800);font-weight:700;}
+  .comp-table tr:last-child td{border-bottom:none;}
+  .cy{color:var(--p400);font-size:15px;}
+  .cn{color:#ccc;font-size:15px;}
+
+  /* RISKS */
+  .risk-card{border-left:3px solid var(--p400);padding:12px 14px;background:#fff;border-radius:0 var(--r) var(--r) 0;border:0.5px solid var(--border);border-left:3px solid var(--p400);}
+  .risk-num{font-size:10px;font-weight:700;color:var(--p400);letter-spacing:1.5px;margin-bottom:3px;}
+  .risk-title{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:5px;}
+  .risk-body{font-size:12px;color:var(--txt2);line-height:1.5;}
+
+  /* LEGAL */
+  .legal-item{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+  .legal-item:last-child{border-bottom:none;}
+  .legal-dot{width:6px;height:6px;background:var(--p400);border-radius:50%;flex-shrink:0;margin-top:6px;}
+  .legal-text{font-size:12px;color:var(--txt2);line-height:1.5;}
+  .legal-bold{font-weight:700;color:var(--p800);}
+
+  /* DIVIDER */
+  hr{border:none;border-top:0.5px solid var(--border);margin:0;}
+
+  /* FOOTER */
+  footer{text-align:center;padding:2rem;font-size:11px;color:var(--txt3);letter-spacing:0.5px;border-top:0.5px solid var(--p100);margin-top:3rem;}
+
+  /* SAM cost table */
+  .sam-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .sam-table th{font-size:11px;font-weight:600;color:var(--txt3);text-align:left;padding:6px 8px;border-bottom:1px solid var(--border2);}
+  .sam-table td{padding:6px 8px;border-bottom:0.5px solid var(--border);color:var(--txt);}
+  .sam-table tr:last-child td{border-bottom:none;}
+  .sam-table .hi{background:var(--p50);font-weight:600;color:var(--p800);}
+
+  @media(max-width:720px){
+    .g2,.g3,.g4,.cagr-grid,.ue-grid{grid-template-columns:1fr;}
+    .pain-need-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .pp-bar-bg{width:60px;}
+    .funnel-row{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="13" fill="#FBEAF0" stroke="#D4537E" stroke-width="1"/>
+      <path d="M9 10 Q14 7 19 10 Q19 18 14 21 Q9 18 9 10Z" fill="#D4537E" opacity="0.18"/>
+      <path d="M9 10 Q14 7 19 10 Q19 18 14 21 Q9 18 9 10Z" stroke="#D4537E" stroke-width="1.2" fill="none"/>
+      <circle cx="14" cy="14" r="2.5" fill="#D4537E"/>
+    </svg>
+    <span class="nav-brand">INTIMUSE</span>
+  </div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#personas">Personas</a>
+    <a href="#product">Product</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#financials">Financials</a>
+    <a href="#competition">Competition</a>
+    <a href="#risks">Risks</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">BCG Bruce Henderson Competition 2025</div>
+  <div class="hero-logo-wrap">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="30" r="28" fill="#FBEAF0" stroke="#D4537E" stroke-width="1.5"/>
+      <path d="M18 22 Q30 15 42 22 Q42 38 30 45 Q18 38 18 22Z" fill="#D4537E" opacity="0.15"/>
+      <path d="M18 22 Q30 15 42 22 Q42 38 30 45 Q18 38 18 22Z" stroke="#D4537E" stroke-width="2" fill="none"/>
+      <circle cx="30" cy="30" r="5.5" fill="#D4537E"/>
+      <circle cx="30" cy="30" r="2.5" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="hero-brand">INTIMUSE</div>
+  <div class="hero-tagline">Unlock your desires, craft your fantasies</div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">$20.3B</div><div class="hs-label">SAM revenue potential</div></div>
+    <div class="hs"><div class="hs-num">281.89M</div><div class="hs-label">Serviceable addressable users</div></div>
+    <div class="hs"><div class="hs-num">$72 / yr</div><div class="hs-label">Subscription per user</div></div>
+    <div class="hs"><div class="hs-num">26.2%</div><div class="hs-label">Audio erotica CAGR</div></div>
+    <div class="hs"><div class="hs-num">46K</div><div class="hs-label">Breakeven users</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ===== PROBLEM ===== -->
+<section id="problem">
+  <div class="sec-eye">Problem overview</div>
+  <div class="sec-title">Adult industry pain points and market opportunity</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">User pain points in current adult content</div>
+      <div class="pp"><span class="pp-label">Less engaging content</span><div class="pp-bar-bg"><div class="pp-bar" style="width:63.8%"></div></div><span class="pp-pct">63.8%</span></div>
+      <div class="pp"><span class="pp-label">Relationship complications</span><div class="pp-bar-bg"><div class="pp-bar" style="width:58.85%"></div></div><span class="pp-pct">58.85%</span></div>
+      <div class="pp"><span class="pp-label">Homogeneity of content</span><div class="pp-bar-bg"><div class="pp-bar" style="width:56.45%"></div></div><span class="pp-pct">56.45%</span></div>
+      <div class="pp"><span class="pp-label">Self-objectification in females</span><div class="pp-bar-bg"><div class="pp-bar" style="width:55%"></div></div><span class="pp-pct">55%</span></div>
+      <div class="pp"><span class="pp-label">Unrealistic sexual scripts</span><div class="pp-bar-bg"><div class="pp-bar" style="width:51.35%"></div></div><span class="pp-pct">51.35%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Market sizing funnel</div>
+      <div style="font-size:12px;color:var(--txt2);margin-bottom:12px;">From world population to serviceable addressable users</div>
+      <div class="funnel-wrap">
+        <div class="funnel-row">
+          <div class="funnel-box"><div class="fb-num">8.2B</div><div class="fb-label">World population</div></div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-pct">90%<br><span style="font-size:9px">mobile</span></div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-box"><div class="fb-num">7.3B</div><div class="fb-label">Mobile users</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-box"><div class="fb-num">1.9B</div><div class="fb-label">Gen Z + Millennials</div></div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-pct">26%</div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-box"><div class="fb-num">1.86B</div><div class="fb-label">Reading + audio consumers</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-box highlight"><div class="fb-num">1.21B</div><div class="fb-label">Total addressable users</div></div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-pct">80%</div>
+          <div class="funnel-arrow">&#8594;</div>
+          <div class="funnel-box highlight"><div class="fb-num">281.89M</div><div class="fb-label">Serviceable users (SAM)</div></div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--txt3);margin-top:10px;">Key filters: 25% reading+audio overlap removed; 5% audio+AI interaction; 20% want realistic/relatable content; 80% mature content viewers</div>
+    </div>
+  </div>
+
+  <div class="card-pink" style="margin-top:14px;">
+    <div class="card-title" style="color:var(--p800);">Shifting market: the rise of immersive and personalised erotica</div>
+    <div class="cagr-grid">
+      <div class="ci"><div class="ci-num">26.2%</div><div class="ci-label">Audio erotica platforms CAGR (2024 to 2030)</div></div>
+      <div class="ci"><div class="ci-num">17.5%</div><div class="ci-label">AI personalisation platforms CAGR</div></div>
+      <div class="ci"><div class="ci-num">12.68%</div><div class="ci-label">Text storytelling platforms CAGR</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--p800);margin-top:14px;padding-top:12px;border-top:0.5px solid var(--p100);">
+      <em>Fifty Shades of Grey</em> sold over 150M copies in 52 languages, reshaping demand for narrative intimacy, normalising alternative sexuality, boosting demand for narrative intimacy, and influencing discreet consumption trends. Market trends point clearly toward immersive, personalised, story-driven experiences.
+    </div>
+  </div>
+
+  <div style="margin-top:14px;" class="g3">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px;color:var(--txt3);margin-bottom:4px;">Reading platform consumers</div>
+      <div style="font-size:22px;font-weight:700;color:var(--p400);">729.1M</div>
+      <div style="font-size:11px;color:var(--txt3);">38% of world population</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px;color:var(--txt3);margin-bottom:4px;">Audio platform consumers</div>
+      <div style="font-size:22px;font-weight:700;color:var(--p400);">901.8M</div>
+      <div style="font-size:11px;color:var(--txt3);">47% of world population</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:11px;color:var(--txt3);margin-bottom:4px;">AI interaction users</div>
+      <div style="font-size:22px;font-weight:700;color:var(--p400);">230M</div>
+      <div style="font-size:11px;color:var(--txt3);">12% of Gen Z + Millennials</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PERSONAS ===== -->
+<section id="personas">
+  <div class="sec-eye">User personas</div>
+  <div class="sec-title">Content gaps and unmet needs across three core users</div>
+
+  <!-- Persona 1: Julia and William -->
+  <div class="persona-card" style="margin-bottom:14px;">
+    <div class="persona-header">
+      <div class="persona-avatar">JW</div>
+      <div>
+        <div class="persona-name">Julia and William</div>
+        <div class="persona-sub">Couple exploring new experiences and reading romantic fiction</div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="tag-row">
+        <span class="tag">Exploring new experiences</span>
+        <span class="tag">Reading romantic fiction</span>
+      </div>
+      <div class="g2">
+        <div>
+          <div class="persona-section-label">Pain points</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Lacks emotional depth in existing content</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Standard content disrupts intimacy</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Unrealistic portrayals create comparison issues</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Homogeneous content feels disconnected from their reality</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="persona-section-label">Needs</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Personalised fantasies tailored to their relationship</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Emotional alignment in storytelling</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Engaging narratives beyond visuals</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Safe shared space to explore desires together</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persona 2: Kavya -->
+  <div class="persona-card" style="margin-bottom:14px;">
+    <div class="persona-header">
+      <div class="persona-avatar">K</div>
+      <div>
+        <div class="persona-name">Kavya</div>
+        <div class="persona-sub">Self-exploration, writing, and reading erotica</div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="tag-row">
+        <span class="tag">Self-exploration</span>
+        <span class="tag">Writing</span>
+        <span class="tag">Reading erotica</span>
+      </div>
+      <div class="g2">
+        <div>
+          <div class="persona-section-label">Pain points</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Limited platforms for women-centric content</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Existing content objectifies rather than empowers</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Excessive aggression in mainstream options</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Neglected emotional and psychological needs</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="persona-section-label">Needs</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Audio erotic content with emotional depth</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Story sharing and collaborative writing tools</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Immersive interaction beyond passive consumption</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Content that goes beyond visuals, supports identity</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persona 3: Aditya -->
+  <div class="persona-card">
+    <div class="persona-header">
+      <div class="persona-avatar">A</div>
+      <div>
+        <div class="persona-name">Aditya</div>
+        <div class="persona-sub">Interactive storytelling and digital experiences</div>
+      </div>
+    </div>
+    <div class="persona-body">
+      <div class="tag-row">
+        <span class="tag">Interactive storytelling</span>
+        <span class="tag">Digital experiences</span>
+      </div>
+      <div class="g2">
+        <div>
+          <div class="persona-section-label">Pain points</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Content boredom from repetitive, static formats</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Creativity deficit in existing platforms</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Feels disconnected, no real interactivity</div></div>
+            <div class="pn-item"><div class="pn-icon">&#9888; Pain</div><div class="pn-text">Unrealistic scenarios with no personalisation</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="persona-section-label">Needs</div>
+          <div class="pain-need-grid">
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Customisation options for scenarios and characters</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Immersive roleplay with responsive AI</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Evolving content that adapts over time</div></div>
+            <div class="pn-item"><div class="pn-icon">+ Need</div><div class="pn-text">Interactive companion, not passive consumption</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCT ===== -->
+<section id="product">
+  <div class="sec-eye">Our product</div>
+  <div class="sec-title">AI-generated and user-customised erotica across three segments</div>
+
+  <div class="g3">
+    <!-- Couples -->
+    <div class="card">
+      <div class="seg-header">
+        <div class="seg-icon">&#128145;</div>
+        <div class="seg-title">Couples</div>
+      </div>
+      <div class="persona-section-label">Core offerings</div>
+      <ul class="ol">
+        <li>Shared story customisation</li>
+        <li>AI romantic companion for couples</li>
+        <li>Episodic story continuation</li>
+      </ul>
+      <div class="assoc-label">Associated benefits</div>
+      <div class="assoc-item">Enhances emotional and sexual connection</div>
+      <div class="assoc-item">Personalised storytelling for shared fantasies</div>
+      <div class="assoc-item">Safe space to explore desires together</div>
+    </div>
+
+    <!-- Females -->
+    <div class="card">
+      <div class="seg-header">
+        <div class="seg-icon">&#127774;</div>
+        <div class="seg-title">Females</div>
+      </div>
+      <div class="persona-section-label">Core offerings</div>
+      <ul class="ol">
+        <li>Social media-style erotic story feed</li>
+        <li>AI companion for emotional connection</li>
+        <li>Audio story mode</li>
+      </ul>
+      <div class="assoc-label">Associated benefits</div>
+      <div class="assoc-item">More inclusive, story-driven erotica</div>
+      <div class="assoc-item">Emotional and psychological engagement</div>
+      <div class="assoc-item">Encourages self-exploration and identity development</div>
+    </div>
+
+    <!-- Creators -->
+    <div class="card">
+      <div class="seg-header">
+        <div class="seg-icon">&#9997;&#65039;</div>
+        <div class="seg-title">Creators</div>
+      </div>
+      <div class="persona-section-label">Core offerings</div>
+      <ul class="ol">
+        <li>AI story publishing and monetisation</li>
+        <li>Story remixing and collaboration</li>
+        <li>Reel-based story discovery</li>
+      </ul>
+      <div class="assoc-label">Associated benefits</div>
+      <div class="assoc-item">Sustainable earning model for writers</div>
+      <div class="assoc-item">Encourages user-generated content and storytelling</div>
+      <div class="assoc-item">Expands market reach for high-quality erotic content</div>
+    </div>
+  </div>
+
+  <div class="tag-row" style="margin-top:14px;">
+    <span class="tag">AI-generated and user-customised erotica</span>
+    <span class="tag">Immersive AI companion experience</span>
+    <span class="tag">Monetisation and creator economy</span>
+  </div>
+</section>
+
+<!-- ===== STRATEGY ===== -->
+<section id="strategy">
+  <div class="sec-eye">Market entry strategy</div>
+  <div class="sec-title">Four-phase go-to-market roadmap</div>
+
+  <div class="g4">
+    <div class="phase-card">
+      <div class="phase-q">Q1</div>
+      <div class="phase-title">Early adoption and creator onboarding</div>
+      <div class="phase-target">500</div>
+      <div class="phase-row"><span class="phase-key">Audience</span>Early adopters and testers</div>
+      <div class="phase-row"><span class="phase-key">Channels</span>Own network, Twitter, small forums</div>
+      <div class="phase-row"><span class="phase-key">Marketing</span>Word-of-mouth, creator partnerships</div>
+      <div class="phase-row"><span class="phase-key">Monetisation</span>Free access, feedback-based iteration</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-q">Q2</div>
+      <div class="phase-title">Building organic community</div>
+      <div class="phase-target">5,000</div>
+      <div class="phase-row"><span class="phase-key">Audience</span>Niche communities and engaged users</div>
+      <div class="phase-row"><span class="phase-key">Channels</span>Reddit, Discord, YouTube, TAAIFT</div>
+      <div class="phase-row"><span class="phase-key">Marketing</span>Community engagement, UGC push</div>
+      <div class="phase-row"><span class="phase-key">Monetisation</span>Premium features and early monetisation</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-q">Q3</div>
+      <div class="phase-title">Mass launch</div>
+      <div class="phase-target">50,000+</div>
+      <div class="phase-row"><span class="phase-key">Audience</span>Mainstream adult content consumers</div>
+      <div class="phase-row"><span class="phase-key">Channels</span>SEO, performance marketing, content marketing</div>
+      <div class="phase-row"><span class="phase-key">Marketing</span>Paid ads, influencer campaigns, PR</div>
+      <div class="phase-row"><span class="phase-key">Monetisation</span>Scale paid subscriptions</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-q">Q4</div>
+      <div class="phase-title">Scaling</div>
+      <div class="phase-target">150,000+</div>
+      <div class="phase-row"><span class="phase-key">Audience</span>Global and diverse user base</div>
+      <div class="phase-row"><span class="phase-key">Channels</span>Data-driven optimisation</div>
+      <div class="phase-row"><span class="phase-key">Marketing</span>Diverse user base expansion, partnerships</div>
+      <div class="phase-row"><span class="phase-key">Monetisation</span>Optimise revenue streams</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINANCIALS ===== -->
+<section id="financials">
+  <div class="sec-eye">Financial analysis</div>
+  <div class="sec-title">3-year projection, unit economics, and cost structure</div>
+
+  <!-- Unit Economics -->
+  <div class="card-pink" style="margin-bottom:14px;">
+    <div class="card-title" style="color:var(--p800);">Unit economics per user per year</div>
+    <div class="ue-grid">
+      <div class="ue-card"><div class="ue-num">$72.00</div><div class="ue-label">Subscription revenue / user / yr</div></div>
+      <div class="ue-card"><div class="ue-num">$48.79</div><div class="ue-label">Total content generation cost / user / yr</div></div>
+      <div class="ue-card"><div class="ue-num">$15.00</div><div class="ue-label">Customer acquisition cost (CAC)</div></div>
+      <div class="ue-card"><div class="ue-num">$3.00</div><div class="ue-label">Content delivery cost / user</div></div>
+      <div class="ue-card"><div class="ue-num">$66.79</div><div class="ue-label">Total cost / user / yr</div></div>
+      <div class="ue-card"><div class="ue-num">$5.21</div><div class="ue-label">Net margin / user / yr (7.24%)</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--p800);">Assumes 70 episodes per user per year at a weighted average cost of $0.697 per episode</div>
+  </div>
+
+  <div class="g2">
+    <!-- 3-year projection -->
+    <div class="card">
+      <div class="breakeven-banner">
+        <div style="font-size:10px;color:var(--p600);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:3px;">Breakeven point</div>
+        <span class="be-num">46,000 users</span>
+        <span style="font-size:12px;color:var(--p800);margin-left:6px;">Infrastructure costs based in India</span>
+      </div>
+      <table class="fin-table">
+        <thead>
+          <tr><th>Year</th><th>Users</th><th>Revenue ($)</th><th>Variable ($)</th><th>Fixed ($)</th><th>Net profit ($)</th><th>Margin</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Year 1</td><td>5,000</td><td>360,000</td><td>333,950</td><td>187,500</td>
+            <td class="neg">-161,450</td><td class="neg">-44.8%</td>
+          </tr>
+          <tr>
+            <td>Year 2</td><td>50,000</td><td>3,600,000</td><td>3,324,500</td><td>215,625</td>
+            <td class="pos">+59,875</td><td class="pos">1.66%</td>
+          </tr>
+          <tr>
+            <td>Year 3</td><td>150,000</td><td>10,800,000</td><td>9,646,650</td><td>247,969</td>
+            <td class="pos">+905,381</td><td class="pos">8.38%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:11px;color:var(--txt3);margin-top:10px;">Variable costs scale with user base. Fixed costs increase 15% per year.</div>
+    </div>
+
+    <!-- Cost breakdown -->
+    <div class="card">
+      <div class="card-title">Episode cost breakdown</div>
+      <div class="cost-row">
+        <div><div class="cost-label">Text + image + audio (full episode)</div></div>
+        <div class="cost-val">$1.47</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Text + audio</div></div>
+        <div class="cost-val">$1.07</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Text + image</div></div>
+        <div class="cost-val">$0.48</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Text only</div></div>
+        <div class="cost-val">$0.08</div>
+      </div>
+
+      <div style="margin-top:14px;" class="card-title">Cost component detail</div>
+      <div class="cost-row">
+        <div><div class="cost-label">Story processing and generation</div><div class="cost-sublabel">Analysis of story / description given</div></div>
+        <div class="cost-val">$0.04</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Episode text (story + image prompts)</div></div>
+        <div class="cost-val">$0.06</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Image generation (10 images x $0.04)</div></div>
+        <div class="cost-val">$0.40</div>
+      </div>
+      <div class="cost-row">
+        <div><div class="cost-label">Audio generation</div><div class="cost-sublabel">750 words / episode, 150 words/min, 5 min at $0.198/min</div></div>
+        <div class="cost-val">$0.99</div>
+      </div>
+      <div style="background:var(--p50);border-radius:var(--r);padding:10px 12px;margin-top:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:12px;color:var(--p800);">Weighted average cost / episode</span>
+          <span style="font-size:14px;font-weight:700;color:var(--p400);">$0.697</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:12px;color:var(--p800);">Episodes per user per year</span>
+          <span style="font-size:14px;font-weight:700;color:var(--p400);">70</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAM revenue table -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title">SAM revenue model: content mix and cost allocation</div>
+    <table class="sam-table">
+      <thead>
+        <tr><th>Segment</th><th>Share of users</th><th>Cost / episode</th><th>Subscription / yr</th><th>Margin / user</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Text only (30% of 39.2%)</td><td>11.76%</td><td>$0.08</td><td>$72</td><td>~$66.4</td></tr>
+        <tr><td>Text + image (70% of 39.2%)</td><td>27.44%</td><td>$0.48</td><td>$72</td><td>~$38.4</td></tr>
+        <tr><td>Text + audio (70% of 48.5%)</td><td>33.95%</td><td>$1.07</td><td>$72</td><td>~$-2.9</td></tr>
+        <tr class="hi"><td>Text + image + audio (30% of 48.5%)</td><td>14.55%</td><td>$1.47</td><td>$72</td><td>~$-30.9</td></tr>
+        <tr class="hi"><td colspan="2"><strong>Weighted mean cost per episode</strong></td><td><strong>$0.697</strong></td><td><strong>$72</strong></td><td><strong>$5.21 (7.24%)</strong></td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--txt3);margin-top:8px;">Total SAM revenue potential: $72 x 281.89M = $20.3B</div>
+  </div>
+</section>
+
+<!-- ===== COMPETITION ===== -->
+<section id="competition">
+  <div class="sec-eye">Competitor analysis</div>
+  <div class="sec-title">How Intimuse stacks up against existing platforms</div>
+
+  <div class="card">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Feature / Dimension</th>
+          <th class="us-head">Intimuse</th>
+          <th>Quinn / Dipsea</th>
+          <th>Myspiceyvanilla / Dashtoon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Content type</td>
+          <td class="us-col">Text + audio + interactive AI</td>
+          <td>Audio only</td>
+          <td>Text and image</td>
+        </tr>
+        <tr>
+          <td>AI-generated content</td>
+          <td class="us-col cy">&#10003;</td>
+          <td class="cn">&#10007;</td>
+          <td class="cy">&#10003;</td>
+        </tr>
+        <tr>
+          <td>Social media-style interface</td>
+          <td class="us-col cy">&#10003;</td>
+          <td class="cy">&#10003;</td>
+          <td class="cn">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Interactive AI room</td>
+          <td class="us-col cy">&#10003;</td>
+          <td class="cn">&#10007;</td>
+          <td class="cn">&#10007;</td>
+        </tr>
+        <tr>
+          <td>Sensual and erotic content</td>
+          <td class="us-col cy">&#10003;</td>
+          <td class="cy">&#10003;</td>
+          <td class="cy">&#10003;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:12px;color:var(--txt3);margin-top:10px;padding-left:4px;">
+    Intimuse is the only platform combining AI-generated content, a social discovery layer, and an interactive AI companion in a single product.
+  </div>
+</section>
+
+<!-- ===== RISKS ===== -->
+<section id="risks">
+  <div class="sec-eye">Risk and mitigation</div>
+  <div class="sec-title">Key risks, legal constraints, and how we address them</div>
+
+  <div class="g2" style="margin-bottom:14px;">
+    <div class="risk-card">
+      <div class="risk-num">01 / LEGAL AND REGULATORY</div>
+      <div class="risk-title">Age verification and jurisdictional compliance</div>
+      <div class="risk-body">Multiple jurisdictions require strict age verification for adult content. Mitigation: robust age-gating, continuous monitoring, region-specific compliance frameworks.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-num">02 / CONTENT MODERATION</div>
+      <div class="risk-title">AI-generated prohibited content</div>
+      <div class="risk-body">AI may inadvertently generate content involving minors, non-consensual scenarios, or violence. Mitigation: multi-layer automated filters and human review for high-risk categories including minor content, incest, and non-consensual material.</div>
+    </div>
+    <div class="risk-card" style="margin-top:12px;">
+      <div class="risk-num">03 / PAYMENT PROCESSORS</div>
+      <div class="risk-title">Major processors restrict adult businesses</div>
+      <div class="risk-body">Stripe, PayPal, and similar processors routinely restrict adult content platforms. Mitigation: build relationships with adult-industry-friendly financial institutions and payment processors from day one.</div>
+    </div>
+    <div class="risk-card" style="margin-top:12px;">
+      <div class="risk-num">04 / TECHNICAL AND SECURITY</div>
+      <div class="risk-title">Data privacy breaches</div>
+      <div class="risk-body">Intimate user data is high-value and high-sensitivity. Mitigation: end-to-end encryption, zero-trust data architecture, and regular third-party security audits.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Legal constraints overview</div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Consent and privacy:</span> Ensure proper consent for training data to avoid privacy violations.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Intellectual property:</span> Incorporate human creative input to strengthen copyright claims.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Liability and responsibility:</span> Implement robust content moderation to prevent misuse.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Regulatory compliance:</span> Stay updated on evolving regulations across different jurisdictions.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Deepfakes and non-consensual content:</span> Prohibit and actively detect attempts to create deepfakes of real individuals.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Platform and tool access restrictions:</span> Develop proprietary technologies or partner with industry-friendly providers.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Child protection laws:</span> Implement strict age verification and AI filters to prevent CSAM.</div></div>
+    <div class="legal-item"><div class="legal-dot"></div><div class="legal-text"><span class="legal-bold">Financial discrimination:</span> Build relationships with adult-industry-friendly financial institutions.</div></div>
+  </div>
+
+  <!-- Risk matrix description -->
+  <div class="card-pink" style="margin-top:14px;">
+    <div class="card-title" style="color:var(--p800);">Risk priority matrix (probability vs impact)</div>
+    <div class="g4">
+      <div style="background:#fff;border-radius:var(--r);padding:10px;border:0.5px solid var(--p100);border-top:3px solid #E24B4A;">
+        <div style="font-size:11px;font-weight:700;color:#E24B4A;margin-bottom:4px;">Risk 1 (High / High)</div>
+        <div style="font-size:12px;color:var(--txt2);">Legal and regulatory: high probability, high impact</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--r);padding:10px;border:0.5px solid var(--p100);border-top:3px solid #E24B4A;">
+        <div style="font-size:11px;font-weight:700;color:#E24B4A;margin-bottom:4px;">Risk 2 (High / High)</div>
+        <div style="font-size:12px;color:var(--txt2);">Payment processor restrictions: high probability, high impact</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--r);padding:10px;border:0.5px solid var(--p100);border-top:3px solid var(--p400);">
+        <div style="font-size:11px;font-weight:700;color:var(--p400);margin-bottom:4px;">Risk 3 (Med / High)</div>
+        <div style="font-size:12px;color:var(--txt2);">Content moderation: medium probability, high impact</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--r);padding:10px;border:0.5px solid var(--p100);border-top:3px solid var(--p200);">
+        <div style="font-size:11px;font-weight:700;color:var(--p600);margin-bottom:4px;">Risk 4 (Med / Med)</div>
+        <div style="font-size:12px;color:var(--txt2);">Technical and security: medium probability, medium impact</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end .page -->
+
+<footer>
+  <svg width="20" height="20" viewBox="0 0 28 28" fill="none" style="vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="14" cy="14" r="13" fill="#FBEAF0" stroke="#D4537E" stroke-width="1"/>
+    <path d="M9 10 Q14 7 19 10 Q19 18 14 21 Q9 18 9 10Z" fill="#D4537E" opacity="0.18"/>
+    <path d="M9 10 Q14 7 19 10 Q19 18 14 21 Q9 18 9 10Z" stroke="#D4537E" stroke-width="1.2" fill="none"/>
+    <circle cx="14" cy="14" r="2.5" fill="#D4537E"/>
+  </svg>
+  Intimuse &nbsp;/&nbsp; BCG Bruce Henderson Competition 2025 &nbsp;/&nbsp; IIT Kharagpur
+</footer>
+
+</body>
+</html>

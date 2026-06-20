@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passive TMD -- Trailer Sway Mitigation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;
+  --amber:#f0a500;--amber2:#ffd166;--amberdim:#3d2a00;
+  --teal:#00b4a0;--tealdim:#003d37;
+  --text:#e6edf3;--muted:#8b949e;--border:#30363d;
+  --red:#f85149;--reddim:#3d0f0e;
+  --green:#3fb950;--greendim:#0d2e13;
+  --blue:#58a6ff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6}
+
+nav{background:rgba(13,17,23,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:50px;position:sticky;top:0;z-index:200}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber);letter-spacing:.06em}
+.nav-links{display:flex;gap:1.25rem;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.nav-links a:hover{color:var(--amber)}
+
+/* HERO */
+.hero{padding:3rem 2rem 2.5rem;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:2.1rem;font-weight:500;line-height:1.2;margin-bottom:1rem}
+.hero h1 em{color:var(--amber);font-style:normal}
+.hero-sub{color:var(--muted);font-size:13px;max-width:400px;margin-bottom:1.75rem;line-height:1.75}
+.kpi-row{display:flex;gap:1.75rem}
+.kpi{border-left:2px solid var(--amber);padding-left:.75rem}
+.kpi-n{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--amber)}
+.kpi-l{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+
+/* SECTIONS */
+section{padding:2.25rem 2rem;border-bottom:1px solid var(--border)}
+.sec-head{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--amber);color:#0d1117;padding:2px 8px;letter-spacing:.1em;flex-shrink:0}
+.sec-tag.teal{background:var(--teal)}
+h2{font-size:1.05rem;font-weight:500;color:var(--text)}
+h3{font-size:.875rem;font-weight:500;color:var(--text)}
+.sub-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.prose{font-size:13px;color:var(--muted);line-height:1.75}
+
+/* LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
+
+/* INSIGHT BOX */
+.insight{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);padding:.9rem 1.1rem;border-radius:0 4px 4px 0;margin-bottom:.75rem}
+.insight.teal{border-left-color:var(--teal)}
+.insight.red{border-left-color:var(--red)}
+.insight.green{border-left-color:var(--green)}
+.insight h3{font-size:.8rem;margin-bottom:.3rem}
+.insight.teal h3{color:var(--teal)}
+.insight.red h3{color:var(--red)}
+.insight.green h3{color:var(--green)}
+.insight h3{color:var(--amber)}
+.insight p{font-size:12px;color:var(--muted);line-height:1.7}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column}
+.tl{display:flex;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--border)}
+.tl:last-child{border-bottom:none}
+.tl-t{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);min-width:70px;flex-shrink:0;padding-top:2px}
+.tl-b{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* SOLUTION CARDS */
+.sol-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem;margin-bottom:.75rem}
+.sol-card h3{margin-bottom:.35rem}
+.tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.tag{font-size:11px;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace}
+.tag.pro{background:var(--greendim);color:var(--green)}
+.tag.con{background:var(--reddim);color:var(--red)}
+.sol-desc{font-size:12px;color:var(--muted);margin-top:.4rem;line-height:1.65}
+.rating-row{display:flex;gap:.5rem;align-items:center;margin-top:.6rem}
+.rating-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;min-width:90px}
+.rating-bar{height:5px;border-radius:3px;background:var(--bg3);flex:1;overflow:hidden}
+.rating-fill{height:100%;border-radius:3px;transition:width .6s}
+
+/* BULLET */
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.bullet-list li{font-size:12px;color:var(--muted);padding-left:1.2rem;position:relative;line-height:1.6}
+.bullet-list li::before{content:'#';position:absolute;left:0;color:var(--amber);font-size:11px;font-family:'JetBrains Mono',monospace;line-height:1.7}
+
+/* EQ BOX */
+.eq-box{background:var(--bg2);border:1px solid var(--amberdim);border-left:3px solid var(--amber);padding:1rem 1.2rem;margin-bottom:.85rem;border-radius:0 4px 4px 0}
+.eq{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--amber);margin-bottom:.4rem}
+.eq-vars{font-size:11px;color:var(--muted);line-height:1.9}
+
+/* COMPONENT LIST */
+.comp-list{display:flex;flex-direction:column;gap:.55rem}
+.comp{display:flex;align-items:flex-start;gap:.75rem;background:var(--bg2);border:1px solid var(--border);padding:.75rem 1rem;border-radius:4px}
+.comp-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);min-width:24px;flex-shrink:0;margin-top:2px}
+.comp-body{font-size:12px;color:var(--muted);line-height:1.6}
+.comp-body strong{color:var(--text);display:block;margin-bottom:1px;font-size:12px;font-weight:500}
+
+/* OSC STEPS */
+.osc-steps{display:flex;flex-direction:column;gap:.45rem}
+.osc-step{display:flex;align-items:center;gap:.75rem;background:var(--bg2);border:1px solid var(--border);padding:.6rem 1rem;border-radius:4px}
+.osc-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:#0d1117;background:var(--amber);padding:1px 7px;flex-shrink:0}
+.osc-text{font-size:12px;color:var(--muted)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--bg3);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:.55rem 1rem;border:1px solid var(--border);text-align:left;white-space:nowrap}
+td{padding:.55rem 1rem;border:1px solid var(--border);color:var(--muted);vertical-align:middle}
+tr:nth-child(even) td{background:var(--bg2)}
+.best{color:var(--green);font-weight:500}
+.worst{color:var(--red)}
+.col-hi{background:var(--amberdim) !important;color:var(--amber) !important;font-weight:500}
+.th-hi{background:var(--amberdim) !important;color:var(--amber) !important}
+
+/* SPEC TABLE */
+.spec-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.spec-tbl tr{border-bottom:1px solid var(--border)}
+.spec-tbl td:first-child{color:var(--muted);padding:.45rem 0;width:58%}
+.spec-tbl td:last-child{font-family:'JetBrains Mono',monospace;color:var(--amber);padding:.45rem 0;text-align:right}
+
+/* STEP */
+.step{display:flex;gap:.85rem;margin-bottom:.85rem}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);background:var(--amberdim);padding:2px 7px;height:fit-content;flex-shrink:0;margin-top:2px}
+.step-body{font-size:12px;color:var(--muted);line-height:1.7}
+.step-body strong{color:var(--text);display:block;margin-bottom:1px;font-weight:500}
+
+/* MATERIALS */
+.mat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.35rem}
+.mat{font-size:11px;color:var(--muted);padding:.3rem .6rem;background:var(--bg2);border:1px solid var(--border);font-family:'JetBrains Mono',monospace}
+
+/* CONCLUSION CARDS */
+.conclusion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
+.concl-card{background:var(--bg2);border:1px solid var(--border);padding:1rem 1.1rem;border-radius:4px;border-top:2px solid var(--teal)}
+.concl-card h3{color:var(--teal);font-size:.8rem;margin-bottom:.35rem;font-weight:500}
+.concl-card p{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* CANVAS */
+#waveCanvas{width:100%;height:185px;display:block}
+#simCanvas{width:100%;height:200px;display:block;border-radius:4px}
+#tmdAnim{width:100%;height:220px;display:block;border-radius:4px}
+
+.legend{display:flex;gap:1.5rem;margin-top:.6rem}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.legend-line{width:22px;height:2px;display:inline-block;border-radius:1px}
+
+/* SVG inline */
+.svg-wrap{width:100%;overflow:hidden;border-radius:4px}
+
+footer{padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center}
+footer p{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+@media(max-width:680px){
+  .hero,.two-col,.three-col{grid-template-columns:1fr}
+  .kpi-row{flex-wrap:wrap;gap:1rem}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">TMD // Trailer Sway Mitigation</span>
+  <div class="nav-links">
+    <a href="#s1">Problem</a>
+    <a href="#s2">Validation</a>
+    <a href="#s3">Solutions</a>
+    <a href="#s4">Limitations</a>
+    <a href="#s5">Approach</a>
+    <a href="#s6">Solution</a>
+    <a href="#s7">Effectiveness</a>
+    <a href="#s8">Simulation</a>
+    <a href="#s9">Hardware</a>
+    <a href="#s10">Conclusion</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <p class="eyebrow">General Championship · Hardware Modelling 2025 · Meghnad Saha Hall of Residence</p>
+    <h1>Passive <em>Tuned Mass Damper</em> for Trailer Sway Mitigation</h1>
+    <p class="hero-sub">A purely mechanical, zero-power stabilisation system that counteracts trailer sway oscillations at inception, before they escalate into catastrophic loss of control.</p>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-n">&lt;0.1s</div><div class="kpi-l">Response time</div></div>
+      <div class="kpi"><div class="kpi-n">50-60%</div><div class="kpi-l">Sway reduction</div></div>
+      <div class="kpi"><div class="kpi-n">0 W</div><div class="kpi-l">Power required</div></div>
+    </div>
+  </div>
+  <canvas id="waveCanvas" role="img" aria-label="Animated comparison: undamped trailer sway grows unbounded (red), TMD-damped sway decays rapidly (green)"></canvas>
+</div>
+
+<!-- 01 PROBLEM STATEMENT -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-tag">01 — Problem Statement</span><h2>What is trailer sway?</h2></div>
+
+  <div class="two-col" style="align-items:start">
+    <div>
+      <p class="prose">Trailer swaying is a critical transportation safety hazard characterised by dangerous lateral oscillations that can rapidly escalate from minor vibrations to catastrophic loss of control. This phenomenon affects millions who tow trailers for recreational, commercial, and utility purposes, creating significant risk on roadways worldwide.</p>
+      <br>
+      <p class="prose">The core issue involves unwanted oscillatory behaviour that manifests when external forces exceed the trailer's inherent stability threshold. These oscillations are amplified through dynamic coupling between the tow vehicle and trailer, creating a self-reinforcing pattern that becomes increasingly difficult to suppress through conventional driving techniques.</p>
+      <br>
+      <p class="prose">When vibrations progress beyond a critical threshold, the system becomes dynamically unstable, potentially leading to violent fishtailing, jackknifing, or complete rollovers.</p>
+
+      <div class="divider"></div>
+      <p class="sub-label">Oscillation cascade at highway speed</p>
+      <div class="timeline">
+        <div class="tl"><span class="tl-t">t = 0 s</span><span class="tl-b">External disturbance initiates lateral oscillation</span></div>
+        <div class="tl"><span class="tl-t">t = 0 to 2 s</span><span class="tl-b">Oscillations self-reinforce; sway doubles every 1 to 2 s once critical threshold is crossed</span></div>
+        <div class="tl"><span class="tl-t">t = 2 to 3 s</span><span class="tl-b">Sway exceeds 5 deg. Driver recovery probability drops ~40% per second</span></div>
+        <div class="tl"><span class="tl-t">t ~= 4.8 s</span><span class="tl-b">Complete loss of control. Fishtailing, jackknife, or rollover</span></div>
+        <div class="tl"><span class="tl-t">Driver</span><span class="tl-b">Reaction time 0.7 to 1.5 s. Insufficient once sway reaches moderate levels</span></div>
+      </div>
+    </div>
+
+    <!-- SVG: sway physics diagram -->
+    <div>
+      <p class="sub-label" style="margin-bottom:.75rem">Sway induction mechanism</p>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 380 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#161b22;border:1px solid #30363d;border-radius:4px">
+          <!-- Road -->
+          <rect x="0" y="290" width="380" height="50" fill="#21262d"/>
+          <line x1="0" y1="290" x2="380" y2="290" stroke="#30363d" stroke-width="1"/>
+          <line x1="30" y1="310" x2="90" y2="310" stroke="#f0a500" stroke-width="2" stroke-dasharray="20,12" opacity=".5"/>
+          <line x1="150" y1="310" x2="210" y2="310" stroke="#f0a500" stroke-width="2" stroke-dasharray="20,12" opacity=".5"/>
+          <line x1="270" y1="310" x2="330" y2="310" stroke="#f0a500" stroke-width="2" stroke-dasharray="20,12" opacity=".5"/>
+
+          <!-- CAR body -->
+          <rect x="30" y="228" width="110" height="52" rx="6" fill="#1f3a5f" stroke="#58a6ff" stroke-width="1.5"/>
+          <rect x="48" y="218" width="74" height="28" rx="4" fill="#16304f" stroke="#58a6ff" stroke-width="1"/>
+          <!-- Wheels car -->
+          <circle cx="55" cy="283" r="11" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+          <circle cx="55" cy="283" r="5" fill="#30363d"/>
+          <circle cx="115" cy="283" r="11" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+          <circle cx="115" cy="283" r="5" fill="#30363d"/>
+
+          <!-- Hitch -->
+          <circle cx="140" cy="258" r="5" fill="#f0a500"/>
+          <circle cx="150" cy="258" r="3" fill="#f0a500" opacity=".5"/>
+
+          <!-- TRAILER body (slightly angled to show sway) -->
+          <g transform="rotate(-4,150,258)">
+            <rect x="152" y="232" width="130" height="52" rx="4" fill="#1a2a1a" stroke="#3fb950" stroke-width="1.5"/>
+            <!-- cargo lines -->
+            <line x1="195" y1="240" x2="195" y2="276" stroke="#3fb950" stroke-width=".8" opacity=".4"/>
+            <line x1="235" y1="240" x2="235" y2="276" stroke="#3fb950" stroke-width=".8" opacity=".4"/>
+            <!-- Wheels trailer -->
+            <circle cx="210" cy="287" r="11" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+            <circle cx="210" cy="287" r="5" fill="#30363d"/>
+            <circle cx="255" cy="287" r="11" fill="#0d1117" stroke="#8b949e" stroke-width="2"/>
+            <circle cx="255" cy="287" r="5" fill="#30363d"/>
+          </g>
+
+          <!-- Sway arrow -->
+          <path d="M290,255 Q320,220 310,190 Q300,165 280,175" stroke="#f85149" stroke-width="2" fill="none" marker-end="url(#s1ra)" opacity=".9"/>
+          <path d="M270,275 Q240,310 250,330" stroke="#f85149" stroke-width="1.5" fill="none" stroke-dasharray="5,4" opacity=".5"/>
+          <text x="318" y="185" fill="#f85149" font-size="10" font-family="JetBrains Mono,monospace">sway</text>
+
+          <!-- Wind arrow -->
+          <line x1="20" y1="170" x2="85" y2="220" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#s1ba)" opacity=".8"/>
+          <text x="5" y="165" fill="#58a6ff" font-size="10" font-family="JetBrains Mono,monospace">wind</text>
+
+          <!-- Road bump -->
+          <ellipse cx="310" cy="291" rx="18" ry="5" fill="#f0a500" opacity=".3"/>
+          <text x="296" y="286" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" opacity=".8">bump</text>
+
+          <!-- Labels -->
+          <text x="62" y="252" fill="#58a6ff" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">tow vehicle</text>
+          <text x="220" y="246" fill="#3fb950" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">trailer</text>
+          <text x="140" y="248" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">hitch</text>
+
+          <!-- Coupling annotation -->
+          <path d="M190,215 Q190,180 165,170" stroke="#f0a500" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+          <text x="115" y="165" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace">dynamic</text>
+          <text x="110" y="176" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace">coupling</text>
+
+          <!-- Section title -->
+          <text x="190" y="22" fill="#8b949e" font-size="11" font-family="JetBrains Mono,monospace" text-anchor="middle" letter-spacing="1">SWAY INDUCTION</text>
+          <line x1="40" y1="30" x2="150" y2="30" stroke="#30363d" stroke-width=".5"/>
+          <line x1="230" y1="30" x2="340" y2="30" stroke="#30363d" stroke-width=".5"/>
+
+          <!-- Trigger factor icons with labels -->
+          <g transform="translate(20,45)">
+            <rect width="100" height="60" rx="3" fill="#21262d" stroke="#30363d" stroke-width=".8"/>
+            <text x="50" y="16" fill="#58a6ff" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">CROSSWINDS</text>
+            <text x="50" y="28" fill="#58a6ff" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">+ PASSING TRUCKS</text>
+            <!-- wind lines -->
+            <line x1="10" y1="40" x2="42" y2="40" stroke="#58a6ff" stroke-width="1.5" opacity=".7"/>
+            <line x1="10" y1="47" x2="36" y2="47" stroke="#58a6ff" stroke-width="1.5" opacity=".5"/>
+            <line x1="10" y1="54" x2="30" y2="54" stroke="#58a6ff" stroke-width="1.5" opacity=".3"/>
+            <polygon points="42,37 50,40 42,43" fill="#58a6ff" opacity=".8"/>
+          </g>
+          <g transform="translate(140,45)">
+            <rect width="100" height="60" rx="3" fill="#21262d" stroke="#30363d" stroke-width=".8"/>
+            <text x="50" y="16" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">ROAD</text>
+            <text x="50" y="28" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">IRREGULARITIES</text>
+            <!-- bump shape -->
+            <path d="M20,54 Q35,38 50,54 Q65,38 80,54" stroke="#f0a500" stroke-width="1.5" fill="none" opacity=".7"/>
+          </g>
+          <g transform="translate(260,45)">
+            <rect width="100" height="60" rx="3" fill="#21262d" stroke="#30363d" stroke-width=".8"/>
+            <text x="50" y="16" fill="#f85149" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">IMPROPER</text>
+            <text x="50" y="28" fill="#f85149" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">LOADING</text>
+            <!-- off-centre weight -->
+            <rect x="52" y="36" width="28" height="18" rx="2" fill="#f85149" opacity=".5"/>
+            <rect x="20" y="42" width="14" height="12" rx="2" fill="#f85149" opacity=".25"/>
+            <line x1="20" y1="56" x2="80" y2="56" stroke="#f85149" stroke-width=".8" opacity=".4"/>
+          </g>
+
+          <defs>
+            <marker id="s1ra" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#f85149"/></marker>
+            <marker id="s1ba" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#58a6ff"/></marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PROBLEM VALIDATION -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-tag">02 — Problem Validation</span><h2>Scale and severity of the issue</h2></div>
+
+  <!-- Animated stat counters -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.5rem">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--red);padding:1rem;border-radius:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Global accident share</div>
+      <div class="counter" data-target="7" data-suffix="%" style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--red)">0%</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:.2rem">5 to 7% of all road accidents involve trailers</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--red);padding:1rem;border-radius:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Annual incidents (India)</div>
+      <div class="counter" data-target="18000" data-suffix="+" style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--red)">0+</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:.2rem">Commercial trailer accidents per year on national highways</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--red);padding:1rem;border-radius:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Incident growth (5 yrs)</div>
+      <div class="counter" data-target="23" data-suffix="%" data-prefix="+" style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--red)">+0%</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:.2rem">Rise in trailer incidents on national highways</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--amber);padding:1rem;border-radius:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Economic loss (India)</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--amber)">900 Cr</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:.2rem">Estimated annual damages in commercial and agricultural sectors</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--amber);padding:1rem;border-radius:4px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Insurance claim ratio</div>
+      <div class="counter" data-target="3.2" data-suffix="x" data-float="1" style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--amber)">0x</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:.2rem">Higher average claims vs other vehicular accidents</div>
+    </div>
+  </div>
+
+  <!-- Recovery probability chart -->
+  <div class="two-col" style="align-items:start">
+    <div>
+      <p class="sub-label">Driver recovery probability vs sway angle</p>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem">
+        <div style="position:relative;height:180px"><canvas id="recoveryChart" role="img" aria-label="Bar chart showing driver recovery probability drops sharply as sway angle increases past 5 degrees"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <p class="sub-label">Time-to-crisis at highway speed (65+ mph)</p>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem">
+        <div style="display:flex;flex-direction:column;gap:.5rem;padding-top:.25rem">
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:90px">0 s</div>
+            <div style="flex:1;background:var(--bg3);height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:var(--green)">Stable towing</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:90px">0 to 2 s</div>
+            <div style="flex:1;background:#2a1e00;height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:var(--amber)">Oscillation building</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:90px">2 to 3 s</div>
+            <div style="flex:1;background:#3d1a00;height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:#ff8c42">Critical threshold crossed</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--red);min-width:90px">4.8 s</div>
+            <div style="flex:1;background:var(--reddim);height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:var(--red)">Loss of control</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;margin-top:.25rem">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:90px">Driver RT</div>
+            <div style="flex:1;background:var(--bg3);height:22px;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:var(--muted)">0.7 to 1.5 s (too slow)</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:.85rem;line-height:1.6">Rural areas and developing regions face disproportionate risk due to less regulated towing equipment and limited driver training.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 EXISTING SOLUTIONS -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-tag">03 — Existing Solutions</span><h2>Current approaches to trailer sway control</h2></div>
+
+  <div class="two-col">
+    <div>
+      <div class="sol-card">
+        <h3>1 / Active electronic stability systems</h3>
+        <p class="sol-desc">Sensors and computers detect trailer sway, providing automatic responses connected with vehicle warning and braking systems. No special driver skill required; configurable for different trailer types.</p>
+        <div class="rating-row"><span class="rating-label">Response speed</span><div class="rating-bar"><div class="rating-fill" style="width:60%;background:var(--amber)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">High-speed perf.</span><div class="rating-bar"><div class="rating-fill" style="width:50%;background:var(--amber)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Reliability</span><div class="rating-bar"><div class="rating-fill" style="width:45%;background:var(--red)"></div></div></div>
+        <div class="tag-row">
+          <span class="tag pro">Auto response</span><span class="tag pro">No skill needed</span>
+          <span class="tag con">High cost</span><span class="tag con">Electrical dependency</span><span class="tag con">Often reacts too late</span>
+        </div>
+      </div>
+
+      <div class="sol-card">
+        <h3>2 / Weight distribution hitches</h3>
+        <p class="sol-desc">Mechanical devices that spread trailer weight across the tow vehicle, reducing rear axle strain and improving braking balance. No electrical dependency; widely popular for many towing situations.</p>
+        <div class="rating-row"><span class="rating-label">Response speed</span><div class="rating-bar"><div class="rating-fill" style="width:5%;background:var(--red)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">High-speed perf.</span><div class="rating-bar"><div class="rating-fill" style="width:35%;background:var(--red)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Ease of use</span><div class="rating-bar"><div class="rating-fill" style="width:40%;background:var(--amber)"></div></div></div>
+        <div class="tag-row">
+          <span class="tag pro">No power needed</span><span class="tag pro">Improves braking</span>
+          <span class="tag con">Load-specific setup</span><span class="tag con">Poor at highway speed</span><span class="tag con">No dynamic adjustment</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sol-card">
+        <h3>3 / Driver training and technique</h3>
+        <p class="sol-desc">Educational approaches focused on proper loading, speed management, and responsive driving. Builds safety awareness and promotes prevention. No equipment cost; develops long-term competence.</p>
+        <div class="rating-row"><span class="rating-label">Response speed</span><div class="rating-bar"><div class="rating-fill" style="width:40%;background:var(--amber)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Emergency perf.</span><div class="rating-bar"><div class="rating-fill" style="width:25%;background:var(--red)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Consistency</span><div class="rating-bar"><div class="rating-fill" style="width:30%;background:var(--red)"></div></div></div>
+        <div class="tag-row">
+          <span class="tag pro">No cost</span><span class="tag pro">General safety gains</span>
+          <span class="tag con">Panic oversteering</span><span class="tag con">Variable effectiveness</span><span class="tag con">Cannot beat physics</span>
+        </div>
+      </div>
+
+      <div class="sol-card">
+        <h3>4 / Speed restrictions</h3>
+        <p class="sol-desc">Limiting towing speeds through regulations, advisory signs, or mechanical limiters. Reduces aerodynamic forces contributing to sway. Low implementation cost for advisory methods.</p>
+        <div class="rating-row"><span class="rating-label">Ease of deploy</span><div class="rating-bar"><div class="rating-fill" style="width:90%;background:var(--green)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Sway prevention</span><div class="rating-bar"><div class="rating-fill" style="width:30%;background:var(--red)"></div></div></div>
+        <div class="rating-row"><span class="rating-label">Driver compliance</span><div class="rating-bar"><div class="rating-fill" style="width:35%;background:var(--red)"></div></div></div>
+        <div class="tag-row">
+          <span class="tag pro">Simple to implement</span><span class="tag pro">Low cost</span>
+          <span class="tag con">Reduces efficiency</span><span class="tag con">Poor compliance</span><span class="tag con">No dynamic protection</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 LIMITATIONS -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-tag">04 — Limitations</span><h2>Why all current solutions fall short</h2></div>
+
+  <div class="two-col" style="align-items:start">
+    <div>
+      <ul class="bullet-list" style="margin-bottom:1rem">
+        <li>Smart electronic systems require complex setup, consume vehicle power, and can fail at electrical failure points. They activate only after sway is already noticeable, often too late to prevent escalation.</li>
+        <li>Weight distribution hitches must be precisely configured per load. They lose effectiveness at highway speeds where sway risk is highest and cannot adapt dynamically to changing conditions like sudden gusts or passing vehicles.</li>
+        <li>Human reaction times (0.7 to 1.5 s) are simply insufficient when sway develops in under 3 s. Panic responses frequently worsen the situation through oversteering or incorrect braking.</li>
+        <li>Speed restrictions force commercial vehicles below efficient operating speeds, ignore environmental factors, and offer no protection against sudden disturbances regardless of vehicle speed.</li>
+      </ul>
+      <div class="insight red">
+        <h3>The shared gap</h3>
+        <p>None of the current approaches address sway mechanics at the moment of inception. Electronic systems react after the fact; mechanical hitches are static and speed-limited; human intervention is physiologically too slow; speed limits are blunt instruments. The need is for a solution that acts at the physical level, instantly, without power, and before sway can self-amplify.</p>
+      </div>
+    </div>
+
+    <!-- Gap radar chart -->
+    <div>
+      <p class="sub-label" style="margin-bottom:.75rem">Solution gap analysis</p>
+      <div style="position:relative;height:280px"><canvas id="radarChart" role="img" aria-label="Radar chart comparing existing solutions across five dimensions. Proposed TMD fills most of the gap."></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 APPROACH -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-tag">05 — Approach</span><h2>Inspiration from structural engineering</h2></div>
+  <p class="prose" style="margin-bottom:1.5rem">After analysing existing trailer sway solutions and identifying their shortcomings, a valuable parallel was found in structural engineering, specifically how tall buildings manage oscillatory forces from wind and seismic activity.</p>
+
+  <div class="two-col" style="align-items:start">
+    <!-- Building vs Trailer SVG -->
+    <div>
+      <p class="sub-label" style="margin-bottom:.75rem">The skyscraper analogy</p>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#161b22;border:1px solid #30363d;border-radius:4px">
+          <!-- BUILDING SIDE -->
+          <text x="95" y="22" fill="#8b949e" font-size="11" font-family="JetBrains Mono,monospace" text-anchor="middle" letter-spacing="1">SKYSCRAPER</text>
+
+          <!-- Building outline -->
+          <rect x="55" y="35" width="80" height="220" rx="3" fill="#1a1f2e" stroke="#58a6ff" stroke-width="1.5"/>
+          <!-- Windows -->
+          <rect x="63" y="45" width="14" height="10" rx="1" fill="#58a6ff" opacity=".25"/>
+          <rect x="83" y="45" width="14" height="10" rx="1" fill="#58a6ff" opacity=".25"/>
+          <rect x="103" y="45" width="14" height="10" rx="1" fill="#58a6ff" opacity=".25"/>
+          <rect x="63" y="62" width="14" height="10" rx="1" fill="#58a6ff" opacity=".2"/>
+          <rect x="83" y="62" width="14" height="10" rx="1" fill="#58a6ff" opacity=".2"/>
+          <rect x="103" y="62" width="14" height="10" rx="1" fill="#58a6ff" opacity=".2"/>
+          <rect x="63" y="79" width="14" height="10" rx="1" fill="#58a6ff" opacity=".15"/>
+          <rect x="83" y="79" width="14" height="10" rx="1" fill="#58a6ff" opacity=".15"/>
+          <rect x="63" y="96" width="14" height="10" rx="1" fill="#58a6ff" opacity=".1"/>
+          <rect x="83" y="96" width="14" height="10" rx="1" fill="#58a6ff" opacity=".1"/>
+          <!-- Ground -->
+          <rect x="40" y="255" width="110" height="8" rx="2" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+
+          <!-- TMD inside building (pendulum) -->
+          <line x1="95" y1="55" x2="95" y2="115" stroke="#f0a500" stroke-width="2" stroke-dasharray="4,3"/>
+          <circle cx="95" cy="125" r="14" fill="#amberdim" stroke="#f0a500" stroke-width="2" fill="#3d2a00"/>
+          <text x="95" y="129" fill="#f0a500" font-size="8" font-family="JetBrains Mono,monospace" text-anchor="middle">TMD</text>
+
+          <!-- Springs either side of TMD -->
+          <path d="M81,125 Q77,120 81,115 Q85,110 81,105" stroke="#f0a500" stroke-width="1.5" fill="none" opacity=".7"/>
+          <path d="M109,125 Q113,120 109,115 Q105,110 109,105" stroke="#f0a500" stroke-width="1.5" fill="none" opacity=".7"/>
+
+          <!-- Wind force on building -->
+          <line x1="20" y1="80" x2="50" y2="80" stroke="#58a6ff" stroke-width="2" marker-end="url(#s5wa)"/>
+          <line x1="20" y1="100" x2="50" y2="100" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#s5wa)" opacity=".7"/>
+          <line x1="20" y1="120" x2="50" y2="120" stroke="#58a6ff" stroke-width="1" marker-end="url(#s5wa)" opacity=".4"/>
+          <text x="8" y="75" fill="#58a6ff" font-size="9" font-family="JetBrains Mono,monospace">wind</text>
+
+          <!-- Building sway arrow -->
+          <path d="M135,90 Q155,80 150,70" stroke="#f85149" stroke-width="1.5" fill="none" marker-end="url(#s5raa)" opacity=".8"/>
+          <text x="153" y="67" fill="#f85149" font-size="9" font-family="JetBrains Mono,monospace">sway</text>
+
+          <!-- TMD counter arrow -->
+          <path d="M81,128 Q65,128 60,128" stroke="#3fb950" stroke-width="1.5" fill="none" marker-end="url(#s5ga)" opacity=".9"/>
+          <text x="28" y="145" fill="#3fb950" font-size="9" font-family="JetBrains Mono,monospace">counter</text>
+
+          <!-- DIVIDER -->
+          <line x1="190" y1="25" x2="190" y2="265" stroke="#30363d" stroke-width="1" stroke-dasharray="6,4"/>
+          <text x="190" y="280" fill="#30363d" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">same principle</text>
+
+          <!-- TRAILER SIDE -->
+          <text x="285" y="22" fill="#8b949e" font-size="11" font-family="JetBrains Mono,monospace" text-anchor="middle" letter-spacing="1">TRAILER</text>
+
+          <!-- Road -->
+          <rect x="205" y="248" width="165" height="18" rx="2" fill="#21262d" stroke="#30363d" stroke-width=".8"/>
+          <line x1="215" y1="257" x2="240" y2="257" stroke="#f0a500" stroke-width="1.5" stroke-dasharray="10,8" opacity=".4"/>
+          <line x1="285" y1="257" x2="310" y2="257" stroke="#f0a500" stroke-width="1.5" stroke-dasharray="10,8" opacity=".4"/>
+
+          <!-- Tow vehicle (simple) -->
+          <rect x="210" y="206" width="65" height="38" rx="4" fill="#1f3a5f" stroke="#58a6ff" stroke-width="1.2"/>
+          <rect x="225" y="197" width="40" height="20" rx="3" fill="#16304f" stroke="#58a6ff" stroke-width=".8"/>
+          <circle cx="225" cy="247" r="9" fill="#0d1117" stroke="#8b949e" stroke-width="1.5"/>
+          <circle cx="265" cy="247" r="9" fill="#0d1117" stroke="#8b949e" stroke-width="1.5"/>
+
+          <!-- Hitch -->
+          <circle cx="275" cy="225" r="4" fill="#f0a500"/>
+
+          <!-- Trailer body -->
+          <g transform="rotate(-3,275,225)">
+            <rect x="277" y="206" width="90" height="38" rx="3" fill="#1a2a1a" stroke="#3fb950" stroke-width="1.2"/>
+            <!-- TMD inside trailer -->
+            <rect x="302" y="215" width="20" height="14" rx="2" fill="#3d2a00" stroke="#f0a500" stroke-width="1.5"/>
+            <text x="312" y="225" fill="#f0a500" font-size="7" font-family="JetBrains Mono,monospace" text-anchor="middle">TMD</text>
+            <!-- spring lines -->
+            <line x1="302" y1="222" x2="294" y2="222" stroke="#f0a500" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="322" y1="222" x2="330" y2="222" stroke="#f0a500" stroke-width="1" stroke-dasharray="2,2"/>
+            <!-- wheels -->
+            <circle cx="310" cy="247" r="9" fill="#0d1117" stroke="#8b949e" stroke-width="1.5"/>
+            <circle cx="350" cy="247" r="9" fill="#0d1117" stroke="#8b949e" stroke-width="1.5"/>
+          </g>
+
+          <!-- Crosswind arrow -->
+          <line x1="210" y1="160" x2="260" y2="195" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#s5wa)" opacity=".8" stroke-dasharray="5,3"/>
+          <text x="196" y="158" fill="#58a6ff" font-size="9" font-family="JetBrains Mono,monospace">wind</text>
+
+          <!-- Trailer sway arrow -->
+          <path d="M345,215 Q365,195 360,175" stroke="#f85149" stroke-width="1.5" fill="none" marker-end="url(#s5raa)" opacity=".8"/>
+          <text x="362" y="170" fill="#f85149" font-size="9" font-family="JetBrains Mono,monospace">sway</text>
+
+          <!-- TMD counter arrow -->
+          <path d="M352,222 Q362,222 368,222" stroke="#3fb950" stroke-width="1.5" fill="none" marker-end="url(#s5ga)" opacity=".9"/>
+          <text x="356" y="235" fill="#3fb950" font-size="9" font-family="JetBrains Mono,monospace">counter</text>
+
+          <!-- Taipei 101 callout -->
+          <rect x="208" y="60" width="155" height="50" rx="3" fill="#21262d" stroke="#f0a500" stroke-width=".8"/>
+          <text x="285" y="77" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">Taipei 101</text>
+          <text x="285" y="89" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">730-ton pendulum damper</text>
+          <text x="285" y="101" fill="#3fb950" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">40% sway reduction in typhoons</text>
+
+          <defs>
+            <marker id="s5wa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><polygon points="0,0 7,3 0,6" fill="#58a6ff"/></marker>
+            <marker id="s5raa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><polygon points="0,0 7,3 0,6" fill="#f85149"/></marker>
+            <marker id="s5ga" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><polygon points="0,0 7,3 0,6" fill="#3fb950"/></marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <div>
+      <p class="sub-label">The proposed approach</p>
+      <p class="prose" style="margin-bottom:1rem">By adapting principles from building stabilisation to trailer design, a multi-point mechanical system was created that responds instantly to counteract sway forces. Damping mechanisms are positioned at three key locations: the hitch connection, axle assemblies, and the trailer's centre of mass.</p>
+
+      <div class="insight teal">
+        <h3>Why this works for trailers</h3>
+        <p>Buildings contend with wind forces and seismic events. Trailers face crosswinds, passing trucks, and road irregularities. Both involve unwanted oscillations that must be quickly counteracted. The same passive mechanical physics governs both systems -- making the adaptation direct and principled.</p>
+      </div>
+
+      <div class="insight teal">
+        <h3>Core passive mechanism</h3>
+        <p>A mass element (1 to 5% of trailer total mass) moves opposite to the trailer's sway motion. A spring with carefully calculated stiffness connects this mass to the trailer frame. The damper's natural frequency is precisely matched to the trailer's sway frequency through a mathematical mass-ratio relationship.</p>
+      </div>
+
+      <div class="insight green">
+        <h3>Key advantage over all existing solutions</h3>
+        <p>This mechanical approach offers an immediate, automatic response to sway conditions without requiring electrical systems, driver intervention, or complex sensors. The physics of the system naturally counteracts the problematic motion almost instantly when it begins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 THE SOLUTION -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-tag teal">06 — The Solution</span><h2>Passive damping mechanism for trailer sway mitigation</h2></div>
+  <p class="prose" style="margin-bottom:1.5rem">The proposed passive damping system works on fundamental mechanical principles to effectively counter trailer sway oscillations. The system responds immediately to side-to-side movements, creates opposing forces that naturally counteract the swaying motion, and returns the trailer to a stable position through carefully calculated restoring forces -- all without any electrical input or driver intervention.</p>
+
+  <div class="two-col" style="align-items:start;margin-bottom:1.5rem">
+    <div>
+      <p class="sub-label">Core governing equations</p>
+      <div class="eq-box">
+        <div class="eq">x(t) = A0 * exp(-zeta*omega*t) * cos(omega*t)</div>
+        <div class="eq-vars">
+          x(t) &nbsp;= displacement over time<br>
+          A0 &nbsp;&nbsp;&nbsp;= initial amplitude<br>
+          zeta &nbsp;= damping ratio<br>
+          omega = natural frequency<br>
+          t &nbsp;&nbsp;&nbsp;&nbsp;= time
+        </div>
+      </div>
+      <div class="eq-box">
+        <div class="eq">omega_d / omega_s = 1 / (1 + mu)</div>
+        <div class="eq-vars">
+          omega_d = natural frequency of the damper<br>
+          omega_s = natural frequency of the trailer<br>
+          mu &nbsp;&nbsp;&nbsp;&nbsp;= mass ratio (damper mass / trailer mass)<br><br>
+          Optimal tuning: damper oscillates in precise phase opposition to trailer sway
+        </div>
+      </div>
+      <div class="eq-box">
+        <div class="eq">mu = m_damper / m_trailer = 0.05</div>
+        <div class="eq-vars">5% mass ratio in prototype: 0.5 kg damper on 10 kg trailer body</div>
+      </div>
+
+      <div class="divider"></div>
+      <p class="sub-label">System components</p>
+      <div class="comp-list">
+        <div class="comp"><span class="comp-id">C1</span><div class="comp-body"><strong>Auxiliary mass (1 to 5% of trailer mass)</strong>Moves opposite to sway direction, generating inertial forces that naturally oppose the unwanted oscillation.</div></div>
+        <div class="comp"><span class="comp-id">C2</span><div class="comp-body"><strong>Calibrated spring element</strong>Stiffness precisely calculated so the damper's natural frequency matches the trailer's sway frequency. Spring constant 160.6 N/m in prototype.</div></div>
+        <div class="comp"><span class="comp-id">C3</span><div class="comp-body"><strong>Three-node placement</strong>Hitch connection, axle assemblies, and trailer centre of mass for maximum effectiveness.</div></div>
+        <div class="comp"><span class="comp-id" style="color:var(--teal)">C4</span><div class="comp-body"><strong>Arduino-servo positioner (electrical subsystem)</strong>Dynamically adjusts mass position in real time to find resonance damping sweet spot via servo-driven linear linkage.</div></div>
+      </div>
+    </div>
+
+    <!-- TMD animation canvas -->
+    <div>
+      <p class="sub-label" style="margin-bottom:.75rem">Live TMD animation: phase opposition</p>
+      <canvas id="tmdAnim" role="img" aria-label="Animated diagram showing trailer body swaying while TMD mass moves in opposite direction, counteracting the sway"></canvas>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-line" style="background:var(--green)"></span>Trailer body</span>
+        <span class="legend-item"><span class="legend-line" style="background:var(--amber)"></span>TMD mass (phase-opposed)</span>
+        <span class="legend-item"><span class="legend-line" style="background:var(--red)"></span>Net sway</span>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:.6rem;line-height:1.6">The auxiliary mass (amber) moves in the opposite direction to the trailer (green), generating forces that reduce the net oscillation (red) each cycle until sway is fully neutralised.</p>
+
+      <div class="divider"></div>
+      <p class="sub-label">Oscillation neutralisation process</p>
+      <div class="osc-steps">
+        <div class="osc-step"><span class="osc-n">01</span><span class="osc-text">System detects microscopic lateral movements within milliseconds of disturbance</span></div>
+        <div class="osc-step"><span class="osc-n">02</span><span class="osc-text">Auxiliary mass moves in opposition to trailer's sway motion</span></div>
+        <div class="osc-step"><span class="osc-n">03</span><span class="osc-text">Each oscillation cycle reduces amplitude through the damping mechanism</span></div>
+        <div class="osc-step"><span class="osc-n">04</span><span class="osc-text">Progressive stabilisation: amplitude diminishes every cycle</span></div>
+        <div class="osc-step"><span class="osc-n">05</span><span class="osc-text">Complete neutralisation before sway reaches critical thresholds</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sub-label">Advantages of passive energy dissipation</p>
+  <div class="three-col">
+    <div class="insight teal"><h3>Immediate response</h3><p>Zero activation delay vs electronic systems. Physics of the system counteracts motion almost instantly when sway begins.</p></div>
+    <div class="insight teal"><h3>Fail-safe operation</h3><p>Functions without power or electronics. No electrical failure mode. Continuous protection throughout every journey.</p></div>
+    <div class="insight teal"><h3>Universal compatibility</h3><p>Works with any towing vehicle regardless of its technology level. Automatically adapts damping force to oscillation severity.</p></div>
+  </div>
+</section>
+
+<!-- 07 EFFECTIVENESS -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-tag">07 — Effectiveness</span><h2>Quantitative comparison with existing solutions</h2></div>
+  <p class="prose" style="margin-bottom:1.25rem">The TMD responds in under 0.1 seconds, requires no external power, performs independently of environmental factors (no degradation in high winds, temperature extremes, or rain), and needs only occasional spring and damper checks for maintenance.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Active electronic</th>
+          <th>Weight distribution hitch</th>
+          <th>Driver training</th>
+          <th>Speed restriction</th>
+          <th class="th-hi">Proposed passive TMD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Response time</td><td>0.5 to 1.0 s</td><td class="worst">No active response</td><td>0.7 to 1.5 s (human)</td><td>Immediate but fixed</td><td class="col-hi best">&lt; 0.1 s</td></tr>
+        <tr><td>Power required</td><td class="worst">Vehicle power</td><td>None</td><td>None</td><td>None</td><td class="col-hi best">None</td></tr>
+        <tr><td>Weather resilience</td><td class="worst">Reduced in extremes</td><td class="best">Excellent</td><td>Visibility-dependent</td><td>Unaffected</td><td class="col-hi best">Excellent</td></tr>
+        <tr><td>Maintenance</td><td class="worst">Moderate (sensors, calibration)</td><td>Low to moderate</td><td>None</td><td>None</td><td class="col-hi">Low</td></tr>
+        <tr><td>High-speed effectiveness</td><td>40 to 50%</td><td class="worst">30 to 40%</td><td class="worst">20 to 30%</td><td class="worst">N/A</td><td class="col-hi best">50 to 60%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 08 SIMULATION -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-tag">08 — Simulation</span><h2>MATLAB Simscape Multibody model</h2></div>
+  <p class="prose" style="margin-bottom:1.5rem">The objective was to replicate and analyse trailer sway dynamics under lateral disturbances while the trailer moves forward at constant velocity. Using MATLAB's Simscape Multibody toolbox, the model captures angular displacement of the trailer and the motion of an internal mass connected via a spring-damper system.</p>
+
+  <div class="two-col" style="align-items:start">
+    <div>
+      <p class="sub-label">System specifications</p>
+      <table class="spec-tbl">
+        <tr><td>Trailer body mass</td><td>10 kg</td></tr>
+        <tr><td>Trailer motion degrees</td><td>X-translation + Z-yaw</td></tr>
+        <tr><td>Internal (damper) mass</td><td>0.5 kg (5%)</td></tr>
+        <tr><td>Internal mass position</td><td>19.4 cm from trailer centre</td></tr>
+        <tr><td>Spring constant k</td><td>160.6 N/m</td></tr>
+        <tr><td>Damping coefficient</td><td>Negligible (initial model)</td></tr>
+        <tr><td>Joint type</td><td>Planar (X + Z, Y constrained)</td></tr>
+        <tr><td>Simulation time</td><td>10 s, variable-step solver</td></tr>
+        <tr><td>Initial trailer angle</td><td>~5 deg (via rigid transform)</td></tr>
+        <tr><td>Forward drive force</td><td>100 N</td></tr>
+        <tr><td>Lateral impulse</td><td>10 N</td></tr>
+      </table>
+
+      <div class="divider"></div>
+      <p class="sub-label">Working principle</p>
+      <p class="prose" style="margin-bottom:.75rem">The trailer moves forward under a constant X-force. A lateral impulse induces sway and internal spring-mass oscillations to mimic real load shifts. A planar joint enables realistic sway while sensors capture trailer angle and mass motion for stability analysis.</p>
+
+      <div class="divider"></div>
+      <p class="sub-label">Key findings</p>
+      <p class="prose">The simulation effectively replicates trailer sway dynamics, showing how lateral impulses cause angular displacement and how internal mass movement affects stability. Without TMD: angular displacement grows to ~0.2 rad and sustains indefinitely. With TMD: oscillation decays within 3 to 4 cycles following the theoretical exponential envelope.</p>
+    </div>
+
+    <div>
+      <p class="sub-label" style="margin-bottom:.75rem">Simulated oscillation comparison</p>
+      <canvas id="simCanvas" role="img" aria-label="Animated canvas showing red undamped sway growing and green TMD-damped sway decaying to zero"></canvas>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-line" style="background:var(--red)"></span>Without TMD (sustained/growing)</span>
+        <span class="legend-item"><span class="legend-line" style="background:var(--green)"></span>With TMD (exponential decay)</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Mini chart: TMD mass oscillation character -->
+      <p class="sub-label" style="margin-bottom:.75rem">TMD mass oscillation character</p>
+      <div style="position:relative;height:140px"><canvas id="massChart" role="img" aria-label="Chart showing TMD internal mass oscillating continuously in phase opposition to stabilise the trailer"></canvas></div>
+      <p style="font-size:11px;color:var(--muted);margin-top:.5rem;line-height:1.6">The TMD mass oscillates continuously at constant amplitude (phase-opposed to trailer), absorbing and redistributing sway energy throughout the journey.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 HARDWARE -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-tag">09 — Hardware</span><h2>Physical prototype and demonstration rig</h2></div>
+  <p class="prose" style="margin-bottom:1.5rem">A comprehensive mechanical system was developed to demonstrate trailer sway dynamics and the TMD solution under controlled conditions, providing clear visual evidence of the damping technology's effectiveness.</p>
+
+  <!-- System diagram SVG -->
+  <p class="sub-label" style="margin-bottom:.75rem">System architecture</p>
+  <div class="svg-wrap" style="margin-bottom:1.5rem">
+    <svg viewBox="0 0 770 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#161b22;border:1px solid #30363d;border-radius:4px">
+      <!-- Block: Motor -->
+      <rect x="20" y="70" width="105" height="60" rx="3" fill="#1f3a5f" stroke="#58a6ff" stroke-width="1.5"/>
+      <text x="72" y="96" fill="#58a6ff" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">Motor</text>
+      <text x="72" y="109" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">1/6 hp, 28k rpm</text>
+      <text x="72" y="121" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">220V</text>
+
+      <!-- Arrow -->
+      <line x1="125" y1="100" x2="155" y2="100" stroke="#8b949e" stroke-width="1.5" marker-end="url(#s9hw)"/>
+
+      <!-- Block: Potentiometer -->
+      <rect x="157" y="70" width="105" height="60" rx="3" fill="#21262d" stroke="#30363d" stroke-width="1.5"/>
+      <text x="209" y="96" fill="#e6edf3" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">Potentiometer</text>
+      <text x="209" y="109" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">speed control</text>
+
+      <line x1="262" y1="100" x2="292" y2="100" stroke="#8b949e" stroke-width="1.5" marker-end="url(#s9hw)"/>
+
+      <!-- Block: Conveyor Belt -->
+      <rect x="294" y="60" width="120" height="80" rx="3" fill="#1a2a1a" stroke="#3fb950" stroke-width="1.5"/>
+      <text x="354" y="88" fill="#3fb950" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">Conveyor Belt</text>
+      <text x="354" y="102" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">PVC pipes +</text>
+      <text x="354" y="114" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">treadmill sheet</text>
+      <text x="354" y="127" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">+ ball bearings</text>
+
+      <line x1="414" y1="100" x2="444" y2="100" stroke="#8b949e" stroke-width="1.5" marker-end="url(#s9hw)"/>
+
+      <!-- Block: Car-Trailer -->
+      <rect x="446" y="60" width="120" height="80" rx="3" fill="#2a1a1a" stroke="#f0a500" stroke-width="1.5"/>
+      <text x="506" y="88" fill="#f0a500" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">Car + Trailer</text>
+      <text x="506" y="102" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">toy car + cardboard</text>
+      <text x="506" y="114" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">screw hinge pivot</text>
+      <text x="506" y="127" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">wire tether</text>
+
+      <line x1="566" y1="100" x2="596" y2="100" stroke="#8b949e" stroke-width="1.5" marker-end="url(#s9hw)"/>
+
+      <!-- Block: TMD Module -->
+      <rect x="598" y="60" width="140" height="80" rx="3" fill="#1a2010" stroke="#3fb950" stroke-width="2"/>
+      <text x="668" y="85" fill="#3fb950" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">TMD Module</text>
+      <text x="668" y="99" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">5% aux mass</text>
+      <text x="668" y="111" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">rubber-tube springs</text>
+      <text x="668" y="123" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">Arduino + servo</text>
+      <text x="668" y="135" fill="#f0a500" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">adjustable position</text>
+
+      <!-- Arduino drop-in -->
+      <rect x="588" y="155" width="160" height="40" rx="3" fill="#003d37" stroke="#00b4a0" stroke-width="1"/>
+      <text x="668" y="170" fill="#00b4a0" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">Arduino Uno + Servo</text>
+      <text x="668" y="182" fill="#8b949e" font-size="9" font-family="JetBrains Mono,monospace" text-anchor="middle">real-time positioning</text>
+      <line x1="668" y1="155" x2="668" y2="140" stroke="#00b4a0" stroke-width="1" stroke-dasharray="3,3"/>
+
+      <!-- Title -->
+      <text x="380" y="22" fill="#8b949e" font-size="11" font-family="JetBrains Mono,monospace" text-anchor="middle" letter-spacing="1">HARDWARE SYSTEM ARCHITECTURE</text>
+
+      <defs>
+        <marker id="s9hw" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><polygon points="0,0 7,3 0,6" fill="#8b949e"/></marker>
+      </defs>
+    </svg>
+  </div>
+
+  <p class="sub-label" style="margin-bottom:.75rem">Materials list</p>
+  <div class="mat-grid" style="margin-bottom:1.75rem">
+    <span class="mat">Wood / plywood</span><span class="mat">PVC pipes</span>
+    <span class="mat">Rubber tubes</span><span class="mat">Motor (1/6 hp, 220V)</span>
+    <span class="mat">Treadmill belt</span><span class="mat">Aluminium sheet</span>
+    <span class="mat">Potentiometer</span><span class="mat">Ball bearings</span>
+    <span class="mat">Arduino Uno</span><span class="mat">Servo motor 180 deg</span>
+    <span class="mat">Wires + mounts</span><span class="mat">Glue / tape</span>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="sub-label">Mechanical build: conveyor belt platform</p>
+      <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Framework</strong>Wooden square base with plywood top and legs at each corner. Serves as the base for the entire sway simulation model.</div></div>
+      <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Surface preparation</strong>Plywood surface covered with aluminium foil to reduce friction and create a smooth running surface. Two sides extended to support PVC pipes with ball bearings for free rotation.</div></div>
+      <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Belt installation</strong>Treadmill belt installed between rotating PVC pipes across the table surface. Plywood thickness precisely calibrated to prevent slack while allowing smooth rotation.</div></div>
+      <div class="step"><span class="step-num">04</span><div class="step-body"><strong>Drive system</strong>One PVC pipe connected via high-tension belt to the 1/6 hp motor. Potentiometer installed in the live wire circuit to regulate speed for different sway frequency simulations.</div></div>
+      <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Anti-slip</strong>Rubber tubing bands applied to PVC pipes to eliminate slippage, ensuring consistent and reliable motion transfer.</div></div>
+
+      <div class="divider"></div>
+      <p class="sub-label">Car-trailer unit</p>
+      <div class="step"><span class="step-num">01</span><div class="step-body"><strong>Vehicle and trailer</strong>Toy car with wooden hitch mount (precisely drilled). Cardboard trailer body for lightweight durability and easy modification during testing.</div></div>
+      <div class="step"><span class="step-num">02</span><div class="step-body"><strong>Hinge mechanism</strong>Holes aligned between car and trailer; screw with washers on both sides and nut to create a pivot point that accurately simulates the hinge-like movement of a real car-trailer system.</div></div>
+      <div class="step"><span class="step-num">03</span><div class="step-body"><strong>Belt integration</strong>Unit placed at the centre of the conveyor belt. Flexible string tether connects car front to the belt framework, permitting sway and turning within a safe range.</div></div>
+    </div>
+
+    <div>
+      <p class="sub-label">TMD module and demonstration protocol</p>
+      <div class="step"><span class="step-num">04</span><div class="step-body"><strong>TMD module placement</strong>5% auxiliary mass on rubber-tube springs installed on the trailer. Longitudinal position is adjustable. Positioning the damper too close to the hitch point causes front-wheel lift on the towing vehicle, demonstrating the need for a suitable placement distance.</div></div>
+      <div class="step"><span class="step-num">05</span><div class="step-body"><strong>Demonstration protocol</strong>System first run without TMD to show rapidly growing oscillations. TMD then installed for identical conditions, demonstrating 50 to 60% reduction in sway amplitude. Manual nudges replicate crosswind and passing-vehicle turbulence.</div></div>
+
+      <div class="divider"></div>
+      <p class="sub-label">Electrical subsystem: Arduino servo positioner</p>
+      <p class="prose" style="margin-bottom:.85rem">An Arduino Uno and servo motor drive a Dynamic Spring-Mass Positioner System, allowing real-time fine-tuning of damping characteristics.</p>
+      <div class="comp-list">
+        <div class="comp"><span class="comp-id" style="color:var(--teal)">E1</span><div class="comp-body"><strong>Arduino Uno + servo motor</strong>Programmed to rotate to specific angles in increments, enabling systematic testing of mass positions. Calibration routine correlates servo angles to exact translational distances.</div></div>
+        <div class="comp"><span class="comp-id" style="color:var(--teal)">E2</span><div class="comp-body"><strong>Linear actuator linkage</strong>Converts servo's angular rotation to linear mass displacement along a predefined path, changing effective mass distribution and system inertia.</div></div>
+        <div class="comp"><span class="comp-id" style="color:var(--teal)">E3</span><div class="comp-body"><strong>Resonance tuning</strong>Sway amplitude is recorded at each mass position to identify the configuration where the spring-mass natural frequency matches trailer sway frequency, minimising amplitude through resonance damping.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 CONCLUSION -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-tag teal">10 — Conclusion</span><h2>Summary</h2></div>
+  <p class="prose" style="margin-bottom:1.5rem">The Tuned Mass Damper system for trailer sway control improves towing safety and efficiency by addressing a persistent challenge: unpredictable oscillations at highway speeds. By using a calibrated auxiliary mass that counters the trailer's sway, the system neutralises dangerous movements before they escalate. This demonstrates how engineering principles from one domain can elegantly solve stubborn challenges in another, creating a safer environment for all road users.</p>
+  <div class="conclusion-grid">
+    <div class="concl-card"><h3>Enhanced safety</h3><p>Prevents trailer sway from escalating. Stability allows confident driving in challenging conditions like crosswinds or when passing large vehicles.</p></div>
+    <div class="concl-card"><h3>Reduced driver fatigue</h3><p>Eliminates the need for constant manual corrections, making towing more comfortable over long distances.</p></div>
+    <div class="concl-card"><h3>Passive and reliable</h3><p>Operates without external power using mechanical principles alone. No electrical failure mode. No complex setup. Continuous protection every journey.</p></div>
+    <div class="concl-card"><h3>Practical and universal</h3><p>Adds minimal weight to the trailer, preserving cargo capacity. Compatible with trailer types from small utility to large recreational vehicles.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>Meghnad Saha Hall of Residence · General Championship Hardware Modelling 2025</p>
+  <p>Passive TMD · Trailer Sway Mitigation</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ---- HERO WAVE ---- */
+(function(){
+  var c=document.getElementById('waveCanvas'),ctx=c.getContext('2d'),t=0;
+  function resize(){c.width=c.offsetWidth*devicePixelRatio;c.height=185*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  resize(); window.addEventListener('resize',resize);
+  function draw(){
+    var W=c.offsetWidth,H=185;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(240,165,0,0.07)';ctx.lineWidth=1;
+    for(var x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var y=0;y<H;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    // undamped red
+    ctx.beginPath();ctx.strokeStyle='rgba(248,81,73,0.7)';ctx.lineWidth=1.5;
+    for(var x=0;x<W;x++){var p=x/W,amp=Math.min(60,5+p*68),y=H/2+amp*Math.sin(p*14+t*1.2);x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.stroke();
+    // damped green
+    ctx.beginPath();ctx.strokeStyle='rgba(63,185,80,0.9)';ctx.lineWidth=2;
+    for(var x=0;x<W;x++){var p=x/W,amp=60*Math.exp(-p*3.5),y=H/2+amp*Math.sin(p*14+t*1.2);x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.stroke();
+    ctx.font='11px "JetBrains Mono",monospace';
+    ctx.fillStyle='rgba(248,81,73,0.8)';ctx.fillText('undamped ->',W*0.6,H/2-50);
+    ctx.fillStyle='rgba(63,185,80,0.85)';ctx.fillText('TMD active',10,H/2-42);
+    ctx.fillStyle='rgba(139,148,158,0.4)';ctx.font='10px "JetBrains Mono",monospace';
+    ctx.fillText('lateral displacement / time ->',8,H-8);
+    t+=0.04;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---- COUNTER ANIMATION ---- */
+(function(){
+  var els=document.querySelectorAll('.counter');
+  var done=false;
+  function animate(){
+    if(done)return;
+    done=true;
+    els.forEach(function(el){
+      var target=parseFloat(el.dataset.target);
+      var suffix=el.dataset.suffix||'';
+      var prefix=el.dataset.prefix||'';
+      var isFloat=el.dataset.float==='1';
+      var start=performance.now();
+      var dur=1400;
+      function step(now){
+        var prog=Math.min((now-start)/dur,1);
+        var ease=1-Math.pow(1-prog,3);
+        var val=target*ease;
+        el.textContent=prefix+(isFloat?val.toFixed(1):Math.round(val))+suffix;
+        if(prog<1)requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting)animate();
+  },{threshold:.3});
+  var first=els[0];
+  if(first)obs.observe(first);
+})();
+
+/* ---- RECOVERY PROBABILITY CHART ---- */
+(function(){
+  var c=document.getElementById('recoveryChart');
+  if(!c)return;
+  new Chart(c,{
+    type:'bar',
+    data:{
+      labels:['0-2 deg','2-5 deg','5-8 deg','8-12 deg','12+ deg'],
+      datasets:[{
+        label:'Recovery probability (%)',
+        data:[95,78,45,12,3],
+        backgroundColor:['#3fb95040','#3fb95070','#f0a50070','#f8514970','#f8514999'],
+        borderColor:['#3fb950','#3fb950','#f0a500','#f85149','#f85149'],
+        borderWidth:1.5,
+        borderRadius:3
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+'% chance of recovery';}}}},
+      scales:{
+        x:{ticks:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'}},grid:{color:'rgba(48,54,61,0.8)'},border:{color:'#30363d'}},
+        y:{ticks:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'},callback:function(v){return v+'%';}},grid:{color:'rgba(48,54,61,0.6)'},border:{color:'#30363d'},min:0,max:100,title:{display:true,text:'Recovery probability',color:'#8b949e',font:{size:10,family:'JetBrains Mono'}}}
+      }
+    }
+  });
+})();
+
+/* ---- RADAR CHART ---- */
+(function(){
+  var c=document.getElementById('radarChart');
+  if(!c)return;
+  new Chart(c,{
+    type:'radar',
+    data:{
+      labels:['Response speed','Power independence','Weather resilience','High-speed perf.','Maintenance ease'],
+      datasets:[
+        {label:'Active electronic',data:[60,20,40,50,40],borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,0.08)',pointBackgroundColor:'#58a6ff',borderWidth:1.5,pointRadius:3},
+        {label:'Weight dist. hitch',data:[5,90,80,35,55],borderColor:'#8b949e',backgroundColor:'rgba(139,148,158,0.05)',pointBackgroundColor:'#8b949e',borderWidth:1.5,pointRadius:3},
+        {label:'Driver training',data:[40,95,50,25,95],borderColor:'#f0a500',backgroundColor:'rgba(240,165,0,0.05)',pointBackgroundColor:'#f0a500',borderWidth:1.5,pointRadius:3},
+        {label:'Proposed TMD',data:[98,100,95,80,85],borderColor:'#3fb950',backgroundColor:'rgba(63,185,80,0.12)',pointBackgroundColor:'#3fb950',borderWidth:2.5,pointRadius:4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'},boxWidth:12,padding:12}}},
+      scales:{r:{ticks:{display:false},grid:{color:'rgba(48,54,61,0.8)'},pointLabels:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'}},angleLines:{color:'rgba(48,54,61,0.8)'}}}
+    }
+  });
+})();
+
+/* ---- TMD ANIMATION ---- */
+(function(){
+  var c=document.getElementById('tmdAnim');
+  if(!c)return;
+  var ctx=c.getContext('2d'),t=0,_tmdTrace={tr:[],td:[],net:[]};
+  function resize(){c.width=c.offsetWidth*devicePixelRatio;c.height=220*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  resize();window.addEventListener('resize',resize);
+
+  function drawSpring(x1,y1,x2,y2,coils,col){
+    var dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);
+    var ux=dx/len,uy=dy/len,px=-uy,py=ux;
+    var amp=8,n=coils*2;
+    ctx.beginPath();ctx.moveTo(x1,y1);
+    for(var i=1;i<=n;i++){
+      var s=i/n,cx=x1+dx*s+px*amp*(i%2===0?1:-1),cy=y1+dy*s+py*amp*(i%2===0?1:-1);
+      ctx.lineTo(cx,cy);
+    }
+    ctx.lineTo(x2,y2);
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+  }
+
+  function draw(){
+    var W=c.offsetWidth,H=220;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#161b22';ctx.fillRect(0,0,W,H);
+
+    // grid
+    ctx.strokeStyle='rgba(48,54,61,0.6)';ctx.lineWidth=0.5;
+    for(var x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    var cx=W/2;
+    // trailer body sway
+    var trailerSwayAmp=30;
+    var trailerX=cx+trailerSwayAmp*Math.sin(t);
+    // TMD mass (opposite phase, decaying net)
+    var tmdAmp=28;
+    var tmdX=cx-tmdAmp*Math.sin(t)*0.92;
+    // Net sway (much reduced)
+    var netAmp=5;
+    var netX=cx+netAmp*Math.sin(t)*Math.exp(-t*0.05);
+
+    // Draw hitch point
+    ctx.beginPath();ctx.arc(cx,H*0.32,5,0,Math.PI*2);ctx.fillStyle='#f0a500';ctx.fill();
+    ctx.font='9px "JetBrains Mono",monospace';ctx.fillStyle='rgba(240,165,0,0.7)';ctx.fillText('hitch',cx+8,H*0.32+4);
+
+    // Trailer body (green rectangle, swaying)
+    ctx.save();
+    ctx.translate(trailerX,H*0.5);
+    ctx.fillStyle='rgba(63,185,80,0.12)';
+    ctx.strokeStyle='#3fb950';ctx.lineWidth=2;
+    ctx.beginPath();
+    var r4=4,x4=-60,y4=-28,w4=120,h4=56;
+    ctx.moveTo(x4+r4,y4);ctx.lineTo(x4+w4-r4,y4);ctx.quadraticCurveTo(x4+w4,y4,x4+w4,y4+r4);
+    ctx.lineTo(x4+w4,y4+h4-r4);ctx.quadraticCurveTo(x4+w4,y4+h4,x4+w4-r4,y4+h4);
+    ctx.lineTo(x4+r4,y4+h4);ctx.quadraticCurveTo(x4,y4+h4,x4,y4+h4-r4);
+    ctx.lineTo(x4,y4+r4);ctx.quadraticCurveTo(x4,y4,x4+r4,y4);ctx.closePath();
+    ctx.fill();ctx.stroke();
+    ctx.fillStyle='#3fb950';ctx.font='10px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.fillText('trailer body',0,4);
+    ctx.restore();
+
+    // Springs connecting TMD to trailer
+    drawSpring(trailerX-40,H*0.5,tmdX-15,H*0.5,4,'rgba(240,165,0,0.6)');
+    drawSpring(trailerX+40,H*0.5,tmdX+15,H*0.5,4,'rgba(240,165,0,0.6)');
+
+    // TMD mass (amber rectangle, opposite phase)
+    ctx.save();
+    ctx.translate(tmdX,H*0.5);
+    ctx.fillStyle='rgba(240,165,0,0.2)';
+    ctx.strokeStyle='#f0a500';ctx.lineWidth=2;
+    ctx.beginPath();
+    var r3=3,x3=-16,y3=-16,w3=32,h3=32;
+    ctx.moveTo(x3+r3,y3);ctx.lineTo(x3+w3-r3,y3);ctx.quadraticCurveTo(x3+w3,y3,x3+w3,y3+r3);
+    ctx.lineTo(x3+w3,y3+h3-r3);ctx.quadraticCurveTo(x3+w3,y3+h3,x3+w3-r3,y3+h3);
+    ctx.lineTo(x3+r3,y3+h3);ctx.quadraticCurveTo(x3,y3+h3,x3,y3+h3-r3);
+    ctx.lineTo(x3,y3+r3);ctx.quadraticCurveTo(x3,y3,x3+r3,y3);ctx.closePath();
+    ctx.fill();ctx.stroke();
+    ctx.fillStyle='#f0a500';ctx.font='9px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.fillText('TMD',0,3);
+    ctx.restore();
+
+    // Net sway indicator at top
+    var netBarX=netX;
+    ctx.beginPath();ctx.arc(netBarX,H*0.15,8,0,Math.PI*2);
+    ctx.fillStyle='rgba(248,81,73,0.25)';ctx.strokeStyle='#f85149';ctx.lineWidth=1.5;ctx.fill();ctx.stroke();
+    ctx.fillStyle='#f85149';ctx.font='9px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.fillText('net',netBarX,H*0.15+3);
+
+    // Oscillation traces at bottom
+    var traceY=H-28,traceLen=W-40;
+    
+    _tmdTrace.tr.push({x:20+((t*12)%(traceLen)),y:traceY+(trailerSwayAmp*0.4)*Math.sin(t)});
+    _tmdTrace.td.push({x:20+((t*12)%(traceLen)),y:traceY-(tmdAmp*0.4)*Math.sin(t)*0.92});
+    _tmdTrace.net.push({x:20+((t*12)%(traceLen)),y:traceY+netAmp*0.4*Math.sin(t)*Math.exp(-t*0.05)});
+    if(_tmdTrace.tr.length>80){_tmdTrace.tr.shift();_tmdTrace.td.shift();_tmdTrace.net.shift();}
+
+    // trace lines
+    ['tr','td','net'].forEach(function(k,i){
+      var col=['rgba(63,185,80,0.6)','rgba(240,165,0,0.6)','rgba(248,81,73,0.8)'][i];
+      var pts=_tmdTrace[k];
+      if(pts.length<2)return;
+      ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=1.5;
+      ctx.moveTo(pts[0].x,pts[0].y);
+      pts.forEach(function(p){ctx.lineTo(p.x,p.y);});
+      ctx.stroke();
+    });
+
+    // labels
+    ctx.font='10px "JetBrains Mono",monospace';ctx.textAlign='left';
+    ctx.fillStyle='rgba(139,148,158,0.5)';ctx.fillText('phase opposition trace ->',20,H-10);
+
+    // link hitch to trailer
+    ctx.beginPath();ctx.moveTo(cx,H*0.32+5);ctx.lineTo(trailerX,H*0.5-28);
+    ctx.strokeStyle='rgba(240,165,0,0.4)';ctx.lineWidth=1;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
+
+    t+=0.04;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---- SIM CANVAS ---- */
+(function(){
+  var c=document.getElementById('simCanvas');
+  if(!c)return;
+  var ctx=c.getContext('2d'),t=0;
+  function resize(){c.width=c.offsetWidth*devicePixelRatio;c.height=200*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+  resize();window.addEventListener('resize',resize);
+  function draw(){
+    var W=c.offsetWidth,H=200;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#161b22';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(48,54,61,0.7)';ctx.lineWidth=0.5;
+    for(var x=0;x<W;x+=W/10){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var y=0;y<H;y+=H/5){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.strokeStyle='rgba(139,148,158,0.2)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+    // undamped
+    ctx.beginPath();ctx.strokeStyle='rgba(248,81,73,0.85)';ctx.lineWidth=1.5;
+    for(var x=0;x<W;x++){var p=x/W,amp=Math.min(82,3+p*92),y=H/2+amp*Math.sin(p*16+t);x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.stroke();
+    // damped
+    ctx.beginPath();ctx.strokeStyle='rgba(63,185,80,0.9)';ctx.lineWidth=2;
+    for(var x=0;x<W;x++){var p=x/W,amp=82*Math.exp(-p*4),y=H/2+amp*Math.sin(p*16+t);x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.stroke();
+    // decay envelope
+    ctx.beginPath();ctx.strokeStyle='rgba(63,185,80,0.2)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    for(var x=0;x<W;x++){var p=x/W,amp=82*Math.exp(-p*4),y=H/2-amp;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.stroke();ctx.setLineDash([]);
+    ctx.font='10px "JetBrains Mono",monospace';ctx.textAlign='left';
+    ctx.fillStyle='rgba(139,148,158,0.4)';ctx.fillText('time ->',W-52,H/2+13);ctx.fillText('theta (rad)',4,13);
+    t+=0.03;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---- TMD MASS OSCILLATION CHART ---- */
+(function(){
+  var c=document.getElementById('massChart');
+  if(!c)return;
+  var labels=[],d1=[];
+  for(var i=0;i<=50;i++){
+    labels.push(i===0?'0':(i===50?'10 s':''));
+    d1.push(Math.sin(i*0.9)*0.048);
+  }
+  new Chart(c,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[{
+        label:'TMD mass displacement (m)',
+        data:d1,
+        borderColor:'#f0a500',
+        backgroundColor:'rgba(240,165,0,0.05)',
+        borderWidth:1.5,
+        pointRadius:0,
+        tension:0.4
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'},maxTicksLimit:4},grid:{color:'rgba(48,54,61,0.7)'},border:{color:'#30363d'}},
+        y:{ticks:{color:'#8b949e',font:{size:10,family:'JetBrains Mono'},callback:function(v){return v.toFixed(2);}},grid:{color:'rgba(48,54,61,0.5)'},border:{color:'#30363d'}}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mirage · Bringing Boredom Back</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --red:#C0392B;--red-dark:#8B1A0F;--red-light:#E8524A;
+  --bg:#FFFFFF;--bg2:#F7F4F0;--bg3:#F0EBE3;
+  --dark:#1A1614;--mid:#3A3330;--muted:#8A837C;
+  --border:rgba(192,57,43,0.18);--border-light:rgba(26,22,20,0.08);
+  --gold:#B8962E;--ink:#2C2420;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:999;width:0%;transition:width .08s linear;box-shadow:0 0 6px rgba(192,57,43,0.5);pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:60px;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--dark);text-decoration:none;}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;transition:color 0.2s;position:relative;padding-bottom:3px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--red);transition:width 0.25s;}
+.nav-links a:hover,.nav-links a.active-link{color:var(--dark);}
+.nav-links a:hover::after,.nav-links a.active-link::after{width:100%;}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;background:var(--bg);position:relative;overflow:hidden;padding-top:100px;padding-bottom:40px;}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.18;}
+.hero-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(192,57,43,0.04) 0,rgba(192,57,43,0.04) 1px,transparent 1px,transparent 80px),repeating-linear-gradient(0deg,rgba(192,57,43,0.04) 0,rgba(192,57,43,0.04) 1px,transparent 1px,transparent 80px);pointer-events:none;}
+.hero-content{position:relative;z-index:2;max-width:820px;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);border:1px solid var(--border);padding:6px 14px;margin-bottom:2rem;font-weight:600;background:rgba(192,57,43,0.04);}
+.hero-tag .dot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8.5vw,7.5rem);line-height:0.9;letter-spacing:0.03em;color:var(--dark);margin-bottom:1.75rem;}
+.hero-title .red{color:var(--red);}
+.hero-title .outline{-webkit-text-stroke:2px var(--dark);color:transparent;}
+.hero-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.2rem;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:2.5rem;}
+.hero-problem{background:rgba(192,57,43,0.06);border-left:3px solid var(--red);padding:1.25rem 1.5rem;max-width:640px;}
+.hero-problem p{font-size:0.95rem;line-height:1.75;color:var(--ink);}
+.hero-problem strong{color:var(--red);}
+
+/* STAT STRIP */
+.stat-strip{background:var(--red);padding:1.75rem 0;position:relative;overflow:hidden;}
+.stat-strip::before{content:'IDLE TIME IS DECLINING';position:absolute;right:1rem;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:rgba(0,0,0,0.1);white-space:nowrap;}
+.stat-row{max-width:1200px;margin:0 auto;padding:0 2.5rem;display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;}
+.stat-item{padding:0.5rem 1rem;border-right:1px solid rgba(255,255,255,0.2);flex:1;display:flex;flex-direction:column;align-items:center;}
+.stat-item:last-child{border:none;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:#fff;display:block;}
+.stat-label{font-size:0.68rem;color:rgba(255,255,255,0.75);line-height:1.4;margin-top:4px;}
+
+/* SHARED */
+section{padding:7rem 0 5rem;}
+.container{max-width:1200px;margin:0 auto;padding:0 2.5rem;}
+.eyebrow{font-size:0.67rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:0.75rem;display:flex;align-items:center;gap:10px;}
+.eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--red);}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5.5vw,4.2rem);line-height:0.95;letter-spacing:0.04em;color:var(--dark);margin-bottom:1.5rem;}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,var(--red),rgba(192,57,43,0.2),transparent);margin-bottom:4rem;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.body-text{font-size:0.91rem;color:var(--muted);line-height:1.85;}
+
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.fade-up.visible{opacity:1;transform:none;}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}
+
+/* INTRO */
+#intro{background:var(--bg);}
+.boredom-def{background:var(--bg2);border-left:4px solid var(--red);padding:1.75rem 2rem;margin-bottom:1.5rem;}
+.boredom-def p{font-size:1.05rem;line-height:1.85;color:var(--ink);}
+.hl{color:var(--red);font-weight:700;}
+.why-box{background:rgba(192,57,43,0.05);border:1px solid var(--border);padding:1.75rem;margin-top:1.75rem;}
+.why-box h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--red);margin-bottom:0.75rem;letter-spacing:0.06em;}
+.why-box p{font-size:0.89rem;line-height:1.8;color:var(--muted);}
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.price-card{background:var(--bg2);border-top:3px solid var(--red);padding:1.25rem;}
+.price-card h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.06em;color:var(--red);margin-bottom:0.4rem;}
+.price-card p{font-size:0.81rem;color:var(--muted);line-height:1.6;}
+.cite{font-size:0.67rem;color:var(--muted);font-style:italic;margin-top:0.5rem;opacity:0.7;}
+
+/* SCENARIOS — SVG illustrated cards */
+.scenario-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;}
+.scenario-card{background:var(--bg2);border:1px solid var(--border-light);padding:0;overflow:hidden;position:relative;}
+.scenario-card-art{height:140px;position:relative;overflow:hidden;}
+.scenario-card-body{padding:1.25rem;}
+.scenario-card h5{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.4rem;}
+.scenario-card p{font-size:0.79rem;color:var(--muted);line-height:1.55;}
+
+/* CONCEPT */
+#concept{background:var(--bg2);}
+.inspo-grid{display:grid;grid-template-columns:300px 1fr;gap:3rem;align-items:center;margin-bottom:3rem;}
+
+/* MIRAGE VISUAL — animated canvas illustration */
+.mirage-visual{position:relative;height:360px;overflow:hidden;border-radius:2px;background:#0a1020;}
+#mirage-illus{position:absolute;inset:0;width:100%;height:100%;display:block;}
+
+.rstack{display:flex;flex-direction:column;gap:0.85rem;}
+.rq{background:#fff;border-left:2px solid var(--red);padding:1rem 1.25rem;transition:background 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.rq:hover{background:rgba(192,57,43,0.04);}
+.rq p{font-size:0.86rem;line-height:1.7;color:var(--ink);}
+.rq .auth{font-size:0.68rem;color:var(--red);margin-top:0.45rem;font-style:italic;}
+
+/* ENGAGING SECTION — visual grid */
+.engaging-header{text-align:center;margin:2rem 0 1.5rem;}
+.engaging-header span{background:var(--red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:7px 22px;}
+.principle-visual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border-light);}
+.pcell{background:#fff;padding:0.9rem 1rem;border-right:1px solid var(--border-light);border-bottom:1px solid var(--border-light);position:relative;overflow:hidden;transition:background 0.2s;}
+.pcell:hover{background:rgba(192,57,43,0.03);}
+.pcell:nth-child(3n){border-right:none;}
+.pcell:nth-child(7),.pcell:nth-child(8),.pcell:nth-child(9){border-bottom:none;}
+.pcell-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(192,57,43,0.1);position:absolute;top:0.3rem;right:0.5rem;line-height:1;}
+.picon{width:26px;height:26px;background:rgba(192,57,43,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:0.4rem;font-size:0.85rem;color:var(--red);}
+.pcell h4{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.2rem;}
+.pcell p{font-size:0.73rem;color:var(--muted);line-height:1.5;}
+
+/* SIMULATOR */
+.sim-wrap{margin-top:3rem;background:#fff;border:1px solid var(--border-light);padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+.sim-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;}
+.sim-head h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);}
+.sim-controls{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.sbtn{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:6px 13px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.sbtn:hover,.sbtn.active{background:var(--red);border-color:var(--red);color:#fff;}
+#mc{width:100%;height:240px;display:block;background:#080810;}
+.sim-cap{font-size:0.74rem;color:var(--muted);text-align:center;margin-top:0.75rem;font-style:italic;}
+
+/* PRODUCT */
+#product{background:var(--bg);}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.vcard{background:#fff;border:1px solid var(--border-light);overflow:hidden;transition:box-shadow 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.vcard:hover{box-shadow:0 4px 20px rgba(192,57,43,0.1);}
+.vh{background:var(--red);padding:1.25rem 1.5rem;}
+.vtype{font-size:0.67rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:0.2rem;}
+.vh h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:#fff;}
+.vb{padding:1.5rem;}
+.vdesc{font-size:0.86rem;color:var(--muted);line-height:1.65;margin-bottom:0.75rem;}
+.vmatter{font-size:0.82rem;color:var(--red);font-weight:600;margin-bottom:1.25rem;line-height:1.5;}
+.cycle{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin:1.25rem 0;flex-wrap:wrap;}
+.cnode{background:var(--red);color:#fff;padding:0.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;}
+.carrow{color:var(--muted);font-size:0.85rem;}
+.mech-tag{display:inline-block;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;background:rgba(192,57,43,0.08);color:var(--red);padding:4px 10px;margin-bottom:0.75rem;}
+.mitem{margin-bottom:0.75rem;}
+.mitem h5{font-size:0.81rem;color:var(--dark);font-weight:600;margin-bottom:0.18rem;}
+.mitem p{font-size:0.77rem;color:var(--muted);line-height:1.55;}
+.dchars{margin-top:3rem;background:var(--bg2);border:1px solid var(--border-light);padding:2rem;}
+.dchars h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:1.5rem;}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ci{display:flex;gap:0.7rem;align-items:flex-start;}
+.cdot{width:5px;height:5px;background:var(--red);flex-shrink:0;margin-top:7px;}
+.ci p{font-size:0.8rem;color:var(--muted);line-height:1.6;}
+
+/* TECHNICAL */
+#technical{background:var(--bg2);}
+.twrap{overflow-x:auto;margin-top:2rem;border:1px solid var(--border-light);box-shadow:0 1px 6px rgba(0,0,0,0.04);}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--red);color:#fff;padding:1rem 1.1rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;text-align:left;font-weight:400;}
+td{padding:0.9rem 1.1rem;font-size:0.82rem;vertical-align:top;border-bottom:1px solid var(--border-light);line-height:1.65;color:var(--muted);background:#fff;}
+tr:nth-child(even) td{background:var(--bg2);}
+tr:hover td{background:rgba(192,57,43,0.03);}
+td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacing:0.04em;width:16%;}
+.crow td{color:var(--gold)!important;font-weight:700;font-size:0.88rem!important;}
+
+/* GTM */
+#gtm{background:var(--bg);}
+.gtm-heads{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:1.5rem;}
+.gtm-vh{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+.gtm-cols{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.pcard{border:1px solid var(--border-light);margin-bottom:1rem;overflow:hidden;background:#fff;transition:box-shadow 0.2s;}
+.pcard:hover{box-shadow:0 3px 12px rgba(192,57,43,0.08);}
+.phead{background:var(--bg2);padding:0.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;}
+.phead h4{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--dark);letter-spacing:0.08em;}
+.ptag{font-size:0.67rem;color:var(--red);font-weight:700;letter-spacing:0.08em;background:rgba(192,57,43,0.08);padding:3px 9px;white-space:nowrap;}
+.pbody{padding:1rem 1.2rem;}
+.pfocus{font-size:0.71rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:0.6rem;}
+.pbody ul{list-style:none;}
+.pbody li{font-size:0.81rem;color:var(--muted);line-height:1.65;padding:0.2rem 0 0.2rem 1rem;position:relative;}
+.pbody li::before{content:'›';position:absolute;left:0;color:var(--red);font-size:1rem;line-height:1.4;}
+
+/* GTM TIMELINE */
+.tl-section{background:var(--bg2);padding:3rem 0 4rem;}
+.tnode{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:0 0.5rem;position:relative;}
+.tnode-dot{width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid var(--red);position:relative;z-index:2;transition:transform 0.2s,box-shadow 0.2s;flex-shrink:0;}
+.tnode:hover .tnode-dot,.tnode.active .tnode-dot{transform:scale(1.5);box-shadow:0 0 14px rgba(192,57,43,0.5);}
+.tnode-title{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:var(--dark);margin-top:0.6rem;text-align:center;white-space:nowrap;}
+.tnode-sub{font-size:0.64rem;color:var(--muted);text-align:center;margin-top:2px;white-space:nowrap;}
+/* #tnode-detail removed — replaced by ptl-detail */
+
+/* METRICS */
+#metrics{background:var(--bg2);}
+.mlayout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2rem;}
+.ns{background:var(--red);padding:2rem;position:relative;overflow:hidden;margin-bottom:2rem;}
+.ns::after{content:'★';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:6rem;opacity:0.12;color:#fff;line-height:1;}
+.ns-tag{font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.4rem;}
+.ns h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;letter-spacing:0.05em;line-height:1.2;}
+.mg{margin-bottom:2rem;}
+.mgl{font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:0.75rem;border-bottom:1px solid var(--border-light);padding-bottom:0.5rem;}
+.mr{background:#fff;border-left:3px solid var(--red);padding:0.85rem 1rem;margin-bottom:0.5rem;transition:background 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.mr:hover{background:rgba(192,57,43,0.04);}
+.mr h5{font-size:0.83rem;color:var(--dark);font-weight:600;margin-bottom:0.15rem;}
+.mr p{font-size:0.76rem;color:var(--muted);line-height:1.5;}
+.rtable{width:100%;border-collapse:collapse;margin-top:0.75rem;}
+.rtable thead tr{background:var(--bg3);}
+.rtable th{padding:0.65rem 0.9rem;font-size:0.67rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;font-family:'DM Sans',sans-serif;border-bottom:1px solid var(--border-light);}
+.rtable th:first-child{color:var(--red);}
+.rtable th:last-child{color:var(--gold);}
+.rtable td{padding:0.85rem 0.9rem;font-size:0.8rem;line-height:1.6;border-bottom:1px solid var(--border-light);vertical-align:top;background:#fff;}
+.rtable tr:nth-child(even) td{background:var(--bg2);}
+.rname{display:block;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:0.25rem;}
+.mname{display:block;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.25rem;}
+.ugrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem;}
+.ubadge{background:#fff;border:1px solid var(--border-light);padding:1rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.ubadge h5{font-family:'Bebas Neue',sans-serif;font-size:0.93rem;color:var(--red);letter-spacing:0.08em;margin-bottom:0.4rem;}
+.ubadge p{font-size:0.75rem;color:var(--muted);line-height:1.55;}
+
+/* CLOSING */
+.closing{background:var(--red);padding:5rem 0;text-align:center;position:relative;overflow:hidden;}
+.closing::before{content:'MIRAGE';font-family:'Bebas Neue',sans-serif;font-size:18rem;color:rgba(0,0,0,0.07);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;letter-spacing:0.1em;pointer-events:none;}
+.cquote{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.9rem);color:#fff;max-width:720px;margin:0 auto 1.25rem;line-height:1.5;padding:0 2rem;position:relative;z-index:1;}
+.cattr{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);position:relative;z-index:1;}
+footer{background:var(--bg2);padding:1.5rem;text-align:center;font-size:0.71rem;color:var(--muted);letter-spacing:0.08em;border-top:1px solid var(--border-light);}
+footer span{color:var(--red);}
+
+/* CONSEQUENCE LIST */
+.consequence-list{display:flex;flex-direction:column;gap:0;}
+.cq-item{border-bottom:1px solid var(--border-light);padding:0.9rem 0;position:relative;}
+.cq-item:last-child{border-bottom:none;}
+.cq-bar{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),rgba(192,57,43,0.15));width:0%;transition:width 1.2s ease;}
+.cq-content{padding-left:0;}
+.cq-header{display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.25rem;flex-wrap:wrap;}
+.cq-icon{color:var(--red);font-size:0.85rem;flex-shrink:0;line-height:1;}
+.cq-header h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.06em;color:var(--dark);flex:1;min-width:0;}
+.cq-cite{font-size:0.64rem;color:var(--muted);font-style:italic;white-space:nowrap;}
+.cq-item p{font-size:0.8rem;color:var(--muted);line-height:1.55;padding-left:1.2rem;}
+
+/* RISK CARDS */
+.risk-cards{display:flex;flex-direction:column;gap:0.75rem;}
+.risk-card{display:grid;grid-template-columns:1fr 28px 1fr;gap:0;align-items:stretch;border:1px solid var(--border-light);overflow:hidden;transition:box-shadow 0.2s;}
+.risk-card:hover{box-shadow:0 3px 14px rgba(192,57,43,0.1);}
+.risk-left{background:#fff;padding:1.1rem 1.1rem 1.1rem 1.1rem;position:relative;border-right:none;}
+.risk-right{background:rgba(192,57,43,0.04);padding:1.1rem;border-left:none;}
+.risk-arrow{background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;font-weight:700;flex-shrink:0;}
+.risk-index{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:rgba(192,57,43,0.12);line-height:1;margin-bottom:0.3rem;letter-spacing:0.05em;}
+.risk-icon-wrap{font-size:0.85rem;color:var(--red);margin-bottom:0.35rem;opacity:0.8;}
+.risk-name-label{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.35rem;}
+.risk-desc{font-size:0.77rem;color:var(--muted);line-height:1.55;}
+.mit-icon-wrap{font-size:0.85rem;color:var(--red);margin-bottom:0.35rem;}
+.mit-name-label{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--red);margin-bottom:0.35rem;}
+.mit-desc{font-size:0.77rem;color:var(--muted);line-height:1.55;}
+
+
+.parallel-tl{margin-bottom:0;}
+.ptl-ruler{display:grid;grid-template-columns:100px 1fr;gap:0;margin-bottom:0.25rem;}
+.ptl-months{display:flex;justify-content:space-between;padding:0 0 0.4rem;border-bottom:1px solid var(--border-light);}
+.ptl-months span{font-size:0.62rem;color:var(--muted);letter-spacing:0.05em;font-weight:600;}
+.ptl-row{display:grid;grid-template-columns:100px 1fr;gap:0;margin-bottom:0.6rem;align-items:center;}
+.ptl-label-col{padding-right:1rem;}
+.ptl-variant-label{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.3rem 0.6rem;text-transform:uppercase;}
+.ptl-track-col{position:relative;}
+.ptl-track{position:relative;height:36px;background:var(--bg3);overflow:hidden;}
+.ptl-phase{position:absolute;top:0;height:100%;display:flex;align-items:center;padding:0 0.6rem;cursor:pointer;transition:filter 0.2s;overflow:hidden;}
+.ptl-phase:hover{filter:brightness(1.15);}
+.ptl-phase span{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ptl-phase::after{content:'›';position:absolute;right:6px;color:rgba(255,255,255,0.5);font-size:0.9rem;}
+
+@media(max-width:900px){
+  .ptl-ruler,.ptl-row{grid-template-columns:70px 1fr;}
+  .ptl-months span{font-size:0.52rem;}
+  .ptl-phase span{font-size:0.6rem;}
+}
+
+.snav-dot{width:8px;height:8px;border-radius:50%;background:rgba(192,57,43,0.2);border:1.5px solid rgba(192,57,43,0.3);display:block;transition:all 0.25s;position:relative;text-decoration:none;}
+.snav-dot::before{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);white-space:nowrap;opacity:0;transition:opacity 0.2s;font-family:'DM Sans',sans-serif;font-weight:600;background:rgba(255,255,255,0.95);padding:2px 8px;border:1px solid var(--border);pointer-events:none;}
+.snav-dot:hover::before,.snav-dot.active-dot::before{opacity:1;}
+.snav-dot:hover,.snav-dot.active-dot{background:var(--red);border-color:var(--red);transform:scale(1.3);}
+
+/* DATA VIZ BAR */
+.data-bar-wrap{margin-top:2.5rem;background:#fff;border:1px solid var(--border-light);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.data-bar-wrap h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);margin-bottom:1.25rem;}
+.bar-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
+.bar-row:last-child{margin-bottom:0;}
+.bar-label{font-size:0.74rem;color:var(--muted);width:120px;flex-shrink:0;text-align:right;}
+.bar-track{flex:1;background:var(--bg3);height:22px;position:relative;overflow:hidden;}
+.bar-fill{height:100%;background:var(--red);width:0%;transition:width 1.2s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;}
+.bar-fill span{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#fff;letter-spacing:0.05em;white-space:nowrap;}
+.bar-fill.gold{background:var(--gold);}
+.bar-fill.dim{background:rgba(192,57,43,0.35);}
+
+@media(max-width:900px){#side-nav{display:none;}}
+
+  .two-col,.vgrid,.gtm-cols,.mlayout,.cgrid,.principle-visual-grid,.price-grid,.scenario-row,.inspo-grid,.gtm-heads,.ugrid{grid-template-columns:1fr;}
+  .stat-row{flex-wrap:wrap;}
+  nav{padding:0 1.25rem;}
+  .nav-links{gap:1rem;}
+  .nav-links a{font-size:0.63rem;}
+  .principle-visual-grid .pcell:nth-child(3n){border-right:1px solid var(--border-light);}
+  .principle-visual-grid .pcell:nth-child(7),.principle-visual-grid .pcell:nth-child(8),.principle-visual-grid .pcell:nth-child(9){border-bottom:1px solid var(--border-light);}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- SIDE SECTION INDICATOR -->
+<div id="side-nav" style="position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:column;gap:10px;">
+  <a href="#intro" class="snav-dot" data-label="Introduction" title="Introduction"></a>
+  <a href="#concept" class="snav-dot" data-label="Concept" title="Concept"></a>
+  <a href="#product" class="snav-dot" data-label="Product" title="Product"></a>
+  <a href="#technical" class="snav-dot" data-label="Technical" title="Technical"></a>
+  <a href="#gtm" class="snav-dot" data-label="Deployment" title="Deployment"></a>
+  <a href="#metrics" class="snav-dot" data-label="Metrics" title="Metrics"></a>
+</div>
+
+<nav>
+  <a class="nav-logo" href="#hero">Mir<span>age</span></a>
+  <ul class="nav-links">
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#concept">Concept</a></li>
+    <li><a href="#product">Product</a></li>
+    <li><a href="#technical">Technical</a></li>
+    <li><a href="#gtm">Deployment</a></li>
+    <li><a href="#metrics">Metrics</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag"><span class="dot"></span>Product Design Challenge</div>
+      <h1 class="hero-title">Bring Back<br/><span class="red">Bore</span><span class="outline">dom</span></h1>
+      <p class="hero-sub">The global happiness index reports people are never bored anymore, and creativity is falling.</p>
+      <div class="hero-problem"><p><strong>The Problem:</strong> 400 minutes of daily screen time. 151 minutes on social media. Idle time is vanishing. With it goes our capacity for deep thought, creativity, and genuine innovation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stat-strip">
+  <div class="stat-row">
+    <div class="stat-item"><span class="stat-num" data-target="49" data-suffix="%">0%</span><div class="stat-label">of 0–2 year olds interact with a smartphone</div></div>
+    <div class="stat-item"><span class="stat-num" data-target="400">0</span><div class="stat-label">minutes · global daily average screen time</div></div>
+    <div class="stat-item"><span class="stat-num" data-target="55" data-suffix="%">0%</span><div class="stat-label">internet penetration in India in 2025</div></div>
+    <div class="stat-item"><span class="stat-num" data-target="41" data-suffix="%">0%</span><div class="stat-label">people in India are active OTT users</div></div>
+    <div class="stat-item"><span class="stat-num" data-target="151">0</span><div class="stat-label">minutes on avg spent on social media daily</div></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="container">
+    <div class="eyebrow">01 · Introduction</div>
+    <h2 class="sec-title">Boredom: An Unpleasant Necessity</h2>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div class="fade-up">
+        <div class="boredom-def"><p>Boredom is the <span class="hl">unpleasant feeling during idle time</span> when cognitive resources are under-utilised due to a lack of stimulation. It creates a restless urge for something more.</p></div>
+        <p class="body-text">Why scrolling, not sketching? Because the mind seeks the path of least resistance. Passive consumption demands little. True creation asks for effort: for us to actively shape the quiet. A harder, yet richer, path to take.</p>
+        <div class="why-box">
+          <h3>Why Now?</h3>
+          <p>The consequences (mental fatigue, loss of focus, stifled creativity) are no longer niche problems; they define the modern experience. If we don't consciously design ways to bring back restorative pauses now, the trend towards hyper-stimulation risks fundamentally altering our capacity for deep thought and genuine innovation.</p>
+        </div>
+
+        <!-- SCENARIO CARDS WITH SVG ILLUSTRATION -->
+        <!-- SCREEN TIME DATA VIZ -->
+        <div class="data-bar-wrap fade-up">
+          <h4>Daily Time Allocation (Global Average)</h4>
+          <div class="bar-row">
+            <div class="bar-label">Screen time</div>
+            <div class="bar-track"><div class="bar-fill" data-width="83"><span>400 min</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Social media</div>
+            <div class="bar-track"><div class="bar-fill dim" data-width="31"><span>151 min</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Sleep</div>
+            <div class="bar-track"><div class="bar-fill gold" data-width="100"><span>480 min</span></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">True idle time</div>
+            <div class="bar-track"><div class="bar-fill dim" data-width="8" style="background:rgba(138,131,124,0.4);"><span style="color:var(--muted);">~40 min</span></div></div>
+          </div>
+          <p style="font-size:0.68rem;color:var(--muted);margin-top:0.75rem;font-style:italic;">Sources: Statista Global Screen Time Report 2024, Sleep Foundation</p>
+        </div>
+
+        <div style="margin-top:2.5rem;margin-bottom:1rem;">
+  <div style="background:var(--dark);padding:0.75rem 1.25rem;display:inline-block;">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);">In 10 Years, When Boredom Reduces to Zero</span>
+  </div>
+</div>
+<div class="scenario-row">
+          <div class="scenario-card">
+            <div class="scenario-card-art" id="pills-art">
+              <canvas id="pills-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            </div>
+            <div class="scenario-card-body">
+              <h5>Mood-changing Pills &amp; Injectables</h5>
+              <p>People unable to tolerate stillness will seek chemical solutions to manufacture contentment and suppress the discomfort of idle moments.</p>
+            </div>
+          </div>
+          <div class="scenario-card">
+            <div class="scenario-card-art" id="chew-art">
+              <canvas id="chew-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            </div>
+            <div class="scenario-card-body">
+              <h5>Snacking = Chewing Competition</h5>
+              <p>In a world without boredom, even eating becomes a competitive engagement mechanism: every act gamified to fill the void.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up d1">
+        <p class="eyebrow" style="margin-bottom:1.25rem;">The Idle Price We Pay</p>
+        <div class="consequence-list">
+          <div class="cq-item">
+            <div class="cq-bar" style="width:90%"></div>
+            <div class="cq-content">
+              <div class="cq-header"><span class="cq-icon">↘</span><h4>Drop in Divergent Thinking</h4><span class="cq-cite">Kim, 2011</span></div>
+              <p>Constant stimulation suppresses creative leaps that only emerge in quiet moments.</p>
+            </div>
+          </div>
+          <div class="cq-item">
+            <div class="cq-bar" style="width:80%"></div>
+            <div class="cq-content">
+              <div class="cq-header"><span class="cq-icon">↘</span><h4>Creative Output Suppression</h4><span class="cq-cite">Schweisfurth &amp; Greul, 2023</span></div>
+              <p>Hyper-connectivity prevents the incubation period essential for original ideas.</p>
+            </div>
+          </div>
+          <div class="cq-item">
+            <div class="cq-bar" style="width:72%"></div>
+            <div class="cq-content">
+              <div class="cq-header"><span class="cq-icon">↘</span><h4>Impaired Attention Restoration</h4><span class="cq-cite">Kaplan &amp; Kaplan, 1989</span></div>
+              <p>Without true rest, the mind cannot recover directed attention capacity.</p>
+            </div>
+          </div>
+          <div class="cq-item">
+            <div class="cq-bar" style="width:65%"></div>
+            <div class="cq-content">
+              <div class="cq-header"><span class="cq-icon">↘</span><h4>Faster Mental Fatigue</h4><span class="cq-cite">Brazaitis et al., 2023</span></div>
+              <p>Non-stop engagement accelerates cognitive exhaustion and reduces resilience.</p>
+            </div>
+          </div>
+          <div class="cq-item">
+            <div class="cq-bar" style="width:58%"></div>
+            <div class="cq-content">
+              <div class="cq-header"><span class="cq-icon">↘</span><h4>Task Flow Interruption</h4><span class="cq-cite">Brodsky &amp; Amabile, 2018</span></div>
+              <p>Fragmented attention prevents deep work states and flow from ever taking hold.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section id="concept">
+  <div class="container">
+    <div class="eyebrow">02 · The Concept</div>
+    <h2 class="sec-title">The Creation of Mirage</h2>
+    <div class="divider"></div>
+
+    <div class="inspo-grid fade-up">
+      <!-- MIRAGE ANIMATED ILLUSTRATION -->
+      <div class="mirage-visual">
+        <canvas id="mirage-illus"></canvas>
+      </div>
+      <div>
+        <p style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.45rem;color:var(--dark);line-height:1.7;margin-bottom:1.25rem;">Remember those moments when you're travelling? Instead of looking at your phone, you find yourself just staring out the window at the passing scenery, letting your mind drift.</p>
+        <p class="body-text" style="margin-bottom:1.5rem;">That specific <strong style="color:var(--red);">"zone-out" feeling</strong>: that effortless pause where your mind isn't actively working, just quietly observing. This was our core inspiration. We designed <strong style="color:var(--red);">Mirage</strong> to recreate that moment of calm, quiet reflection and make it part of your regular life.</p>
+
+        <p style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem;">IS THE ART OF DOING NOTHING THE KEY TO CREATIVITY?</p>
+        <div class="rstack">
+          <div class="rq"><p>Deliberate mind wandering is associated with greater creativity and helps generate creative ideas and solutions.</p><div class="auth">Fang et al. (2025)</div></div>
+          <div class="rq"><p>Mind wandering during undemanding tasks significantly enhances creative idea generation and serves as a foundation for creative inspiration.</p><div class="auth">Baird et al. (2012)</div></div>
+          <div class="rq"><p>Mind wandering activates the brain's Default Mode Network, enabling creativity and novel connections between unrelated concepts.</p><div class="auth">Schooler et al. (2014)</div></div>
+          <div class="rq"><p>Allowing the mind to operate in "self-driving mode" prevents the stifling of creativity from constant external stimulation.</p><div class="auth">Mullainathan (2019)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENGAGING BECAUSE IT IS BORING — visual principle grid -->
+    <div class="fade-up">
+      <div class="engaging-header"><span>IT IS ENGAGING BECAUSE IT IS BORING</span></div>
+
+      <!-- Visual flow diagram -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0 2rem;flex-wrap:wrap;background:#fff;border:1px solid var(--border-light);padding:1.5rem;">
+        <div style="text-align:center;padding:0 1.5rem;">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">👁</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Gaze Lingers</div>
+        </div>
+        <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
+        <div style="text-align:center;padding:0 1.5rem;">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">🪞</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mirror Shifts</div>
+        </div>
+        <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
+        <div style="text-align:center;padding:0 1.5rem;">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">🌊</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Calm Visuals</div>
+        </div>
+        <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
+        <div style="text-align:center;padding:0 1.5rem;">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">💭</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mind Wanders</div>
+        </div>
+        <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
+        <div style="text-align:center;padding:0 1.5rem;">
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.15);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">✦</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--red);">Creativity</div>
+        </div>
+      </div>
+
+      <div class="principle-visual-grid">
+        <div class="pcell"><div class="pcell-num">01</div><div class="picon">⊙</div><h4>Passive Induction</h4><p>No action needed. When gaze lingers, Mirage gently shifts from reflection to calming abstract visuals.</p></div>
+        <div class="pcell"><div class="pcell-num">02</div><div class="picon">↗</div><h4>Shifts Focus Outward</h4><p>Guides attention away from self-scrutiny (the anxiety trap of boredom) towards a neutral external stimulus.</p></div>
+        <div class="pcell"><div class="pcell-num">03</div><div class="picon">◌</div><h4>Low Cognitive Load</h4><p>Visuals engage without demanding interpretation or focus, reducing mental effort to near zero.</p></div>
+        <div class="pcell"><div class="pcell-num">04</div><div class="picon">⟳</div><h4>Default Pause</h4><p>Subtly returns to ambient mode by default, making mental breaks an effortless background feature.</p></div>
+        <div class="pcell"><div class="pcell-num">05</div><div class="picon">≈</div><h4>Anti-Stimulation Design</h4><p>Unlike screens, Mirage reduces demands. Engagement comes from the restorative quality of the pause it offers.</p></div>
+        <div class="pcell"><div class="pcell-num">06</div><div class="picon">◎</div><h4>Effortless Transition</h4><p>The shift mirrors the natural process of zoning out: organic, not intrusive.</p></div>
+        <div class="pcell"><div class="pcell-num">07</div><div class="picon">⬡</div><h4>Calm Anchor</h4><p>Abstract evolving visuals provide a gentle focus point, preventing the restless anxious feeling of "bad" boredom.</p></div>
+        <div class="pcell"><div class="pcell-num">08</div><div class="picon">⊞</div><h4>Choice &amp; Control</h4><p>The user is always in control. The default mode feels like a gentle suggestion, not a forced action.</p></div>
+        <div class="pcell"><div class="pcell-num">09</div><div class="picon">↺</div><h4>Mind Wanders</h4><p>The ultimate goal: restoring the mind's natural tendency to wander and create in unstructured time.</p></div>
+      </div>
+    </div>
+
+    <!-- SIMULATOR -->
+    <div class="sim-wrap fade-up">
+      <div class="sim-head">
+        <h3>Live Mirage Visual Simulator</h3>
+        <div class="sim-controls">
+          <button class="sbtn active" onclick="setMode('particles',this)">Particle Drift</button>
+          <button class="sbtn" onclick="setMode('aurora',this)">Aurora Flow</button>
+          <button class="sbtn" onclick="setMode('ripple',this)">Water Ripple</button>
+        </div>
+      </div>
+      <canvas id="mc"></canvas>
+      <div class="sim-cap" id="sim-cap">Gentle particles drift in slow currents. Low-demand, naturally calming. Let your mind wander.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="container">
+    <div class="eyebrow">03 · The Product</div>
+    <h2 class="sec-title">Mirage: Simple Reflection, Subtle Shift</h2>
+    <div class="divider"></div>
+    <div class="vgrid fade-up">
+      <div class="vcard">
+        <div class="vh"><div class="vtype">Residential Variant</div><h3>"The Art of Everyday Calm"</h3></div>
+        <div class="vb">
+          <p class="vdesc">Designed for homes, hotels &amp; hostels: a mirror that quietly transforms into an art canvas, blending function and emotion.</p>
+          <p class="vmatter">Why it matters: Subtly adds calm and beauty to daily life, transforming ordinary routines into moments of pause.</p>
+          <div class="cycle"><div class="cnode">Start Clear</div><span class="carrow">›</span><div class="cnode">Calm Shifts</div><span class="carrow">›</span><div class="cnode">Mind Wanders</div></div>
+          <div class="mech-tag">Mechanism</div>
+          <div class="mitem"><h5>Timer-based Trigger</h5><p>25 sec idle · 10 sec fade-in · looping visuals. Reverts instantly when user leaves.</p></div>
+          <div class="mitem"><h5>Smooth Crossfade</h5><p>Mirror slowly blends into semi-transparent visuals through controlled light modulation.</p></div>
+        </div>
+      </div>
+      <div class="vcard">
+        <div class="vh"><div class="vtype">Commercial Variant</div><h3>"Making Waiting Effortless."</h3></div>
+        <div class="vb">
+          <p class="vdesc">Built for public and semi-public spaces: a mirror that turns idle moments into visual escapes (lifts, lobbies, and waiting areas).</p>
+          <p class="vmatter">Why it matters: Converts boredom in shared spaces into a calm, engaging experience, enriching ambiance effortlessly.</p>
+          <div class="cycle"><div class="cnode">Step In</div><span class="carrow">›</span><div class="cnode">Blend Softly</div><span class="carrow">›</span><div class="cnode">Calm Stays</div></div>
+          <div class="mech-tag">Mechanism</div>
+          <div class="mitem"><h5>Presence-based Adaptive Logic</h5><p>Detects crowd presence and adjusts visual intensity dynamically based on occupancy.</p></div>
+          <div class="mitem"><h5>Gradient-based Adaptation</h5><p>Visuals flow smoothly, reacting to motion speed: slow in lifts, faster in busy receptions.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="dchars fade-up">
+      <h3>Characteristics of the Display</h3>
+      <div class="cgrid">
+        <div class="ci"><div class="cdot"></div><p>Clouds drift, sunlight dapples, and water ripples evolve over minutes to keep visuals low-demand.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Soft washes of complementary hues blend extremely gradually, avoiding sharp edges or rapid transitions.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Simple lines and shapes rotate, expand, or contract smoothly to maintain a meditative flow.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Soft caustics, gentle lens flares, and volumetric light beams shift imperceptibly without overstimulation.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Organic forms, branching structures, cellular motifs, and topographic lines slowly morph, leveraging nature's calming geometry.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Self-similar patterns inspired by leaf veins and coastlines provide visual complexity without cognitive overload.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Greens, blues, and earth tones mimic outdoor environments to reinforce biophilic benefits.</p></div>
+        <div class="ci"><div class="cdot"></div><p>All movements follow long, non-repetitive cycles to prevent habituation and sustain quiet interest.</p></div>
+        <div class="ci"><div class="cdot"></div><p>Visuals avoid recognisable objects or storytelling elements. Attention remains at ease, never drawn into active engagement.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL -->
+<section id="technical">
+  <div class="container">
+    <div class="eyebrow">04 · Technical Overview</div>
+    <h2 class="sec-title">Product Configuration Overview</h2>
+    <div class="divider"></div>
+    <div class="twrap fade-up">
+      <table>
+        <thead><tr><th>Component</th><th>Residential (Home / Hotel / Hostel)</th><th>Commercial (Lift / Waiting Area / Reception)</th></tr></thead>
+        <tbody>
+          <tr><td>Display Layer</td><td>One-way reflective smart glass with OLED/AMOLED display behind it.</td><td>Transparent OLED panel or reflective digital mirror display for larger installations.</td></tr>
+          <tr><td>Core Control Unit</td><td>Raspberry Pi 5 / NVIDIA Jetson Nano for managing sensors, timer logic, and animation rendering.</td><td>Edge AI controller (Raspberry Pi / Jetson Xavier) managing multi-user detection and adaptive content control.</td></tr>
+          <tr><td>Sensors Used</td><td>Infrared / ToF motion &amp; distance sensor for proximity detection.</td><td>Wide-angle ultrasonic sensors or overhead ToF modules for multi-user detection and crowd estimation.</td></tr>
+          <tr><td>Operational Logic &amp; Recovery</td><td>Manual switch to disable boredom mode; auto-revert to mirror after inactivity.</td><td>Auto-recovery from power cut; intensity and speed of visuals vary based on crowd density and location.</td></tr>
+          <tr><td>Visual Generation Engine</td><td>AI-generated abstract visuals using Perlin noise, particle effects, and GAN-based art loops.</td><td>Looped ambient motion patterns or AI-driven generative visuals synced with environment lighting and motion.</td></tr>
+          <tr><td>Brightness Control</td><td>Ambient light sensor to auto-adjust OLED brightness based on surrounding lighting conditions.</td><td>Adaptive brightness tuning via integrated sensor for visibility under high ambient light.</td></tr>
+          <tr><td>Power System</td><td>Standard AC adapter with inbuilt transformer and surge protection (30–50W).</td><td>Dedicated power supply with cooling fans and safety regulation (80–120W for large displays).</td></tr>
+          <tr class="crow"><td>Cost Range (Est.)</td><td>₹15,000 – ₹25,000 depending on installation size.</td><td>₹60,000 – ₹1,20,000 depending on installation size.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- GTM -->
+<section id="gtm">
+  <div class="container">
+    <div class="eyebrow">05 · Deployment</div>
+    <h2 class="sec-title">Deploying the Mirage</h2>
+    <div class="divider"></div>
+
+    <!-- LEGEND -->
+    <div style="display:flex;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:14px;height:14px;background:var(--red);flex-shrink:0;"></div>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Residential Variant</span>
+        <span style="font-size:0.75rem;color:var(--muted);">4 phases over 24 months</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:14px;height:14px;background:var(--gold);flex-shrink:0;"></div>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Commercial Variant</span>
+        <span style="font-size:0.75rem;color:var(--muted);">2 phases over 24 months</span>
+      </div>
+    </div>
+
+    <!-- PARALLEL TIMELINE TABLE -->
+    <div class="parallel-tl fade-up">
+
+      <!-- MONTH RULER -->
+      <div class="ptl-ruler">
+        <div class="ptl-label-col"></div>
+        <div class="ptl-track-col">
+          <div class="ptl-months">
+            <span>0</span><span>3</span><span>6</span><span>9</span><span>12</span><span>15</span><span>18</span><span>21</span><span>24</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESIDENTIAL ROW -->
+      <div class="ptl-row">
+        <div class="ptl-label-col">
+          <div class="ptl-variant-label" style="color:var(--red);border-left:3px solid var(--red);">Residential</div>
+        </div>
+        <div class="ptl-track-col">
+          <div class="ptl-track">
+            <!-- Phase 1: 0–6m = 0%–25% -->
+            <div class="ptl-phase" style="left:0%;width:25%;background:var(--red);" data-phase="R · Phase 1: Launch" data-detail="B2B introduction through boutique hotels, co-living spaces, and wellness retreats. Position the mirror as a guest experience enhancer.">
+              <span>Phase 1 · Launch</span>
+            </div>
+            <!-- Phase 2: 6–12m = 25%–50% -->
+            <div class="ptl-phase" style="left:25%;width:25%;background:#A0291C;" data-phase="R · Phase 2: Digital Expansion" data-detail="D2C launch on premium e-commerce and home-tech platforms. Campaigns: art that breathes and boredom as beauty.">
+              <span>Phase 2 · Digital</span>
+            </div>
+            <!-- Phase 3: 12–18m = 50%–75% -->
+            <div class="ptl-phase" style="left:50%;width:25%;background:#822214;" data-phase="R · Phase 3: Experience Creation" data-detail="Create immersive Boredom Stores in malls and interior design showrooms. Users experience the transition in real time.">
+              <span>Phase 3 · Experience</span>
+            </div>
+            <!-- Phase 4: 18–24m = 75%–100% -->
+            <div class="ptl-phase" style="left:75%;width:25%;background:#601A0E;" data-phase="R · Phase 4: Market Penetration" data-detail="Collaborate with interior designers, architects, and home decor vendors. Modular size-adaptive mirrors for personalised spaces.">
+              <span>Phase 4 · Penetration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMERCIAL ROW -->
+      <div class="ptl-row">
+        <div class="ptl-label-col">
+          <div class="ptl-variant-label" style="color:var(--gold);border-left:3px solid var(--gold);">Commercial</div>
+        </div>
+        <div class="ptl-track-col">
+          <div class="ptl-track">
+            <!-- Phase 1: 0–12m = 0%–50% -->
+            <div class="ptl-phase" style="left:0%;width:50%;background:var(--gold);" data-phase="C · Phase 1: Strategic Entry" data-detail="Target premium offices, wellness centers, airports, and hospitality lobbies. Demo installations and architect collaborations for awareness.">
+              <span>Phase 1 · Strategic Entry</span>
+            </div>
+            <!-- Phase 2: 12–24m = 50%–100% -->
+            <div class="ptl-phase" style="left:50%;width:50%;background:#8A6A1A;" data-phase="C · Phase 2: Spatial Expansion" data-detail="Launch interactive Boredom Stores within design studios and smart-space showrooms. Large-format mirrors and adaptive visuals for corporate buyers.">
+              <span>Phase 2 · Spatial Expansion</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLICK DETAIL PANEL -->
+      <div id="ptl-detail" style="display:none;margin-top:1.5rem;background:var(--bg2);border-left:3px solid var(--red);padding:1.1rem 1.4rem;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.3rem;" id="ptl-phase-label"></div>
+        <div style="font-size:0.83rem;color:var(--muted);line-height:1.65;" id="ptl-phase-detail"></div>
+      </div>
+    </div>
+
+    <!-- PHASE DETAIL CARDS below, side by side -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;" class="fade-up">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.6rem;border-bottom:2px solid var(--red);margin-bottom:1.25rem;">Residential · 4 Phases</div>
+        <div class="pcard"><div class="phead"><h4>Phase 1: Launch</h4><span class="ptag" style="background:var(--red);color:#fff;">0–6 months</span></div><div class="pbody"><div class="pfocus">B2B introduction through hotels &amp; short-stay spaces</div><ul><li>Partner with boutique hotels, co-living spaces, and wellness retreats.</li><li>Position the mirror as a "guest experience enhancer."</li></ul></div></div>
+        <div class="pcard"><div class="phead"><h4>Phase 2: Digital Expansion</h4><span class="ptag" style="background:#A0291C;color:#fff;">6–12 months</span></div><div class="pbody"><div class="pfocus">Direct-to-consumer (B2C) through online channels</div><ul><li>Launch on premium e-commerce and home-tech platforms.</li><li>Run narrative-driven campaigns: "art that breathes" and "boredom as beauty."</li></ul></div></div>
+        <div class="pcard"><div class="phead"><h4>Phase 3: Experience Creation</h4><span class="ptag" style="background:#822214;color:#fff;">12–18 months</span></div><div class="pbody"><div class="pfocus">Establish "Boredom Stores" &amp; brand zones</div><ul><li>Create immersive offline experience stores in malls and interior design showrooms.</li><li>Allow users to experience the transition in real time.</li></ul></div></div>
+        <div class="pcard"><div class="phead"><h4>Phase 4: Market Penetration</h4><span class="ptag" style="background:#601A0E;color:#fff;">18–24 months</span></div><div class="pbody"><div class="pfocus">Penetrate through local vendors &amp; design partners</div><ul><li>Collaborate with interior designers, architects, and home decor vendors.</li><li>Offer modular, size-adaptive mirrors for personalised spaces.</li></ul></div></div>
+      </div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--gold);padding-bottom:0.6rem;border-bottom:2px solid var(--gold);margin-bottom:1.25rem;">Commercial · 2 Phases</div>
+        <div class="pcard" style="border-left:3px solid var(--gold);"><div class="phead"><h4>Phase 1: Strategic Entry</h4><span class="ptag" style="background:var(--gold);color:#fff;">0–12 months</span></div><div class="pbody"><div class="pfocus">B2B partnerships &amp; institutional onboarding</div><ul><li>Target premium offices, wellness centers, airports, and hospitality lobbies.</li><li>Use demo installations and architect collaborations for awareness.</li></ul></div></div>
+        <div class="pcard" style="border-left:3px solid var(--gold);"><div class="phead"><h4>Phase 2: Spatial Expansion</h4><span class="ptag" style="background:#8A6A1A;color:#fff;">12–24 months</span></div><div class="pbody"><div class="pfocus">Offline experience stores (parallel to Residential Phase 3)</div><ul><li>Launch interactive "Boredom Stores" within design studios and smart-space showrooms.</li><li>Showcase large-format mirrors and adaptive visuals for corporate buyers.</li></ul></div></div>
+        <div style="background:rgba(184,150,46,0.07);border:1px solid rgba(184,150,46,0.2);padding:1.25rem;margin-top:1rem;">
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;font-style:italic;">Commercial phases run in parallel with Residential Phase 1 through 4, sharing timeline overlap at the 12–24 month window for co-located Boredom Store activations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics">
+  <div class="container">
+    <div class="eyebrow">06 · Metrics &amp; Mitigations</div>
+    <h2 class="sec-title">The <em style="font-style:italic;color:var(--red);">Idle</em> Outcomes</h2>
+    <div class="divider"></div>
+    <div class="mlayout">
+      <div class="fade-up">
+        <div style="display:flex;align-items:center;gap:2rem;margin-bottom:2rem;background:#fff;padding:1.5rem;border:1px solid var(--border-light);box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+          <canvas id="metrics-ring" width="110" height="110" style="flex-shrink:0;"></canvas>
+          <div>
+            <div style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;">Success Framework</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:0.5rem;">3 Outcome Layers</div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted);"><div style="width:8px;height:8px;background:var(--red);flex-shrink:0;"></div>North Star · Units Sold</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted);"><div style="width:8px;height:8px;background:#E87050;flex-shrink:0;"></div>L1 · Business Outcomes (3 metrics)</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted);"><div style="width:8px;height:8px;background:var(--gold);flex-shrink:0;"></div>L2 · Leading Indicators (3 metrics)</div>
+            </div>
+          </div>
+        </div>
+        <div class="ns"><div class="ns-tag">North Star Metric</div><h3>Total Number of Units Sold<br/>(Residential &amp; Commercial)</h3></div>
+        <div class="mg"><div class="mgl">L1 · Business Outcomes</div>
+          <div class="mr"><h5>1. Customer Retention Rate</h5><p>Measures sustained use and satisfaction over time.</p></div>
+          <div class="mr"><h5>2. Partner Expansion Rate</h5><p>Number of new hotels, offices, or vendors onboarded quarterly.</p></div>
+          <div class="mr"><h5>3. Average Revenue per Mirror</h5><p>Evaluates upselling and premiumisation potential.</p></div>
+        </div>
+        <div class="mg"><div class="mgl">L2 · Leading Indicators</div>
+          <div class="mr"><h5>1. Customer Satisfaction</h5><p>Simple feedback-driven indicator showing perception of experience value.</p></div>
+          <div class="mr"><h5>2. Maintenance Request Frequency</h5><p>Gauges product reliability and longevity in the field.</p></div>
+          <div class="mr"><h5>3. Website Conversion Rate</h5><p>Tracks online purchase funnel effectiveness.</p></div>
+        </div>
+      </div>
+      <div class="fade-up d1">
+        <p class="eyebrow" style="margin-bottom:1.25rem;">Risks &amp; Mitigations</p>
+
+        <div class="risk-cards">
+
+          <div class="risk-card">
+            <div class="risk-left">
+              <div class="risk-index">01</div>
+              <div class="risk-icon-wrap">⚠</div>
+              <div class="risk-name-label">Misaligned User Perception</div>
+              <p class="risk-desc">Users may not immediately perceive abstract visuals as calming without prior context.</p>
+            </div>
+            <div class="risk-arrow">›</div>
+            <div class="risk-right">
+              <div class="mit-icon-wrap">✓</div>
+              <div class="mit-name-label">A/B Test + Evolve</div>
+              <p class="mit-desc">Conduct A/B testing in pilot installations; evolve content library based on feedback loops.</p>
+            </div>
+          </div>
+
+          <div class="risk-card">
+            <div class="risk-left">
+              <div class="risk-index">02</div>
+              <div class="risk-icon-wrap">⚠</div>
+              <div class="risk-name-label">Sensor &amp; Display Degradation</div>
+              <p class="risk-desc">Hardware wear may reduce visual quality over extended use periods.</p>
+            </div>
+            <div class="risk-arrow">›</div>
+            <div class="risk-right">
+              <div class="mit-icon-wrap">✓</div>
+              <div class="mit-name-label">Maintenance Contracts</div>
+              <p class="mit-desc">Preventive maintenance contracts and modular replaceable components built into pricing.</p>
+            </div>
+          </div>
+
+          <div class="risk-card">
+            <div class="risk-left">
+              <div class="risk-index">03</div>
+              <div class="risk-icon-wrap">⚠</div>
+              <div class="risk-name-label">High Initial Cost Barrier</div>
+              <p class="risk-desc">Premium pricing may limit early mass adoption and market penetration.</p>
+            </div>
+            <div class="risk-arrow">›</div>
+            <div class="risk-right">
+              <div class="mit-icon-wrap">✓</div>
+              <div class="mit-name-label">Tiered Market Entry</div>
+              <p class="mit-desc">Start with luxury positioning; gradually introduce smaller, more affordable variants for mid-range users.</p>
+            </div>
+          </div>
+
+        </div>
+        <div style="margin-top:2rem;">
+          <p class="eyebrow" style="margin-bottom:1rem;">Unintended Consequences</p>
+          <div class="ugrid">
+            <div class="ubadge"><h5>Desensitisation Effect</h5><p>Repeated exposure could normalise abstract visuals, reducing the zoning-out impact over time.</p></div>
+            <div class="ubadge"><h5>Accessibility Gaps</h5><p>Visually impaired or colour-blind individuals may not perceive the intended calming effect.</p></div>
+            <div class="ubadge"><h5>Space Behaviour Alteration</h5><p>People might unconsciously linger longer in certain areas due to the nature of the visuals.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="closing">
+  <p class="cquote">"Boredom becomes beautiful when it's framed as exploration; beyond and within."</p>
+  <div class="cattr">Mirage · Boredom becomes beautiful when framed as exploration</div>
+</div>
+<footer>Mirage &nbsp;·&nbsp; <span>Bringing Boredom Back</span></footer>
+
+<script>
+/* ============ SCROLL PROGRESS ============ */
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=Math.min(100,window.scrollY/h*100)+'%';
+});
+
+/* ============ ACTIVE NAV ============ */
+const navLinks=document.querySelectorAll('.nav-links a');
+const navObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      navLinks.forEach(a=>{
+        a.classList.toggle('active-link',a.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('section[id]').forEach(s=>navObs.observe(s));
+
+/* ============ STAT COUNTERS ============ */
+function countUp(el,target,suffix){
+  let cur=0;const step=Math.ceil(target/55);
+  const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=cur+(suffix||'');if(cur>=target)clearInterval(t);},18);
+}
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.stat-num[data-target]').forEach(el=>{
+      countUp(el,+el.dataset.target,el.dataset.suffix||'');el.removeAttribute('data-target');
+    });
+  }
+},{threshold:.5}).observe(document.querySelector('.stat-strip'));
+
+/* ============ HERO PARTICLES ============ */
+(function(){
+  const c=document.getElementById('hero-canvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<80;i++)pts.push({x:Math.random()*3000,y:Math.random()*2000,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.12,r:Math.random()*1.5+.3,a:Math.random()*.6+.1});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(192,57,43,${p.a*.4})`;ctx.fill();});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(192,57,43,${(1-d/120)*.08})`;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ============ PILLS CANVAS ============ */
+(function(){
+  const c=document.getElementById('pills-canvas');
+  if(!c)return;
+  // Force parent height then set canvas dimensions
+  const parent=c.closest('.scenario-card-art');
+  if(parent){parent.style.height='140px';}
+  c.width=c.offsetWidth||400;c.height=140;
+  const ctx=c.getContext('2d');
+  const W=()=>c.width,H=()=>140;
+  const pills=[];
+  const colors=['#C0392B','#E74C3C','#8B1A0F','#A93226','#F0A8A0','#7B241C'];
+  for(let i=0;i<14;i++){
+    pills.push({
+      x:Math.random()*400,y:-20-Math.random()*200,
+      vx:(Math.random()-.5)*0.4,vy:0.4+Math.random()*0.5,
+      w:22+Math.random()*14,h:10+Math.random()*6,
+      rot:Math.random()*Math.PI*2,vrot:(Math.random()-.5)*0.03,
+      col:colors[Math.floor(Math.random()*colors.length)],
+      opacity:0.7+Math.random()*0.3
+    });
+  }
+  // Ensure canvas has correct width after layout
+  setTimeout(()=>{ if(c.offsetWidth>0)c.width=c.offsetWidth; },50);
+  let t2=0;
+  function drawPills(){
+    const w=c.width,h=140;
+    // bg gradient: clinical white to soft red
+    const bg=ctx.createLinearGradient(0,0,0,h);
+    bg.addColorStop(0,'#FFF5F5');bg.addColorStop(1,'#FFE0DE');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+    // subtle cross/plus symbols
+    ctx.strokeStyle='rgba(192,57,43,0.1)';ctx.lineWidth=1;
+    for(let x=20;x<w;x+=35)for(let y=20;y<h;y+=35){
+      ctx.beginPath();ctx.moveTo(x-6,y);ctx.lineTo(x+6,y);ctx.moveTo(x,y-6);ctx.lineTo(x,y+6);ctx.stroke();
+    }
+    t2+=0.012;
+    pills.forEach(p=>{
+      p.x+=p.vx+Math.sin(t2+p.y*.02)*.15;
+      p.y+=p.vy;
+      p.rot+=p.vrot;
+      if(p.y>h+30){p.y=-30;p.x=Math.random()*w;}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.opacity;
+      // capsule shape
+      const rr=p.h/2;
+      ctx.beginPath();
+      ctx.moveTo(-p.w/2+rr,- p.h/2);
+      ctx.lineTo(p.w/2-rr,-p.h/2);
+      ctx.arc(p.w/2-rr,0,rr,-Math.PI/2,Math.PI/2);
+      ctx.lineTo(-p.w/2+rr,p.h/2);
+      ctx.arc(-p.w/2+rr,0,rr,Math.PI/2,Math.PI*1.5);
+      ctx.closePath();
+      // half/half colouring
+      ctx.fillStyle=p.col;ctx.fill();
+      ctx.save();ctx.clip();ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillRect(-p.w/2,-p.h/2,p.w/2,p.h);ctx.restore();
+      ctx.strokeStyle='rgba(0,0,0,0.1)';ctx.lineWidth=0.5;ctx.stroke();
+      ctx.restore();
+    });
+    requestAnimationFrame(drawPills);
+  }
+  drawPills();
+})();
+
+/* ============ CHEWING COMPETITION CANVAS ============ */
+(function(){
+  const c=document.getElementById('chew-canvas');
+  if(!c)return;
+  c.width=c.offsetWidth||400;c.height=140;
+  const ctx=c.getContext('2d');
+  let t3=0;
+  const snacks=[];
+  const snackColors=['#E67E22','#D35400','#F39C12','#CA6F1E','#A04000'];
+  for(let i=0;i<18;i++){
+    snacks.push({
+      x:Math.random()*400,y:Math.random()*160,
+      vx:(Math.random()-.5)*0.5,vy:(Math.random()-.5)*0.3,
+      size:4+Math.random()*8,
+      col:snackColors[Math.floor(Math.random()*snackColors.length)],
+      shape:Math.floor(Math.random()*3)
+    });
+  }
+  // trophy podium items
+  const trophyParts=[
+    {x:0.5,y:0.35,label:'1',h:0.55,col:'#F1C40F'},
+    {x:0.25,y:0.5,label:'2',h:0.4,col:'#BDC3C7'},
+    {x:0.75,y:0.58,label:'3',h:0.32,col:'#CD7F32'},
+  ];
+  function drawChew(){
+    const w=c.width||400,h=140;
+    t3+=0.015;
+    // bg
+    const bg=ctx.createLinearGradient(0,0,0,h);
+    bg.addColorStop(0,'#FFF8F0');bg.addColorStop(1,'#FFE8CC');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+    // draw podium
+    trophyParts.forEach(p=>{
+      const bw=w*0.16,bh=h*p.h;
+      const bx=w*p.x-bw/2,by=h-bh-10;
+      // podium block
+      ctx.fillStyle=p.col;ctx.globalAlpha=0.85;
+      ctx.fillRect(bx,by,bw,bh);
+      ctx.globalAlpha=1;
+      // rank number
+      ctx.fillStyle='rgba(0,0,0,0.5)';ctx.font=`bold ${Math.round(bw*0.35)}px DM Sans,sans-serif`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(p.label,bx+bw/2,by+bh/2);
+      // bouncing snack on top
+      const bounce=Math.sin(t3*2+(trophyParts.indexOf(p)))* 4;
+      ctx.font=`${Math.round(bw*0.45)}px serif`;
+      ctx.fillText('🍿',bx+bw/2,by-16+bounce);
+    });
+    // floating snack particles
+    snacks.forEach(s=>{
+      s.x+=s.vx;s.y+=s.vy+Math.sin(t3+s.x*.02)*.3;
+      if(s.x<0)s.x=w;if(s.x>w)s.x=0;if(s.y<0)s.y=h;if(s.y>h)s.y=0;
+      ctx.globalAlpha=0.55;ctx.fillStyle=s.col;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.size,0,Math.PI*2);ctx.fill();
+      ctx.globalAlpha=1;
+    });
+    // "FASTEST CHEWER" label
+    ctx.globalAlpha=0.9;
+    ctx.fillStyle='rgba(192,57,43,0.9)';
+    const lw=w*0.7,lh=22;
+    ctx.fillRect(w/2-lw/2,8,lw,lh);
+    ctx.fillStyle='#fff';ctx.font=`bold 11px DM Sans,sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('FASTEST CHEWERS LEADERBOARD',w/2,8+lh/2);
+    ctx.globalAlpha=1;
+    requestAnimationFrame(drawChew);
+  }
+  drawChew();
+})();
+
+/* ============ MIRAGE ILLUSTRATION ============ */
+(function(){
+  const c=document.getElementById('mirage-illus');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let t=0;
+  function init(){c.width=c.offsetWidth||300;c.height=c.offsetHeight||360;}
+  init();window.addEventListener('resize',init);
+  function draw(){
+    const W=c.width,H=c.height;t+=0.005;
+    ctx.clearRect(0,0,W,H);
+    // night sky gradient
+    const sky=ctx.createLinearGradient(0,0,0,H*.6);
+    sky.addColorStop(0,'#0a1020');sky.addColorStop(0.5,'#1a2540');sky.addColorStop(1,'#243555');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*.6);
+    // ground
+    const ground=ctx.createLinearGradient(0,H*.58,0,H);
+    ground.addColorStop(0,'#1a2c1e');ground.addColorStop(1,'#0d1a10');
+    ctx.fillStyle=ground;ctx.fillRect(0,H*.58,W,H*.42);
+    // horizon glow
+    const hg=ctx.createLinearGradient(0,H*.5,0,H*.7);
+    hg.addColorStop(0,'rgba(201,168,76,0.15)');hg.addColorStop(1,'transparent');
+    ctx.fillStyle=hg;ctx.fillRect(0,H*.5,W,H*.2);
+    // stars
+    const stars=[{x:.1,y:.08},{x:.2,y:.15},{x:.35,y:.05},{x:.5,y:.12},{x:.65,y:.07},{x:.78,y:.18},{x:.9,y:.1},{x:.15,y:.28},{x:.55,y:.22},{x:.85,y:.25},{x:.4,y:.3},{x:.7,y:.32}];
+    stars.forEach((s,i)=>{
+      const tw=0.4+0.6*Math.abs(Math.sin(t*1.5+i));
+      ctx.beginPath();ctx.arc(W*s.x,H*s.y,1.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,220,${tw})`;ctx.fill();
+    });
+    // moving clouds
+    for(let i=0;i<3;i++){
+      const cx=(W*.1+W*.4*i+(t*18*(i+1))%(W*.9))%W;
+      const cy=H*(.25+i*.07);
+      ctx.globalAlpha=0.08+i*.02;
+      for(let k=0;k<4;k++){
+        ctx.beginPath();ctx.arc(cx+k*28,cy+Math.sin(k)*10,22+k*5,0,Math.PI*2);
+        ctx.fillStyle='#8AB0C8';ctx.fill();
+      }
+      ctx.globalAlpha=1;
+    }
+    // MIRROR FRAME: centred
+    const mw=W*.55,mh=H*.75,mx=(W-mw)/2,my=(H-mh)/2;
+    // mirror reflection: slightly lighter version of scene
+    ctx.save();ctx.beginPath();ctx.rect(mx,my,mw,mh);ctx.clip();
+    ctx.globalAlpha=0.35;
+    // reflection bg
+    const rsky=ctx.createLinearGradient(0,0,0,H*.6);
+    rsky.addColorStop(0,'#0d1828');rsky.addColorStop(1,'#2a3f60');
+    ctx.fillStyle=rsky;ctx.fillRect(0,0,W,H*.6);
+    ctx.fillStyle='#1f3522';ctx.fillRect(0,H*.58,W,H*.42);
+    ctx.globalAlpha=1;
+    // abstract morphing visual on mirror: the Mirage state
+    const fade=0.55+0.2*Math.sin(t*.8);
+    ctx.globalAlpha=fade;
+    // layered aurora-like bands inside the mirror
+    for(let band=0;band<5;band++){
+      const bandY=my+mh*(0.2+band*.14)+Math.sin(t*0.7+band)*mh*.06;
+      const bandH=mh*.12;
+      const grad=ctx.createLinearGradient(mx,bandY,mx+mw,bandY+bandH);
+      const hue=160+band*25+Math.sin(t+band)*15;
+      grad.addColorStop(0,`hsla(${hue},40%,55%,0)`);
+      grad.addColorStop(0.5,`hsla(${hue},40%,55%,0.18)`);
+      grad.addColorStop(1,`hsla(${hue},40%,55%,0)`);
+      ctx.fillStyle=grad;
+      ctx.beginPath();
+      ctx.moveTo(mx,bandY);
+      for(let px=0;px<=mw;px+=8){
+        const wave=Math.sin((px/mw)*Math.PI*3+t*1.2+band)*bandH*.4;
+        ctx.lineTo(mx+px,bandY+wave);
+      }
+      ctx.lineTo(mx+mw,bandY+bandH);ctx.lineTo(mx,bandY+bandH);ctx.closePath();
+      ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    ctx.restore();
+    // mirror glass sheen
+    const sheen=ctx.createLinearGradient(mx,my,mx+mw*.4,my+mh*.4);
+    sheen.addColorStop(0,'rgba(255,255,255,0.08)');sheen.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=sheen;ctx.beginPath();ctx.rect(mx,my,mw,mh);ctx.fill();
+    // mirror frame border
+    ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=2;
+    ctx.strokeRect(mx,my,mw,mh);
+    // frame outer bevel
+    ctx.strokeStyle='rgba(201,168,76,0.3)';ctx.lineWidth=1;
+    ctx.strokeRect(mx-6,my-6,mw+12,mh+12);
+    // person silhouette bottom-left: looking at mirror
+    const px2=mx-55,py2=my+mh*.15;
+    ctx.fillStyle='rgba(10,16,24,0.85)';
+    // head
+    ctx.beginPath();ctx.arc(px2+20,py2,14,0,Math.PI*2);ctx.fill();
+    // torso
+    ctx.beginPath();ctx.moveTo(px2+8,py2+13);ctx.lineTo(px2+32,py2+13);ctx.lineTo(px2+28,py2+65);ctx.lineTo(px2+12,py2+65);ctx.closePath();ctx.fill();
+    // label
+    ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font=`italic 11px 'DM Serif Display',serif`;
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText('the zone-out feeling',W/2,my+mh+10);
+    requestAnimationFrame(draw);
+  }
+  new IntersectionObserver(entries=>{if(entries[0].isIntersecting)draw();},{threshold:.2}).observe(c);
+})();
+
+/* ============ MIRAGE SIMULATOR ============ */
+const simCaptions={
+  particles:'Gentle particles drift in slow undulating currents. Low-demand, naturally calming. Let your mind wander.',
+  aurora:'Aurora-like colour bands flow and breathe. Organic hues that require no interpretation.',
+  ripple:'Concentric ripples expand and fade like water at rest. Meditative, endlessly patient.'
+};
+let simMode='particles',simRaf=null;
+window.setMode=function(m,btn){
+  simMode=m;
+  document.querySelectorAll('.sbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sim-cap').textContent=simCaptions[m];
+  if(simRaf)cancelAnimationFrame(simRaf);
+  launchSim();
+};
+function launchSim(){
+  const c=document.getElementById('mc');if(!c)return;
+  const ctx=c.getContext('2d');
+  c.width=c.offsetWidth;c.height=240;
+  const W=c.width,H=c.height;
+  let t=0;
+
+  // PARTICLES: rich flowing network with colour shifts
+  const pts=Array.from({length:90},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.35,
+    r:Math.random()*2.2+.6,
+    h:150+Math.random()*120,
+    a:Math.random()*.55+.15,
+    phase:Math.random()*Math.PI*2
+  }));
+
+  // AURORA
+  const auroraBands=Array.from({length:6},(_,i)=>({
+    yBase:H*(0.15+i*.13),hue:150+i*22,phase:Math.random()*Math.PI*2,
+    amp:H*.07,freq:2.5+i*.4,speed:.4+i*.1
+  }));
+
+  // RIPPLE
+  const ripples=[];
+  let rippleTimer=0;
+  function addRipple(){ripples.push({x:W*.2+Math.random()*W*.6,y:H*.2+Math.random()*H*.6,r:0,maxR:60+Math.random()*80,a:0.5,speed:0.5+Math.random()*.4});}
+  for(let i=0;i<4;i++)addRipple();
+
+  function frame(){
+    t+=0.008;
+    ctx.clearRect(0,0,W,H);
+
+    if(simMode==='particles'){
+      ctx.fillStyle='rgba(6,8,18,0.22)';ctx.fillRect(0,0,W,H);
+      // draw connections first
+      for(let i=0;i<pts.length;i++){
+        for(let j=i+1;j<pts.length;j++){
+          const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+          if(d<90){
+            const alpha=(1-d/90)*0.12;
+            ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+            ctx.strokeStyle=`rgba(140,180,220,${alpha})`;ctx.lineWidth=0.8;ctx.stroke();
+          }
+        }
+      }
+      pts.forEach(p=>{
+        p.x+=p.vx+Math.sin(t*0.8+p.phase+p.y*.008)*.28;
+        p.y+=p.vy+Math.cos(t*0.6+p.phase+p.x*.008)*.18;
+        if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+        const hShift=p.h+Math.sin(t+p.phase)*25;
+        const bright=55+Math.sin(t*.7+p.phase)*15;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`hsla(${hShift},45%,${bright}%,${p.a})`;ctx.fill();
+        // soft glow
+        if(p.r>1.5){
+          const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+          g.addColorStop(0,`hsla(${hShift},45%,${bright}%,${p.a*.3})`);g.addColorStop(1,'transparent');
+          ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+        }
+      });
+    }
+
+    if(simMode==='aurora'){
+      // deep dark bg
+      ctx.fillStyle='#050d18';ctx.fillRect(0,0,W,H);
+      // star layer
+      if(!launchSim.stars){launchSim.stars=Array.from({length:60},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.9+.2,a:Math.random()}));}
+      launchSim.stars.forEach(s=>{
+        ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,255,220,${s.a*(0.3+0.4*Math.abs(Math.sin(t+s.x)))})`;ctx.fill();
+      });
+      // aurora bands
+      auroraBands.forEach(b=>{
+        const hue=b.hue+Math.sin(t*.3+b.phase)*30;
+        for(let pass=0;pass<2;pass++){
+          ctx.beginPath();
+          ctx.moveTo(0,b.yBase);
+          for(let x=0;x<=W;x+=6){
+            const y=b.yBase+Math.sin((x/W)*Math.PI*b.freq+t*b.speed+b.phase)*b.amp
+                    +Math.sin((x/W)*Math.PI*(b.freq+1)+t*(b.speed*.7)+b.phase+1)*b.amp*.4;
+            ctx.lineTo(x,y);
+          }
+          ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+          const bandH=b.amp*2.5;
+          const grad=ctx.createLinearGradient(0,b.yBase-bandH,0,b.yBase+bandH);
+          const opacity=pass===0?0.12:0.07;
+          grad.addColorStop(0,`hsla(${hue},55%,60%,0)`);
+          grad.addColorStop(.4,`hsla(${hue},55%,60%,${opacity})`);
+          grad.addColorStop(.6,`hsla(${hue+20},50%,65%,${opacity*.8})`);
+          grad.addColorStop(1,`hsla(${hue+20},50%,65%,0)`);
+          ctx.fillStyle=grad;ctx.fill();
+        }
+      });
+      // vertical shimmer columns
+      for(let col=0;col<5;col++){
+        const cx2=W*(0.1+col*.2)+Math.sin(t*.4+col)*W*.04;
+        const shimmer=ctx.createLinearGradient(cx2-15,0,cx2+15,0);
+        shimmer.addColorStop(0,'transparent');
+        shimmer.addColorStop(.5,`rgba(180,230,200,${0.03+0.02*Math.sin(t+col)})`);
+        shimmer.addColorStop(1,'transparent');
+        ctx.fillStyle=shimmer;ctx.fillRect(cx2-15,0,30,H);
+      }
+    }
+
+    if(simMode==='ripple'){
+      // calm water bg
+      const wbg=ctx.createLinearGradient(0,0,0,H);
+      wbg.addColorStop(0,'#0a1a25');wbg.addColorStop(1,'#0f2535');
+      ctx.fillStyle=wbg;ctx.fillRect(0,0,W,H);
+      // subtle horizontal shimmer lines (water surface texture)
+      for(let row=0;row<H;row+=4){
+        const shimmerA=0.02+0.01*Math.sin(row*.1+t);
+        ctx.fillStyle=`rgba(100,160,200,${shimmerA})`;
+        ctx.fillRect(0,row,W,1);
+      }
+      // caustic light patches
+      for(let cp=0;cp<6;cp++){
+        const cpx=W*(0.1+cp*.16)+Math.sin(t*.5+cp*1.3)*W*.05;
+        const cpy=H*(0.3+Math.sin(t*.4+cp*.8)*.2);
+        const cg=ctx.createRadialGradient(cpx,cpy,0,cpx,cpy,40+Math.sin(t+cp)*10);
+        cg.addColorStop(0,'rgba(100,200,220,0.06)');cg.addColorStop(1,'transparent');
+        ctx.beginPath();ctx.arc(cpx,cpy,50,0,Math.PI*2);ctx.fillStyle=cg;ctx.fill();
+      }
+      // ripple rings
+      rippleTimer++;
+      if(rippleTimer>80){rippleTimer=0;if(ripples.length<8)addRipple();}
+      for(let i=ripples.length-1;i>=0;i--){
+        const rp=ripples[i];
+        rp.r+=rp.speed;rp.a-=0.004;
+        if(rp.a<=0){ripples.splice(i,1);continue;}
+        for(let ring=0;ring<3;ring++){
+          const rr2=rp.r-ring*12;if(rr2<0)continue;
+          ctx.beginPath();ctx.arc(rp.x,rp.y,rr2,0,Math.PI*2);
+          ctx.strokeStyle=`rgba(120,190,210,${rp.a*(1-ring*.3)})`;
+          ctx.lineWidth=1-ring*.25;ctx.stroke();
+        }
+      }
+    }
+
+    simRaf=requestAnimationFrame(frame);
+  }
+  frame();
+}
+const _sw=document.querySelector('.sim-wrap');if(_sw)new IntersectionObserver(entries=>{if(entries[0].isIntersecting)launchSim();},{threshold:.3}).observe(_sw);
+
+/* timeline dot JS removed — replaced by parallel Gantt */
+
+/* ============ METRICS RING ============ */
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    const c=document.getElementById('metrics-ring');if(!c)return;
+    const ctx=c.getContext('2d');
+    const segs=[{val:1,color:'#C0392B'},{val:3,color:'#E87050'},{val:3,color:'#B8962E'}];
+    const total=7,cx=55,cy=55,r=42,gap=0.06;
+    function anim(ts){
+      if(!anim.s)anim.s=ts;
+      const prog=Math.min((ts-anim.s)/900,1);
+      ctx.clearRect(0,0,110,110);
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=12;ctx.stroke();
+      let ang=-Math.PI/2;
+      segs.forEach(s=>{
+        const sl=(s.val/total)*Math.PI*2*prog;
+        ctx.beginPath();ctx.arc(cx,cy,r,ang,ang+sl-gap);
+        ctx.strokeStyle=s.color;ctx.lineWidth=12;ctx.lineCap='round';ctx.stroke();
+        ang+=sl;
+      });
+      ctx.fillStyle=`rgba(26,22,20,${prog})`;ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('7',cx,cy-7);
+      ctx.fillStyle='rgba(26,22,20,0.4)';ctx.font='9px DM Sans,sans-serif';ctx.fillText('metrics',cx,cy+7);
+      if(prog<1)requestAnimationFrame(anim);
+    }
+    requestAnimationFrame(anim);
+  }
+},{threshold:0.3}).observe(document.getElementById('metrics-ring'));
+
+/* ============ PARALLEL TIMELINE CLICK ============ */
+document.querySelectorAll('.ptl-phase').forEach(ph=>{
+  ph.addEventListener('click',()=>{
+    document.querySelectorAll('.ptl-phase').forEach(p=>p.style.outline='none');
+    ph.style.outline='2px solid rgba(255,255,255,0.7)';
+    const detail=document.getElementById('ptl-detail');
+    document.getElementById('ptl-phase-label').textContent=ph.dataset.phase;
+    document.getElementById('ptl-phase-detail').textContent=ph.dataset.detail;
+    detail.style.display='block';
+    // Match border colour to phase colour
+    const col=ph.style.background;
+    detail.style.borderLeftColor=col;
+  });
+});
+
+/* ============ CONSEQUENCE BARS ANIMATE ============ */
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.cq-bar').forEach((bar,i)=>{
+      const w=bar.style.width;
+      bar.style.width='0%';
+      setTimeout(()=>{ bar.style.width=w; }, i*120);
+    });
+  }
+},{threshold:0.3}).observe(document.querySelector('.consequence-list')||document.body);
+
+
+const snavDots=document.querySelectorAll('.snav-dot');
+const snavObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      snavDots.forEach(d=>{
+        d.classList.toggle('active-dot',d.getAttribute('href')==='#'+id);
+      });
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('section[id]').forEach(s=>snavObs.observe(s));
+
+/* ============ DATA BARS ============ */
+new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.bar-fill[data-width]').forEach(bar=>{
+      const w=bar.dataset.width;
+      setTimeout(()=>{bar.style.width=w+'%';},100);
+    });
+  }
+},{threshold:0.4}).observe(document.querySelector('.data-bar-wrap')||document.body);
+
+
+const fo=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.07});
+document.querySelectorAll('.fade-up').forEach(el=>fo.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinguaFly · Product Roadmap · Aman Tater</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0e0c;--paper:#f5f2ec;--cream:#ede9e0;--accent:#c84b2f;--accent2:#2a6049;--accent3:#d4921a;--muted:#7a7567;--border:#d4cfc4;--card:#faf8f4;--blue:#3b7dd8;--r:3px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.65;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(245,242,236,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 4rem;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-logo-svg{height:28px;width:auto}
+.nav-links{display:flex;gap:.2rem;list-style:none}
+.nav-links a{font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.4rem .7rem;border-radius:100px;transition:all .2s}
+.nav-links a:hover{color:var(--ink);background:var(--cream)}
+.nav-links a.active{color:var(--accent);background:rgba(200,75,47,.08)}
+.nav-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--accent);width:0%;transition:width .1s linear}
+/* HERO */
+.hero{min-height:100vh;padding:9rem 4rem 5rem;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 400px;gap:4rem;align-items:center}
+.hero-canvas{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-canvas svg{width:100%;height:100%}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--accent)}
+.hero-eyebrow::after{content:'Product Management Case Study';color:var(--muted)}
+h1.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:900;line-height:.93;letter-spacing:-.025em}
+h1.hero-h1 .l2{font-style:italic;color:var(--accent)}
+.hero-desc{margin-top:2rem;max-width:500px;font-size:1rem;color:var(--muted);font-weight:300;line-height:1.75}
+.hero-cta{margin-top:2.5rem;display:flex;gap:1rem;align-items:center}
+.btn-p{background:var(--ink);color:var(--paper);border:none;border-radius:var(--r);padding:.75rem 1.6rem;font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block;font-family:'DM Sans',sans-serif}
+.btn-p:hover{background:var(--accent);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1.4rem;font-size:.82rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block;font-family:'DM Sans',sans-serif}
+.btn-g:hover{border-color:var(--muted);color:var(--ink)}
+/* HERO STATS CARD */
+.hsc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.hsc-hd{background:var(--ink);color:var(--paper);padding:1.25rem 1.5rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.hsc-bd{padding:1.5rem}
+.sr{display:flex;justify-content:space-between;align-items:flex-end;padding:.9rem 0;border-bottom:1px solid var(--border)}
+.sr:last-child{border-bottom:none;padding-bottom:0}
+.sl{font-size:.75rem;color:var(--muted);font-family:'DM Mono',monospace}
+.ss{font-size:.68rem;color:var(--muted);margin-top:.12rem}
+.sv{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1}
+.sv.ac{color:var(--accent)}.sv.gr{color:var(--accent2)}
+.scroll-cue{position:absolute;bottom:2.5rem;left:4rem;display:flex;align-items:center;gap:.75rem;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:52px;background:var(--border);animation:sl 2s ease-in-out infinite}
+@keyframes sl{0%,100%{height:52px;opacity:.4}50%{height:72px;opacity:1}}
+/* SECTIONS */
+section{padding:7rem 4rem;border-top:1px solid var(--border);position:relative}
+.ey{font-family:'DM Mono',monospace;font-size:.67rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;display:flex;align-items:center;gap:.75rem}
+.ey .num{color:var(--border)}
+h2.st{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.2vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.015em;margin-bottom:.85rem}
+.sd{max-width:560px;color:var(--muted);font-size:.96rem;line-height:1.75;margin-bottom:3.5rem}
+.insight{background:var(--cream);border:1px solid var(--border);border-left:4px solid var(--accent2);padding:1.5rem 1.75rem;border-radius:0 var(--r) var(--r) 0;margin-top:2rem}
+.insight h4{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.6rem}
+.insight p{font-size:.9rem;line-height:1.65}
+.insight.warn{border-left-color:var(--accent3)}.insight.warn h4{color:var(--accent3)}
+.insight.info{border-left-color:var(--blue)}.insight.info h4{color:var(--blue)}
+/* VISION */
+.vm-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);overflow:hidden;border-radius:var(--r);margin-bottom:2rem}
+.vm-cell{background:var(--card);padding:3rem 2.5rem;position:relative;overflow:hidden}
+.vm-cell::after{content:attr(data-g);position:absolute;right:1rem;bottom:-2.5rem;font-family:'Playfair Display',serif;font-size:6rem;font-weight:900;color:var(--border);line-height:1;pointer-events:none;opacity:.5}
+.vm-cell h3{font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.vm-cell p{font-size:1.08rem;line-height:1.6;max-width:400px;position:relative;z-index:1}
+.vm-cell p strong{color:var(--accent);font-weight:700}.vm-cell p em{font-style:italic;color:var(--accent2)}
+.vm-checks{margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.vm-chk{font-size:.7rem;padding:.22rem .6rem;border-radius:100px;background:rgba(42,96,73,.07);border:1px solid rgba(42,96,73,.2);color:var(--accent2);font-family:'DM Mono',monospace}
+.pb{background:var(--ink);color:var(--paper);border-radius:var(--r);padding:2.5rem 3rem;display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start}
+.pb-icon{font-size:2rem;padding-top:.2rem}
+.pb-lbl{font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.5rem}
+.pb p{font-size:.98rem;line-height:1.75;font-weight:300}
+.pb p strong{font-weight:600;color:var(--accent3)}
+/* BAR CHART */
+.chart-ttl{font-family:'DM Mono',monospace;font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.hbl{display:flex;flex-direction:column;gap:.5rem;max-width:720px}
+.hbr{display:grid;grid-template-columns:140px 1fr 80px;align-items:center;gap:1rem}
+.hbl-lbl{font-size:.82rem;font-weight:500;text-align:right}
+.hbt{height:30px;background:var(--cream);border-radius:2px;overflow:hidden}
+.hbf{height:100%;border-radius:2px;display:flex;align-items:center;padding-left:.6rem;font-size:.67rem;color:rgba(255,255,255,.9);font-family:'DM Mono',monospace;font-weight:500;width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
+.hbn{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted)}
+.bc1{background:var(--accent)}.bc2{background:var(--blue)}.bc3{background:#7c5cbf}.bc4{background:var(--accent2)}.bc5{background:var(--accent3)}.bc6{background:#c87a2f}
+.cfn{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border);max-width:720px}
+.an{display:inline-flex;align-items:center;gap:.5rem;background:rgba(212,146,26,.1);border:1px solid rgba(212,146,26,.3);border-radius:100px;padding:.32rem .85rem;font-size:.75rem;color:var(--accent3);font-family:'DM Mono',monospace;margin-top:.85rem}
+/* PERSONAS */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.pc:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(15,14,12,.08)}
+.pc-top{padding:2rem 2rem 1.5rem;display:flex;align-items:flex-start;gap:1.25rem;border-bottom:1px solid var(--border)}
+.pc-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid var(--border)}
+.pc-av.a1{background:rgba(200,75,47,.08)}.pc-av.a2{background:rgba(42,96,73,.08)}
+.pc-nm{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700}
+.pc-rl{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:.2rem}
+.pc-tgs{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.65rem}
+.pc-tg{font-size:.66rem;padding:.22rem .55rem;border-radius:100px;background:var(--cream);border:1px solid var(--border);color:var(--muted);font-family:'DM Mono',monospace}
+.pc-bd{padding:1.5rem 2rem 2rem}
+.pc-q{font-style:italic;font-size:.9rem;color:var(--muted);border-left:3px solid var(--accent);padding-left:1rem;margin-bottom:1.4rem;line-height:1.6}
+.pc-q.g{border-color:var(--accent2)}
+.pc-pts{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.pc-pts li{font-size:.85rem;line-height:1.5;padding-left:1.3rem;position:relative}
+.pc-pts li::before{content:'↳';position:absolute;left:0;color:var(--muted);font-size:.78rem}
+/* COMPETITIVE - PROPER BMC LAYOUT */
+.ct{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem}
+.ctab{flex:1;padding:.75rem 1.25rem;background:var(--cream);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;color:var(--muted);border-right:1px solid var(--border);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.ctab:last-child{border-right:none}
+.ctab.active{background:var(--ink);color:var(--paper)}
+.ctab .tn{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700}
+.ctab .ts{font-size:.65rem;font-family:'DM Mono',monospace;letter-spacing:.05em;opacity:.6}
+.cpanel{display:none}.cpanel.active{display:block}
+/* PROPER BMC GRID — matches reference image exactly */
+.bmc-outer{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--border)}
+/* Main 5-col body */
+.bmc-body{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr 1fr;gap:2px;background:var(--border)}
+/* Sub-split column (ka+kr and cr+ch stacked) */
+.bmc-col-split{display:flex;flex-direction:column;gap:2px;background:var(--border)}
+/* Bottom band */
+.bmc-bottom{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:2px}
+/* Cells */
+.bmc-cell{background:var(--card);padding:1rem 1.2rem}
+.bmc-cell.tall{min-height:220px}
+.bmc-cell.half{min-height:107px}
+.bmc-cell.bot{min-height:80px}
+.bmc-cell.cost{background:var(--ink)}
+.bmc-cell.rev{background:#1a3d6e}
+/* Header row inside each cell */
+.bmc-cell-hd{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:#1e3a6b;border-radius:2px 2px 0 0;margin:-1rem -1.2rem 0.75rem -1.2rem}
+.bmc-cell-hd span{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:500}
+.bmc-cell-hd .bmc-icon{font-size:.85rem;opacity:.7}
+.bmc-cell.cost .bmc-cell-hd,.bmc-cell.rev .bmc-cell-hd{background:rgba(255,255,255,.08)}
+.bmc-cell ul{list-style:none;display:flex;flex-direction:column;gap:.3rem;padding:0}
+.bmc-cell ul li{font-size:.78rem;line-height:1.45;color:var(--ink);padding-left:.85rem;position:relative}
+.bmc-cell ul li::before{content:'·';position:absolute;left:0;color:var(--muted)}
+.bmc-cell.cost ul li,.bmc-cell.rev ul li{color:rgba(255,255,255,.88)}
+.bmc-cell.cost ul li::before,.bmc-cell.rev ul li::before{color:rgba(255,255,255,.4)}
+.bmc-cell p{font-size:.78rem;line-height:1.5;color:var(--ink);margin:0}
+.bmc-cell.cost p,.bmc-cell.rev p{color:rgba(255,255,255,.88)}
+.bmc-insight{margin-top:1.1rem;padding:1.1rem 1.4rem;background:rgba(42,96,73,.06);border-left:3px solid var(--accent2);border-radius:0 var(--r) var(--r) 0;font-size:.83rem;line-height:1.6}
+.bmc-insight strong{color:var(--accent2)}
+/* COMP MATRIX */
+.cm{width:100%;border-collapse:collapse;margin-top:2.5rem;font-size:.8rem}
+.cm th{padding:.7rem 1rem;text-align:left;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border)}
+.cm th.ct2{text-align:center}
+.cm td{padding:.8rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.cm td.br{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700}
+.cm td.ct2{text-align:center}
+.tk{color:var(--accent2);font-weight:700}.cx{color:var(--border)}.pt{color:var(--accent3)}
+.lr td{background:rgba(200,75,47,.04)}.lr td.br{color:var(--accent)}
+/* RESEARCH */
+.rc{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.pain-cards{display:flex;flex-direction:column;gap:.85rem}
+.pain-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem 1.4rem;display:grid;grid-template-columns:26px 1fr;gap:.7rem;align-items:start;transition:border-color .2s}
+.pain-card:hover{border-color:var(--accent)}
+.pn{font-family:'DM Mono',monospace;font-size:.63rem;color:var(--accent);padding-top:.18rem;font-weight:500}
+.pain-card h4{font-size:.9rem;font-weight:600;margin-bottom:.28rem}
+.pain-card p{font-size:.8rem;color:var(--muted);line-height:1.5}
+.pref-stack{display:flex;flex-direction:column;gap:.85rem}
+.pref-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.4rem}
+.pref-ey{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.35rem}
+.pref-card p{font-size:.82rem;line-height:1.55}
+/* INTERACTIVE ONBOARDING FLOW */
+.flow-interactive{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:1rem}
+.flow-header{background:var(--ink);padding:1.1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.flow-header h3{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.flow-step-counter{font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.4)}
+.flow-progress-track{height:3px;background:rgba(255,255,255,.1);position:relative}
+.flow-progress-fill{height:100%;background:var(--accent);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.flow-body{padding:2rem 1.5rem;min-height:260px;display:flex;flex-direction:column;justify-content:space-between}
+.flow-step{display:none;animation:fadeStep .35s ease}
+.flow-step.active{display:flex;flex-direction:column;gap:1rem}
+@keyframes fadeStep{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.flow-step-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+.flow-step-sub{font-size:.83rem;color:var(--muted);line-height:1.5;margin-bottom:.5rem}
+.flow-options{display:flex;flex-wrap:wrap;gap:.6rem}
+.flow-opt{padding:.5rem 1.1rem;border:1.5px solid var(--border);border-radius:100px;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;background:var(--paper);font-family:'DM Sans',sans-serif}
+.flow-opt:hover{border-color:var(--accent);color:var(--accent)}
+.flow-opt.selected{border-color:var(--accent);background:rgba(200,75,47,.08);color:var(--accent)}
+.flow-opt.selected2{border-color:var(--accent2);background:rgba(42,96,73,.08);color:var(--accent2)}
+.flow-nav{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border);margin-top:.5rem}
+.flow-nav-btn{padding:.55rem 1.25rem;border-radius:var(--r);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;border:1px solid var(--border)}
+.flow-nav-btn.back{background:transparent;color:var(--muted)}
+.flow-nav-btn.back:hover{color:var(--ink);border-color:var(--muted)}
+.flow-nav-btn.next{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.flow-nav-btn.next:hover{background:var(--accent)}
+.flow-nav-btn.restart{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.flow-breadcrumb{display:flex;gap:.4rem;flex-wrap:wrap}
+.fbc{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer}
+.fbc.done{background:var(--accent2)}.fbc.active{background:var(--accent);width:20px;border-radius:4px}
+.flow-result{background:var(--accent2);color:#fff;border-radius:var(--r);padding:1.5rem;margin-top:.5rem}
+.flow-result h4{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.flow-result p{font-size:.85rem;line-height:1.55;opacity:.9}
+/* FEATURES */
+.ufg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-bottom:2rem}
+.ufc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;position:relative;overflow:hidden}
+.ufc::after{content:'Original';position:absolute;top:.7rem;right:.7rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--accent3);background:rgba(212,146,26,.1);border:1px solid rgba(212,146,26,.25);border-radius:100px;padding:.12rem .45rem}
+.ufc .ui{font-size:1.5rem;margin-bottom:.65rem}
+.ufc h4{font-size:.9rem;font-weight:600;margin-bottom:.35rem}
+.ufc p{font-size:.78rem;color:var(--muted);line-height:1.5}
+/* KANO */
+.kw{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.8rem;margin-bottom:3rem}
+.kt{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.4rem}
+.kg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem}
+.kch{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;margin-bottom:.12rem}
+.kcs{font-size:.7rem;color:var(--muted);margin-bottom:.75rem;font-family:'DM Mono',monospace}
+.ki-list{display:flex;flex-direction:column;gap:.35rem}
+.ki{font-size:.78rem;padding:.45rem .7rem;border-radius:2px;border-left:3px solid transparent;background:var(--paper);line-height:1.4}
+.ki.must{border-color:var(--accent)}.ki.perf{border-color:var(--blue)}.ki.dl{border-color:var(--accent2)}
+/* MOSCOW */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:3rem}
+.mc{border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
+.mch{padding:1.2rem 1.6rem;display:flex;justify-content:space-between;align-items:center}
+.mch h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:#fff}
+.mch .mcc{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.55);letter-spacing:.1em}
+.mch.must{background:var(--accent)}.mch.should{background:var(--accent2)}.mch.could{background:var(--accent3)}.mch.wont{background:#6b6560}
+.mcb{background:var(--card);padding:1.1rem 1.6rem}
+.chip{display:inline-block;margin:.18rem .18rem 0 0;font-size:.72rem;padding:.25rem .65rem;border-radius:100px;border:1px solid var(--border);background:var(--paper);color:var(--ink);font-family:'DM Mono',monospace}
+/* RICE TABLE */
+.rice-table-wrap{overflow-x:auto;margin-top:2rem}
+.rice-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.rice-table thead th{padding:.85rem 1.1rem;text-align:left;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--border);color:var(--muted)}
+.rice-table thead th.ct3{text-align:center}
+.rice-table tbody tr{border-top:1px solid var(--border)}
+.rice-table tbody tr:hover td{background:var(--cream)}
+.rice-table td{padding:.8rem 1.1rem;vertical-align:middle}
+.rice-table td.feat{font-weight:600}
+.rice-table td.ct3{text-align:center}
+.rice-score{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700}
+.rice-bar{height:8px;background:var(--cream);border-radius:4px;overflow:hidden;margin-top:.3rem;width:80px}
+.rice-bar-fill{height:100%;border-radius:4px;background:var(--accent2)}
+.rice-badge{display:inline-block;padding:.2rem .55rem;border-radius:100px;font-family:'DM Mono',monospace;font-size:.62rem;border:1px solid var(--border)}
+.rice-badge.p1{background:rgba(200,75,47,.08);color:var(--accent);border-color:rgba(200,75,47,.2)}
+.rice-badge.p2{background:rgba(42,96,73,.08);color:var(--accent2);border-color:rgba(42,96,73,.2)}
+.rice-badge.p3{background:rgba(212,146,26,.08);color:var(--accent3);border-color:rgba(212,146,26,.2)}
+/* FREE vs PREMIUM */
+.fp-wrap{overflow-x:auto}
+.fp-t{width:100%;border-collapse:collapse;font-size:.83rem}
+.fp-t thead th{padding:.85rem 1.2rem;text-align:left;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase}
+.fp-t thead th:nth-child(1){color:var(--muted)}
+.fp-t thead th:nth-child(2){background:rgba(42,96,73,.08);color:var(--accent2)}
+.fp-t thead th:nth-child(3){background:var(--ink);color:rgba(255,255,255,.8)}
+.fp-t thead th:nth-child(4){color:var(--muted)}
+.fp-t tbody tr{border-top:1px solid var(--border)}
+.fp-t tbody tr:hover td{background:var(--cream)}
+.fp-t td{padding:.82rem 1.2rem;vertical-align:middle}
+.fp-t td.ft{font-weight:500}
+.fp-t td.ftd{background:rgba(42,96,73,.03)}.fp-t td.ptd{background:rgba(15,14,12,.025)}
+.yes{color:var(--accent2);font-weight:700}.no{color:var(--border)}.pn2{color:var(--accent3);font-size:.72rem;margin-left:.2rem}
+/* ROADMAP */
+.ps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:2.5rem}
+.pc2{padding:1.4rem 1.6rem;border-right:1px solid var(--border)}
+.pc2:last-child{border-right:none}
+.pc2.ms{background:var(--ink)}.pc2.ms2{background:var(--accent2)}
+.p-num{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);margin-bottom:.35rem}
+.p-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:.28rem}
+.p-date{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--accent)}
+.pc2.ms .p-num,.pc2.ms .p-name,.pc2.ms .p-date,.pc2.ms2 .p-num,.pc2.ms2 .p-name,.pc2.ms2 .p-date{color:rgba(255,255,255,.88)}
+.pc2.ms .p-name,.pc2.ms2 .p-name{color:#fff}
+/* GANTT */
+.go{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.gh{display:grid;grid-template-columns:185px 1fr 1fr 1fr;background:var(--ink);color:rgba(255,255,255,.7);font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.09em;text-transform:uppercase}
+.gh div{padding:.75rem .9rem}
+.gh div:not(:first-child){border-left:1px solid rgba(255,255,255,.08);text-align:center}
+.gg2{display:grid;grid-template-columns:185px 1fr 1fr 1fr;background:var(--cream);border-top:1px solid var(--border)}
+.gg2 div{grid-column:span 4;padding:.5rem .9rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.gg2 div::before{content:'';width:16px;height:1px;background:var(--border)}
+.gm{display:grid;grid-template-columns:185px 1fr 1fr 1fr;border-top:1px solid rgba(200,75,47,.2);background:rgba(200,75,47,.04)}
+.gm div{padding:.45rem .9rem;font-family:'DM Mono',monospace;font-size:.65rem}
+.gml{color:var(--accent);font-weight:600}.gmm{text-align:center;color:var(--accent)}
+.gm2{display:grid;grid-template-columns:185px 1fr 1fr 1fr;border-top:1px solid rgba(42,96,73,.2);background:rgba(42,96,73,.04)}
+.gm2 div{padding:.45rem .9rem;font-family:'DM Mono',monospace;font-size:.65rem}
+.gm2l{color:var(--accent2);font-weight:600}.gm2m{text-align:center;color:var(--accent2)}
+.gr2{display:grid;grid-template-columns:185px 1fr 1fr 1fr;border-top:1px solid var(--border);min-height:44px;align-items:center}
+.gr2:hover{background:var(--cream)}
+.gtsk{padding:.55rem .9rem;font-size:.8rem;font-weight:500;border-right:1px solid var(--border);line-height:1.3}
+.gcells{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;height:100%}
+.gcol{border-left:1px solid var(--border);position:relative;min-height:44px}
+.gbar{position:absolute;height:20px;top:50%;transform:translateY(-50%);border-radius:3px;display:flex;align-items:center;padding:0 .5rem;font-size:.6rem;font-weight:600;white-space:nowrap;overflow:hidden;color:#fff;font-family:'DM Mono',monospace}
+.gb-b{background:var(--blue)}.gb-m{background:var(--accent3)}.gb-f{background:var(--accent)}.gb-o{background:#6b6560}
+.gl{padding:.9rem;border-top:1px solid var(--border);background:var(--cream);display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center}
+.gl-i{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted)}
+.gl-d{width:9px;height:9px;border-radius:2px}
+/* DEPS - VISUAL FLOW DIAGRAM */
+.dep-visual{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:2rem;overflow-x:auto}
+.dep-chain-visual{display:flex;align-items:center;gap:0;flex-wrap:nowrap;margin-bottom:1.25rem}
+.dv-node{background:var(--paper);border:1.5px solid var(--border);border-radius:var(--r);padding:.55rem 1rem;font-size:.78rem;font-weight:500;white-space:nowrap;position:relative;flex-shrink:0}
+.dv-node.critical{border-color:var(--accent);background:rgba(200,75,47,.06);color:var(--accent)}
+.dv-node.milestone{border-color:var(--accent2);background:rgba(42,96,73,.07);color:var(--accent2);font-weight:700}
+.dv-node.future{border-color:var(--muted);background:var(--cream);color:var(--muted);font-style:italic;font-size:.72rem}
+.dv-arr{display:flex;align-items:center;padding:0 .35rem;color:var(--muted);font-size:.85rem;flex-shrink:0}
+.dv-arr svg{width:20px;height:12px}
+.dv-label{font-size:.62rem;font-family:'DM Mono',monospace;color:var(--muted);position:absolute;bottom:-1.2rem;left:50%;transform:translateX(-50%);white-space:nowrap;letter-spacing:.05em}
+.dep-group-label{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.dep-group-label::before{content:'';width:12px;height:1px;background:var(--border)}
+.dep-section-block{margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px dashed var(--border)}
+.dep-section-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+/* RISKS */
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2rem}
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;border-top:3px solid transparent}
+.rcard.h{border-top-color:var(--accent)}.rcard.m{border-top-color:var(--accent3)}.rcard.l{border-top-color:var(--accent2)}
+.rl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.55rem}
+.rl.h{color:var(--accent)}.rl.m{color:var(--accent3)}.rl.l{color:var(--accent2)}
+.rcard h4{font-size:.88rem;font-weight:600;margin-bottom:.35rem}
+.rcard p{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:.7rem}
+.rmit{font-size:.76rem;color:var(--accent2);padding:.45rem .7rem;background:rgba(42,96,73,.06);border-radius:2px;line-height:1.5}
+.rmit::before{content:'Mitigation: ';font-weight:600}
+/* LIVING DOC */
+.lg2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4rem;margin-top:1rem}
+.lc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.6rem}
+.lc-n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--border);line-height:1;margin-bottom:.65rem}
+.lc h4{font-size:.92rem;font-weight:600;margin-bottom:.45rem}
+.lc p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.tl-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;margin-top:.7rem}
+.tl-list li{font-size:.78rem;padding:.38rem .65rem;background:var(--paper);border-radius:2px;border-left:2px solid var(--border)}
+/* CHANGELOG */
+.cl{margin-top:2.25rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.cl-hd{background:var(--ink);color:rgba(255,255,255,.75);padding:.75rem 1.2rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;display:grid;grid-template-columns:80px 1fr 80px 1fr}
+.cl-row{display:grid;grid-template-columns:80px 1fr 80px 1fr;border-top:1px solid var(--border);padding:.7rem 1.2rem;font-size:.78rem;align-items:center}
+.cl-row:hover{background:var(--cream)}
+.cl-v{font-family:'DM Mono',monospace;font-size:.7rem;font-weight:600}
+.cl-b{display:inline-block;padding:.18rem .5rem;border-radius:100px;font-family:'DM Mono',monospace;font-size:.62rem}
+.cl-b.add{background:rgba(42,96,73,.1);color:var(--accent2)}
+.cl-b.chg{background:rgba(212,146,26,.1);color:var(--accent3)}
+.cl-b.rem{background:rgba(200,75,47,.1);color:var(--accent)}
+/* STAKEHOLDER */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2rem}
+.fb-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem}
+.fb-card h4{font-size:.9rem;font-weight:600;margin-bottom:.8rem;padding-bottom:.7rem;border-bottom:1px solid var(--border)}
+.fb-ql{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.fb-ql li{font-size:.81rem;padding-left:1.1rem;position:relative;line-height:1.5}
+.fb-ql li::before{content:'Q';position:absolute;left:0;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--accent);font-weight:600}
+.sht{width:100%;border-collapse:collapse;font-size:.8rem}
+.sht th{padding:.65rem .9rem;text-align:left;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border)}
+.sht td{padding:.7rem .9rem;border-bottom:1px solid var(--border);vertical-align:top}
+.sht td.rl2{font-weight:600}
+.sb{display:flex;gap:.12rem}
+.sd2{width:12px;height:12px;border-radius:2px;background:var(--cream)}
+.sd2.f{background:var(--accent2)}
+/* IMPACT-PROBABILITY MATRIX */
+.ipm-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;margin-bottom:2rem}
+.ipm-title{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.ipm-chart{position:relative;width:100%;max-width:640px}
+.ipm-svg{width:100%;height:auto;display:block}
+.ipm-legend{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:1rem}
+.ipm-leg-item{display:flex;align-items:center;gap:.4rem;font-size:.74rem;color:var(--muted)}
+.ipm-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .62s ease,transform .62s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.08s}.rd2{transition-delay:.16s}.rd3{transition-delay:.24s}
+/* FOOTER */
+footer{padding:2.5rem 4rem;border-top:1px solid var(--border);background:var(--cream);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.footer-logo{height:22px;width:auto}
+.fr2{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted)}
+@media(max-width:1000px){
+  nav{padding:0 1.5rem}.nav-links{display:none}
+  section,.hero{padding:5rem 1.5rem}
+  .hero{grid-template-columns:1fr}.hsc{display:none}
+  .vm-wrap,.pg,.rc,.mg,.lg2,.ps,.rg,.fg,.ufg,.kg{grid-template-columns:1fr}
+  .bmc-row.r1,.bmc-row.r2{grid-template-columns:1fr 1fr}
+  .bmc-row.r3{grid-template-columns:1fr}
+  .bmc-cell.span2{grid-row:span 1;min-height:130px}
+  footer{flex-direction:column;text-align:center}
+  .cl-hd,.cl-row{grid-template-columns:60px 1fr 60px}
+  .cl-hd div:last-child,.cl-row div:last-child{display:none}
+}
+</style>
+</head>
+<body>
+<!-- NAV with proper SVG logo -->
+<nav id="top-nav">
+  <a href="#hero">
+    <svg class="nav-logo-svg" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Wing glyph -->
+      <path d="M6 28 C6 28 10 18 18 14 C14 20 13 26 14 28 Z" fill="#c84b2f"/>
+      <path d="M14 28 C14 28 16 16 26 10 C20 18 18 24 18 28 Z" fill="#c84b2f" opacity=".7"/>
+      <path d="M18 28 C18 28 19 14 30 8 C23 17 21 24 22 28 Z" fill="#c84b2f" opacity=".4"/>
+      <!-- Wordmark -->
+      <text x="36" y="24" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#0f0e0c" letter-spacing="-0.5">Lingua</text>
+      <text x="97" y="24" font-family="Georgia, serif" font-size="18" font-weight="700" font-style="italic" fill="#c84b2f" letter-spacing="-0.5">Fly</text>
+      <!-- Tagline dot -->
+      <circle cx="152" cy="10" r="3" fill="#c84b2f" opacity=".6"/>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#personas">Personas</a></li>
+    <li><a href="#comp">Competitive</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#deps">Risks</a></li>
+    <li><a href="#comm">Communicate</a></li>
+  </ul>
+  <div class="nav-progress" id="np"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero" style="border-top:none;">
+  <div class="hero-canvas">
+    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rg1" cx="80%" cy="15%" r="50%"><stop offset="0%" stop-color="#c84b2f" stop-opacity=".06"/><stop offset="100%" stop-color="#c84b2f" stop-opacity="0"/></radialGradient>
+        <radialGradient id="rg2" cx="5%" cy="85%" r="45%"><stop offset="0%" stop-color="#2a6049" stop-opacity=".05"/><stop offset="100%" stop-color="#2a6049" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1400" height="900" fill="url(#rg1)"/><rect width="1400" height="900" fill="url(#rg2)"/>
+      <g stroke="#d4cfc4" stroke-width=".5" opacity=".4">
+        <line x1="0" y1="200" x2="1400" y2="200"/><line x1="0" y1="400" x2="1400" y2="400"/><line x1="0" y1="600" x2="1400" y2="600"/><line x1="0" y1="800" x2="1400" y2="800"/>
+        <line x1="300" y1="0" x2="300" y2="900"/><line x1="600" y1="0" x2="600" y2="900"/><line x1="900" y1="0" x2="900" y2="900"/><line x1="1200" y1="0" x2="1200" y2="900"/>
+      </g>
+      <circle cx="1100" cy="150" r="220" fill="none" stroke="#c84b2f" stroke-width=".8" opacity=".15"/>
+      <circle cx="1100" cy="150" r="155" fill="none" stroke="#c84b2f" stroke-width=".5" opacity=".1"/>
+      <circle cx="150" cy="750" r="180" fill="none" stroke="#2a6049" stroke-width=".8" opacity=".12"/>
+    </svg>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="hero-eyebrow"></div>
+    <!-- Hero logo large -->
+    <div style="margin-bottom:2rem;">
+      <svg viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:52px;width:auto;">
+        <path d="M8 52 C8 52 14 34 26 26 C20 36 18 46 20 52 Z" fill="#c84b2f"/>
+        <path d="M20 52 C20 52 24 28 38 18 C30 32 27 44 28 52 Z" fill="#c84b2f" opacity=".65"/>
+        <path d="M28 52 C28 52 31 24 46 14 C36 30 33 44 34 52 Z" fill="#c84b2f" opacity=".35"/>
+        <text x="58" y="44" font-family="Georgia,'Times New Roman',serif" font-size="36" font-weight="700" fill="#0f0e0c" letter-spacing="-1">Lingua</text>
+        <text x="184" y="44" font-family="Georgia,'Times New Roman',serif" font-size="36" font-weight="700" font-style="italic" fill="#c84b2f" letter-spacing="-1">Fly</text>
+      </svg>
+    </div>
+    <h1 class="hero-h1">Product<br><span class="l2">Roadmap</span><br>Case Study</h1>
+    <p class="hero-desc">A product roadmap for a language-learning app targeting Indian students heading abroad and college students bridging the English communication gap. From vision to MVP in 90 days.</p>
+    <div class="hero-cta">
+      <a href="#vision" class="btn-p">Explore the Case Study</a>
+      <a href="#roadmap" class="btn-g">Jump to Roadmap</a>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;">
+    <div class="hsc reveal rd1">
+      <div class="hsc-hd">At a Glance</div>
+      <div class="hsc-bd">
+        <div class="sr">
+          <div><div class="sl">Languages at launch</div><div class="ss">English and Arabic · more planned for Q4</div></div>
+          <div style="text-align:right"><div class="sv ac" data-d="2">0</div></div>
+        </div>
+        <div class="sr">
+          <div><div class="sl">Competitors analyzed in depth</div><div class="ss">Duolingo, Babbel, Cake, ELSA · full BMC</div></div>
+          <div style="text-align:right"><div class="sv gr" data-d="4">0</div></div>
+        </div>
+        <div class="sr">
+          <div><div class="sl">User personas researched</div><div class="ss">Outbound student · domestic upskiller</div></div>
+          <div style="text-align:right"><div class="sv ac" data-d="2">0</div></div>
+        </div>
+        <div class="sr">
+          <div><div class="sl">Features planned for MVP</div><div class="ss">Across all work streams</div></div>
+          <div style="text-align:right"><div class="sv" data-d="22">0</div></div>
+        </div>
+        <div class="sr">
+          <div><div class="sl">Days to MVP public launch</div><div class="ss">From project kickoff</div></div>
+          <div style="text-align:right"><div class="sv" data-d="91">0</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 VISION -->
+<section id="vision">
+  <div class="ey"><span class="num">01</span> Vision &amp; Mission</div>
+  <h2 class="st">The North Star</h2>
+  <p class="sd">Every product starts with a clear articulation of what it is trying to achieve and who it serves. The vision defines the ultimate destination; the mission defines the path.</p>
+  <div class="vm-wrap reveal">
+    <div class="vm-cell" data-g="V">
+      <h3>Vision Statement</h3>
+      <p>To become the go-to language companion for <em>students navigating new countries</em> · empowering every learner to communicate confidently in any language, anywhere in the world.</p>
+      <div class="vm-checks">
+        <span class="vm-chk">&#10003; Target audience defined</span>
+        <span class="vm-chk">&#10003; Problem addressed</span>
+        <span class="vm-chk">&#10003; Ultimate goal stated</span>
+        <span class="vm-chk">&#10003; Concise, single sentence</span>
+      </div>
+    </div>
+    <div class="vm-cell" data-g="M">
+      <h3>Mission Statement</h3>
+      <p>LinguaFly delivers <strong>fast, structured, and destination-aware</strong> language learning · helping students going abroad survive and thrive in a foreign-language environment, while helping domestic learners build <em>systematic communication skills</em> for academic and professional growth.</p>
+      <div class="vm-checks">
+        <span class="vm-chk">&#10003; How vision is achieved</span>
+        <span class="vm-chk">&#10003; Both segments covered</span>
+        <span class="vm-chk">&#10003; Language-agnostic framing</span>
+      </div>
+    </div>
+  </div>
+  <div class="pb reveal rd1">
+    <div class="pb-icon">&#127919;</div>
+    <div>
+      <div class="pb-lbl">Core Product Insight</div>
+      <p><strong>1.32 million Indian students study abroad annually.</strong> Over 25% land in countries where neither English nor their native language is the daily medium. Most apps treat a student leaving in 8 weeks identically to a hobbyist with 2 years. LinguaFly's differentiation is <strong>urgency-awareness and destination-specificity</strong> · a gap no competitor currently fills.</p>
+    </div>
+  </div>
+  <div style="margin-top:3rem;" class="reveal rd2">
+    <div class="chart-ttl">Top Destinations for Indian Students Abroad (MEA Data, 2022)</div>
+    <div class="hbl" id="bar-chart">
+      <div class="hbr"><div class="hbl-lbl">USA</div><div class="hbt"><div class="hbf bc1" data-pct="100">4,65,791</div></div><div class="hbn">465,791</div></div>
+      <div class="hbr"><div class="hbl-lbl">Canada</div><div class="hbt"><div class="hbf bc2" data-pct="39">1,83,310</div></div><div class="hbn">183,310</div></div>
+      <div class="hbr"><div class="hbl-lbl">UAE &#11088;</div><div class="hbt"><div class="hbf bc3" data-pct="35">1,64,000</div></div><div class="hbn">164,000</div></div>
+      <div class="hbr"><div class="hbl-lbl">Australia</div><div class="hbt"><div class="hbf bc4" data-pct="21">1,00,009</div></div><div class="hbn">100,009</div></div>
+      <div class="hbr"><div class="hbl-lbl">Saudi Arabia &#11088;</div><div class="hbt"><div class="hbf bc5" data-pct="14">65,800</div></div><div class="hbn">65,800</div></div>
+      <div class="hbr"><div class="hbl-lbl">UK</div><div class="hbt"><div class="hbf bc6" data-pct="12">55,465</div></div><div class="hbn">55,465</div></div>
+    </div>
+    <div class="an">&#11088; Arabic-speaking nations (UAE + Saudi + Qatar + Oman) = ~335,350 students &#8594; primary language target for v1</div>
+    <div class="cfn">Source: Ministry of External Affairs, GOI · Annexure-I (2022) · Total Indian students abroad: 13,24,954</div>
+  </div>
+</section>
+
+<!-- 02 PERSONAS -->
+<section id="personas">
+  <div class="ey"><span class="num">02</span> User Personas</div>
+  <h2 class="st">Who We're Building For</h2>
+  <p class="sd">Two primary archetypes emerged from research: a time-pressured outbound student needing survival language fast, and a domestic upskiller who wants to close the English communication gap systematically.</p>
+  <div class="pg">
+    <div class="pc reveal">
+      <div class="pc-top">
+        <div class="pc-av a1">&#128105;&#8205;&#127891;</div>
+        <div>
+          <div class="pc-nm">Jaya, 23</div>
+          <div class="pc-rl">B.Tech EE · IIT Kanpur &#8594; M.Sc Germany, RWTH Aachen</div>
+          <div class="pc-tgs"><span class="pc-tg">Outbound Learner</span><span class="pc-tg">Time-Constrained</span><span class="pc-tg">High-Intent</span></div>
+        </div>
+      </div>
+      <div class="pc-bd">
+        <div class="pc-q">"I'm departing in two months. I just need to communicate with Germans · even if I stutter."</div>
+        <ul class="pc-pts">
+          <li>Quick learner · needs fast-paced content, not slow curricula designed for hobbyists</li>
+          <li>Goal: functional survival communication, not fluency · ordering food, asking directions, university registration</li>
+          <li>Max 15–20 min/day due to final semester commitments before departure</li>
+          <li>Anxious about navigating a fully German-speaking environment from day one</li>
+          <li>Represents the <strong>urgent, destination-specific</strong> core persona and the primary product justification</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pc reveal rd1">
+      <div class="pc-top">
+        <div class="pc-av a2">&#128104;&#8205;&#128187;</div>
+        <div>
+          <div class="pc-nm">Dishant, 19</div>
+          <div class="pc-rl">B.Tech Mechanical · MNIT Jaipur · Freshman, Rural Background</div>
+          <div class="pc-tgs"><span class="pc-tg">Domestic Upskiller</span><span class="pc-tg">Intermediate Level</span><span class="pc-tg">Systematic</span></div>
+        </div>
+      </div>
+      <div class="pc-bd">
+        <div class="pc-q g">"I have the basics · I just need a system. And I want to understand what my friends type in group chat."</div>
+        <ul class="pc-pts">
+          <li>Basic English foundation · refuses to restart from zero; needs accurate level placement at onboarding</li>
+          <li>Wants structured improvement in both writing and speaking for future corporate life</li>
+          <li>Struggles with informal language: slang, abbreviations, and conversational tone in messaging</li>
+          <li>Embarrassed to ask friends; needs a private, judgment-free learning environment</li>
+          <li>Represents the <strong>domestic inclusion</strong> use case · a very large TAM across tier-2 and tier-3 city college students in India</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 COMPETITIVE -->
+<section id="comp">
+  <div class="ey"><span class="num">03</span> Competitive Analysis</div>
+  <h2 class="st">The Competitive Landscape</h2>
+  <p class="sd">Four key competitors were analyzed using the Business Model Canvas framework. Each occupies a distinct niche · and together they leave a clear gap for LinguaFly to exploit.</p>
+
+  <div class="ct reveal" id="comp-tabs">
+    <button class="ctab active" data-p="duolingo"><span class="tn">Duolingo</span><span class="ts">Gamification Leader</span></button>
+    <button class="ctab" data-p="babbel"><span class="tn">Babbel</span><span class="ts">Structured Learning</span></button>
+    <button class="ctab" data-p="cake"><span class="tn">Cake</span><span class="ts">Video-Based</span></button>
+    <button class="ctab" data-p="elsa"><span class="tn">ELSA Speak</span><span class="ts">Pronunciation AI</span></button>
+  </div>
+
+  <!-- DUOLINGO BMC -->
+  <div class="cpanel active reveal" id="panel-duolingo">
+    <div class="bmc-outer">
+      <div class="bmc-body">
+        <!-- Key Partners (spans both rows) -->
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Partners</span></div>
+          <ul>
+            <li><strong>Expert Educators &amp; Translators</strong> · linguists who design and validate curriculum across 40+ language pairs</li>
+            <li><strong>Advertisement Partners</strong> · brands paying for placements shown to free-tier users; core to the freemium model</li>
+          </ul>
+        </div>
+        <!-- Key Activities + Key Resources stacked -->
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Activities</span></div>
+            <ul><li>App Maintenance &amp; A/B Testing</li><li>Interactive Course Development</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128269;</span><span>Key Resources</span></div>
+            <ul><li>40+ language course library</li><li>App Platform &amp; Duo Mascot brand</li></ul>
+          </div>
+        </div>
+        <!-- Value Propositions (spans both rows) -->
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128188;</span><span>Value Propositions</span></div>
+          <ul>
+            <li><strong>Gamification</strong> · streaks, XP, leagues, and mascot drive daily habits</li>
+            <li><strong>Free access</strong> · most content free with ads; low barrier to entry</li>
+            <li><strong>40+ languages</strong> · including rare ones (Hawaiian, Latin) no competitor offers</li>
+          </ul>
+        </div>
+        <!-- Customer Relationship + Channel stacked -->
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Relationship</span></div>
+            <ul><li>Community &amp; Leagues</li><li>Personalization &amp; streak repair</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128640;</span><span>Channel</span></div>
+            <ul><li>Mobile App (Primary)</li><li>Website (Secondary)</li></ul>
+          </div>
+        </div>
+        <!-- Customer Segments (spans both rows) -->
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Segments</span></div>
+          <ul>
+            <li><strong>Casual learners</strong> · learning for fun, travel, or culture (largest segment)</li>
+            <li><strong>Students K-12 &amp; college</strong> · supplementing coursework</li>
+            <li><strong>Professionals</strong> · learning for career relocation or international roles</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bmc-bottom">
+        <div class="bmc-cell bot cost">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128200;</span><span>Cost Structure</span></div>
+          <p>Digital infrastructure (AWS at scale) · Employee salaries (900+ staff) · Course creation · Advertising production</p>
+        </div>
+        <div class="bmc-cell bot rev">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128178;</span><span>Revenue Stream</span></div>
+          <p>Duolingo Super (~$7/mo) · Duolingo English Test (~$59) · In-app Advertising</p>
+        </div>
+      </div>
+    </div>
+    <div class="bmc-insight"><strong>Gap for LinguaFly:</strong> Duolingo treats all learners identically regardless of urgency. A student departing in 8 weeks and a hobbyist with 2 years both start at Lesson 1. No destination mode, no departure deadline, and no urgency-aware fast-track.</div>
+  </div>
+
+  <!-- BABBEL BMC -->
+  <div class="cpanel" id="panel-babbel">
+    <div class="bmc-outer">
+      <div class="bmc-body">
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Partners</span></div>
+          <ul>
+            <li><strong>Cambridge English Language Assessment</strong> · CEFR-aligned content validation; lends academic credibility</li>
+            <li><strong>Content Creators / Educators</strong> · 150+ in-house linguists designing conversation-focused lessons</li>
+            <li><strong>Technical Partners</strong> · app infrastructure and payment processing</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Activities</span></div>
+            <ul><li>Platform Maintenance</li><li>Marketing Content</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128269;</span><span>Key Resources</span></div>
+            <ul><li>App / Web Learning Platform</li><li>10,000+ hrs curated content</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128188;</span><span>Value Propositions</span></div>
+          <ul>
+            <li><strong>Gamification &amp; Accessibility</strong> · structured learning with clear CEFR progression</li>
+            <li><strong>Real-world scenarios</strong> · lessons built around practical situations (café, office, airport)</li>
+            <li><strong>Academic credibility</strong> · Cambridge partnership sets it apart from casual apps</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Relationship</span></div>
+            <ul><li>Self-Service</li><li>Community</li><li>Flexibility</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128640;</span><span>Channel</span></div>
+            <ul><li>Mobile App</li><li>Website</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Segments</span></div>
+          <ul>
+            <li><strong>New language learners</strong> · absolute beginners wanting a structured, credible starting point</li>
+            <li><strong>Continuing learners</strong> · people resuming a language after years away; CEFR path suits them well</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bmc-bottom">
+        <div class="bmc-cell bot cost">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128200;</span><span>Cost Structure</span></div>
+          <p>Maintenance · Employee Salaries · Office Expenses · Heavy performance marketing spend</p>
+        </div>
+        <div class="bmc-cell bot rev">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128178;</span><span>Revenue Stream</span></div>
+          <p>Subscription Based Business (only demo is free) · Monthly / Quarterly / Annual plans</p>
+        </div>
+      </div>
+    </div>
+    <div class="bmc-insight"><strong>Gap for LinguaFly:</strong> Babbel's early paywall (after just 2 lessons) severely limits acquisition in price-sensitive markets like India. No gamification depth, no social features, no urgency-aware track, and no destination-specific content.</div>
+  </div>
+
+  <!-- CAKE BMC -->
+  <div class="cpanel" id="panel-cake">
+    <div class="bmc-outer">
+      <div class="bmc-body">
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Partners</span></div>
+          <ul>
+            <li><strong>OTT Platforms for Videos</strong> · license short clips from TV shows and movies; the core content asset</li>
+            <li><strong>Google Translate</strong> · integrated for instant word lookups during lessons</li>
+            <li><strong>Community</strong> · users who submit and rate clips</li>
+            <li><strong>Technical Partners</strong> · CDN and streaming infrastructure</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Activities</span></div>
+            <ul><li>App Maintenance</li><li>New Video Uploads</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128269;</span><span>Key Resources</span></div>
+            <ul><li>Technical Resources</li><li>Licensed Videos</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128188;</span><span>Value Propositions</span></div>
+          <ul>
+            <li><strong>Video &amp; Phrase-based learning</strong> · real dialogue from movies and TV shows</li>
+            <li><strong>Learning with entertainment</strong> · lessons feel like watching content, not studying</li>
+            <li><strong>Share your recommendation</strong> · community content discovery layer</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Relationship</span></div>
+            <ul><li>Learning with Fun</li><li>Personalised Recommendations</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128640;</span><span>Channel</span></div>
+            <ul><li>Mobile App</li><li>Website</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Segments</span></div>
+          <ul>
+            <li><strong>Language Learners</strong> · primarily Korean-speaking English learners and K-Drama fans learning Korean</li>
+            <li>Entertainment-motivated learners who find traditional apps dry</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bmc-bottom">
+        <div class="bmc-cell bot cost">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128200;</span><span>Cost Structure</span></div>
+          <p>Digital Maintenance · Employee Salaries · Video content licensing (highest ongoing cost)</p>
+        </div>
+        <div class="bmc-cell bot rev">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128178;</span><span>Revenue Stream</span></div>
+          <p>Subscription-based (only demo / unit 1 is free) · ~$8–12/mo for full library</p>
+        </div>
+      </div>
+    </div>
+    <div class="bmc-insight"><strong>Gap for LinguaFly:</strong> Cake is locked into English and Korean. Its video licensing model is expensive and hard to scale to Arabic or German. No gamification system, no urgency-aware features, and no destination mode.</div>
+  </div>
+
+  <!-- ELSA BMC -->
+  <div class="cpanel" id="panel-elsa">
+    <div class="bmc-outer">
+      <div class="bmc-body">
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Partners</span></div>
+          <ul>
+            <li><strong>Community</strong> · users who contribute lesson clips and feedback</li>
+            <li><strong>Technical Partners</strong> · cloud AI providers (Google/Azure) powering real-time speech recognition</li>
+            <li><strong>Language Expert</strong> · phoneticians who design pronunciation rubrics for the AI</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#9881;</span><span>Key Activities</span></div>
+            <ul><li>Technical Maintenance</li><li>AI Model Improvements</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128269;</span><span>Key Resources</span></div>
+            <ul><li>Categorised Lessons</li><li>App Platform + AI Model</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128188;</span><span>Value Propositions</span></div>
+          <ul>
+            <li><strong>ELSA AI speech recognition</strong> · phoneme-level feedback ("your 'th' sounds like 'd'")</li>
+            <li><strong>Dictionary &amp; Short Videos</strong> · supplementary learning resources</li>
+            <li><strong>Pre-made plan / test and personalize</strong> · IELTS/TOEFL prep tracks</li>
+            <li><strong>Stat-based Gamification</strong> · accuracy scores make practice measurable</li>
+          </ul>
+        </div>
+        <div class="bmc-col-split">
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Relationship</span></div>
+            <ul><li>Personalization</li><li>Pronunciation for everything</li><li>Community</li></ul>
+          </div>
+          <div class="bmc-cell half">
+            <div class="bmc-cell-hd"><span class="bmc-icon">&#128640;</span><span>Channel</span></div>
+            <ul><li>Mobile App</li><li>Website</li></ul>
+          </div>
+        </div>
+        <div class="bmc-cell tall">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128101;</span><span>Customer Segments</span></div>
+          <ul>
+            <li><strong>People working on Pronunciation</strong> · non-native English speakers from India, Vietnam, Korea, China needing IELTS/TOEFL or corporate clarity</li>
+            <li>Anyone held back specifically by accent confidence rather than vocabulary gaps</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bmc-bottom">
+        <div class="bmc-cell bot cost">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128200;</span><span>Cost Structure</span></div>
+          <p>Employee Salaries · Digital Infrastructure · AI compute costs (real-time inference per session)</p>
+        </div>
+        <div class="bmc-cell bot rev">
+          <div class="bmc-cell-hd"><span class="bmc-icon">&#128178;</span><span>Revenue Stream</span></div>
+          <p>Two types of Subscription Plans · ELSA Pro (~$12/mo) · ELSA Lifetime (~$89 one-time)</p>
+        </div>
+      </div>
+    </div>
+    <div class="bmc-insight"><strong>Gap for LinguaFly:</strong> ELSA is English-only and pronunciation-only. Excellent specialist tool but not a full language platform. It does nothing for vocabulary, grammar, reading, or script learning · and its narrow niche limits total addressable market.</div>
+  </div>
+
+  <!-- Comparison Matrix -->
+  <div class="reveal" style="margin-top:2.5rem;">
+    <table class="cm">
+      <thead><tr><th>App</th><th class="ct2">Free Tier</th><th class="ct2">Gamification</th><th class="ct2">Pronunciation AI</th><th class="ct2">Destination-aware</th><th class="ct2">Script Learning</th><th class="ct2">Fast-track Mode</th><th>Revenue</th></tr></thead>
+      <tbody>
+        <tr><td class="br">Duolingo</td><td class="ct2"><span class="tk">&#10003;</span></td><td class="ct2"><span class="tk">&#10003;&#10003;</span></td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td>Freemium + Ads</td></tr>
+        <tr><td class="br">Babbel</td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td>Subscription</td></tr>
+        <tr><td class="br">Cake</td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td>Subscription</td></tr>
+        <tr><td class="br">ELSA Speak</td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="pt">&#126;</span></td><td class="ct2"><span class="tk">&#10003;&#10003;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td class="ct2"><span class="cx">&#10007;</span></td><td>Subscription</td></tr>
+        <tr class="lr"><td class="br">LinguaFly &#10022;</td><td class="ct2"><span class="tk">&#10003;</span></td><td class="ct2"><span class="tk">&#10003;</span></td><td class="ct2"><span class="tk">&#10003;</span></td><td class="ct2"><span class="tk">&#10003;&#10003;</span></td><td class="ct2"><span class="tk">&#10003;</span></td><td class="ct2"><span class="tk">&#10003;&#10003;</span></td><td>Freemium</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<!-- 04 RESEARCH -->
+<section id="research">
+  <div class="ey"><span class="num">04</span> User Research</div>
+  <h2 class="st">What Users Actually Said</h2>
+  <p class="sd">Interviews were conducted with users matching both personas. Patterns across pain points, learning preferences, and app usage habits were documented and synthesized into product decisions.</p>
+  <div class="rc">
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;">Pain Points Identified</div>
+      <div class="pain-cards">
+        <div class="pain-card reveal"><div class="pn">01</div><div><h4>No milestone transparency</h4><p>Users didn't know how long it would take to reach functional conversation vs. fluency. They need upfront time-anchored estimates to plan commitment.</p></div></div>
+        <div class="pain-card reveal rd1"><div class="pn">02</div><div><h4>Inaccurate starting point</h4><p>Customisation at sign-up didn't genuinely change difficulty. Users with prior knowledge still received beginner content · frustrating and demotivating.</p></div></div>
+        <div class="pain-card reveal rd2"><div class="pn">03</div><div><h4>Script blindness</h4><p>Users learning Arabic or Japanese could speak phonetically but couldn't read the script · a confidence gap that caused motivation loss mid-course.</p></div></div>
+        <div class="pain-card reveal rd3"><div class="pn">04</div><div><h4>Inflexible daily caps</h4><p>On free days, users wanted to learn more but apps served the same repeated vocabulary in loops instead of new content beyond the daily quota.</p></div></div>
+        <div class="pain-card reveal"><div class="pn">05</div><div><h4>Notification timing mismatch</h4><p>Student schedules are irregular. Fixed-time reminders were dismissed repeatedly, breaking streaks unfairly. Users wanted pattern-aware nudges.</p></div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:.9rem;">Preferences and Habits</div>
+      <div class="pref-stack">
+        <div class="pref-card reveal"><div class="pref-ey">Pace Preference</div><p>Several users found standard lesson pace too slow. They want an optional fast-track mode that covers more material per session without sacrificing quality.</p></div>
+        <div class="pref-card reveal rd1"><div class="pref-ey">Flexibility vs Structure</div><p>Users want a soft daily quota with an optional extended mode · but also a session timer so they don't accidentally spend more time than intended.</p></div>
+        <div class="pref-card reveal rd2"><div class="pref-ey">Smart Notifications</div><p>Students requested activity-pattern-based reminders. The app should learn when they are typically free, not rely on a manually set time that becomes stale.</p></div>
+        <div class="pref-card reveal rd3"><div class="pref-ey">Script Learning</div><p>Users want a dedicated optional track for scripts running parallel to vocabulary · especially for Arabic (RTL), Japanese hiragana/katakana, and German capitalization.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE ONBOARDING FLOW -->
+  <div style="margin-top:3rem;" class="reveal">
+    <div class="ey" style="margin-bottom:.9rem;"><span class="num"></span> Interactive Onboarding Flow</div>
+    <div class="flow-interactive">
+      <div class="flow-header">
+        <h3>New User Onboarding Journey</h3>
+        <span class="flow-step-counter" id="step-counter">Step 1 of 7</span>
+      </div>
+      <div class="flow-progress-track">
+        <div class="flow-progress-fill" id="flow-progress" style="width:14.28%"></div>
+      </div>
+      <div class="flow-body">
+        <!-- Step 1 -->
+        <div class="flow-step active" id="fs-1">
+          <div>
+            <div class="flow-step-title">Welcome to LinguaFly</div>
+            <div class="flow-step-sub">Let's personalise your learning experience. This takes about 60 seconds and shapes everything · your pace, your content, your reminders.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">First time learning a language</span>
+            <span class="flow-opt" onclick="selectOpt(this)">Resuming after a break</span>
+            <span class="flow-opt" onclick="selectOpt(this)">I already speak some of it</span>
+          </div>
+          <div class="flow-nav">
+            <div class="flow-breadcrumb" id="breadcrumb"></div>
+            <button class="flow-nav-btn next" onclick="nextStep()">Get started &#8594;</button>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="flow-step" id="fs-2">
+          <div>
+            <div class="flow-step-title">Which language are you learning?</div>
+            <div class="flow-step-sub">We currently support English and Arabic. More languages are coming soon · German and French are next.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#127466;&#127475; English</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#127462;&#127466; Arabic</span>
+            <span class="flow-opt" onclick="selectOpt(this, true)">&#128681; Notify me when German launches</span>
+            <span class="flow-opt" onclick="selectOpt(this, true)">&#128681; Notify me when French launches</span>
+          </div>
+          <div class="flow-nav">
+            <div class="flow-breadcrumb" id="bc2"></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="nextStep()">Continue &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="flow-step" id="fs-3">
+          <div>
+            <div class="flow-step-title">What is your goal?</div>
+            <div class="flow-step-sub">This shapes which features activate and how your lesson path is structured. Be honest · you can change it later.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#9992;&#65039; Survive abroad · I'm leaving soon</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128172; Hold a basic conversation</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#127942; Become fluent over time</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#127774; Casual learning, no deadline</span>
+          </div>
+          <div class="flow-nav">
+            <div></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="nextStep()">Continue &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="flow-step" id="fs-4">
+          <div>
+            <div class="flow-step-title">Do you have a departure date?</div>
+            <div class="flow-step-sub">If you're going abroad, entering your date activates Departure Mode · we'll build a week-by-week milestone plan so you know exactly what you'll be able to say by when.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#128197; Yes · activating Departure Mode</span>
+            <span class="flow-opt" onclick="selectOpt(this)">No departure date · skip this</span>
+          </div>
+          <div style="background:rgba(212,146,26,.07);border:1px solid rgba(212,146,26,.2);border-radius:3px;padding:.9rem 1rem;font-size:.8rem;color:var(--accent3);margin-top:.5rem;">
+            <strong>Departure Mode</strong> · enter your travel date and we calculate: what you'll know by Week 2, Week 4, and Week 8. A countdown and milestone plan appear on your home screen.
+          </div>
+          <div class="flow-nav">
+            <div></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="nextStep()">Continue &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 5 -->
+        <div class="flow-step" id="fs-5">
+          <div>
+            <div class="flow-step-title">How much time can you give each day?</div>
+            <div class="flow-step-sub">We'll build your daily mission around this. You can always do more · this is just the baseline. You can change this any time in settings.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#9201; 5 minutes · just the essentials</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128336; 10 minutes · balanced</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128338; 15 minutes · committed</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128340; 20 minutes · fast-track</span>
+          </div>
+          <div class="flow-nav">
+            <div></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="nextStep()">Continue &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 6 -->
+        <div class="flow-step" id="fs-6">
+          <div>
+            <div class="flow-step-title">Can you read the script?</div>
+            <div class="flow-step-sub">For Arabic especially, knowing whether you can read the script changes your lesson path significantly. Don't worry if you can't · we have a parallel Script Track for that.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#10060; No · I need the Script Track</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128269; A little · I recognise some characters</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#10003; Yes · I can read it fine</span>
+          </div>
+          <div class="flow-nav">
+            <div></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="nextStep()">Continue &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Step 7 - Level Assessment -->
+        <div class="flow-step" id="fs-7">
+          <div>
+            <div class="flow-step-title">What is your current level?</div>
+            <div class="flow-step-sub">Be honest · the more accurately we know where you are, the less time you waste on things you already know.</div>
+          </div>
+          <div class="flow-options">
+            <span class="flow-opt" onclick="selectOpt(this)">&#128285; Complete beginner</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128286; Know a few words</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128287; Can say basic sentences</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#128288; Can hold a basic conversation</span>
+            <span class="flow-opt" onclick="selectOpt(this)">&#9654;&#65039; Take a 2-min diagnostic test instead</span>
+          </div>
+          <div class="flow-nav">
+            <div></div>
+            <div style="display:flex;gap:.5rem;">
+              <button class="flow-nav-btn back" onclick="prevStep()">&#8592; Back</button>
+              <button class="flow-nav-btn next" onclick="finishFlow()">Start Learning &#8594;</button>
+            </div>
+          </div>
+        </div>
+        <!-- Result -->
+        <div class="flow-step" id="fs-result">
+          <div class="flow-result">
+            <h4>&#127881; Your LinguaFly profile is ready</h4>
+            <p>Based on your answers, we've built a personalised lesson path, set your daily mission, and · if you selected Departure Mode · calculated your milestone plan. Your first lesson begins right now.</p>
+          </div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.5rem;line-height:1.6;">This interactive demo shows how the onboarding flow works. Each answer shapes: lesson difficulty, daily quota, notification timing, script track activation, and whether Departure Mode is enabled.</div>
+          <div class="flow-nav">
+            <div></div>
+            <button class="flow-nav-btn restart" onclick="restartFlow()">&#8635; Restart Demo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 FEATURES -->
+<section id="features">
+  <div class="ey"><span class="num">05</span> Feature Brainstorming and Prioritization</div>
+  <h2 class="st">What Gets Built</h2>
+  <p class="sd">Features were ideated from user research, competitor gap analysis, and original thinking. Prioritized using Kano model, MoSCoW framework, and RICE scoring for the must-have set.</p>
+
+  <div class="ey" style="margin-bottom:.9rem;"><span class="num"></span> Original Features · Beyond Competitor Consolidation</div>
+  <div class="ufg reveal">
+    <div class="ufc"><div class="ui">&#129302;</div><h4>AI Conversation Partner</h4><p>A built-in AI chatbot for practicing full conversations in the target language. Solves the "I have no one to practice with" problem · especially for shy learners. The AI responds, corrects, and adapts in real time.</p></div>
+    <div class="ufc"><div class="ui">&#127942;</div><h4>Social Leaderboards with Friends</h4><p>Users add friends and compete on weekly XP leaderboards. Unlike anonymous leagues, this is friend-specific · creating personal accountability and genuine peer motivation rather than competition with strangers.</p></div>
+    <div class="ufc"><div class="ui">&#128197;</div><h4>Departure Mode</h4><p>User enters a departure date. The app auto-calculates a milestone plan · what they'll be able to say by week 2, week 4, and week 8. Directly addresses the milestone transparency pain point identified in research.</p></div>
+    <div class="ufc"><div class="ui">&#127919;</div><h4>Situational Lesson Packs</h4><p>Pre-built bundles for real scenarios: "At the German university registration desk", "At an Arabic supermarket", "Taking a bus in Riyadh". High utility for destination-specific learners who need survival phrases over CEFR levels.</p></div>
+    <div class="ufc"><div class="ui">&#128202;</div><h4>Milestone Progress Dashboard</h4><p>Visual tracker showing estimated time to each level, words learned vs. target, and skill breakdown by listening, speaking, reading, and vocabulary. Replaces vague "34% done" with time-anchored milestones.</p></div>
+    <div class="ufc"><div class="ui">&#128292;</div><h4>Script Fast-Track Mode</h4><p>A parallel track for learning Arabic (RTL script) or Japanese (hiragana/katakana) · separate from vocabulary lessons. Performance-based review surfaces forgotten characters automatically, solving script blindness.</p></div>
+  </div>
+
+  <!-- MoSCoW -->
+  <div class="ey" style="margin-bottom:.9rem;"><span class="num"></span> MoSCoW Prioritization</div>
+  <div class="mg reveal">
+    <div class="mc"><div class="mch must"><h3>Must Have</h3><span class="mcc">MVP CRITICAL · FREE ONLY</span></div><div class="mcb"><span class="chip">Profile and Stat System</span><span class="chip">Daily Missions</span><span class="chip">Customisation + Level Test</span><span class="chip">Small Lessons (5 min)</span><span class="chip">Learning Progress Bar</span><span class="chip">Streak System</span><span class="chip">Basic Notifications</span></div></div>
+    <div class="mc"><div class="mch should"><h3>Should Have</h3><span class="mcc">HIGH VALUE</span></div><div class="mcb"><span class="chip">Weekly Bonus Tests</span><span class="chip">Monthly Major Test</span><span class="chip">Video-Based Learning</span><span class="chip">Downloadable Lessons</span><span class="chip">Departure Mode</span><span class="chip">Situational Packs</span><span class="chip">Smart Notifications</span><span class="chip">Cute Mascot</span></div></div>
+    <div class="mc"><div class="mch could"><h3>Could Have</h3><span class="mcc">NICE TO HAVE</span></div><div class="mcb"><span class="chip">AI Conversation Partner</span><span class="chip">Social Leaderboards</span><span class="chip">Script Fast-Track</span><span class="chip">Pronunciation AI</span><span class="chip">Milestone Dashboard</span><span class="chip">Certification Tests</span></div></div>
+    <div class="mc"><div class="mch wont"><h3>Won't Have</h3><span class="mcc">DESCOPED</span></div><div class="mcb"><span class="chip">Google Translate Integration</span><span class="chip">Compulsory Login</span><span class="chip">German Lessons</span><span class="chip">French Lessons</span><span class="chip">Short Video Learning</span></div></div>
+  </div>
+
+  <!-- RICE Prioritization -->
+  <div class="ey" style="margin-bottom:.9rem;"><span class="num"></span> RICE Prioritization of Must-Have Features</div>
+  <p style="font-size:.85rem;color:var(--muted);max-width:620px;margin-bottom:1.5rem;line-height:1.65;">RICE score = (Reach x Impact x Confidence) / Effort. Reach is monthly users affected (0–10 scale), Impact is user value (1–3), Confidence is certainty % (0–100), Effort is person-weeks.</p>
+  <div class="rice-table-wrap reveal">
+    <table class="rice-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="ct3">Reach</th>
+          <th class="ct3">Impact</th>
+          <th class="ct3">Confidence</th>
+          <th class="ct3">Effort (weeks)</th>
+          <th class="ct3">RICE Score</th>
+          <th class="ct3">Priority</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feat">Small Lessons (5 min)</td>
+          <td class="ct3">10</td><td class="ct3">3</td><td class="ct3">95%</td><td class="ct3">3</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent2);">95.0</span><div class="rice-bar"><div class="rice-bar-fill" style="width:100%"></div></td>
+          <td class="ct3"><span class="rice-badge p1">P1</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Core product · every user touches this daily; lowest effort, highest certainty</td>
+        </tr>
+        <tr>
+          <td class="feat">Customisation + Level Test</td>
+          <td class="ct3">10</td><td class="ct3">3</td><td class="ct3">90%</td><td class="ct3">4</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent2);">67.5</span><div class="rice-bar"><div class="rice-bar-fill" style="width:71%"></div></td>
+          <td class="ct3"><span class="rice-badge p1">P1</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Directly addresses pain point #2 (wrong starting point); affects 100% of new users</td>
+        </tr>
+        <tr>
+          <td class="feat">Learning Progress Bar</td>
+          <td class="ct3">10</td><td class="ct3">2</td><td class="ct3">90%</td><td class="ct3">2</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent2);">90.0</span><div class="rice-bar"><div class="rice-bar-fill" style="width:95%"></div></td>
+          <td class="ct3"><span class="rice-badge p1">P1</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Directly solves milestone transparency gap; low effort, high reach</td>
+        </tr>
+        <tr>
+          <td class="feat">Streak System</td>
+          <td class="ct3">9</td><td class="ct3">2</td><td class="ct3">85%</td><td class="ct3">2</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent3);">76.5</span><div class="rice-bar"><div class="rice-bar-fill" style="width:80%"></div></td>
+          <td class="ct3"><span class="rice-badge p1">P1</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Proven retention mechanic across all language apps; validated by competitor success</td>
+        </tr>
+        <tr>
+          <td class="feat">Daily Missions</td>
+          <td class="ct3">9</td><td class="ct3">2</td><td class="ct3">85%</td><td class="ct3">3</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent3);">51.0</span><div class="rice-bar"><div class="rice-bar-fill" style="width:54%"></div></td>
+          <td class="ct3"><span class="rice-badge p2">P2</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Drives daily habit; slightly higher effort due to mission logic variation per user level</td>
+        </tr>
+        <tr>
+          <td class="feat">Profile and Stat System</td>
+          <td class="ct3">8</td><td class="ct3">2</td><td class="ct3">80%</td><td class="ct3">3</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent3);">42.7</span><div class="rice-bar"><div class="rice-bar-fill" style="width:45%"></div></td>
+          <td class="ct3"><span class="rice-badge p2">P2</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Supports personalization and gamification; backend complexity adds to effort</td>
+        </tr>
+        <tr>
+          <td class="feat">Basic Notifications</td>
+          <td class="ct3">8</td><td class="ct3">2</td><td class="ct3">75%</td><td class="ct3">2</td>
+          <td class="ct3"><span class="rice-score" style="color:var(--accent3);">60.0</span><div class="rice-bar"><div class="rice-bar-fill" style="width:63%"></div></td>
+          <td class="ct3"><span class="rice-badge p2">P2</span></td>
+          <td style="font-size:.76rem;color:var(--muted);">Low effort implementation; confidence slightly lower due to timing sensitivity pain point</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Free vs Premium -->
+  <div class="insight warn reveal" style="margin-bottom:2rem;margin-top:2.5rem;">
+    <h4>Premium Introduced Post-MVP Only</h4>
+    <p>Users must first experience the core product, build a habit, and develop genuine affection for it before being shown premium options. Introducing premium at MVP stage risks deterring early adopters who have not yet validated the product's value for themselves. Premium gates open in v1.1 · at least 4 to 6 weeks post-MVP public launch, after baseline retention data is established.</p>
+  </div>
+  <div class="ey" style="margin-bottom:1.1rem;"><span class="num"></span> MVP Free vs Post-MVP Premium</div>
+  <div class="fp-wrap reveal">
+    <table class="fp-t">
+      <thead><tr><th>Feature</th><th>Free (MVP)</th><th>Post-MVP Premium</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="ft">Stat System</td><td class="ftd"><span class="yes">&#10003;</span> Basic</td><td class="ptd"><span class="yes">&#10003;</span><span class="pn2">+ Skill analytics</span></td><td style="font-size:.76rem;color:var(--muted)">Premium adds skill-level breakdown</td></tr>
+        <tr><td class="ft">Daily Missions</td><td class="ftd"><span class="yes">&#10003;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Core · always free</td></tr>
+        <tr><td class="ft">Customisation + Level Test</td><td class="ftd"><span class="yes">&#10003;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">All users get personalised start</td></tr>
+        <tr><td class="ft">Small Lessons</td><td class="ftd"><span class="yes">&#10003;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Core content · always free</td></tr>
+        <tr><td class="ft">Learning Progress Bar</td><td class="ftd"><span class="yes">&#10003;</span></td><td class="ptd"><span class="yes">&#10003;</span><span class="pn2">+ Milestone detail</span></td><td style="font-size:.76rem;color:var(--muted)">Premium shows time-anchored milestones</td></tr>
+        <tr><td class="ft">Streak System</td><td class="ftd"><span class="yes">&#10003;</span> Standard</td><td class="ptd"><span class="yes">&#10003;</span><span class="pn2">+ Streak insurance</span></td><td style="font-size:.76rem;color:var(--muted)">Premium gets extra cheat days</td></tr>
+        <tr><td class="ft">Basic Notifications</td><td class="ftd"><span class="yes">&#10003;</span></td><td class="ptd"><span class="yes">&#10003;</span><span class="pn2">+ AI pattern-based</span></td><td style="font-size:.76rem;color:var(--muted)">Premium learns your schedule</td></tr>
+        <tr><td class="ft">Weekly Bonus Tests</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Post-MVP upsell driver</td></tr>
+        <tr><td class="ft">Monthly Ranking Test</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Competitive leaderboard</td></tr>
+        <tr><td class="ft">Video-Based Learning</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Richer media library</td></tr>
+        <tr><td class="ft">Downloadable Lessons</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Offline access for travel</td></tr>
+        <tr><td class="ft">AI Conversation Partner</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Key differentiator feature</td></tr>
+        <tr><td class="ft">Social Leaderboards</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Social engagement driver</td></tr>
+        <tr><td class="ft">Pronunciation AI</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Speech recognition scoring</td></tr>
+        <tr><td class="ft">Certification Tests</td><td class="ftd"><span class="no">&#8212;</span></td><td class="ptd"><span class="yes">&#10003;</span></td><td style="font-size:.76rem;color:var(--muted)">Future high-value revenue stream</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<!-- 06 ROADMAP -->
+<section id="roadmap">
+  <div class="ey"><span class="num">06</span> Product Roadmap</div>
+  <h2 class="st">The Roadmap Plan</h2>
+  <p class="sd">A 90-day roadmap spanning four work streams: Language Experts, Designers, Engineers, and Marketing. The timeline is indicative · actual sprint dates to be confirmed with the team during the stakeholder review. The sequence and dependencies are fixed; the exact durations are placeholders to be validated.</p>
+
+  <div class="insight info reveal" style="margin-bottom:2.5rem;">
+    <h4>Note on Timeline</h4>
+    <p>Dates in this roadmap are placeholders based on estimated effort. They will be revised during the stakeholder review session once each team confirms their actual capacity, team size, and sprint velocity. The <strong>sequence of tasks and dependencies</strong> is what matters here · the relative ordering is fixed even if exact dates shift.</p>
+  </div>
+
+  <div class="ps reveal">
+    <div class="pc2"><div class="p-num">Phase 1</div><div class="p-name">MVP Prototype Build</div><div class="p-date">Jul 1 &#8594; Jul 31 (placeholder)</div></div>
+    <div class="pc2 ms"><div class="p-num">Milestone</div><div class="p-name">Limited Beta Testing</div><div class="p-date">~Aug 15 (placeholder)</div></div>
+    <div class="pc2"><div class="p-num">Phase 3</div><div class="p-name">Bug Fixes and MVP Polish</div><div class="p-date">Aug 15 &#8594; Sep 30 (placeholder)</div></div>
+    <div class="pc2 ms2"><div class="p-num">Milestone</div><div class="p-name">MVP Public Launch</div><div class="p-date">~Sep 30 (placeholder)</div></div>
+  </div>
+
+  <div class="go reveal">
+    <div class="gh"><div>Task</div><div>July</div><div>August</div><div>September</div></div>
+    <div class="gm"><div class="gml">&#129514; Limited Beta Testing</div><div></div><div class="gmm">&#9660; ~Aug 15</div><div></div></div>
+    <div class="gm2"><div class="gm2l">&#128640; MVP Public Launch</div><div></div><div></div><div class="gm2m">&#9660; ~Sep 30</div></div>
+    <div class="gg2"><div>Language Expert · English and Arabic only</div></div>
+    <div class="gr2"><div class="gtsk">English Lessons</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:4%;width:89%;">English Lessons</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Arabic Lessons</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:4%;width:89%;">Arabic Lessons</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gg2"><div>Designers · Tasks listed by deliverable</div></div>
+    <div class="gr2"><div class="gtsk">Wireframing and Ideation</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:2%;width:28%;">Wireframe</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">UI Design · Core Screens</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:18%;width:78%;">Core UI Screens</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Mascot Concept Design</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:50%;width:46%;">Mascot Concept</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Post-Beta UI Fixes</div><div class="gcells"><div class="gcol"></div><div class="gcol"><div class="gbar gb-f" style="left:8%;width:55%;">Post-Beta Fixes</div></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">MVP Polish and Final Assets</div><div class="gcells"><div class="gcol"></div><div class="gcol"><div class="gbar gb-m" style="left:55%;width:42%;">MVP Polish</div></div><div class="gcol"><div class="gbar gb-m" style="left:0%;width:65%;">&#8594;</div></div></div></div>
+    <div class="gr2"><div class="gtsk">Promotional Website Design</div><div class="gcells"><div class="gcol"><div class="gbar gb-o" style="left:50%;width:46%;">Website Design</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gg2"><div>Engineers</div></div>
+    <div class="gr2"><div class="gtsk">Base API</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:2%;width:60%;">Base API</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Base UI Implementation</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:28%;width:66%;">Base UI</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">English Lesson Module</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:50%;width:46%;">Eng Module</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Arabic Lesson Module</div><div class="gcells"><div class="gcol"><div class="gbar gb-b" style="left:50%;width:46%;">Arabic Module</div></div><div class="gcol"></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">User Profile + Progress Bar</div><div class="gcells"><div class="gcol"></div><div class="gcol"><div class="gbar gb-b" style="left:4%;width:46%;">Profile + Progress</div></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Bug Fixing after Beta</div><div class="gcells"><div class="gcol"></div><div class="gcol"><div class="gbar gb-f" style="left:9%;width:70%;">Bug Fixing</div></div><div class="gcol"></div></div></div>
+    <div class="gr2"><div class="gtsk">Stat System</div><div class="gcells"><div class="gcol"></div><div class="gcol"></div><div class="gcol"><div class="gbar gb-m" style="left:3%;width:60%;">Stat System</div></div></div></div>
+    <div class="gr2"><div class="gtsk">Notification System</div><div class="gcells"><div class="gcol"></div><div class="gcol"></div><div class="gcol"><div class="gbar gb-m" style="left:3%;width:44%;">Notifications</div></div></div></div>
+    <div class="gr2"><div class="gtsk">Customisation Feature</div><div class="gcells"><div class="gcol"></div><div class="gcol"></div><div class="gcol"><div class="gbar gb-m" style="left:30%;width:58%;">Customisation</div></div></div></div>
+    <div class="gr2"><div class="gtsk">Downloadable Lessons</div><div class="gcells"><div class="gcol"></div><div class="gcol"></div><div class="gcol"><div class="gbar gb-m" style="left:56%;width:41%;">Downloadable</div></div></div></div>
+    <div class="gr2"><div class="gtsk">Promotional Website</div><div class="gcells"><div class="gcol"></div><div class="gcol"><div class="gbar gb-o" style="left:9%;width:62%;">Promo Website</div></div><div class="gcol"></div></div></div>
+    <div class="gl">
+      <div class="gl-i"><div class="gl-d" style="background:var(--blue)"></div>Beta Build</div>
+      <div class="gl-i"><div class="gl-d" style="background:var(--accent3)"></div>MVP Build</div>
+      <div class="gl-i"><div class="gl-d" style="background:var(--accent)"></div>Post-Beta Fixes</div>
+      <div class="gl-i"><div class="gl-d" style="background:#6b6560"></div>Other</div>
+      <div class="gl-i" style="margin-left:auto;font-style:italic;font-size:.68rem;">All dates are placeholder · to be confirmed in stakeholder review</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 DEPENDENCIES AND RISKS -->
+<section id="deps">
+  <div class="ey"><span class="num">07</span> Dependencies and Risks</div>
+  <h2 class="st">What Blocks What</h2>
+  <p class="sd">All dependencies are identified by the PM before stakeholder review · not discovered during it. Risks are rated by severity with mitigation strategies defined in advance.</p>
+
+  <div class="ey" style="margin-bottom:1.25rem;"><span class="num"></span> Visual Dependency Map</div>
+
+  <div class="dep-visual reveal">
+    <!-- Chain 1: Core build path to Beta -->
+    <div class="dep-section-block">
+      <div class="dep-group-label">Critical Path to Beta Release</div>
+      <div class="dep-chain-visual">
+        <div class="dv-node critical" style="position:relative;">Base API<div class="dv-label">Day 1</div></div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node" style="position:relative;">Base UI<div class="dv-label">After API</div></div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node" style="position:relative;">English Module<div class="dv-label">After Base UI</div></div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node" style="position:relative;">Arabic Module<div class="dv-label">Parallel</div></div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node milestone">&#129514; Beta Testing</div>
+      </div>
+    </div>
+
+    <!-- Chain 2: Design dependency -->
+    <div class="dep-section-block">
+      <div class="dep-group-label">Design Must Precede Implementation</div>
+      <div class="dep-chain-visual">
+        <div class="dv-node critical">Wireframing</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node">UI Design · Core Screens</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node">Base UI Implementation</div>
+        <div class="dv-arr" style="padding:0 .5rem;font-size:.8rem;color:var(--accent3);">&#43;</div>
+        <div class="dv-node">Mascot Design</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node milestone">&#129514; Beta Ready</div>
+      </div>
+    </div>
+
+    <!-- Chain 3: Beta to MVP -->
+    <div class="dep-section-block">
+      <div class="dep-group-label">Post-Beta Path to MVP Launch</div>
+      <div class="dep-chain-visual">
+        <div class="dv-node critical">Beta Testing Complete</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node">Bug Fixing Sprint</div>
+        <div class="dv-arr" style="padding:0 .5rem;font-size:.8rem;color:var(--accent3);">&#43;</div>
+        <div class="dv-node">Stat System</div>
+        <div class="dv-arr" style="padding:0 .5rem;font-size:.8rem;color:var(--accent3);">&#43;</div>
+        <div class="dv-node">Customisation</div>
+        <div class="dv-arr" style="padding:0 .5rem;font-size:.8rem;color:var(--accent3);">&#43;</div>
+        <div class="dv-node">Downloadable Lessons</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node milestone">&#128640; MVP Launch</div>
+      </div>
+    </div>
+
+    <!-- Chain 4: Profile before Notifications -->
+    <div class="dep-section-block">
+      <div class="dep-group-label">Internal Dependency · Data Model</div>
+      <div class="dep-chain-visual">
+        <div class="dv-node">User Profile</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node" style="font-size:.72rem;">Provides user data model required for notification logic</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node">Notification System</div>
+      </div>
+    </div>
+
+    <!-- Chain 5: Future Q4 -->
+    <div>
+      <div class="dep-group-label">Q4 Dependencies (Not in Current Scope)</div>
+      <div class="dep-chain-visual">
+        <div class="dv-node future">Base API &#10003;</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node future">Speech Recognition Integration</div>
+        <div class="dv-arr"><svg viewBox="0 0 20 12"><path d="M0 6 L14 6 M10 2 L14 6 L10 10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="dv-node future">AI Conversation Partner (Q4)</div>
+        <div class="dv-arr" style="padding:0 .5rem;font-size:.8rem;color:var(--muted);">&#43;</div>
+        <div class="dv-node future">German / French Lessons (Q4)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ey" style="margin-bottom:1.1rem;margin-top:3rem;"><span class="num"></span> Impact · Probability Matrix</div>
+  <div class="ipm-wrap reveal">
+    <div class="ipm-title">Each risk plotted by likelihood (x-axis) and impact on delivery (y-axis).</div>
+    <div class="ipm-chart">
+      <svg class="ipm-svg" viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans',sans-serif">
+
+        <!-- Zone fills only — no labels inside -->
+        <rect x="60" y="20" width="140" height="100" fill="#2a6049" opacity=".05" rx="2"/>
+        <rect x="200" y="20" width="140" height="100" fill="#d4921a" opacity=".05" rx="2"/>
+        <rect x="340" y="20" width="140" height="100" fill="#c84b2f" opacity=".06" rx="2"/>
+        <rect x="60" y="120" width="140" height="100" fill="#d4921a" opacity=".05" rx="2"/>
+        <rect x="200" y="120" width="140" height="100" fill="#c84b2f" opacity=".05" rx="2"/>
+        <rect x="340" y="120" width="140" height="100" fill="#c84b2f" opacity=".07" rx="2"/>
+        <rect x="60" y="220" width="140" height="50" fill="#2a6049" opacity=".06" rx="2"/>
+        <rect x="200" y="220" width="140" height="50" fill="#d4921a" opacity=".05" rx="2"/>
+        <rect x="340" y="220" width="140" height="50" fill="#d4921a" opacity=".05" rx="2"/>
+
+        <!-- Axes -->
+        <line x1="60" y1="270" x2="490" y2="270" stroke="#d4cfc4" stroke-width="1.2"/>
+        <line x1="60" y1="270" x2="60" y2="15" stroke="#d4cfc4" stroke-width="1.2"/>
+
+        <!-- Axis labels -->
+        <text x="275" y="292" font-size="10" fill="#7a7567" text-anchor="middle" font-family="'DM Mono',monospace" letter-spacing=".07em">PROBABILITY &#8594;</text>
+        <text x="16" y="155" font-size="10" fill="#7a7567" text-anchor="middle" font-family="'DM Mono',monospace" letter-spacing=".07em" transform="rotate(-90,16,155)">IMPACT &#8594;</text>
+
+        <!-- X tick labels -->
+        <text x="130" y="284" font-size="9" fill="#7a7567" text-anchor="middle" font-family="'DM Mono',monospace">Low</text>
+        <text x="270" y="284" font-size="9" fill="#7a7567" text-anchor="middle" font-family="'DM Mono',monospace">Medium</text>
+        <text x="410" y="284" font-size="9" fill="#7a7567" text-anchor="middle" font-family="'DM Mono',monospace">High</text>
+
+        <!-- Y tick labels -->
+        <text x="52" y="248" font-size="9" fill="#7a7567" text-anchor="end" font-family="'DM Mono',monospace">Low</text>
+        <text x="52" y="172" font-size="9" fill="#7a7567" text-anchor="end" font-family="'DM Mono',monospace">Med</text>
+        <text x="52" y="70" font-size="9" fill="#7a7567" text-anchor="end" font-family="'DM Mono',monospace">High</text>
+
+        <!-- Divider lines (subtle) -->
+        <line x1="200" y1="18" x2="200" y2="270" stroke="#d4cfc4" stroke-width=".6" stroke-dasharray="3,4"/>
+        <line x1="340" y1="18" x2="340" y2="270" stroke="#d4cfc4" stroke-width=".6" stroke-dasharray="3,4"/>
+        <line x1="60" y1="120" x2="480" y2="120" stroke="#d4cfc4" stroke-width=".6" stroke-dasharray="3,4"/>
+        <line x1="60" y1="220" x2="480" y2="220" stroke="#d4cfc4" stroke-width=".6" stroke-dasharray="3,4"/>
+
+        <!-- R1: High prob · High impact (top-right) -->
+        <circle cx="410" cy="58" r="16" fill="#c84b2f" opacity=".9"/>
+        <text x="410" y="62" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R1</text>
+        <text x="410" y="84" font-size="8.5" fill="#c84b2f" text-anchor="middle" font-family="'DM Sans',sans-serif">API Delay</text>
+
+        <!-- R2: Med prob · High impact -->
+        <circle cx="270" cy="65" r="13" fill="#c84b2f" opacity=".85"/>
+        <text x="270" y="69" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R2</text>
+        <text x="270" y="88" font-size="8.5" fill="#c84b2f" text-anchor="middle" font-family="'DM Sans',sans-serif">Beta Volume</text>
+
+        <!-- R3: High prob · Med impact -->
+        <circle cx="395" cy="160" r="12" fill="#d4921a" opacity=".9"/>
+        <text x="395" y="164" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R3</text>
+        <text x="395" y="182" font-size="8.5" fill="#d4921a" text-anchor="middle" font-family="'DM Sans',sans-serif">Content Delay</text>
+
+        <!-- R4: Med prob · Med impact -->
+        <circle cx="265" cy="155" r="11" fill="#d4921a" opacity=".85"/>
+        <text x="265" y="159" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R4</text>
+        <text x="265" y="177" font-size="8.5" fill="#d4921a" text-anchor="middle" font-family="'DM Sans',sans-serif">Scope Creep</text>
+
+        <!-- R5: Low prob · Med impact -->
+        <circle cx="130" cy="162" r="10" fill="#d4921a" opacity=".8"/>
+        <text x="130" y="166" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R5</text>
+        <text x="130" y="182" font-size="8.5" fill="#d4921a" text-anchor="middle" font-family="'DM Sans',sans-serif">Notif Timing</text>
+
+        <!-- R6: Low prob · Low impact -->
+        <circle cx="130" cy="242" r="9" fill="#2a6049" opacity=".85"/>
+        <text x="130" y="246" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="'DM Mono',monospace">R6</text>
+        <text x="130" y="262" font-size="8.5" fill="#2a6049" text-anchor="middle" font-family="'DM Sans',sans-serif">Store Delay</text>
+
+      </svg>
+    </div>
+    <div class="ipm-legend">
+      <div class="ipm-leg-item"><div class="ipm-leg-dot" style="background:#c84b2f"></div>High Risk</div>
+      <div class="ipm-leg-item"><div class="ipm-leg-dot" style="background:#d4921a"></div>Medium Risk</div>
+      <div class="ipm-leg-item"><div class="ipm-leg-dot" style="background:#2a6049"></div>Low Risk</div>
+    </div>
+  </div>
+
+  <div class="ey" style="margin-bottom:1.1rem;"><span class="num"></span> Risk Register</div>
+  <div class="rg reveal">
+    <div class="rcard h"><div class="rl h">&#128308; High · R1</div><h4>Base API Delay</h4><p>If the Base API is not completed in the first 3 weeks of July, all downstream engineering tasks cascade. A 1-week slip here causes a 2-week slip downstream · threatening the Beta date.</p><div class="rmit">Begin API development on Day 1 (Jul 1). Assign senior engineer. Flag as a weekly checkpoint · not just a sprint item.</div></div>
+    <div class="rcard h"><div class="rl h">&#128308; High · R2</div><h4>Beta Feedback Volume Too Low</h4><p>If the limited Beta doesn't attract enough testers, the post-Beta bug-fix sprint will lack signal · weakening final MVP quality before public launch.</p><div class="rmit">Pre-register 50+ Beta users by Aug 1 via waitlist. Target university networks (IIT, MNIT communities) that match the core personas directly.</div></div>
+    <div class="rcard m"><div class="rl m">&#128993; Medium · R3</div><h4>Language Content Not Ready</h4><p>Language experts creating English and Arabic lessons work in parallel to engineering. If content isn't handed off by Jul 25, lesson modules cannot be integrated before the Beta.</p><div class="rmit">Set a hard content handoff deadline of Jul 25. Start with a minimum of 30 lessons · enough to demonstrate a viable Beta experience.</div></div>
+    <div class="rcard m"><div class="rl m">&#128993; Medium · R4</div><h4>Scope Creep Post-Beta</h4><p>Stakeholders may request additional features between Beta and MVP launch. Adding unplanned work in this window risks pushing the launch date.</p><div class="rmit">Enforce a feature freeze from Aug 15. Any new requests go to the Q4 backlog. Communicate this boundary clearly and upfront before Beta launches.</div></div>
+    <div class="rcard m"><div class="rl m">&#128993; Medium · R5</div><h4>Notification System Accuracy</h4><p>Activity-pattern notifications require user behavior data. At MVP stage, users may not have built habits yet · making smart notifications appear random or poorly timed.</p><div class="rmit">Ship basic time-based notifications in MVP. Roll out activity-pattern AI in v1.1 once behavioral data exists (4 to 6 weeks post-launch).</div></div>
+    <div class="rcard l"><div class="rl l">&#128994; Low · R6</div><h4>App Store Approval Delay</h4><p>Google Play and Apple App Store reviews can take 3 to 7 days. A submission close to the target date may not clear in time for the public launch announcement.</p><div class="rmit">Submit to both stores by Sep 23. Target Sep 30 as the public launch announcement date · build in a 7-day approval buffer.</div></div>
+  </div>
+</section>
+
+<!-- 08 COMMUNICATE -->
+<section id="comm">
+  <div class="ey"><span class="num">08</span> Refine, Communicate and Living Document</div>
+  <h2 class="st">After the Roadmap</h2>
+  <p class="sd">The PM identifies risks and dependencies before the stakeholder meeting · not during it. The feedback session validates the PM's pre-existing analysis. A living document protocol ensures the roadmap evolves responsibly and transparently.</p>
+
+  <div class="insight warn reveal" style="margin-bottom:2.5rem;">
+    <h4>PM Approach · Validation, Not Discovery</h4>
+    <p>Coming to a stakeholder review without pre-identified risks and dependencies signals poor preparation. The correct approach: the PM arrives with dependencies mapped and risks rated (done in Section 07 above). The stakeholder meeting then <strong>validates, challenges, and refines</strong> the PM's analysis. Questions to stakeholders are oriented around confirmation · not open-ended discovery that puts the PM on the back foot.</p>
+  </div>
+
+  <div class="fg reveal">
+    <div class="fb-card">
+      <h4>PM Pre-Meeting Preparation</h4>
+      <ul class="fb-ql">
+        <li>All 4 work stream dependencies mapped and documented (Section 07)</li>
+        <li>6 risks identified, rated by severity, and mitigations proposed</li>
+        <li>Timeline reviewed for internal consistency · no task starts before its dependency completes</li>
+        <li>Feature list cross-checked: only MVP-prioritized features appear in current scope</li>
+        <li>PM's own confidence estimate per feature cluster scored 1 to 5 before asking stakeholders</li>
+        <li>Change log template prepared for living document protocol</li>
+      </ul>
+    </div>
+    <div class="fb-card">
+      <h4>Stakeholder Review Questions</h4>
+      <ul class="fb-ql">
+        <li>I have mapped these 6 dependencies · are there any I've missed from your team's side?</li>
+        <li>I've rated these 6 risks · do any look higher or lower severity to you based on your experience?</li>
+        <li>On a scale of 1 to 5, how confident are you in Beta readiness by the target date?</li>
+        <li>On a scale of 1 to 5, is the time allotted per feature appropriate? (3 = just right, 5 = too much)</li>
+        <li>Are there any human resource constraints for Q3 I should factor in?</li>
+        <li>Any concerns about the MVP launch date from your team's side?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;" class="reveal">
+    <table class="sht">
+      <thead><tr><th>Stakeholder</th><th>Role</th><th>Primary Focus in Review</th><th>Confidence (1–5)</th></tr></thead>
+      <tbody>
+        <tr><td class="rl2">Lead Engineer</td><td>Engineering</td><td>API timeline validation, technical risk review, dependency sequence</td><td><div class="sb"><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2"></div></td></tr>
+        <tr><td class="rl2">Lead Designer</td><td>Design</td><td>Task clarity by deliverable, mascot timeline, MVP polish scope</td><td><div class="sb"><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2"></div></td></tr>
+        <tr><td class="rl2">Language Expert</td><td>Content</td><td>Content delivery deadline (Jul 25 hard date), lesson volume for Beta</td><td><div class="sb"><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2"></div><div class="sd2"></div></td></tr>
+        <tr><td class="rl2">Business Stakeholder</td><td>Strategy</td><td>Premium introduction timing, revenue model, launch date commitment</td><td><div class="sb"><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div><div class="sd2 f"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- LIVING DOCUMENT -->
+  <div style="margin-top:3rem;">
+    <div class="ey" style="margin-bottom:.9rem;"><span class="num"></span> Living Document Protocol</div>
+    <div class="lg2 reveal">
+      <div class="lc">
+        <div class="lc-n">01</div>
+        <h4>Triggers for Revision</h4>
+        <p>The roadmap is updated · not replaced · when any of the following occur:</p>
+        <ul class="tl-list">
+          <li>Beta user feedback reveals a Must-Have was wrong or missing</li>
+          <li>A technical blocker pushes a feature to Q4</li>
+          <li>A competitor releases a feature that changes market priority</li>
+          <li>New user research updates persona understanding</li>
+          <li>Stakeholder priority shift changes business goals</li>
+          <li>Content delivery misses the Jul 25 hard deadline</li>
+        </ul>
+      </div>
+      <div class="lc">
+        <div class="lc-n">02</div>
+        <h4>Version Control Process</h4>
+        <p>Every roadmap change is documented with: version number, date changed, what changed, why it changed, and who approved it. This prevents silent scope changes that cause team confusion.</p>
+        <p style="margin-top:.65rem;font-size:.78rem;color:var(--muted);">Changes are communicated to all stakeholders within 24 hours of approval. A changelog is pinned at the top of the shared roadmap document · always visible to the whole team.</p>
+        <p style="margin-top:.65rem;font-size:.78rem;color:var(--muted);">Minor changes (sub-feature re-sequencing within the same sprint) can be made by the PM unilaterally with documentation. Major changes require stakeholder sign-off.</p>
+      </div>
+      <div class="lc">
+        <div class="lc-n">03</div>
+        <h4>Escalation Protocol</h4>
+        <p>If a change affects a Must-Have feature, the Beta date, or the MVP launch date · it requires sign-off from all key stakeholders, not just the PM.</p>
+        <p style="margin-top:.65rem;font-size:.78rem;color:var(--muted);">If the MVP date is at genuine risk, a full re-planning session is called within 48 hours of the blocker being identified. The PM comes to that session with 2 to 3 concrete options, not an open question.</p>
+        <p style="margin-top:.65rem;font-size:.78rem;color:var(--muted);">All decisions and rationale are documented in the changelog for future retrospective reference.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <svg class="footer-logo" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 28 C6 28 10 18 18 14 C14 20 13 26 14 28 Z" fill="#c84b2f"/>
+    <path d="M14 28 C14 28 16 16 26 10 C20 18 18 24 18 28 Z" fill="#c84b2f" opacity=".7"/>
+    <path d="M18 28 C18 28 19 14 30 8 C23 17 21 24 22 28 Z" fill="#c84b2f" opacity=".4"/>
+    <text x="36" y="24" font-family="Georgia,serif" font-size="18" font-weight="700" fill="#0f0e0c" letter-spacing="-0.5">Lingua</text>
+    <text x="97" y="24" font-family="Georgia,serif" font-size="18" font-weight="700" font-style="italic" fill="#c84b2f" letter-spacing="-0.5">Fly</text>
+  </svg>
+  <div class="fr2">Aman Tater · Product Roadmap</div>
+</footer>
+
+<script>
+// Nav progress
+const np=document.getElementById('np');
+window.addEventListener('scroll',()=>{const m=document.documentElement.scrollHeight-window.innerHeight;np.style.width=(window.scrollY/m*100)+'%'});
+// Reveal
+const revs=document.querySelectorAll('.reveal');
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.07});
+revs.forEach(el=>ro.observe(el));
+// Active nav
+const secs=document.querySelectorAll('section[id]');
+const nas=document.querySelectorAll('.nav-links a');
+const no=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){nas.forEach(l=>l.classList.remove('active'));const l=document.querySelector(`.nav-links a[href="#${e.target.id}"]`);if(l)l.classList.add('active')}})},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>no.observe(s));
+// Bar chart
+const bco=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.hbf').forEach(b=>{b.style.width=b.dataset.pct+'%'});bco.unobserve(e.target)}})},{threshold:.3});
+const bc=document.getElementById('bar-chart');if(bc)bco.observe(bc);
+// Stats
+const sto=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('[data-d]').forEach(el=>{el.textContent=el.dataset.d});sto.unobserve(e.target)}})},{threshold:.5});
+const sc=document.querySelector('.hsc');if(sc)sto.observe(sc);
+// Competitor tabs
+document.getElementById('comp-tabs').addEventListener('click',e=>{const t=e.target.closest('.ctab');if(!t)return;const p=t.dataset.p;document.querySelectorAll('.ctab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.cpanel').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById('panel-'+p).classList.add('active')});
+
+// INTERACTIVE ONBOARDING FLOW
+let currentStep=1;const totalSteps=7;
+function updateProgress(){
+  const pct=(currentStep/(totalSteps+1))*100;
+  document.getElementById('flow-progress').style.width=pct+'%';
+  const counter=document.getElementById('step-counter');
+  if(currentStep<=totalSteps)counter.textContent='Step '+currentStep+' of '+totalSteps;
+  else counter.textContent='Complete';
+}
+function showStep(n){
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  const el=n>totalSteps?document.getElementById('fs-result'):document.getElementById('fs-'+n);
+  if(el)el.classList.add('active');
+}
+function nextStep(){currentStep++;if(currentStep>totalSteps)currentStep=totalSteps+1;showStep(currentStep);updateProgress();}
+function prevStep(){if(currentStep>1){currentStep--;showStep(currentStep);updateProgress();}}
+function finishFlow(){currentStep=totalSteps+1;showStep(totalSteps+1);updateProgress();}
+function restartFlow(){currentStep=1;showStep(1);updateProgress();}
+function selectOpt(el,secondary=false){
+  const siblings=el.parentElement.querySelectorAll('.flow-opt');
+  siblings.forEach(s=>{s.classList.remove('selected','selected2')});
+  el.classList.add(secondary?'selected2':'selected');
+}
+updateProgress();
+</script>
+</body>
+</html>

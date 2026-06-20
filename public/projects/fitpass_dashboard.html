@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FITPASS · Product Management Competition Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --red: #E8341A;
+    --red-light: #FFF0ED;
+    --red-mid: #F5A08A;
+    --navy: #0F1B2D;
+    --navy-mid: #1E2F47;
+    --navy-light: #2B3F5C;
+    --text: #0F1B2D;
+    --text-muted: #5A6577;
+    --text-hint: #9AA3B0;
+    --surface: #FFFFFF;
+    --surface-2: #F7F8FA;
+    --surface-3: #EFF1F5;
+    --border: rgba(15,27,45,0.10);
+    --border-strong: rgba(15,27,45,0.18);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 60px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+  }
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: white;
+    letter-spacing: 0.01em;
+  }
+  .logo-text span { color: var(--red); }
+  .header-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.15);
+  }
+  .header-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-nav {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+  .nav-btn.active { background: rgba(232,52,26,0.25); color: #F5A08A; }
+
+  /* LAYOUT */
+  .page { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+  /* SECTION HEADERS */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-pill {
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-gap { margin-bottom: 48px; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .card-sm { padding: 18px 20px; }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  /* METRIC CARDS */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+  }
+  .metric-card.alt::before { background: var(--navy); }
+  .metric-card.green::before { background: #1D9E75; }
+  .metric-card.amber::before { background: #BA7517; }
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-hint);
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .metric-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+  .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+
+  /* HERO SECTION */
+  .hero {
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(232,52,26,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(232,52,26,0.2);
+    color: #F5A08A;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .hero-title em {
+    color: var(--red);
+    font-style: normal;
+  }
+  .hero-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    max-width: 380px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .hero-stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat-num span { color: var(--red); font-size: 14px; }
+  .hero-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--surface-3);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    margin-bottom: 24px;
+    width: fit-content;
+  }
+  .tab {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* COMPETITOR TABLE */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comp-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: var(--surface-2); }
+  .comp-row-fitpass td { background: #FFF8F7; }
+  .comp-row-fitpass:hover td { background: #FFEEE9 !important; }
+  .comp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--red-light);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+  .comp-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .bar-cell { display: flex; align-items: center; gap: 8px; }
+  .bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--surface-3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--red);
+  }
+  .bar-text { font-size: 12px; color: var(--text-muted); min-width: 48px; text-align: right; }
+
+  /* PERSONA CARDS */
+  .persona-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .persona-header {
+    padding: 20px 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .persona-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .persona-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  .persona-meta { font-size: 12px; color: var(--text-muted); }
+  .persona-body { padding: 16px 20px; }
+  .persona-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    margin-bottom: 8px;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--surface-2);
+  }
+  .pain-item {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .pain-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* MOSCOW TABLE */
+  .moscow-row {
+    display: grid;
+    grid-template-columns: 2fr 2.5fr 90px;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    font-size: 13px;
+  }
+  .moscow-row:last-child { border-bottom: none; }
+  .moscow-pain { color: var(--text-muted); }
+  .moscow-feature { color: var(--text); }
+  .moscow-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .badge-must { background: #FFEEE9; color: #C0280E; }
+  .badge-should { background: #EAF3DE; color: #3B6D11; }
+  .badge-could { background: #E6F1FB; color: #185FA5; }
+  .moscow-header {
+    display: grid;
+    grid-template-columns: 2fr 2.5fr 90px;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+  .moscow-header span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+  }
+
+  /* RICE TABLE */
+  .rice-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .rice-row:last-child { border-bottom: none; }
+  .rice-rank {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--border-strong);
+    width: 24px;
+    flex-shrink: 0;
+  }
+  .rice-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    width: 140px;
+    flex-shrink: 0;
+  }
+  .rice-bars { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+  .rice-bar-item { display: flex; flex-direction: column; gap: 3px; }
+  .rice-bar-label { font-size: 10px; color: var(--text-hint); }
+  .rice-bar-track { height: 5px; background: var(--surface-3); border-radius: 3px; overflow: hidden; }
+  .rice-bar-fill { height: 100%; border-radius: 3px; }
+  .rice-score {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text);
+    width: 48px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .rice-row.top-rice .rice-rank { color: var(--red); }
+  .rice-row.top-rice .rice-score { color: var(--red); }
+
+  /* FEATURES */
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .feature-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .feature-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .feature-body { padding: 18px 24px; }
+  .feature-kpi-list { list-style: none; }
+  .feature-kpi-list li {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+  .feature-kpi-list li:last-child { border-bottom: none; }
+  .feature-kpi-list li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--red-mid);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* LEAGUE */
+  .league-bar {
+    display: flex;
+    align-items: stretch;
+    height: 52px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .league-seg {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    flex: 1;
+    gap: 8px;
+  }
+
+  /* FREEMIUM GRID */
+  .freemium-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .freemium-item:last-child { border-bottom: none; }
+  .freemium-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--red-light);
+    color: var(--red);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .freemium-title { font-weight: 500; font-size: 13px; margin-bottom: 3px; }
+  .freemium-detail { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* GTM */
+  .gtm-channel {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .gtm-channel:last-child { border-bottom: none; }
+  .gtm-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .gtm-channel-name { font-weight: 500; font-size: 13px; margin-bottom: 3px; }
+  .gtm-channel-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* FACE-OFF */
+  .faceoff-timeline {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .faceoff-timeline::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: var(--border);
+  }
+  .faceoff-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .faceoff-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .faceoff-label { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.3; }
+  .reward-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .reward-icon { font-size: 20px; flex-shrink: 0; line-height: 1; margin-top: 1px; }
+
+  /* MARKET CHART SECTION */
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* KPI SUMMARY */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .kpi-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .kpi-label { font-size: 11px; color: var(--text-hint); margin-bottom: 4px; }
+  .kpi-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
+
+  /* SCROLLABLE SECTIONS */
+  .scroll-section { scroll-margin-top: 72px; }
+
+  /* PRODUCT OFFERINGS */
+  .offering-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .offering-pill:last-child { margin-bottom: 0; }
+  .offering-icon { font-size: 16px; width: 24px; text-align: center; }
+  .offering-name { font-weight: 500; min-width: 80px; }
+  .offering-desc { color: var(--text-muted); font-size: 12.5px; }
+  .offering-price {
+    margin-left: auto;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--red);
+    white-space: nowrap;
+  }
+
+  /* GROWTH DRIVERS */
+  .driver-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .driver-item:last-child { border-bottom: none; }
+  .driver-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--red-light);
+    color: var(--red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .driver-text { color: var(--text-muted); line-height: 1.4; }
+  .driver-text strong { color: var(--text); display: block; font-weight: 500; font-size: 13px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon"><i class="ti ti-barbell" aria-hidden="true"></i></div>
+      <span class="logo-text"><span>FIT</span>PASS</span>
+    </a>
+    <div class="header-divider"></div>
+    <span class="header-subtitle">Product Management Competition</span>
+    <nav class="header-nav">
+      <button class="nav-btn active" data-section="overview" onclick="navScrollTo('overview')">Overview</button>
+      <button class="nav-btn" data-section="market" onclick="navScrollTo('market')">Market</button>
+      <button class="nav-btn" data-section="competitors" onclick="navScrollTo('competitors')">Competitors</button>
+      <button class="nav-btn" data-section="personas" onclick="navScrollTo('personas')">Personas</button>
+      <button class="nav-btn" data-section="painpoints" onclick="navScrollTo('painpoints')">Pain Points</button>
+      <button class="nav-btn" data-section="prioritization" onclick="navScrollTo('prioritization')">Prioritization</button>
+      <button class="nav-btn" data-section="features" onclick="navScrollTo('features')">Solutions</button>
+      <button class="nav-btn" data-section="metrics" onclick="navScrollTo('metrics')">Metrics</button>
+      <button class="nav-btn" data-section="gtm" onclick="navScrollTo('gtm')">Go-to-Market</button>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <div class="hero scroll-section" id="overview">
+    <div>
+      <div class="hero-badge"><i class="ti ti-target" aria-hidden="true"></i> Problem Statement</div>
+      <h1 class="hero-title">Enhancing User Engagement &<br><em>Stickiness</em> for FITPASS</h1>
+      <p class="hero-desc">Leveraging cutting-edge mobile technologies to improve retention, personalization, and community engagement across India's largest fitness network.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">6M<span>+</span></div>
+        <div class="hero-stat-label">Downloads across India</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4.7<span> ★</span></div>
+        <div class="hero-stat-label">Rating · 30K+ reviews</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">8100<span>+</span></div>
+        <div class="hero-stat-label">Gym partners, 75+ cities</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">₹29<span>Cr</span></div>
+        <div class="hero-stat-label">Annual revenue FY2023</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT & PRODUCTS -->
+  <div class="section-gap">
+    <div class="section-label">
+      <span class="section-pill">01</span>
+      <h2 class="section-title">About FITPASS</h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Company snapshot</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;">
+          <div class="kpi-box"><div class="kpi-label">Founded</div><div class="kpi-val">2015</div></div>
+          <div class="kpi-box"><div class="kpi-label">Total Funding</div><div class="kpi-val">$3.86M</div></div>
+          <div class="kpi-box"><div class="kpi-label">Employees</div><div class="kpi-val">58</div></div>
+          <div class="kpi-box"><div class="kpi-label">Market Rank</div><div class="kpi-val">#2 of 20</div></div>
+        </div>
+        <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:10px;">
+          <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); margin-bottom:6px;">Mission</div>
+          <p style="font-size:13px; color:var(--text-muted); line-height:1.6;">Inspire active, healthy living by building a seamless network of gyms and fitness partners. Fitness is essential for life and should be accessible and affordable to everyone.</p>
+        </div>
+        <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px;">
+          <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); margin-bottom:6px;">Vision</div>
+          <p style="font-size:13px; color:var(--text-muted); line-height:1.6;">Provide economical, convenient and flexible fitness solutions to foster happier, healthier communities.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Product offerings</div>
+        <div class="offering-pill">
+          <span class="offering-icon"><i class="ti ti-building" aria-hidden="true"></i></span>
+          <span class="offering-name">FITPASS</span>
+          <span class="offering-desc">Access to 8100+ premium gyms & fitness centres</span>
+          <span class="offering-price">₹2,047/mo</span>
+        </div>
+        <div class="offering-pill">
+          <span class="offering-icon"><i class="ti ti-device-tv" aria-hidden="true"></i></span>
+          <span class="offering-name">FITPASS-TV</span>
+          <span class="offering-desc">Virtual sessions with global experts</span>
+          <span class="offering-price">₹99/wk</span>
+        </div>
+        <div class="offering-pill">
+          <span class="offering-icon"><i class="ti ti-salad" aria-hidden="true"></i></span>
+          <span class="offering-name">FITFEAST</span>
+          <span class="offering-desc">Dedicated nutrition expert, personalised diets</span>
+          <span class="offering-price">₹1,279/mo</span>
+        </div>
+        <div class="offering-pill">
+          <span class="offering-icon"><i class="ti ti-robot" aria-hidden="true"></i></span>
+          <span class="offering-name">FITCOACH</span>
+          <span class="offering-desc">AI-enabled revolutionary fitness coach</span>
+          <span class="offering-price">₹1,279/3mo</span>
+        </div>
+        <div class="offering-pill">
+          <span class="offering-icon"><i class="ti ti-shopping-bag" aria-hidden="true"></i></span>
+          <span class="offering-name">FITSHOP</span>
+          <span class="offering-desc">Fitness essentials & supplements at discounts</span>
+          <span class="offering-price">N/A</span>
+        </div>
+        <div class="offering-pill" style="margin-top:4px; background:var(--red-light); border-color:rgba(232,52,26,0.15);">
+          <span class="offering-icon" style="color:var(--red);"><i class="ti ti-crown" aria-hidden="true"></i></span>
+          <span class="offering-name" style="color:var(--red);">FITPASS PRO</span>
+          <span class="offering-desc" style="color:var(--red); opacity:0.7;">Full-stack premium plan</span>
+          <span class="offering-price">₹6,999/3mo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div class="section-gap scroll-section" id="market">
+    <div class="section-label">
+      <span class="section-pill">02</span>
+      <h2 class="section-title">Market Overview</h2>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">Global market 2029</div>
+        <div class="metric-value">$6.70B</div>
+        <div class="metric-sub">Projected digital fitness market</div>
+      </div>
+      <div class="metric-card alt">
+        <div class="metric-label">Revenue CAGR</div>
+        <div class="metric-value">13.87%</div>
+        <div class="metric-sub">2024–2029 growth rate</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-label">India penetration</div>
+        <div class="metric-value">0.4%</div>
+        <div class="metric-sub">vs 16% in USA, 11.9% UK</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">In-app revenue share</div>
+        <div class="metric-value">47%</div>
+        <div class="metric-sub">Subscriptions drive 32%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Primary demographic</div>
+        <div class="metric-value">25–34</div>
+        <div class="metric-sub">Over 50% of app users</div>
+      </div>
+      <div class="metric-card alt">
+        <div class="metric-label">Women users</div>
+        <div class="metric-value">&gt;50%</div>
+        <div class="metric-sub">Account for 67% of revenue</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Market revenue trend (USD billion)</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="marketChart" role="img" aria-label="Bar chart of digital fitness market revenue from 2017 to 2029, growing from about 0.5B to 6.7B">Revenue grows steadily from 2017 to projected 6.7B in 2029.</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Key growth drivers</div>
+        <div class="driver-item">
+          <div class="driver-icon"><i class="ti ti-trending-up" aria-hidden="true"></i></div>
+          <div class="driver-text"><strong>Rising disposable income</strong>GDP per capita CAGR of 10–11% (FY2023–FY2027) leads to higher fitness spend.</div>
+        </div>
+        <div class="driver-item">
+          <div class="driver-icon"><i class="ti ti-heart-rate-monitor" aria-hidden="true"></i></div>
+          <div class="driver-text"><strong>Lifestyle disease awareness</strong>Rising obesity & diabetes rates push health-conscious behaviour among urban youth.</div>
+        </div>
+        <div class="driver-item">
+          <div class="driver-icon"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+          <div class="driver-text"><strong>Social media influence</strong>Instagram and YouTube have mainstreamed fitness culture across demographics.</div>
+        </div>
+        <div class="driver-item">
+          <div class="driver-icon"><i class="ti ti-building-community" aria-hidden="true"></i></div>
+          <div class="driver-text"><strong>Fitness facility expansion</strong>Rising incomes driving proliferation of fitness centres, especially in tier 2/3 cities.</div>
+        </div>
+        <div class="driver-item">
+          <div class="driver-icon"><i class="ti ti-flag" aria-hidden="true"></i></div>
+          <div class="driver-text"><strong>Government initiatives</strong>Sports ministry allocated ₹3,442 Cr in 2024–25 budget; Fit India & Khelo India programs.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;" class="grid-2">
+      <div class="card">
+        <div class="card-title">Membership penetration rate</div>
+        <div class="chart-wrap" style="height:180px;">
+          <canvas id="penetrationChart" role="img" aria-label="Horizontal bar chart comparing fitness membership penetration: India 0.4%, UK 11.9%, USA 16%">India has 0.4% penetration vs 16% in USA.</canvas>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:14px; line-height:1.6;">India's extremely low penetration rate signals <strong>massive untapped potential</strong>. Organised fitness market is concentrated in 7 cities: Delhi NCR, Mumbai, Bengaluru, Chennai, Kolkata, Pune, and Hyderabad, with 60%+ of top companies here. High real estate costs will push players toward tier 2/3 cities.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Revenue streams breakdown</div>
+        <div class="chart-wrap" style="height:180px;">
+          <canvas id="revenueStreamChart" role="img" aria-label="Donut chart showing revenue streams: in-app purchases 47%, subscriptions 32%, advertising 14%, one-time purchases 7%">In-app purchases lead at 47%.</canvas>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;">
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#E8341A;display:inline-block;"></span>In-app purchases 47%</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#0F1B2D;display:inline-block;"></span>Subscriptions 32%</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#9AA3B0;display:inline-block;"></span>Advertising 14%</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);"><span style="width:10px;height:10px;border-radius:2px;background:#D3D1C7;display:inline-block;"></span>One-time 7%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPETITORS -->
+  <div class="section-gap scroll-section" id="competitors">
+    <div class="section-label">
+      <span class="section-pill">03</span>
+      <h2 class="section-title">Competitive Analysis</h2>
+    </div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Founded</th>
+            <th>Downloads</th>
+            <th>Funding</th>
+            <th style="min-width:220px;">Revenue (2023)</th>
+            <th style="min-width:200px;">USP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="comp-row-fitpass">
+            <td><span class="comp-logo" style="color:var(--red);">FITPASS <span class="comp-badge"><i class="ti ti-star-filled" style="font-size:9px;" aria-hidden="true"></i> You</span></span></td>
+            <td>2015</td>
+            <td>1M+</td>
+            <td>$3.86M</td>
+            <td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:4.4%;"></div></div><span class="bar-text">$3.62M</span></div></td>
+            <td style="font-size:12px; color:var(--text-muted);">Diet plan, coaching, fitness & activity tracker</td>
+          </tr>
+          <tr>
+            <td><span class="comp-logo">HealthifyMe</span></td>
+            <td>2013</td>
+            <td>10M+</td>
+            <td>$130M</td>
+            <td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:0.9%; background:#0F1B2D;"></div></div><span class="bar-text">$2.72M</span></div></td>
+            <td style="font-size:12px; color:var(--text-muted);">AI Coach, database of 100K+ Indian foods</td>
+          </tr>
+          <tr>
+            <td><span class="comp-logo">cult.fit</span></td>
+            <td>2015</td>
+            <td>10M+</td>
+            <td>$760.65M</td>
+            <td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:26.5%; background:#1D9E75;"></div></div><span class="bar-text">$82M</span></div></td>
+            <td style="font-size:12px; color:var(--text-muted);">Home workouts, corporate wellness, mental health</td>
+          </tr>
+          <tr>
+            <td><span class="comp-logo">MyFitnessPal</span></td>
+            <td>2005</td>
+            <td>200M+</td>
+            <td>n/a</td>
+            <td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:100%; background:#BA7517;"></div></div><span class="bar-text">$310M</span></div></td>
+            <td style="font-size:12px; color:var(--text-muted);">Fasting plans, barcode scanner, recipes, food diary</td>
+          </tr>
+          <tr>
+            <td><span class="comp-logo">Fittr</span></td>
+            <td>2016</td>
+            <td>5M+</td>
+            <td>n/a</td>
+            <td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:3.6%; background:#533AB7;"></div></div><span class="bar-text">$11.1M</span></div></td>
+            <td style="font-size:12px; color:var(--text-muted);">Community, diabetes coaching, diet planning & monitoring</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title">Revenue comparison (2023)</div>
+        <div class="chart-wrap" style="height:220px;">
+          <canvas id="competitorChart" role="img" aria-label="Bar chart comparing 2023 revenue of FITPASS, HealthifyMe, cult.fit, MyFitnessPal, and Fittr">MyFitnessPal leads at $310M; FITPASS at $3.62M.</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAS -->
+  <div class="section-gap scroll-section" id="personas">
+    <div class="section-label">
+      <span class="section-pill">04</span>
+      <h2 class="section-title">User Personas</h2>
+    </div>
+    <div class="grid-3">
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#FFEEE9; color:#C0280E;">M</div>
+          <div>
+            <div class="persona-name">Mohit</div>
+            <div class="persona-meta">Age 20 · Student · Bangalore</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-section-label">Habits</div>
+          <div class="tag-list">
+            <span class="tag">Outdoor activities</span>
+            <span class="tag">Hiking & cycling</span>
+            <span class="tag">Music</span>
+            <span class="tag">Extracurriculars</span>
+            <span class="tag">Reading</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Wants to improve fitness while interacting with like-minded individuals</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Wants to improve overall well-being and increase efficiency</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Finds it difficult to balance fitness with academics and social life</span></div>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#E6F1FB; color:#185FA5;">R</div>
+          <div>
+            <div class="persona-name">Riya</div>
+            <div class="persona-meta">Age 25 · Homemaker · Mumbai</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-section-label">Habits</div>
+          <div class="tag-list">
+            <span class="tag">Cooking & baking</span>
+            <span class="tag">Gardening</span>
+            <span class="tag">Learning new skills</span>
+            <span class="tag">Fitness</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Wants to pursue fitness with family and local community</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Needs to manage personal fitness time alongside household chores</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Finds it difficult to stay motivated during stressful times</span></div>
+        </div>
+      </div>
+
+      <div class="persona-card">
+        <div class="persona-header">
+          <div class="persona-avatar" style="background:#EAF3DE; color:#3B6D11;">A</div>
+          <div>
+            <div class="persona-name">Aryan</div>
+            <div class="persona-meta">Age 35 · Corporate exec · Delhi</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="persona-section-label">Habits</div>
+          <div class="tag-list">
+            <span class="tag">Golf</span>
+            <span class="tag">Philanthropist</span>
+            <span class="tag">Luxury goods</span>
+            <span class="tag">Business</span>
+          </div>
+          <div class="persona-section-label">Pain Points</div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Difficult to manage family time due to demanding business schedule</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Searching for personalised fitness options tailored to his needs</span></div>
+          <div class="pain-item"><div class="pain-dot"></div><span>Struggles to find time for fitness in a competitive corporate environment</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAIN POINTS -->
+  <div class="section-gap scroll-section" id="painpoints">
+    <div class="section-label">
+      <span class="section-pill">05</span>
+      <h2 class="section-title">Problem Areas</h2>
+    </div>
+
+    <!-- SUMMARY ROW -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px;">
+      <div style="background:var(--navy); border-radius:var(--radius); padding:20px 22px; position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(232,52,26,0.15);border-radius:50%;"></div>
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:10px;">Mohit · Student</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:white; margin-bottom:6px;">Social &amp; Accountability Gap</div>
+        <p style="font-size:12px; color:rgba(255,255,255,0.5); line-height:1.6;">Wants to improve fitness in a community but has no in-app mechanism to connect with like-minded peers or track progress socially.</p>
+      </div>
+      <div style="background:var(--navy); border-radius:var(--radius); padding:20px 22px; position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(24,95,165,0.2);border-radius:50%;"></div>
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:10px;">Riya · Homemaker</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:white; margin-bottom:6px;">Motivation &amp; Time Conflict</div>
+        <p style="font-size:12px; color:rgba(255,255,255,0.5); line-height:1.6;">Struggles to stay motivated and carve out consistent workout time while managing household responsibilities and family commitments.</p>
+      </div>
+      <div style="background:var(--navy); border-radius:var(--radius); padding:20px 22px; position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(29,158,117,0.2);border-radius:50%;"></div>
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:10px;">Aryan · Corporate exec</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:white; margin-bottom:6px;">Flexibility &amp; Personalisation Gap</div>
+        <p style="font-size:12px; color:rgba(255,255,255,0.5); line-height:1.6;">Needs a fitness solution that adapts to an unpredictable high-pressure schedule and delivers truly personalised guidance, not generic plans.</p>
+      </div>
+    </div>
+
+    <!-- DETAILED PAIN POINTS TABLE -->
+    <div class="card" style="padding:0; overflow:hidden; margin-bottom:24px;">
+      <div style="padding:14px 20px; background:var(--surface-2); border-bottom:1px solid var(--border); display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; align-items:center;">
+        <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Persona</span>
+        <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Pain point</span>
+        <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Root cause</span>
+        <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Impact</span>
+      </div>
+
+      <!-- Mohit rows -->
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--border); align-items:start; background:#FFFAF9;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#FFEEE9;color:#C0280E;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">M</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Mohit</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Wants fitness but no peers to work out with or share progress</span>
+        <span style="font-size:13px; color:var(--text-muted);">No social or community layer in the app</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFEEE9;color:#C0280E;">High</span>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--border); align-items:start; background:#FFFAF9;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#FFEEE9;color:#C0280E;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">M</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Mohit</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Difficulty balancing fitness with academics and social life</span>
+        <span style="font-size:13px; color:var(--text-muted);">No time-adaptive or constraint-aware workout planning</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFF3DC;color:#854F0B;">Medium</span>
+      </div>
+
+      <!-- Riya rows -->
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--border); align-items:start;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E6F1FB;color:#185FA5;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">R</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Riya</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Cannot find a plan that includes family and local community</span>
+        <span style="font-size:13px; color:var(--text-muted);">Workout plans are individual-only, no group or family modes</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFEEE9;color:#C0280E;">High</span>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--border); align-items:start;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E6F1FB;color:#185FA5;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">R</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Riya</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Low motivation during stressful periods; unhealthy eating habits</span>
+        <span style="font-size:13px; color:var(--text-muted);">No personalised nudge system or diet guidance integrated</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFEEE9;color:#C0280E;">High</span>
+      </div>
+
+      <!-- Aryan rows -->
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; border-bottom:1px solid var(--border); align-items:start; background:#FFFAF9;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#EAF3DE;color:#3B6D11;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">A</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Aryan</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Unpredictable schedule makes it impossible to commit to fixed workouts</span>
+        <span style="font-size:13px; color:var(--text-muted);">App assumes fixed-time availability; no flex scheduling</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFEEE9;color:#C0280E;">High</span>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr 1fr 100px; gap:16px; padding:14px 20px; align-items:start; background:#FFFAF9;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#EAF3DE;color:#3B6D11;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:13px;flex-shrink:0;">A</div>
+          <span style="font-size:12px; font-weight:500; color:var(--text);">Aryan</span>
+        </div>
+        <span style="font-size:13px; color:var(--text-muted);">Generic fitness plans don't reflect his premium lifestyle needs</span>
+        <span style="font-size:13px; color:var(--text-muted);">Lack of AI-driven personalisation within accessible price tier</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;background:#FFF3DC;color:#854F0B;">Medium</span>
+      </div>
+    </div>
+
+    <!-- CORE PROBLEMS SUMMARY -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; border-top:3px solid var(--red);">
+        <div style="font-size:22px; margin-bottom:8px;">🎯</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; margin-bottom:4px;">No Personalisation</div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">Workout and diet plans are one-size-fits-all with no adaptation to user goals or constraints.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; border-top:3px solid #185FA5;">
+        <div style="font-size:22px; margin-bottom:8px;">👥</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; margin-bottom:4px;">No Community Layer</div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">Users work out in isolation with no social accountability, group challenges, or peer motivation.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; border-top:3px solid #BA7517;">
+        <div style="font-size:22px; margin-bottom:8px;">🔒</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; margin-bottom:4px;">High Entry Barrier</div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">No free-to-try tier means users must commit financially before experiencing any product value.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; border-top:3px solid #1D9E75;">
+        <div style="font-size:22px; margin-bottom:8px;">📉</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; margin-bottom:4px;">Low Retention</div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">Without motivation loops, streaks, or rewards, users disengage and churn after the first subscription cycle.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIORITIZATION -->
+  <div class="section-gap scroll-section" id="prioritization">
+    <div class="section-label">
+      <span class="section-pill">06</span>
+      <h2 class="section-title">Prioritization</h2>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- MOSCOW -->
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+          <span>MoSCoW Framework</span>
+          <div style="display:flex; gap:5px; margin-left:6px;">
+            <span class="moscow-badge badge-must">Must</span>
+            <span class="moscow-badge badge-should">Should</span>
+            <span class="moscow-badge badge-could">Could</span>
+          </div>
+        </div>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div class="moscow-header">
+            <span>Pain point</span>
+            <span>Feature response</span>
+            <span>Priority</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Wants personalised workout plans for family & community</div>
+            <div class="moscow-feature">Personalisation of workout plans catering to specific needs</div>
+            <span class="moscow-badge badge-must">Must</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Searching for economical personalised fitness options</div>
+            <div class="moscow-feature">AI fitness planning (adaptable, freemium-compatible)</div>
+            <span class="moscow-badge badge-must">Must</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Addicted to unhealthy eating habits</div>
+            <div class="moscow-feature">Proper diet plan for regulating eating habits</div>
+            <span class="moscow-badge badge-must">Must</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Difficult to stay motivated during stressful times</div>
+            <div class="moscow-feature">Personalised fitness plans taking care of user needs</div>
+            <span class="moscow-badge badge-must">Must</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Wants to improve fitness with like-minded individuals</div>
+            <div class="moscow-feature">Community feature: groups by similar interest</div>
+            <span class="moscow-badge badge-should">Should</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Wants to improve well-being & efficiency</div>
+            <div class="moscow-feature">Effective & time-efficient workouts (HIIT)</div>
+            <span class="moscow-badge badge-should">Should</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Hard to find time in corporate environment</div>
+            <div class="moscow-feature">Workout whenever, wherever, with flexible scheduling</div>
+            <span class="moscow-badge badge-should">Should</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Balancing fitness with academics & social life</div>
+            <div class="moscow-feature">Specialised plans that account for time constraints</div>
+            <span class="moscow-badge badge-should">Should</span>
+          </div>
+          <div class="moscow-row">
+            <div class="moscow-pain">Feeling isolated and lonely during workout</div>
+            <div class="moscow-feature">Community pairing with people of similar interest</div>
+            <span class="moscow-badge badge-could">Could</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RICE -->
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; margin-bottom:14px;">RICE Framework Scoring</div>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div style="padding:10px 16px; background:var(--surface-2); border-bottom:1px solid var(--border); display:grid; grid-template-columns:24px 140px 1fr 48px; gap:14px; align-items:center;">
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">#</span>
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Feature</span>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
+              <span style="font-size:10px; color:var(--text-hint);">Reach</span>
+              <span style="font-size:10px; color:var(--text-hint);">Impact</span>
+              <span style="font-size:10px; color:var(--text-hint);">Confidence</span>
+              <span style="font-size:10px; color:var(--text-hint);">Effort</span>
+            </div>
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); text-align:right;">Score</span>
+          </div>
+
+          <div class="rice-row top-rice">
+            <div class="rice-rank">1</div>
+            <div class="rice-name">Gamification</div>
+            <div class="rice-bars">
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:85%; background:#E8341A;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:84%; background:#E8341A;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:90%; background:#E8341A;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:65%; background:#E8341A;"></div></div></div>
+            </div>
+            <div class="rice-score">98.9</div>
+          </div>
+
+          <div class="rice-row">
+            <div class="rice-rank">2</div>
+            <div class="rice-name">Freemium model</div>
+            <div class="rice-bars">
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:95%; background:#0F1B2D;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:80%; background:#0F1B2D;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:88%; background:#0F1B2D;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:70%; background:#0F1B2D;"></div></div></div>
+            </div>
+            <div class="rice-score">95.5</div>
+          </div>
+
+          <div class="rice-row">
+            <div class="rice-rank">3</div>
+            <div class="rice-name">Personalisation</div>
+            <div class="rice-bars">
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:90%; background:#1D9E75;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:90%; background:#1D9E75;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:85%; background:#1D9E75;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:75%; background:#1D9E75;"></div></div></div>
+            </div>
+            <div class="rice-score">91.8</div>
+          </div>
+
+          <div class="rice-row">
+            <div class="rice-rank">4</div>
+            <div class="rice-name">Community</div>
+            <div class="rice-bars">
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:80%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:75%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:83%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:60%; background:#9AA3B0;"></div></div></div>
+            </div>
+            <div class="rice-score">83</div>
+          </div>
+
+          <div class="rice-row">
+            <div class="rice-rank">5</div>
+            <div class="rice-name">Eff. Workout</div>
+            <div class="rice-bars">
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:65%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:65%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:75%; background:#9AA3B0;"></div></div></div>
+              <div class="rice-bar-item"><div class="rice-bar-track"><div class="rice-bar-fill" style="width:55%; background:#9AA3B0;"></div></div></div>
+            </div>
+            <div class="rice-score">57.6</div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="chart-wrap" style="height:160px;">
+            <canvas id="riceChart" role="img" aria-label="Horizontal bar chart of RICE scores: Gamification 98.9, Freemium 95.5, Personalisation 91.8, Community 83, Effective Workout 57.6">RICE scores ranking features by priority.</canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section-gap scroll-section" id="features">
+    <div class="section-label">
+      <span class="section-pill">07</span>
+      <h2 class="section-title">Proposed Solutions</h2>
+    </div>
+
+    <div style="margin-bottom:20px;" class="grid-2">
+
+      <!-- PERSONALISATION -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon" style="background:#FFEEE9; color:var(--red);">
+            <i class="ti ti-user-cog" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="feature-title">Personalisation + Gamification</div>
+            <div class="feature-desc">Data-driven workout & diet plans with a weekly streak league system to boost long-term retention.</div>
+          </div>
+        </div>
+        <div class="feature-body">
+          <div style="margin-bottom:16px;">
+            <div class="card-title" style="margin-bottom:10px;">League progression system</div>
+            <div class="league-bar">
+              <div class="league-seg" style="background:#D3D1C7; color:#444441;">
+                <i class="ti ti-medal" aria-hidden="true"></i> Silver <span style="font-size:11px; opacity:0.7; font-family:'DM Sans'; font-weight:400;">Weeks 1–4</span>
+              </div>
+              <div class="league-seg" style="background:#BA7517; color:#412402;">
+                <i class="ti ti-trophy" aria-hidden="true"></i> Gold <span style="font-size:11px; opacity:0.7; font-family:'DM Sans'; font-weight:400;">Weeks 4–8</span>
+              </div>
+              <div class="league-seg" style="background:#185FA5; color:white;">
+                <i class="ti ti-diamond" aria-hidden="true"></i> Diamond <span style="font-size:11px; opacity:0.8; font-family:'DM Sans'; font-weight:400;">Weeks 8–12</span>
+              </div>
+            </div>
+            <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">Users maintain streaks by completing weekly workout goals (e.g., 4 of 5 planned workouts). Streaks reset every 3 months; seasonal resets keep competition fresh and allow newcomers to enter competitively.</p>
+          </div>
+          <div class="card-title" style="margin-bottom:8px;">Key features</div>
+          <ul class="feature-kpi-list">
+            <li>User profile & initial registration questionnaire (age, goals, fitness level, preferences)</li>
+            <li>Customised workout & diet plans based on gym/home preference and macronutrient goals</li>
+            <li>Feedback collection via manual rating + fitness tracker integration (calories, heart rate)</li>
+            <li>Weekly progress reports: workouts completed, calories burned, streak maintained</li>
+            <li>Community &amp; social sharing: create groups, share badges within FITPASS Groups</li>
+          </ul>
+          <div class="card-title" style="margin-bottom:8px; margin-top:16px;">KPIs</div>
+          <div class="kpi-grid">
+            <div class="kpi-box"><div class="kpi-label">Profile completion rate</div><div class="kpi-val" style="font-size:13px;">% users finishing setup</div></div>
+            <div class="kpi-box"><div class="kpi-label">Streak retention rate</div><div class="kpi-val" style="font-size:13px;">% maintaining weekly</div></div>
+            <div class="kpi-box"><div class="kpi-label">League progression</div><div class="kpi-val" style="font-size:13px;">% advancing tiers</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FREEMIUM -->
+      <div class="feature-card">
+        <div class="feature-header">
+          <div class="feature-icon" style="background:#EAF3DE; color:#3B6D11;">
+            <i class="ti ti-gift" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="feature-title">Freemium Model</div>
+            <div class="feature-desc">Unlock a taste of premium: enough to engage new users and drive subscription conversions organically.</div>
+          </div>
+        </div>
+        <div class="feature-body">
+          <div class="card-title" style="margin-bottom:10px;">Freemium access tiers</div>
+
+          <div class="freemium-item">
+            <div class="freemium-num">1</div>
+            <div>
+              <div class="freemium-title">FITPASS TV · 1 free session/week</div>
+              <div class="freemium-detail">Users access one free session per week (Sunday–Saturday), experiencing feasible home workouts and understanding platform value.</div>
+            </div>
+          </div>
+          <div class="freemium-item">
+            <div class="freemium-num">2</div>
+            <div>
+              <div class="freemium-title">FitFeast · 3 free nutritionist chats/month</div>
+              <div class="freemium-detail">Basic dietary advice from a nutritionist; builds understanding of premium's personalised nutrition value.</div>
+            </div>
+          </div>
+          <div class="freemium-item">
+            <div class="freemium-num">3</div>
+            <div>
+              <div class="freemium-title">FitCoach · 3 free AI consultations/week</div>
+              <div class="freemium-detail">Generalised AI consultation to solve immediate issues and evaluate whether AI can cater to personal fitness needs.</div>
+            </div>
+          </div>
+          <div class="freemium-item">
+            <div class="freemium-num">4</div>
+            <div>
+              <div class="freemium-title">Referral program (premium users only)</div>
+              <div class="freemium-detail">6-month referral → 2 weeks extension for referrer. 12-month referral → 1 month extension. Only premium users hold referral codes, incentivising sharing.</div>
+            </div>
+          </div>
+
+          <div class="card-title" style="margin-bottom:8px; margin-top:16px;">KPIs</div>
+          <div class="kpi-grid">
+            <div class="kpi-box"><div class="kpi-label">Freemium acquisition</div><div class="kpi-val" style="font-size:13px;">New users/month</div></div>
+            <div class="kpi-box"><div class="kpi-label">Conversion rate</div><div class="kpi-val" style="font-size:13px;">Freemium → Premium %</div></div>
+            <div class="kpi-box"><div class="kpi-label">Referral conversion</div><div class="kpi-val" style="font-size:13px;">Referred users buying</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- IMPACT METRICS -->
+  <div class="section-gap scroll-section" id="metrics">
+    <div class="section-label">
+      <span class="section-pill">08</span>
+      <h2 class="section-title">Impact Metrics</h2>
+    </div>
+
+    <!-- NORTH STAR -->
+    <div style="background:var(--navy); border-radius:var(--radius); padding:28px 32px; margin-bottom:24px; display:grid; grid-template-columns:1fr auto; gap:32px; align-items:center; position:relative; overflow:hidden;">
+      <div style="position:absolute;right:0;top:0;bottom:0;width:340px;background:radial-gradient(ellipse at right, rgba(232,52,26,0.15) 0%, transparent 70%);pointer-events:none;"></div>
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(232,52,26,0.2);color:#F5A08A;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px;">
+          <i class="ti ti-star-filled" style="font-size:10px;" aria-hidden="true"></i> North Star Metric
+        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:800; color:white; margin-bottom:10px;">Weekly Active Engaged Users (WAEU)</div>
+        <p style="font-size:13px; color:rgba(255,255,255,0.55); line-height:1.7; max-width:560px;">The number of users who complete at least one meaningful fitness action per week: a gym check-in, a FitCoach session, a diet log, or a community interaction. WAEU captures both acquisition and stickiness in a single number, directly reflecting whether FITPASS is delivering on its core promise of accessible, habitual fitness.</p>
+      </div>
+      <div style="text-align:center; flex-shrink:0;">
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:60px; font-weight:800; color:var(--red); line-height:1;">+35%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;">Target growth in 6 months</div>
+      </div>
+    </div>
+
+    <!-- SUPPORTING METRICS -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; border-left:4px solid var(--red);">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); margin-bottom:10px;">Acquisition</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">New Freemium Sign-ups</div>
+            <div style="font-size:12px; color:var(--text-muted);">Number of new users per month entering through the freemium tier</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">Referral Conversion Rate</div>
+            <div style="font-size:12px; color:var(--text-muted);">% of referred users who convert to a paid premium plan</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">FaceOff-Driven Downloads</div>
+            <div style="font-size:12px; color:var(--text-muted);">New installs attributable to the monthly social media challenge</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; border-left:4px solid #185FA5;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); margin-bottom:10px;">Engagement</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">Weekly Streak Retention Rate</div>
+            <div style="font-size:12px; color:var(--text-muted);">% of users who maintain their workout streak each week</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">Workout Plan Adherence</div>
+            <div style="font-size:12px; color:var(--text-muted);">% of users completing their personalised plan each week</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">Community Engagement Rate</div>
+            <div style="font-size:12px; color:var(--text-muted);">Posts, likes, and comments per active user per week in FITPASS Groups</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; border-left:4px solid #1D9E75;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint); margin-bottom:10px;">Retention &amp; Revenue</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">Freemium-to-Premium Rate</div>
+            <div style="font-size:12px; color:var(--text-muted);">% of freemium users upgrading to a paid plan within 90 days</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">30/60/90-Day Retention</div>
+            <div style="font-size:12px; color:var(--text-muted);">% of new users still active at 30, 60, and 90-day milestones</div>
+          </div>
+          <div style="padding:10px 14px; background:var(--surface-2); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px;">ARPU Growth</div>
+            <div style="font-size:12px; color:var(--text-muted);">Average revenue per user, tracking uplift from freemium conversions and upsells</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- METRIC TO FEATURE MAP -->
+    <div class="card">
+      <div class="card-title">How each solution moves the metrics</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
+        <div style="padding:12px 16px; background:var(--surface-2); border-right:1px solid var(--border); font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Solution</div>
+        <div style="padding:12px 16px; background:var(--surface-2); border-right:1px solid var(--border); font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">Primary metric moved</div>
+        <div style="padding:12px 16px; background:var(--surface-2); font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-hint);">WAEU impact</div>
+
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:13px; font-weight:500;">Personalisation</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:12.5px; color:var(--text-muted);">Workout plan adherence, streak retention</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border);"><span style="background:#FFEEE9; color:#C0280E; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px;">Direct</span></div>
+
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:13px; font-weight:500;">Gamification (Streaks)</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:12.5px; color:var(--text-muted);">Weekly streak retention, 30/60/90-day retention</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border);"><span style="background:#FFEEE9; color:#C0280E; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px;">Direct</span></div>
+
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:13px; font-weight:500;">Community Feature</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:12.5px; color:var(--text-muted);">Community engagement rate, streak retention</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border);"><span style="background:#EAF3DE; color:#3B6D11; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px;">Reinforcing</span></div>
+
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:13px; font-weight:500;">Freemium Model</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:12.5px; color:var(--text-muted);">New sign-ups, freemium-to-premium rate, ARPU</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border);"><span style="background:#FFEEE9; color:#C0280E; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px;">Direct</span></div>
+
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:13px; font-weight:500;">FaceOff Campaign</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border); border-right:1px solid var(--border); font-size:12.5px; color:var(--text-muted);">FaceOff-driven downloads, referral conversions</div>
+        <div style="padding:13px 16px; border-top:1px solid var(--border);"><span style="background:#E6F1FB; color:#185FA5; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px;">Top of funnel</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GO TO MARKET -->
+  <div class="section-gap scroll-section" id="gtm">
+    <div class="section-label">
+      <span class="section-pill">09</span>
+      <h2 class="section-title">Go-to-Market Strategy</h2>
+    </div>
+
+    <!-- FACEOFF CAMPAIGN -->
+    <div class="card" style="margin-bottom:20px;">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+        <div style="width:36px; height:36px; background:var(--red); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-size:16px;"><i class="ti ti-swords" aria-hidden="true"></i></div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:18px;">Fitpass FaceOff</div>
+          <div style="font-size:12px; color:var(--text-muted);">Monthly social media fitness challenge · #FitpassFaceOff #FPChallengeAccepted</div>
+        </div>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; max-width:640px; line-height:1.6;">A monthly social media challenge designed to boost user engagement, foster community interaction, and drive new user acquisition through viral fitness content.</p>
+
+      <div class="faceoff-timeline">
+        <div class="faceoff-step">
+          <div class="faceoff-dot" style="background:var(--red); color:white;">5</div>
+          <div class="faceoff-label">3 challenges<br>announced</div>
+        </div>
+        <div class="faceoff-step">
+          <div class="faceoff-dot" style="background:var(--navy); color:white;"><i class="ti ti-video" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div class="faceoff-label">Users pick one<br>& film video</div>
+        </div>
+        <div class="faceoff-step">
+          <div class="faceoff-dot" style="background:var(--navy); color:white;">15</div>
+          <div class="faceoff-label">Video submission<br>deadline</div>
+        </div>
+        <div class="faceoff-step">
+          <div class="faceoff-dot" style="background:var(--navy); color:white;"><i class="ti ti-heart" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div class="faceoff-label">Likes counted<br>at 11:59 PM</div>
+        </div>
+        <div class="faceoff-step">
+          <div class="faceoff-dot" style="background:#1D9E75; color:white;"><i class="ti ti-trophy" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div class="faceoff-label">Winners<br>announced</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px;">
+        <div>
+          <div class="card-title">Example challenges</div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+            <span style="background:var(--surface-2); border:1px solid var(--border); padding:5px 12px; border-radius:100px; font-size:12px;">50 push-ups in 60 seconds</span>
+            <span style="background:var(--surface-2); border:1px solid var(--border); padding:5px 12px; border-radius:100px; font-size:12px;">Plank for 2 minutes</span>
+            <span style="background:var(--surface-2); border:1px solid var(--border); padding:5px 12px; border-radius:100px; font-size:12px;">5km run under 30 min</span>
+            <span style="background:var(--surface-2); border:1px solid var(--border); padding:5px 12px; border-radius:100px; font-size:12px;">50 squats non-stop</span>
+            <span style="background:var(--surface-2); border:1px solid var(--border); padding:5px 12px; border-radius:100px; font-size:12px;">30 burpees in 1 minute</span>
+          </div>
+          <div class="card-title">Rewards structure</div>
+          <div class="reward-box">
+            <div class="reward-icon">🥇</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; margin-bottom:2px;">1st & 2nd place</div>
+              <div style="font-size:12px; color:var(--text-muted);">1-month free FITPASS subscription each (₹2,046 value)</div>
+            </div>
+          </div>
+          <div class="reward-box">
+            <div class="reward-icon">🏅</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; margin-bottom:2px;">3rd, 4th, 5th place</div>
+              <div style="font-size:12px; color:var(--text-muted);">1,000 Fitcoins each (1 Fitcoin = ₹0.25)</div>
+            </div>
+          </div>
+          <div class="reward-box">
+            <div class="reward-icon">⭐</div>
+            <div>
+              <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Top 10 by likes</div>
+              <div style="font-size:12px; color:var(--text-muted);">15 Fitcoins each</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card-title">Unit economics projection</div>
+          <div class="kpi-grid" style="margin-bottom:16px;">
+            <div class="kpi-box"><div class="kpi-label">Monthly reward cost</div><div class="kpi-val">₹29,052</div></div>
+            <div class="kpi-box"><div class="kpi-label">Estimated downloads</div><div class="kpi-val">4.5K–7.5K</div></div>
+            <div class="kpi-box"><div class="kpi-label">CAC estimate</div><div class="kpi-val">₹3.87–6.46</div></div>
+          </div>
+          <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px; font-size:12.5px; color:var(--text-muted); line-height:1.7;">
+            <strong style="display:block; font-size:13px; color:var(--text); margin-bottom:6px;">Assumptions</strong>
+            5% of 10,000 active users participate → 500 participants × 1,000 genuine impressions = 500K total impressions → 50% fitness-interested → 60% of those not on other apps = 150K targeted impressions → 3–5% download rate = <strong style="color:var(--text);">4,500–7,500 new downloads</strong>
+          </div>
+          <div class="card-title" style="margin-top:16px; margin-bottom:8px;">Success metrics</div>
+          <ul class="feature-kpi-list">
+            <li>Social media reach: number of posts, shares, likes, and overall engagement per challenge</li>
+            <li>New user acquisition: users signing up after discovering challenge on social media</li>
+            <li>App engagement: increase in daily/monthly active users during and after announcements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AWARENESS CAMPAIGNS -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Feature teasers & awareness</div>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px; line-height:1.6;">Generate curiosity about upcoming FITPASS features before launch: personalisation, community, streak system, and AI workouts.</p>
+
+        <div class="gtm-channel">
+          <div class="gtm-icon" style="background:#FFEEE9; color:var(--red);"><i class="ti ti-brand-instagram" aria-hidden="true"></i></div>
+          <div>
+            <div class="gtm-channel-name">Social media teasers</div>
+            <div class="gtm-channel-desc">Short teaser videos, infographics, and fitness visuals on Instagram, Facebook, and Twitter to highlight new features ahead of launch.</div>
+          </div>
+        </div>
+        <div class="gtm-channel">
+          <div class="gtm-icon" style="background:#E6F1FB; color:#185FA5;"><i class="ti ti-mail" aria-hidden="true"></i></div>
+          <div>
+            <div class="gtm-channel-name">Email marketing campaign</div>
+            <div class="gtm-channel-desc">Teaser emails to existing users with subject lines: "FITPASS is getting an upgrade!" and "Your personalised fitness journey is coming soon."</div>
+          </div>
+        </div>
+        <div class="gtm-channel">
+          <div class="gtm-icon" style="background:#EAF3DE; color:#3B6D11;"><i class="ti ti-bell" aria-hidden="true"></i></div>
+          <div>
+            <div class="gtm-channel-name">Push notifications</div>
+            <div class="gtm-channel-desc">"We're getting personal! Your fitness journey is about to become more tailored than ever.", hinting at the feature launch.</div>
+          </div>
+        </div>
+        <div class="gtm-channel">
+          <div class="gtm-icon" style="background:#FAEEDA; color:#854F0B;"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></div>
+          <div>
+            <div class="gtm-channel-name">In-app banner ads</div>
+            <div class="gtm-channel-desc">Banners inside the app with messaging: "Unlock personalised fitness insights and more, coming soon."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Campaign goals</div>
+        <div class="freemium-item">
+          <div class="freemium-num" style="background:#FFEEE9; color:#C0280E;"><i class="ti ti-users" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div>
+            <div class="freemium-title">Increase user engagement</div>
+            <div class="freemium-detail">Encourage FITPASS users to actively participate in fitness challenges, post on social media, and interact with the community.</div>
+          </div>
+        </div>
+        <div class="freemium-item">
+          <div class="freemium-num" style="background:#EAF3DE; color:#3B6D11;"><i class="ti ti-user-plus" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div>
+            <div class="freemium-title">Acquire new users</div>
+            <div class="freemium-detail">Attract new users to the FITPASS app through the viral nature of social media challenges and influencer engagement.</div>
+          </div>
+        </div>
+        <div class="freemium-item">
+          <div class="freemium-num" style="background:#E6F1FB; color:#185FA5;"><i class="ti ti-crown" style="font-size:13px;" aria-hidden="true"></i></div>
+          <div>
+            <div class="freemium-title">Drive premium subscriptions</div>
+            <div class="freemium-detail">Use competition and community buzz to promote premium features and convert free users to paid subscriptions.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="card-title">Eligibility & guardrails</div>
+          <ul class="feature-kpi-list">
+            <li>Open to all FITPASS users aged 16+ residing in India</li>
+            <li>FITPASS employees and immediate family ineligible for rewards</li>
+            <li>Only videos from public accounts counted for likes</li>
+            <li>Automated bots/systems → immediate disqualification</li>
+            <li>One person can only redeem top-place rewards once per year</li>
+            <li>Existing premium users can extend duration with winning reward</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer style="background:var(--navy); margin-top:48px; padding:24px 32px; text-align:center;">
+  <p style="color:rgba(255,255,255,0.3); font-size:12px;">FITPASS · Product Management Competition · Enhancing User Engagement &amp; Stickiness with Cutting-Edge Mobile Technologies</p>
+</footer>
+
+<script>
+function navScrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+const sections = ['overview','market','competitors','personas','painpoints','prioritization','features','metrics','gtm'];
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      const active = document.querySelector(`.nav-btn[data-section="${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, {
+  rootMargin: '-20% 0px -70% 0px',
+  threshold: 0
+});
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+const marketYears = ['2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029'];
+const marketVals = [0.54, 0.72, 0.96, 0.88, 1.1, 1.58, 2.08, 2.72, 3.15, 3.85, 4.62, 5.5, 6.7];
+new Chart(document.getElementById('marketChart'), {
+  type: 'bar',
+  data: {
+    labels: marketYears,
+    datasets: [{
+      label: 'Revenue (USD B)',
+      data: marketVals,
+      backgroundColor: marketVals.map((v, i) => i >= 10 ? 'rgba(232,52,26,0.4)' : '#E8341A'),
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#9AA3B0', maxRotation: 0, autoSkip: false } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, color: '#9AA3B0', callback: v => '$' + v + 'B' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('penetrationChart'), {
+  type: 'bar',
+  data: {
+    labels: ['India', 'United Kingdom', 'United States'],
+    datasets: [{
+      label: 'Penetration %',
+      data: [0.4, 11.9, 16],
+      backgroundColor: ['#E8341A', '#0F1B2D', '#1D9E75'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, color: '#9AA3B0', callback: v => v + '%' }, max: 20 },
+      y: { grid: { display: false }, ticks: { font: { size: 12 }, color: '#5A6577' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('revenueStreamChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['In-app purchases', 'Subscriptions', 'Advertising', 'One-time'],
+    datasets: [{
+      data: [47, 32, 14, 7],
+      backgroundColor: ['#E8341A', '#0F1B2D', '#9AA3B0', '#D3D1C7'],
+      borderWidth: 2,
+      borderColor: '#FFFFFF',
+      hoverOffset: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    cutout: '68%'
+  }
+});
+
+new Chart(document.getElementById('competitorChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FITPASS', 'HealthifyMe', 'cult.fit', 'MyFitnessPal', 'Fittr'],
+    datasets: [{
+      label: 'Revenue 2023 (USD M)',
+      data: [3.62, 2.72, 82, 310, 11.1],
+      backgroundColor: ['#E8341A', '#5A6577', '#1D9E75', '#BA7517', '#533AB7'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#5A6577' } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, color: '#9AA3B0', callback: v => '$' + v + 'M' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('riceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Gamification', 'Freemium', 'Personalisation', 'Community', 'Eff. Workout'],
+    datasets: [{
+      label: 'RICE Score',
+      data: [98.9, 95.5, 91.8, 83, 57.6],
+      backgroundColor: ['#E8341A', '#0F1B2D', '#1D9E75', '#9AA3B0', '#D3D1C7'],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, color: '#9AA3B0' }, min: 0, max: 110 },
+      y: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#5A6577' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

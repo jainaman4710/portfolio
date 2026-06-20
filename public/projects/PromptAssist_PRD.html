@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptAssist · Product Requirements Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:#1a1916;
+  --ink-2:#4a4845;
+  --ink-3:#9a9890;
+  --ink-4:#c8c6be;
+  --page:#fafaf7;
+  --surface:#f3f2ee;
+  --surface-2:#eceae4;
+  --rule:#e0ded6;
+  --accent:#4c3fbe;
+  --accent-light:#eeedfe;
+  --accent-mid:#7f77dd;
+  --teal:#0f6e56;
+  --teal-light:#e1f5ee;
+  --coral:#993c1d;
+  --coral-light:#faece7;
+  --amber:#854f0b;
+  --amber-light:#faeeda;
+  --green:#3b6d11;
+  --green-light:#eaf3de;
+  --max:860px;
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --ink:#f0efe8;
+    --ink-2:#c8c6be;
+    --ink-3:#888780;
+    --ink-4:#444441;
+    --page:#1c1c1a;
+    --surface:#242420;
+    --surface-2:#2e2e2a;
+    --rule:#2e2e2a;
+    --accent:#7f77dd;
+    --accent-light:#26215c;
+    --accent-mid:#afa9ec;
+    --teal:#5dcaa5;
+    --teal-light:#04342c;
+    --coral:#f0997b;
+    --coral-light:#4a1b0c;
+    --amber:#fac775;
+    --amber-light:#412402;
+    --green:#97c459;
+    --green-light:#173404;
+  }
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15px;line-height:1.7;
+  color:var(--ink);background:var(--page);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--page);
+  border-bottom:0.5px solid var(--rule);
+}
+.nav-wrap{
+  max-width:calc(var(--max) + 5rem);
+  margin:0 auto;padding:0 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:50px;
+}
+.nav-logo{
+  font-family:'DM Serif Display',serif;
+  font-size:16px;color:var(--ink);
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo em{color:var(--accent);font-style:normal}
+.nav-logo-sep{color:var(--ink-4);font-family:'DM Mono',monospace;font-size:11px;font-weight:400}
+.nav-links{display:flex;list-style:none}
+.nav-links a{
+  display:block;padding:0 11px;
+  font-size:11px;font-weight:500;
+  letter-spacing:0.05em;text-transform:uppercase;
+  color:var(--ink-3);text-decoration:none;
+  line-height:50px;transition:color 0.15s;
+  white-space:nowrap;
+}
+.nav-links a:hover{color:var(--accent)}
+.nav-pill{
+  font-size:11px;font-weight:500;
+  padding:3px 10px;border-radius:20px;
+  background:var(--accent-light);color:var(--accent);
+  white-space:nowrap;
+}
+
+/* PAGE WRAP */
+.page{max-width:var(--max);margin:0 auto;padding:0 2.5rem}
+
+/* HERO */
+.hero{
+  padding:6rem 0 5rem;
+  border-bottom:0.5px solid var(--rule);
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;top:-40px;right:-80px;
+  width:420px;height:420px;
+  border-radius:50%;
+  background:radial-gradient(circle at 60% 40%, var(--accent-light) 0%, transparent 70%);
+  pointer-events:none;opacity:0.6;
+}
+.hero-kicker{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:1.75rem;
+}
+.hero-kicker-line{width:20px;height:1px;background:var(--ink-3)}
+.hero-kicker-text{
+  font-size:11px;font-weight:600;
+  letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+.hero-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(44px,6vw,72px);
+  line-height:1.04;letter-spacing:-0.025em;
+  color:var(--ink);margin-bottom:1.5rem;
+}
+.hero-title em{font-style:italic;color:var(--accent)}
+.hero-lead{
+  font-size:17px;color:var(--ink-2);line-height:1.65;
+  max-width:580px;margin-bottom:3rem;
+}
+.hero-meta-row{
+  display:flex;gap:0;
+  border:0.5px solid var(--rule);
+  border-radius:10px;overflow:hidden;
+  width:fit-content;flex-wrap:wrap;
+}
+.hero-meta-item{
+  padding:11px 22px;
+  border-right:0.5px solid var(--rule);
+}
+.hero-meta-item:last-child{border-right:none}
+.hero-meta-label{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.hero-meta-value{font-size:13px;font-weight:500;color:var(--ink)}
+
+/* SECTION */
+.section{
+  padding:4rem 0;
+  border-bottom:0.5px solid var(--rule);
+}
+.section:last-child{border-bottom:none}
+.section-eyebrow{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:0.5rem;
+}
+.sec-num{
+  font-family:'DM Mono',monospace;
+  font-size:10px;font-weight:500;
+  color:var(--ink-4);letter-spacing:0.05em;
+}
+.sec-tag{
+  font-size:10px;font-weight:600;
+  letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+.section-heading{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(26px,3vw,36px);
+  line-height:1.1;letter-spacing:-0.02em;
+  color:var(--ink);margin-bottom:0.75rem;
+}
+.section-intro{
+  font-size:14px;color:var(--ink-2);line-height:1.7;
+  margin-bottom:2.25rem;max-width:540px;
+}
+
+/* SUBSECTIONS */
+.sub{margin-top:2.25rem}
+.sub-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-3);
+  padding-bottom:6px;
+  border-bottom:0.5px solid var(--rule);
+  margin-bottom:1rem;
+}
+
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:0.5px solid var(--rule);
+  border-radius:10px;
+  padding:1.25rem 1.5rem;
+}
+.card-sm{padding:1rem 1.25rem;border-radius:8px}
+.card-accent{background:var(--accent-light);border-color:var(--accent-mid)}
+
+/* BADGES */
+.badge{
+  display:inline-block;
+  font-size:10px;font-weight:600;
+  letter-spacing:0.03em;
+  padding:2px 8px;border-radius:20px;
+}
+.badge-must{background:var(--accent-light);color:var(--accent)}
+.badge-should{background:var(--teal-light);color:var(--teal)}
+.badge-could{background:var(--amber-light);color:var(--amber)}
+
+/* PILLS */
+.pill-high{background:var(--coral-light);color:var(--coral)}
+.pill-med{background:var(--amber-light);color:var(--amber)}
+.pill-low{background:var(--green-light);color:var(--green)}
+
+/* TABLES */
+.tbl-wrap{border:0.5px solid var(--rule);border-radius:10px;overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{
+  text-align:left;
+  font-size:10px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-3);
+  padding:7px 14px;
+  border-bottom:1px solid var(--rule);
+  background:var(--surface-2);
+  white-space:nowrap;
+}
+.tbl td{
+  padding:10px 14px;
+  border-bottom:0.5px solid var(--rule);
+  color:var(--ink-2);
+  vertical-align:top;
+  line-height:1.55;
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl-mono{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4)}
+
+/* PULL QUOTE */
+.pull-quote{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(18px,2.2vw,24px);
+  line-height:1.35;
+  color:var(--ink);
+  border-left:2px solid var(--accent);
+  padding:0.2rem 0 0.2rem 1.5rem;
+  margin:2rem 0;
+}
+
+/* VISUAL: BEHAVIOUR CHANGE DIAGRAM */
+.bchange{
+  display:grid;grid-template-columns:1fr 40px 1fr;
+  align-items:center;gap:0;
+  margin:1.5rem 0;
+  border:0.5px solid var(--rule);border-radius:10px;overflow:hidden;
+}
+.bchange-col{padding:1.5rem 1.5rem}
+.bchange-col.before{background:var(--surface)}
+.bchange-col.after{background:var(--accent-light)}
+.bchange-arrow-col{
+  background:var(--surface-2);
+  display:flex;align-items:center;justify-content:center;
+  align-self:stretch;
+  color:var(--accent);font-size:20px;
+}
+.bchange-label{
+  font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:8px;
+}
+.bchange-col.after .bchange-label{color:var(--accent)}
+.bchange-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.bchange-body{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* PERSONA CARDS */
+.persona-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+}
+.persona-card{
+  border:0.5px solid var(--rule);border-radius:10px;
+  background:var(--surface);overflow:hidden;
+}
+.persona-stripe{height:3px}
+.p1 .persona-stripe{background:var(--accent)}
+.p2 .persona-stripe{background:var(--teal)}
+.p3 .persona-stripe{background:var(--coral)}
+.persona-top{padding:1.25rem}
+.persona-avatar{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:13px;margin-bottom:10px;
+}
+.p1 .persona-avatar{background:var(--accent-light);color:var(--accent)}
+.p2 .persona-avatar{background:var(--teal-light);color:var(--teal)}
+.p3 .persona-avatar{background:var(--coral-light);color:var(--coral)}
+.persona-name{font-weight:600;font-size:14px;margin-bottom:1px}
+.persona-role{font-size:11.5px;color:var(--ink-3)}
+.persona-section{
+  padding:0.85rem 1.25rem;
+  border-top:0.5px solid var(--rule);
+}
+.persona-section-label{
+  font-size:9.5px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-4);margin-bottom:5px;
+}
+.persona-section-text{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* PROBLEM FRICTION VISUAL */
+.friction-loop{
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  margin:1.5rem 0;
+  padding:2rem;
+  background:var(--surface);
+  border:0.5px solid var(--rule);border-radius:12px;
+  position:relative;
+}
+.friction-loop-title{
+  font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:1.5rem;
+}
+.friction-steps{
+  display:flex;align-items:center;gap:0;width:100%;justify-content:center;
+  flex-wrap:wrap;
+}
+.friction-step{
+  text-align:center;padding:0.75rem 1rem;
+  flex:1;min-width:120px;
+}
+.friction-step-icon{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 8px;font-size:18px;
+}
+.friction-step-title{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.friction-step-body{font-size:11px;color:var(--ink-3);line-height:1.5}
+.friction-connector{
+  font-size:16px;color:var(--ink-4);
+  flex-shrink:0;padding:0 4px;
+  margin-bottom:24px;
+}
+.loop-badge{
+  margin-top:1.25rem;
+  padding:6px 16px;
+  background:var(--coral-light);
+  border-radius:20px;
+  font-size:11px;font-weight:600;color:var(--coral);
+  letter-spacing:0.03em;
+}
+
+/* SOLUTION CAPABILITIES */
+.caps-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  border:0.5px solid var(--rule);border-radius:10px;overflow:hidden;
+}
+.cap-cell{
+  padding:1.25rem 1.5rem;
+  background:var(--surface);
+  border-right:0.5px solid var(--rule);
+  border-bottom:0.5px solid var(--rule);
+}
+.cap-cell:nth-child(even){border-right:none}
+.cap-cell:nth-last-child(-n+2){border-bottom:none}
+.cap-id{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-4);margin-bottom:6px}
+.cap-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.cap-body{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* FLOW DIAGRAM */
+.flow-wrap{
+  display:flex;align-items:flex-start;
+  overflow-x:auto;padding-bottom:4px;
+  margin:1.25rem 0;gap:0;
+}
+.flow-step{
+  flex:1;min-width:108px;
+  text-align:center;padding:0 6px;
+  position:relative;
+}
+.flow-step::after{
+  content:'';
+  position:absolute;
+  top:15px;right:-10px;
+  width:20px;height:1px;
+  background:var(--ink-4);
+}
+.flow-step:last-child::after{display:none}
+.flow-bubble{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 8px;
+}
+.flow-title{font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.flow-body{font-size:11px;color:var(--ink-3);line-height:1.45}
+
+/* VALUE PROP GRID */
+.vp-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+.vp-card{
+  border:0.5px solid var(--rule);border-radius:8px;
+  padding:1rem 1.25rem;background:var(--surface);
+}
+.vp-segment{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.vp-value{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+
+/* NORTH STAR */
+.ns-box{
+  background:var(--accent-light);
+  border:0.5px solid var(--accent-mid);
+  border-radius:10px;
+  padding:2rem;
+  margin-bottom:1.75rem;
+  position:relative;overflow:hidden;
+}
+.ns-box-deco{
+  position:absolute;right:-10px;top:-20px;
+  font-size:120px;color:var(--accent-mid);opacity:0.12;
+  line-height:1;user-select:none;pointer-events:none;
+  font-family:'DM Serif Display',serif;
+}
+.ns-kicker{
+  font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.ns-kicker svg{flex-shrink:0}
+.ns-title{
+  font-family:'DM Serif Display',serif;
+  font-size:24px;color:var(--ink);margin-bottom:0.5rem;
+}
+.ns-def{font-size:13px;color:var(--ink-2);line-height:1.65;max-width:540px}
+
+/* METRIC TIERS */
+.tier-block{
+  border:0.5px solid var(--rule);
+  border-radius:10px;overflow:hidden;
+  margin-bottom:1rem;
+}
+.tier-header{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;
+  background:var(--surface-2);
+  border-bottom:0.5px solid var(--rule);
+}
+.tier-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tier-name{font-size:12px;font-weight:600;color:var(--ink)}
+.tier-when{font-size:11px;color:var(--ink-3);margin-left:auto}
+.tier-chips{
+  display:flex;flex-wrap:wrap;gap:8px;
+  padding:12px 16px;
+  background:var(--surface);
+}
+.tier-chip{
+  background:var(--page);
+  border:0.5px solid var(--rule);
+  border-radius:8px;padding:8px 12px;
+  min-width:170px;flex:1;
+}
+.tier-chip-name{font-size:12.5px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.tier-chip-def{font-size:11.5px;color:var(--ink-3);line-height:1.5}
+
+/* BENCHMARK CARDS */
+.benchmark-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.benchmark-card{
+  border:0.5px solid var(--rule);border-radius:10px;
+  padding:1.25rem;background:var(--surface);
+}
+.benchmark-title{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.benchmark-desc{font-size:12px;color:var(--ink-3);line-height:1.6;margin-bottom:14px}
+.benchmark-nums{display:flex;gap:1.5rem;flex-wrap:wrap}
+.benchmark-num{display:flex;flex-direction:column;gap:2px}
+.benchmark-val{
+  font-family:'DM Mono',monospace;
+  font-size:22px;font-weight:500;line-height:1;
+}
+.benchmark-sub{font-size:11px;color:var(--ink-3)}
+
+/* LATENCY VISUAL */
+.latency-row{
+  display:grid;
+  grid-template-columns:60px 1fr 140px 70px;
+  gap:12px;align-items:center;
+  padding:10px 0;
+  border-bottom:0.5px solid var(--rule);
+}
+.latency-row:last-child{border-bottom:none;padding-top:14px;border-top:1px solid var(--rule);font-weight:600}
+.latency-step{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-4)}
+.latency-label{font-size:13px;color:var(--ink-2)}
+.latency-bar-wrap{background:var(--rule);border-radius:3px;height:5px;overflow:hidden}
+.latency-bar-fill{height:100%;border-radius:3px;background:var(--accent)}
+.latency-time{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);text-align:right;white-space:nowrap}
+
+/* PHASE SUMMARY BAR */
+.phase-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:0.5px solid var(--rule);border-radius:10px;overflow:hidden;
+  margin-bottom:2rem;
+}
+.phase-col{padding:1rem 1.25rem;border-right:0.5px solid var(--rule)}
+.phase-col:last-child{border-right:none}
+.phase-col.active{background:var(--accent-light)}
+.phase-lbl{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.phase-col.active .phase-lbl{color:var(--accent)}
+.phase-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.phase-weeks{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);margin-bottom:4px}
+.phase-aud{font-size:11.5px;color:var(--ink-3)}
+
+/* GTM DISCOVERY TABLE */
+.gtm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.gtm-card{border:0.5px solid var(--rule);border-radius:10px;overflow:hidden}
+.gtm-card-head{
+  padding:10px 14px;
+  background:var(--surface-2);
+  border-bottom:0.5px solid var(--rule);
+  font-size:12px;font-weight:600;color:var(--ink);
+}
+.gtm-card-body{padding:12px 14px;background:var(--surface)}
+.gtm-card-body p{font-size:12.5px;color:var(--ink-2);line-height:1.6;margin-bottom:8px}
+.gtm-card-body p:last-child{margin-bottom:0}
+.gtm-headline{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px}
+
+/* TIMELINE */
+.tl{padding-left:1.75rem;position:relative}
+.tl::before{
+  content:'';position:absolute;
+  left:6px;top:8px;bottom:8px;
+  width:1px;background:var(--rule);
+}
+.tl-item{position:relative;padding-bottom:2rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{
+  position:absolute;left:-22px;top:3px;
+  width:12px;height:12px;border-radius:50%;
+  border:1.5px solid var(--accent);background:var(--page);
+}
+.tl-dot.filled{background:var(--accent)}
+.tl-phase{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.tl-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.tl-weeks{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);margin-bottom:6px;display:block}
+.tl-body{font-size:13px;color:var(--ink-2);line-height:1.65}
+.tl-exit{
+  margin-top:10px;padding:9px 12px;
+  background:var(--surface);
+  border-left:2px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  font-size:12px;color:var(--ink-2);
+}
+.tl-exit-lbl{
+  font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:4px;
+}
+
+/* PRIVACY */
+.privacy-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.privacy-card{border:0.5px solid var(--rule);border-radius:10px;overflow:hidden}
+.privacy-head{
+  padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:0.5px solid var(--rule);
+}
+.privacy-head-reads{background:var(--accent-light)}
+.privacy-head-no{background:var(--coral-light)}
+.privacy-head-icon{font-size:14px;font-weight:700}
+.privacy-head-reads .privacy-head-icon{color:var(--accent)}
+.privacy-head-no .privacy-head-icon{color:var(--coral)}
+.privacy-head-title{font-size:12.5px;font-weight:600;color:var(--ink)}
+.privacy-list{list-style:none;padding:0;background:var(--surface)}
+.privacy-list li{
+  padding:8px 14px;
+  border-bottom:0.5px solid var(--rule);
+  font-size:12.5px;color:var(--ink-2);
+  line-height:1.55;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.privacy-list li:last-child{border-bottom:none}
+.priv-yes{color:var(--accent);flex-shrink:0;font-weight:700;margin-top:1px}
+.priv-no{color:var(--coral);flex-shrink:0;font-weight:700;margin-top:1px}
+.controls-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;border:0.5px solid var(--rule);border-radius:10px;overflow:hidden;
+}
+.control-cell{
+  padding:1rem;background:var(--surface);
+  border-right:0.5px solid var(--rule);
+}
+.control-cell:last-child{border-right:none}
+.control-title{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.control-body{font-size:12px;color:var(--ink-3);line-height:1.55}
+
+/* RISK TABLE */
+.risk-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.risk-tbl th{
+  text-align:left;
+  font-size:10px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-3);
+  padding:7px 14px;
+  border-bottom:1px solid var(--rule);
+  background:var(--surface-2);
+}
+.risk-tbl td{
+  padding:10px 14px;
+  border-bottom:0.5px solid var(--rule);
+  color:var(--ink-2);vertical-align:top;line-height:1.55;
+}
+.risk-tbl tr:last-child td{border-bottom:none}
+.risk-pill{
+  display:inline-block;
+  font-size:11px;font-weight:500;
+  padding:2px 8px;border-radius:20px;
+}
+
+/* OQ */
+.oq-item{
+  display:grid;grid-template-columns:50px 1fr;
+  gap:1rem;padding:1rem 0;
+  border-bottom:0.5px solid var(--rule);align-items:start;
+}
+.oq-item:last-child{border-bottom:none}
+.oq-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);padding-top:2px}
+.oq-q{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.oq-body{font-size:13px;color:var(--ink-2);line-height:1.65}
+
+/* FUTURE SCOPE */
+.future-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:1rem;
+}
+.future-card{
+  border:0.5px solid var(--rule);border-radius:10px;
+  padding:1.25rem;background:var(--surface);
+}
+.future-card-icon{
+  width:36px;height:36px;border-radius:8px;
+  background:var(--accent-light);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;font-size:16px;
+}
+.future-card-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.future-card-body{font-size:12px;color:var(--ink-3);line-height:1.6}
+
+/* DATA TABLE YES/NO */
+.yes-val{color:var(--teal);font-weight:600;font-size:12px}
+.no-val{color:var(--ink-4);font-size:12px}
+
+/* SECTION DIVIDER VISUAL */
+.section-divider{
+  border:none;
+  height:0.5px;background:var(--rule);
+  margin:0;
+}
+
+/* SECTION ACCENT BAR (coloured top rule for visual variety) */
+.section-accent-bar{
+  height:2px;width:40px;
+  background:var(--accent);
+  border-radius:2px;
+  margin-bottom:1.5rem;
+}
+
+/* STAT CALLOUTS */
+.stat-row{display:flex;gap:2rem;flex-wrap:wrap;margin:1.5rem 0}
+.stat-item{display:flex;flex-direction:column;gap:3px}
+.stat-num{
+  font-family:'DM Serif Display',serif;
+  font-size:40px;letter-spacing:-0.02em;
+  color:var(--accent);line-height:1;
+}
+.stat-label{font-size:12px;color:var(--ink-3);line-height:1.4}
+
+/* FOOTER */
+footer{
+  border-top:0.5px solid var(--rule);
+  padding:2rem 0;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-brand{
+  font-family:'DM Serif Display',serif;
+  font-size:15px;color:var(--ink);
+}
+.footer-brand em{color:var(--accent);font-style:normal}
+.footer-note{font-size:12px;color:var(--ink-4)}
+
+/* NFR GRID */
+.nfr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+
+/* INLINE HIGHLIGHT */
+.hl{background:var(--accent-light);color:var(--accent);padding:1px 6px;border-radius:4px;font-size:0.92em;font-weight:500}
+.hl-teal{background:var(--teal-light);color:var(--teal);padding:1px 6px;border-radius:4px;font-size:0.92em;font-weight:500}
+
+@media(max-width:760px){
+  .page{padding:0 1.25rem}
+  .persona-grid{grid-template-columns:1fr}
+  .caps-grid{grid-template-columns:1fr}
+  .phase-bar{grid-template-columns:repeat(2,1fr)}
+  .privacy-pair{grid-template-columns:1fr}
+  .controls-grid{grid-template-columns:repeat(2,1fr)}
+  .vp-grid{grid-template-columns:1fr}
+  .benchmark-grid{grid-template-columns:1fr}
+  .nfr-grid{grid-template-columns:1fr}
+  .gtm-grid{grid-template-columns:1fr}
+  .bchange{grid-template-columns:1fr}
+  .bchange-arrow-col{display:none}
+  nav .nav-links{display:none}
+  .hero-meta-row{flex-direction:column;width:100%}
+  .hero-meta-item{border-right:none;border-bottom:0.5px solid var(--rule)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-wrap">
+    <div class="nav-logo">
+      Prompt<em>Assist</em>
+      <span class="nav-logo-sep">PRD</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#personas">Personas</a></li>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#solution">Solution</a></li>
+      <li><a href="#metrics">Metrics</a></li>
+      <li><a href="#requirements">Requirements</a></li>
+      <li><a href="#technical">Technical</a></li>
+      <li><a href="#rollout">Rollout</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#risks">Risks</a></li>
+      <li><a href="#open">Open Qs</a></li>
+    </ul>
+    <span class="nav-pill">v1.0</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page">
+<header class="section" id="hero" style="padding-top:6rem;padding-bottom:5rem;position:relative;overflow:hidden">
+  <div class="hero-bg"></div>
+  <div class="hero-kicker">
+    <span class="hero-kicker-line"></span>
+    <span class="hero-kicker-text">Product Requirements Document · Grammarly · B2C Premium</span>
+  </div>
+  <h1 class="hero-title">The <em>missing layer</em><br>in AI writing.</h1>
+  <p class="hero-lead">PromptAssist is an opt-in, on-demand feature for the Grammarly browser extension and Grammarly Editor. It reads a user's in-progress text, infers intent and context, and generates a structured, high-quality prompt — injected directly into any AI tool with explicit user approval.</p>
+  <div class="hero-meta-row">
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Product</div>
+      <div class="hero-meta-value">PromptAssist</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Segment</div>
+      <div class="hero-meta-value">B2C Premium</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Surface</div>
+      <div class="hero-meta-value">Browser Extension + Editor</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">Supported AI tools</div>
+      <div class="hero-meta-value">ChatGPT · Gemini · Claude · Copilot</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">V1 scope</div>
+      <div class="hero-meta-value">LLM-agnostic, browser injection</div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 VISION -->
+<section class="section" id="vision">
+  <div class="section-accent-bar"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">01</span>
+    <span class="sec-tag">Vision + Mission</span>
+  </div>
+  <h2 class="section-heading">Why this matters now.</h2>
+  <p class="section-intro">As AI writing tools become mainstream, effective communication now includes communicating effectively <em>with</em> AI. Grammarly has historically focused on the quality of what a user writes. PromptAssist extends that mission into a new domain.</p>
+
+  <div class="pull-quote">"The differentiator is no longer having access to AI. It's being able to use it well."</div>
+
+  <!-- Behaviour change visual -->
+  <div class="sub">
+    <div class="sub-label">The behaviour change parallel</div>
+    <div class="bchange">
+      <div class="bchange-col before">
+        <div class="bchange-label">Grammar checker (established)</div>
+        <div class="bchange-title">Automated grammar suggestions</div>
+        <div class="bchange-body">Consistent exposure to suggestions gradually reduced users' felt need to consciously review their own grammar. The habit became automatic.</div>
+      </div>
+      <div class="bchange-arrow-col">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="bchange-col after">
+        <div class="bchange-label">PromptAssist (new frontier)</div>
+        <div class="bchange-title">Automated prompt engineering</div>
+        <div class="bchange-body">The same ambition applied to prompting. Write your thoughts naturally; Grammarly translates intent into high-quality instructions for any AI tool.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Strategic framing</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="card">
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px">Mission alignment</div>
+        <p style="font-size:13px;color:var(--ink-2);line-height:1.65">Grammarly's mission to improve lives by improving communication now extends to improving how users communicate with AI tools. PromptAssist is the natural evolution of that mission into the AI-assisted writing era.</p>
+      </div>
+      <div class="card card-accent">
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">North star UX</div>
+        <p style="font-size:13px;color:var(--ink-2);line-height:1.65">The user writes their thoughts naturally, without worrying about crafting an AI prompt. Grammarly translates that intent into high-quality instructions for any AI tool. Writing without the cognitive overhead of prompt engineering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PERSONAS -->
+<section class="section" id="personas">
+  <div class="section-accent-bar" style="background:var(--teal)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">02</span>
+    <span class="sec-tag">User Personas</span>
+  </div>
+  <h2 class="section-heading">Who we're building for.</h2>
+  <p class="section-intro">Three B2C profiles who write regularly and use AI tools, but whose prompt quality limits the value they get. PromptAssist is not for prompt power users — it is for the majority who find prompting itself a barrier.</p>
+
+  <div class="persona-grid">
+    <div class="persona-card p1">
+      <div class="persona-stripe"></div>
+      <div class="persona-top">
+        <div class="persona-avatar">AR</div>
+        <div class="persona-name">Aryan, 20</div>
+        <div class="persona-role">Engineering Student · Pune</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Daily tools</div>
+        <div class="persona-section-text">Google Docs + ChatGPT + Grammarly</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Core problem</div>
+        <div class="persona-section-text">Uses vague instructions ("make this essay better") and gets generic results. Spends 5 to 10 minutes rewriting prompts, without understanding why they failed.</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">What he needs</div>
+        <div class="persona-section-text">Better AI answers on the first try, without learning prompt engineering.</div>
+      </div>
+    </div>
+
+    <div class="persona-card p2">
+      <div class="persona-stripe"></div>
+      <div class="persona-top">
+        <div class="persona-avatar">PR</div>
+        <div class="persona-name">Priya, 27</div>
+        <div class="persona-role">Freelance Content Writer · Remote</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Daily tools</div>
+        <div class="persona-section-text">Grammarly Premium + Gemini + ChatGPT</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Core problem</div>
+        <div class="persona-section-text">Manually copies text between tools and re-explains context she has already written. Spends too much time getting AI to match a client's required tone.</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">What she needs</div>
+        <div class="persona-section-text">Eliminate the step of re-articulating document context for every AI session.</div>
+      </div>
+    </div>
+
+    <div class="persona-card p3">
+      <div class="persona-stripe"></div>
+      <div class="persona-top">
+        <div class="persona-avatar">MG</div>
+        <div class="persona-name">Margaret, 44</div>
+        <div class="persona-role">Secondary School Teacher · UK</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Daily tools</div>
+        <div class="persona-section-text">Grammarly (years) + ChatGPT (recent)</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">Core problem</div>
+        <div class="persona-section-text">Finds AI results "hit-or-miss." Cannot articulate why. Gives up and writes manually when AI fails. Would not seek out a tutorial or change a habit.</div>
+      </div>
+      <div class="persona-section">
+        <div class="persona-section-label">What she needs</div>
+        <div class="persona-section-text">Use AI effectively without learning a new framework or understanding the technology.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-accent-bar" style="background:var(--coral)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">03</span>
+    <span class="sec-tag">Problem Statement</span>
+  </div>
+  <h2 class="section-heading">The friction loop.</h2>
+  <p class="section-intro">The quality of AI output is directly proportional to the quality of the prompt — a skill most users have not developed and do not want to learn.</p>
+
+  <!-- Friction loop visual -->
+  <div class="friction-loop">
+    <div class="friction-loop-title">The re-prompting cycle most users are stuck in</div>
+    <div class="friction-steps">
+      <div class="friction-step">
+        <div class="friction-step-icon" style="background:var(--surface-2)">✍️</div>
+        <div class="friction-step-title">Write vague prompt</div>
+        <div class="friction-step-body">User types a rough, underspecified instruction</div>
+      </div>
+      <div class="friction-connector">›</div>
+      <div class="friction-step">
+        <div class="friction-step-icon" style="background:var(--surface-2)">🤖</div>
+        <div class="friction-step-title">Generic AI output</div>
+        <div class="friction-step-body">AI responds technically but misses what was actually needed</div>
+      </div>
+      <div class="friction-connector">›</div>
+      <div class="friction-step">
+        <div class="friction-step-icon" style="background:var(--surface-2)">😤</div>
+        <div class="friction-step-title">Frustration</div>
+        <div class="friction-step-body">User blames the AI, not the prompt</div>
+      </div>
+      <div class="friction-connector">›</div>
+      <div class="friction-step">
+        <div class="friction-step-icon" style="background:var(--surface-2)">🔄</div>
+        <div class="friction-step-title">Guess and retry</div>
+        <div class="friction-step-body">User re-prompts without understanding what to change</div>
+      </div>
+    </div>
+    <div class="loop-badge">Repeat until frustration overrides productivity</div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Three specific pain points</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+      <div class="card">
+        <div style="font-size:22px;margin-bottom:10px">🎯</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px">Ineffective technique</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Users rely on vague instructions, over-specify irrelevant details, or prompt as if using a search engine rather than a generative model.</div>
+      </div>
+      <div class="card">
+        <div style="font-size:22px;margin-bottom:10px">⚡</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px">Iteration fatigue</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Users who don't know why a prompt failed can't improve it meaningfully. Each re-prompt is essentially a guess, compounding frustration over sessions.</div>
+      </div>
+      <div class="card">
+        <div style="font-size:22px;margin-bottom:10px">🔗</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px">No continuity</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Users repeat context unnecessarily, fail to build on prior AI responses, and treat each prompt in isolation from the conversation so far.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="card" style="border-left:3px solid var(--accent);border-radius:0 8px 8px 0">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px">Why this matters now</div>
+      <p style="font-size:13.5px;color:var(--ink-2);line-height:1.65">If users spend more time wrestling with AI than writing, Grammarly risks becoming irrelevant to the most important writing workflow shift in a generation. PromptAssist positions Grammarly as the intelligent orchestration layer for the full AI writing workflow, not just the final proofreading step.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 SOLUTION -->
+<section class="section" id="solution">
+  <div class="section-accent-bar"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">04</span>
+    <span class="sec-tag">Solution Overview</span>
+  </div>
+  <h2 class="section-heading">What PromptAssist does.</h2>
+  <p class="section-intro">An opt-in feature that activates within the user's existing AI tool workflow, not before it. The user begins working in an AI tool; when they want a better-structured prompt, they invoke PromptAssist.</p>
+
+  <div class="sub">
+    <div class="sub-label">Standard user flow on a supported AI tool page</div>
+    <div class="flow-wrap">
+      <div class="flow-step">
+        <div class="flow-bubble">1</div>
+        <div class="flow-title">Writing in AI tool</div>
+        <div class="flow-body">User is in ChatGPT, Gemini, Claude, or Copilot's chat input</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-bubble">2</div>
+        <div class="flow-title">Trigger</div>
+        <div class="flow-body">Toolbar button or <span style="font-family:'DM Mono',monospace;font-size:10px">Alt+G</span> opens overlay</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-bubble">3</div>
+        <div class="flow-title">Context read</div>
+        <div class="flow-body">Grammarly infers doc type, tone, audience, intent</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-bubble">4</div>
+        <div class="flow-title">Review overlay</div>
+        <div class="flow-body">User reads, edits inline, applies modifier chips</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-bubble">5</div>
+        <div class="flow-title">Approve + inject</div>
+        <div class="flow-body">Approved prompt replaces the AI tool's input field</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-bubble">6</div>
+        <div class="flow-title">Submit to AI</div>
+        <div class="flow-body">User reviews and sends. PromptAssist's role is complete.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Core capabilities (V1)</div>
+    <div class="caps-grid">
+      <div class="cap-cell">
+        <div class="cap-id">C01</div>
+        <div class="cap-title">Contextual prompt generation</div>
+        <div class="cap-body">Analyses document type, tone, audience, and intent. Generates a structured, LLM-optimised prompt proportional in length to input richness.</div>
+        <div style="margin-top:8px"><span class="badge badge-must">Must</span></div>
+      </div>
+      <div class="cap-cell">
+        <div class="cap-id">C02</div>
+        <div class="cap-title">Multi-LLM compatibility</div>
+        <div class="cap-body">Injects into ChatGPT, Gemini, Claude, and Copilot via browser. Falls back to clipboard copy with a notification for unrecognised platforms.</div>
+        <div style="margin-top:8px"><span class="badge badge-must">Must</span></div>
+      </div>
+      <div class="cap-cell">
+        <div class="cap-id">C03</div>
+        <div class="cap-title">User review overlay</div>
+        <div class="cap-body">Prompts are displayed before any injection. Inline editing plus modifier chips: Make it shorter · More formal · Ask for bullet points · Simplify language.</div>
+        <div style="margin-top:8px"><span class="badge badge-must">Must</span></div>
+      </div>
+      <div class="cap-cell">
+        <div class="cap-id">C04</div>
+        <div class="cap-title">Dual trigger</div>
+        <div class="cap-body">Toolbar button in the Grammarly extension UI, or keyboard shortcut <span class="hl">Alt+G</span> (Option+G on Mac). Both surface the overlay without interrupting flow.</div>
+        <div style="margin-top:8px"><span class="badge badge-must">Must</span></div>
+      </div>
+      <div class="cap-cell">
+        <div class="cap-id">C05</div>
+        <div class="cap-title">Grammarly Editor panel</div>
+        <div class="cap-body">Within the Grammarly Editor, PromptAssist appears as a dedicated sidebar panel tab, consistent with existing Grammarly AI surfaces.</div>
+        <div style="margin-top:8px"><span class="badge badge-must">Must</span></div>
+      </div>
+      <div class="cap-cell">
+        <div class="cap-id">C06</div>
+        <div class="cap-title">Session conversation awareness</div>
+        <div class="cap-body">With explicit opt-in consent, retains prompts and AI responses from the current session to generate follow-up prompts that build on prior context. Off by default. Revocable at any time.</div>
+        <div style="margin-top:8px"><span class="badge badge-should">Should</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Value proposition by segment</div>
+    <div class="vp-grid">
+      <div class="vp-card">
+        <div class="vp-segment">Students + casual writers</div>
+        <div class="vp-value">Get better AI results on the first try, without learning prompt engineering.</div>
+      </div>
+      <div class="vp-card">
+        <div class="vp-segment">Non-native English speakers</div>
+        <div class="vp-value">Grammarly removes the language barrier and the skills barrier simultaneously.</div>
+      </div>
+      <div class="vp-card">
+        <div class="vp-segment">Professionals + freelancers</div>
+        <div class="vp-value">Move from rough notes to a well-prompted AI request without re-explaining document context.</div>
+      </div>
+      <div class="vp-card">
+        <div class="vp-segment">Grammarly — business value</div>
+        <div class="vp-value">Higher Premium engagement, measurable retention uplift, and ownership of the full AI-assisted writing workflow.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 METRICS -->
+<section class="section" id="metrics">
+  <div class="section-accent-bar" style="background:var(--teal)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">05</span>
+    <span class="sec-tag">Metrics + KPIs</span>
+  </div>
+  <h2 class="section-heading">How we know it's working.</h2>
+  <p class="section-intro">Metrics are structured in three layers. Adoption is measured first, then quality depth, then downstream business outcomes. Each layer unlocks at a different rollout phase.</p>
+
+  <div class="ns-box">
+    <div class="ns-box-deco">★</div>
+    <div class="ns-kicker">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1l1.5 3 3.5.5-2.5 2.5.5 3.5L6 9l-3 1.5.5-3.5L1 4.5l3.5-.5z"/></svg>
+      North Star Metric
+    </div>
+    <div class="ns-title">Prompt Acceptance Rate</div>
+    <div class="ns-def">The percentage of PromptAssist-generated prompts approved and injected by the user (versus dismissed), among users who have used the feature at least once in the measurement period. A high rate means users trust the generated prompt enough to send it to an AI tool. A low rate signals poor quality, unclear UX, or accidental triggering.</div>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--accent)"></div>
+      <div class="tier-name">L1 — Adoption</div>
+      <div class="tier-when">Tracked from Phase 2 · Closed Beta</div>
+    </div>
+    <div class="tier-chips">
+      <div class="tier-chip">
+        <div class="tier-chip-name">Feature adoption rate</div>
+        <div class="tier-chip-def">% of active Premium B2C users who use PromptAssist at least once within 14 days of availability</div>
+      </div>
+      <div class="tier-chip">
+        <div class="tier-chip-name">Monthly active users</div>
+        <div class="tier-chip-def">Count of unique users who use PromptAssist at least once per calendar month</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--teal)"></div>
+      <div class="tier-name">L2 — Quality + depth</div>
+      <div class="tier-when">Tracked from Phase 3 · Open Beta</div>
+    </div>
+    <div class="tier-chips">
+      <div class="tier-chip">
+        <div class="tier-chip-name">Session depth</div>
+        <div class="tier-chip-def">Avg. Grammarly interactions per session: PromptAssist users vs matched non-users</div>
+      </div>
+      <div class="tier-chip">
+        <div class="tier-chip-name">Modifier usage rate</div>
+        <div class="tier-chip-def">% of accepted prompts where the user applied at least one modifier chip</div>
+      </div>
+      <div class="tier-chip">
+        <div class="tier-chip-name">Feature CSAT</div>
+        <div class="tier-chip-def">In-app survey score 7 days after first PromptAssist use, specific to the feature</div>
+      </div>
+      <div class="tier-chip">
+        <div class="tier-chip-name">Prompt edit rate</div>
+        <div class="tier-chip-def">% of generated prompts the user edits inline before approving</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier-block">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--coral)"></div>
+      <div class="tier-name">L3 — Business outcomes</div>
+      <div class="tier-when">Tracked 3 months post Full GA</div>
+    </div>
+    <div class="tier-chips">
+      <div class="tier-chip">
+        <div class="tier-chip-name">Premium retention differential</div>
+        <div class="tier-chip-def">Churn rate: active PromptAssist users vs matched Premium non-users. Needs sufficient cohort — measured 3 months post-GA.</div>
+      </div>
+      <div class="tier-chip">
+        <div class="tier-chip-name">Premium conversion lift</div>
+        <div class="tier-chip-def">Conversion rate Free to Premium for users shown the PromptAssist capability vs those who were not</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 REQUIREMENTS -->
+<section class="section" id="requirements">
+  <div class="section-accent-bar"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">06</span>
+    <span class="sec-tag">Functional Requirements</span>
+  </div>
+  <h2 class="section-heading">What the product must do.</h2>
+  <p class="section-intro">All requirements prioritised for V1 scope. Priority levels indicate what is non-negotiable for launch versus what strengthens the experience.</p>
+
+  <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap">
+    <span class="badge badge-must">Must — core V1</span>
+    <span class="badge badge-should">Should — strong V1</span>
+    <span class="badge badge-could">Could — future</span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th style="width:56px">ID</th>
+          <th style="width:150px">Component</th>
+          <th>Description</th>
+          <th style="width:76px">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="tbl-mono">FR01</td><td style="font-weight:500;color:var(--ink)">Toolbar trigger</td><td>PromptAssist button appears in the Grammarly toolbar for any supported, non-empty text field. Clicking it opens the review overlay.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR02</td><td style="font-weight:500;color:var(--ink)">Keyboard shortcut</td><td>Alt+G (Option+G on Mac) triggers the overlay from any supported input field without leaving the keyboard. Configurable in Settings.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR03</td><td style="font-weight:500;color:var(--ink)">Context analysis</td><td>Grammarly reads the active text field and infers document type, tone, audience, and user intent. Reading occurs only on trigger activation, not passively. No text stored server-side beyond the session.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR04</td><td style="font-weight:500;color:var(--ink)">Prompt generation</td><td>Generates a structured, LLM-optimised prompt from inferred context. Length scales proportionally with input: a short input produces a concise prompt; a rich input produces a more detailed one. No fixed word count cap.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR05</td><td style="font-weight:500;color:var(--ink)">Review overlay</td><td>A lightweight overlay displays the generated prompt. The user can read, inline-edit, apply modifier chips, or dismiss. Injection proceeds only on explicit user approval.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR06</td><td style="font-weight:500;color:var(--ink)">Modifier chips</td><td>One-tap chips in the overlay applied before final generation: Make it shorter · Make it more formal · Ask for bullet points · Simplify language.</td><td><span class="badge badge-should">Should</span></td></tr>
+        <tr><td class="tbl-mono">FR07</td><td style="font-weight:500;color:var(--ink)">Prompt injection</td><td>On user approval, the prompt is injected into the input field of the active supported AI tool. Platform detected automatically. Must complete within 500ms of approval.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR08</td><td style="font-weight:500;color:var(--ink)">Editor panel</td><td>Within the Grammarly Editor, PromptAssist appears as a dedicated sidebar panel tab, consistent with how existing AI features are surfaced. Prompt can be used natively or copied to a separate AI tool tab.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR09</td><td style="font-weight:500;color:var(--ink)">Multi-LLM detection</td><td>Maintains a selector map for ChatGPT, Gemini, Claude, and Copilot. Degrades gracefully to clipboard copy with a user notification if the platform is unrecognised.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR10</td><td style="font-weight:500;color:var(--ink)">Feature toggle</td><td>Users can enable or disable PromptAssist entirely from Grammarly Settings. When disabled, no toolbar buttons or shortcuts are active.</td><td><span class="badge badge-must">Must</span></td></tr>
+        <tr><td class="tbl-mono">FR11</td><td style="font-weight:500;color:var(--ink)">Session awareness</td><td>With explicit, session-level consent, PromptAssist reads and retains prompts and AI responses from the current session to inform follow-up generation. Off by default. User can revoke and clear session context at any time.</td><td><span class="badge badge-should">Should</span></td></tr>
+        <tr><td class="tbl-mono">FR12</td><td style="font-weight:500;color:var(--ink)">Session history</td><td>The last 5 generated prompts are accessible within the overlay during the same session for quick reuse.</td><td><span class="badge badge-should">Should</span></td></tr>
+        <tr><td class="tbl-mono">FR13</td><td style="font-weight:500;color:var(--ink)">Save prompt</td><td>Users can save a generated prompt with a custom label. Saved prompts are accessible from the Grammarly sidebar.</td><td><span class="badge badge-could">Could</span></td></tr>
+        <tr><td class="tbl-mono">FR14</td><td style="font-weight:500;color:var(--ink)">First-use disclosure</td><td>On first activation, a modal explains what PromptAssist reads and when. No text is stored without permission. User must acknowledge before first use — dismissing the modal does not enable the feature.</td><td><span class="badge badge-must">Must</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Non-functional requirements</div>
+    <div class="nfr-grid">
+      <div class="card card-sm" style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:22px;flex-shrink:0">⚡</div>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px">Performance</div>
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Context analysis and prompt generation must complete within <span class="hl">3 to 5 seconds</span> of trigger activation. Quality takes precedence over speed within this window.</div>
+        </div>
+      </div>
+      <div class="card card-sm" style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:22px;flex-shrink:0">💉</div>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px">Injection speed</div>
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Prompt injection into the target field must complete within <span class="hl">500ms</span> of user approval.</div>
+        </div>
+      </div>
+      <div class="card card-sm" style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:22px;flex-shrink:0">🛡️</div>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px">Reliability</div>
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Feature availability and injection success must maintain <span class="hl">99.5%</span> on supported platforms under normal network conditions.</div>
+        </div>
+      </div>
+      <div class="card card-sm" style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:22px;flex-shrink:0">♿</div>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:4px">Accessibility</div>
+          <div style="font-size:12.5px;color:var(--ink-2);line-height:1.6">Overlay and toolbar button must meet <span class="hl">WCAG 2.1 AA</span>: full keyboard navigation, screen reader labels, ARIA roles, sufficient colour contrast.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 TECHNICAL -->
+<section class="section" id="technical">
+  <div class="section-accent-bar" style="background:var(--amber)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">07</span>
+    <span class="sec-tag">AI + Technical Scope</span>
+  </div>
+  <h2 class="section-heading">How it's built.</h2>
+  <p class="section-intro">Two distinct AI models — context understanding and prompt generation — plus session memory management, a structured feedback loop, and a clear V1 scope decision on platform-specific optimisation.</p>
+
+  <div class="sub">
+    <div class="sub-label">Model quality gates — required before Phase 1 begins</div>
+    <div class="benchmark-grid">
+      <div class="benchmark-card">
+        <div class="benchmark-title">Context understanding model</div>
+        <div class="benchmark-desc">Infers document/request type, tone, audience, and user intent from input text. Distinct from Grammarly's existing grammar models — must be trained or fine-tuned specifically for prompt generation decisions.</div>
+        <div class="benchmark-nums">
+          <div class="benchmark-num">
+            <div class="benchmark-val" style="color:var(--accent)">≥85%</div>
+            <div class="benchmark-sub">Request type classification accuracy</div>
+          </div>
+          <div class="benchmark-num">
+            <div class="benchmark-val" style="color:var(--accent)">≥75%</div>
+            <div class="benchmark-sub">Intent classification accuracy</div>
+          </div>
+        </div>
+      </div>
+      <div class="benchmark-card">
+        <div class="benchmark-title">Prompt generation model</div>
+        <div class="benchmark-desc">Generates LLM-agnostic prompts following universal best practices. Output must be naturally readable by a non-technical user. No jargon, no system-prompt syntax exposed to the user.</div>
+        <div class="benchmark-nums">
+          <div class="benchmark-num">
+            <div class="benchmark-val" style="color:var(--teal)">≥4/5</div>
+            <div class="benchmark-sub">Clarity + relevance (human evaluators)</div>
+          </div>
+          <div class="benchmark-num">
+            <div class="benchmark-val" style="color:var(--teal)">LLM-agnostic</div>
+            <div class="benchmark-sub">Performs well on GPT, Gemini, Claude</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Latency breakdown — trigger activation to overlay display</div>
+    <div class="card" style="padding:1rem 1.5rem">
+      <div class="latency-row">
+        <div class="latency-step">Step 01</div>
+        <div class="latency-label">Text extraction — active field content already available to the extension</div>
+        <div class="latency-bar-wrap"><div class="latency-bar-fill" style="width:2%;background:var(--teal)"></div></div>
+        <div class="latency-time">&lt;50ms</div>
+      </div>
+      <div class="latency-row">
+        <div class="latency-step">Step 02</div>
+        <div class="latency-label">Context analysis — document type, tone, audience, and intent</div>
+        <div class="latency-bar-wrap"><div class="latency-bar-fill" style="width:33%"></div></div>
+        <div class="latency-time">&lt;1.5s</div>
+      </div>
+      <div class="latency-row">
+        <div class="latency-step">Step 03</div>
+        <div class="latency-label">Prompt generation — structured user-facing prompt from context inputs</div>
+        <div class="latency-bar-wrap"><div class="latency-bar-fill" style="width:56%"></div></div>
+        <div class="latency-time">&lt;2.5s</div>
+      </div>
+      <div class="latency-row">
+        <div class="latency-step">Step 04</div>
+        <div class="latency-label">Overlay render — display generated prompt in review UI</div>
+        <div class="latency-bar-wrap"><div class="latency-bar-fill" style="width:5%;background:var(--teal)"></div></div>
+        <div class="latency-time">&lt;200ms</div>
+      </div>
+      <div class="latency-row">
+        <div class="latency-step">Total</div>
+        <div class="latency-label" style="color:var(--ink)">Trigger activation to overlay display</div>
+        <div class="latency-bar-wrap"><div class="latency-bar-fill" style="width:100%"></div></div>
+        <div class="latency-time" style="font-size:14px">3 to 5s</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Feedback loop + data collection</div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Data type</th>
+            <th style="width:130px">Collected by default</th>
+            <th style="width:150px">Used for training</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Prompt acceptance / dismissal event</td><td><span class="yes-val">Yes</span></td><td><span class="yes-val">Yes (anonymised)</span></td><td>Always — event metadata only, no text content</td></tr>
+          <tr><td>Modifier chip selections</td><td><span class="yes-val">Yes</span></td><td><span class="yes-val">Yes (anonymised)</span></td><td>Always — no text content</td></tr>
+          <tr><td>Explicit thumbs up / down rating</td><td><span class="no-val">No</span></td><td><span class="yes-val">Yes (anonymised)</span></td><td>Only if user opts in to feedback in Settings</td></tr>
+          <tr><td>Original vs. edited prompt pairs</td><td><span class="no-val">No</span></td><td><span class="yes-val">Yes (anonymised)</span></td><td>Only if user opts in to feedback in Settings</td></tr>
+          <tr><td>Raw user input text</td><td><span class="no-val">No</span></td><td><span class="no-val">Never</span></td><td>Never used for training under any condition</td></tr>
+          <tr><td>Session conversation history</td><td><span class="no-val">No</span></td><td><span class="no-val">No</span></td><td>Browser memory only; not transmitted unless user opts in to feedback collection</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="card" style="border-left:3px solid var(--amber);border-radius:0 8px 8px 0">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--amber);margin-bottom:6px">V1 scope decision: platform optimisation deferred</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.65">Different LLMs respond differently to the same prompt. For V1, PromptAssist generates a single LLM-agnostic prompt following universal best practices. Platform-specific optimisation — generating subtly different prompts for Claude vs ChatGPT — is a post-V1 enhancement. This decision significantly reduces V1 AI scope while still delivering core user value.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 ROLLOUT -->
+<section class="section" id="rollout">
+  <div class="section-accent-bar" style="background:var(--teal)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">08</span>
+    <span class="sec-tag">Rollout Plan + GTM</span>
+  </div>
+  <h2 class="section-heading">How we ship it.</h2>
+  <p class="section-intro">Four phases from internal dogfooding to general availability. Each phase has measurable exit criteria. All discovery is embedded in existing Grammarly surfaces — no standalone campaigns.</p>
+
+  <div class="phase-bar">
+    <div class="phase-col active">
+      <div class="phase-lbl">Phase 1</div>
+      <div class="phase-title">Dogfooding</div>
+      <div class="phase-weeks">Wks 1 to 4</div>
+      <div class="phase-aud">All Grammarly employees</div>
+    </div>
+    <div class="phase-col">
+      <div class="phase-lbl">Phase 2</div>
+      <div class="phase-title">Closed Beta</div>
+      <div class="phase-weeks">Wks 5 to 10</div>
+      <div class="phase-aud">5% of Premium B2C</div>
+    </div>
+    <div class="phase-col">
+      <div class="phase-lbl">Phase 3</div>
+      <div class="phase-title">Open Beta</div>
+      <div class="phase-weeks">Wks 11 to 16</div>
+      <div class="phase-aud">30% of Premium B2C</div>
+    </div>
+    <div class="phase-col">
+      <div class="phase-lbl">Phase 4</div>
+      <div class="phase-title">General Availability</div>
+      <div class="phase-weeks">Wk 17+</div>
+      <div class="phase-aud">All active Premium B2C</div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-dot filled"></div>
+      <div class="tl-phase">Phase 1</div>
+      <div class="tl-title">Internal Dogfooding</div>
+      <span class="tl-weeks">Weeks 1 to 4 · All Grammarly employees</span>
+      <div class="tl-body">Daily real-work tasks using PromptAssist once per day (not test files). Structured scenarios across email, project update, and essay formats. Prompt quality rated on a 1 to 5 scale: intent match and willingness to submit without editing. End-of-phase 10-question survey covering clarity, trust, perceived value, and willingness to recommend.</div>
+      <div class="tl-exit">
+        <div class="tl-exit-lbl">Exit criteria</div>
+        Avg. prompt quality ≥ 3.8/5 · Injection success ≥ 95% on Chrome for ChatGPT + Gemini · No P0 or P1 bugs open at end of Week 4
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Phase 2</div>
+      <div class="tl-title">Closed Beta</div>
+      <span class="tl-weeks">Weeks 5 to 10 · Random 5% of active Premium B2C (stratified: student, professional, general writer)</span>
+      <div class="tl-body">Feature enabled for selected users with a one-time in-app tooltip on first login. Weekly monitoring of Prompt Acceptance Rate, Feature Adoption Rate, and 7-day post-first-use CSAT. Qualitative interviews with 10 to 15 beta users in Week 4, focused on why prompts were edited or dismissed.</div>
+      <div class="tl-exit">
+        <div class="tl-exit-lbl">Exit criteria — Go / No-Go review end of Week 10</div>
+        Prompt Acceptance Rate ≥ 50% · CSAT ≥ 3.8/5 · No P0 or P1 issues outstanding
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Phase 3</div>
+      <div class="tl-title">Open Beta</div>
+      <span class="tl-weeks">Weeks 11 to 16 · 30% of Premium B2C</span>
+      <div class="tl-body">Discovery pop-up activated for the first time on ChatGPT.com, gemini.google.com, and claude.ai. Infrastructure scaling validated — engineering monitors p50, p90, and p99 latency and error rates under increased load. Model retraining initiated if Prompt Acceptance Rate falls below 55% in any week.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">Phase 4</div>
+      <div class="tl-title">General Availability</div>
+      <span class="tl-weeks">Week 17 onwards · All active Premium B2C</span>
+      <div class="tl-body">Pop-up activated for all Premium users visiting supported AI tool sites. Free-tier users see the toolbar button as disabled with an upgrade prompt. L3 retention differential measurement begins 3 months post-GA once the active user cohort is large enough to be statistically meaningful.</div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">GTM discovery channels</div>
+    <div class="gtm-grid">
+      <div class="gtm-card">
+        <div class="gtm-card-head">Pop-up on supported AI tool sites</div>
+        <div class="gtm-card-body">
+          <p>Shown once to Premium users who visit a supported AI tool site and have not yet enabled PromptAssist.</p>
+          <div class="gtm-headline">Headline</div>
+          <p>Write better prompts without the guesswork.</p>
+          <div class="gtm-headline">Body</div>
+          <p>PromptAssist turns your Grammarly writing into a ready-to-use, structured prompt for this AI tool in seconds.</p>
+          <div class="gtm-headline">CTA</div>
+          <p>Enable PromptAssist · "Not now" (does not reappear)</p>
+        </div>
+      </div>
+      <div class="gtm-card">
+        <div class="gtm-card-head">Embedded product touchpoints</div>
+        <div class="gtm-card-body">
+          <div class="gtm-headline">Grammarly weekly digest email</div>
+          <p>Single mention in the next scheduled product digest after GA. No dedicated email campaign.</p>
+          <div class="gtm-headline">In-app toolbar tooltip</div>
+          <p>One-time tooltip on first Premium session post-launch. Dismisses on click or after 8 seconds.</p>
+          <div class="gtm-headline">Editor panel tab</div>
+          <p>Appears in sidebar with no separate onboarding. Empty state: "Click Generate Prompt to create an AI prompt based on your current document."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 PRIVACY -->
+<section class="section" id="privacy">
+  <div class="section-accent-bar" style="background:var(--green)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">09</span>
+    <span class="sec-tag">Privacy + Data Handling</span>
+  </div>
+  <h2 class="section-heading">Privacy as a design constraint.</h2>
+  <p class="section-intro">Privacy is foundational, not an afterthought. The following commitments govern data handling and must be reflected in both engineering implementation and every user-facing communication.</p>
+
+  <div class="privacy-pair">
+    <div class="privacy-card">
+      <div class="privacy-head privacy-head-reads">
+        <div class="privacy-head-icon">→</div>
+        <div class="privacy-head-title">What PromptAssist reads</div>
+      </div>
+      <ul class="privacy-list">
+        <li><span class="priv-yes">→</span>Current input text — only at the moment the user triggers PromptAssist. No passive monitoring of the input field at any time.</li>
+        <li><span class="priv-yes">→</span>Session conversation history — only with explicit opt-in consent. Retained in browser memory only; never transmitted to Grammarly servers.</li>
+      </ul>
+    </div>
+    <div class="privacy-card">
+      <div class="privacy-head privacy-head-no">
+        <div class="privacy-head-icon">×</div>
+        <div class="privacy-head-title">What PromptAssist never does</div>
+      </div>
+      <ul class="privacy-list">
+        <li><span class="priv-no">×</span>Stores raw user text server-side. Processed within the session and discarded.</li>
+        <li><span class="priv-no">×</span>Logs or stores generated prompts unless the user explicitly saves one.</li>
+        <li><span class="priv-no">×</span>Has any visibility into AI responses or user interactions within third-party tools.</li>
+        <li><span class="priv-no">×</span>Writes session conversation history to disk or transmits it to any server.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">User controls</div>
+    <div class="controls-grid">
+      <div class="control-cell">
+        <div style="font-size:18px;margin-bottom:6px">🔒</div>
+        <div class="control-title">Off by default</div>
+        <div class="control-body">Users must actively enable via first-use modal or Grammarly Settings.</div>
+      </div>
+      <div class="control-cell">
+        <div style="font-size:18px;margin-bottom:6px">⏹️</div>
+        <div class="control-title">Disable anytime</div>
+        <div class="control-body">Disabling in Settings stops all input reading associated with this feature immediately.</div>
+      </div>
+      <div class="control-cell">
+        <div style="font-size:18px;margin-bottom:6px">🧹</div>
+        <div class="control-title">Session awareness toggle</div>
+        <div class="control-body">Separate opt-in. Turning off clears any session history held in memory immediately.</div>
+      </div>
+      <div class="control-cell">
+        <div style="font-size:18px;margin-bottom:6px">✋</div>
+        <div class="control-title">Withdraw feedback consent</div>
+        <div class="control-body">Available at any time via Settings › Privacy › PromptAssist.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 RISKS -->
+<section class="section" id="risks">
+  <div class="section-accent-bar" style="background:var(--coral)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">10</span>
+    <span class="sec-tag">Risk Register</span>
+  </div>
+  <h2 class="section-heading">What could go wrong.</h2>
+  <p class="section-intro">Technical and product risks documented with likelihood, impact, and mitigation strategy. Each mitigation is actionable, not aspirational.</p>
+
+  <div class="sub">
+    <div class="sub-label">Technical risks</div>
+    <div class="tbl-wrap">
+      <table class="risk-tbl">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th style="width:90px">Likelihood</th>
+            <th style="width:80px">Impact</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI tool providers update their UI, breaking the injection selector map.</td>
+            <td><span class="risk-pill pill-high">High</span></td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td>Automated regression tests on key input selectors. Clipboard fallback always available so users are never fully blocked.</td>
+          </tr>
+          <tr>
+            <td>Misclassification of document type or intent leads to poor prompt quality.</td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td><span class="risk-pill pill-high">High</span></td>
+            <td>Confidence score threshold: if below threshold, present a generic template prompt instead. Feedback loop enables rapid retraining.</td>
+          </tr>
+          <tr>
+            <td>Context analysis causes noticeable lag on low-spec devices.</td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td>Cap analysis at 1,000 characters of the most recent text. Lightweight model preferred. Loading indicator in the overlay manages perceived wait.</td>
+          </tr>
+          <tr>
+            <td>Prompt injected into the wrong field, or injection fails silently.</td>
+            <td><span class="risk-pill pill-low">Low</span></td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td>Clipboard fallback with copy confirmation. Visual success state in overlay after injection completes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub">
+    <div class="sub-label">Product + business risks</div>
+    <div class="tbl-wrap">
+      <table class="risk-tbl">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th style="width:90px">Likelihood</th>
+            <th style="width:80px">Impact</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Users do not discover or understand the feature.</td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td><span class="risk-pill pill-high">High</span></td>
+            <td>Pop-up on AI tool sites from Phase 3 onwards. Editor panel mirrors familiar surfaces. Toolbar tooltip on first Premium login post-launch.</td>
+          </tr>
+          <tr>
+            <td>Users feel uncomfortable with Grammarly reading their text.</td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td><span class="risk-pill pill-high">High</span></td>
+            <td>Explicit opt-in required. First-use privacy modal is mandatory. Plain-language explanation of what is read and when. Prominent disable option in Settings.</td>
+          </tr>
+          <tr>
+            <td>Users try the feature once, get a poor prompt, and do not return.</td>
+            <td><span class="risk-pill pill-med">Medium</span></td>
+            <td><span class="risk-pill pill-high">High</span></td>
+            <td>Phase 1 testing focused specifically on prompt quality. Phase 2 Beta gated on Prompt Acceptance Rate ≥ 50% before wider rollout.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 11 OPEN QUESTIONS -->
+<section class="section" id="open">
+  <div class="section-accent-bar" style="background:var(--amber)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">11</span>
+    <span class="sec-tag">Open Questions</span>
+  </div>
+  <h2 class="section-heading">Unresolved before development.</h2>
+  <p class="section-intro">Three questions requiring a decision before engineering kickoff. Each has direct implications for scope, architecture, or go-to-market.</p>
+
+  <div class="oq-item">
+    <div class="oq-num">OQ 01</div>
+    <div>
+      <div class="oq-q">Free vs Premium gating</div>
+      <div class="oq-body">Should PromptAssist be exclusively Premium, or should a limited version (3 uses per day) be available on the Free tier as a conversion driver? This decision impacts engineering (usage metering infrastructure) and GTM (free-tier discovery placement and messaging).</div>
+    </div>
+  </div>
+  <div class="oq-item">
+    <div class="oq-num">OQ 02</div>
+    <div>
+      <div class="oq-q">Minimum viable text length</div>
+      <div class="oq-body">If the user has written fewer than approximately 20 words, the context model will have insufficient signal. Should the feature be disabled below a word threshold, or should it present a generic template prompt in this case? The answer affects both the AI pipeline and the overlay UX.</div>
+    </div>
+  </div>
+  <div class="oq-item">
+    <div class="oq-num">OQ 03</div>
+    <div>
+      <div class="oq-q">Injection restriction contingency</div>
+      <div class="oq-body">What is the strategy if a major AI provider explicitly restricts browser extension injection into their input fields? Clipboard fallback mitigates user impact but significantly affects the core UX and perceived value of the feature. A formal contingency plan is needed before GA.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 FUTURE -->
+<section class="section" id="future">
+  <div class="section-accent-bar" style="background:var(--accent-mid)"></div>
+  <div class="section-eyebrow">
+    <span class="sec-num">12</span>
+    <span class="sec-tag">Future Scope — Post V1</span>
+  </div>
+  <h2 class="section-heading">Where it goes next.</h2>
+  <p class="section-intro">Five post-V1 enhancements identified. None are in V1 scope but are documented here to inform architecture decisions and avoid building in directions that foreclose them.</p>
+
+  <div class="future-grid">
+    <div class="future-card">
+      <div class="future-card-icon">🎯</div>
+      <div class="future-card-title">Platform-specific optimisation</div>
+      <div class="future-card-body">Generate subtly different prompts tailored to ChatGPT, Claude, and Gemini based on known differences in how each model responds to instruction style.</div>
+    </div>
+    <div class="future-card">
+      <div class="future-card-icon">🏢</div>
+      <div class="future-card-title">B2B expansion</div>
+      <div class="future-card-body">Team admins define company-voice prompt templates. PromptAssist applies them automatically by document type, transforming a B2C feature into an enterprise content governance tool.</div>
+    </div>
+    <div class="future-card">
+      <div class="future-card-icon">🎛️</div>
+      <div class="future-card-title">Goal-based mode</div>
+      <div class="future-card-body">User selects an explicit goal before generation: Improve this paragraph · Generate new content · Change the tone. More precise targeting without relying entirely on text inference.</div>
+    </div>
+    <div class="future-card">
+      <div class="future-card-icon">📱</div>
+      <div class="future-card-title">Mobile keyboard</div>
+      <div class="future-card-body">Extend PromptAssist to the Grammarly iOS and Android keyboard for prompt generation in mobile writing contexts.</div>
+    </div>
+    <div class="future-card">
+      <div class="future-card-icon">🔌</div>
+      <div class="future-card-title">Native API integration</div>
+      <div class="future-card-body">As LLM providers open richer APIs, move from browser UI injection to direct API-level calls, enabling full control over model parameters and output format.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">Prompt<em>Assist</em> · Product Requirements Document</span>
+  <span class="footer-note">v1.0 · Grammarly</span>
+</footer>
+
+</div><!-- /page -->
+</body>
+</html>

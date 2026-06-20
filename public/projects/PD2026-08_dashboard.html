@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PD2026-08 &middot; Non-Contact PFT System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   RESET
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f0f2f5;
+  color: #1a1d24;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   TOKENS
+   ============================================= */
+:root {
+  --teal:        #0a8f6e;
+  --teal-mid:    #0cad87;
+  --teal-glow:   rgba(10,143,110,0.12);
+  --teal-pale:   rgba(10,143,110,0.06);
+  --teal-border: rgba(10,143,110,0.22);
+  --ink-0:       #0d1017;
+  --ink-1:       #1a1d24;
+  --ink-2:       #4a5568;
+  --ink-3:       #8a96a8;
+  --ink-4:       #c8cdd6;
+  --surface-0:   #ffffff;
+  --surface-1:   #f8f9fb;
+  --surface-2:   #f0f2f5;
+  --surface-3:   #e8ebf0;
+  --border:      #dde1e9;
+  --border-mid:  #c8cdd6;
+  --amber:       #b85c08;
+  --amber-pale:  rgba(184,92,8,0.08);
+  --coral:       #bf2c2c;
+  --coral-pale:  rgba(191,44,44,0.08);
+  --blue:        #1a5db4;
+  --blue-pale:   rgba(26,93,180,0.08);
+  --purple:      #5a38b5;
+  --purple-pale: rgba(90,56,181,0.08);
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 12px;
+  --radius-sm: 7px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+/* =============================================
+   SUBTLE GRID TEXTURE
+   ============================================= */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(10,143,110,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,143,110,0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   SIDE NAV
+   ============================================= */
+.sidenav {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+.sidenav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: var(--ink-4);
+  font-size: 10px;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  transition: color .2s;
+}
+.sidenav a .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--ink-4);
+  transition: background .2s, box-shadow .2s, transform .2s;
+  flex-shrink: 0;
+}
+.sidenav a:hover { color: var(--teal); }
+.sidenav a:hover .dot { background: var(--teal); }
+.sidenav a.active { color: var(--teal); }
+.sidenav a.active .dot { background: var(--teal); box-shadow: 0 0 8px var(--teal-mid); transform: scale(1.5); }
+
+/* =============================================
+   WRAP
+   ============================================= */
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2.5rem 8rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   HERO  — full-viewport-width band
+   ============================================= */
+.hero-band {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  background: linear-gradient(135deg, #0a1a14 0%, #0d2233 55%, #091820 100%);
+  border-bottom: 1px solid rgba(15,212,160,0.18);
+  overflow: hidden;
+  margin-bottom: 4.5rem;
+}
+/* dot-grid texture */
+.hero-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15,212,160,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2.5rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-glow {
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(10,200,150,0.13) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}.hero-hall {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #5ce8c0;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-hall::before {
+  content: '';
+  display: block;
+  width: 18px; height: 1px;
+  background: #5ce8c0;
+}
+.hero-competition {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(200,215,230,0.55);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.75rem;
+  padding-left: 28px;
+}
+.hero-title {
+  font-size: clamp(30px, 5vw, 54px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #f0f5f8;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.03em;
+}
+.hero-title .accent { color: #4de8b8; font-weight: 600; display: block; }
+.hero-subtitle {
+  font-size: 15px;
+  color: rgba(200,215,230,0.72);
+  max-width: 620px;
+  margin: 1.25rem 0 0;
+  line-height: 1.85;
+}
+.hero-waveform {
+  position: absolute;
+  bottom: 16px; right: 0;
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: 0;
+}
+.what-we-built {
+  margin: 2rem 0 0;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(15,212,160,0.28);
+  border-left: 4px solid #4de8b8;
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  backdrop-filter: blur(4px);
+}
+.wwb-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #4de8b8;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  padding-top: 3px;
+  min-width: 90px;
+}
+.wwb-desc { font-size: 14px; color: rgba(220,235,245,0.88); line-height: 1.8; flex: 1; }
+.wwb-desc strong { color: #4de8b8; font-weight: 500; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+.htag {
+  font-size: 11px; font-family: var(--mono);
+  background: rgba(255,255,255,0.07); color: rgba(200,215,230,0.75);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 5px;
+  padding: 4px 11px; letter-spacing: 0.03em;
+}
+.htag.teal {
+  background: rgba(15,212,160,0.12);
+  color: #4de8b8;
+  border-color: rgba(15,212,160,0.3);
+}
+
+/* Core idea callout — used on light-bg sections */
+.core-idea-box {
+  background: var(--surface-0);
+  border: 1.5px solid var(--teal-border);
+  border-left: 5px solid var(--teal);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.cib-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--surface-0);
+  background: var(--teal);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+.cib-text {
+  font-size: 14px;
+  color: var(--ink-1);
+  line-height: 1.8;
+  flex: 1;
+  min-width: 200px;
+}
+.cib-text strong { color: var(--teal); font-weight: 600; }
+
+/* =============================================
+   SECTIONS
+   ============================================= */
+.section { margin-bottom: 4.5rem; scroll-margin-top: 2rem; }
+.section-header { margin-bottom: 2rem; }
+.sec-eyebrow {
+  font-family: var(--mono); font-size: 10px; color: var(--teal);
+  letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.sec-title { font-size: 23px; font-weight: 300; color: var(--ink-0); letter-spacing: -0.02em; line-height: 1.25; }
+.sec-title strong { font-weight: 600; }
+.sec-intro { margin-top: 0.75rem; font-size: 14px; color: var(--ink-2); max-width: 700px; line-height: 1.85; }
+hr.rule { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+
+/* =============================================
+   CARDS
+   ============================================= */
+.card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+.card.glow { border-color: var(--teal-border); }
+.card.surface1 { background: var(--surface-1); box-shadow: none; }
+
+/* =============================================
+   STAT GRID
+   ============================================= */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem;
+  position: relative; overflow: hidden; box-shadow: var(--shadow);
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; border-radius: 2px 0 0 2px; background: var(--border-mid);
+}
+.stat-card.hi::before { background: var(--teal); }
+.stat-card.warn::before { background: var(--amber); }
+.stat-card.danger::before { background: var(--coral); }
+.stat-label { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; line-height: 1.4; }
+.stat-val { font-size: 28px; font-weight: 600; font-family: var(--mono); color: var(--ink-0); line-height: 1; margin-bottom: 5px; letter-spacing: -0.03em; }
+.stat-card.hi .stat-val { color: var(--teal); }
+.stat-sub { font-size: 12px; color: var(--ink-2); line-height: 1.45; }
+
+/* =============================================
+   EXPLAINER / CONTEXT
+   ============================================= */
+.explainer {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-md); margin-bottom: 2rem;
+}
+.exp-half { padding: 1.5rem; }
+.exp-half:first-child { border-right: 1px solid var(--border); }
+.exp-label {
+  font-family: var(--mono); font-size: 10px; color: var(--teal);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.exp-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.exp-metric { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+.exp-metric:last-child { border-bottom: none; }
+.exp-metric .name { font-size: 13px; font-weight: 600; color: var(--ink-0); font-family: var(--mono); }
+.exp-metric .sub  { font-size: 11px; color: var(--ink-3); margin-top: 2px; font-weight: 400; font-family: inherit; }
+.exp-metric .detail { font-size: 12px; color: var(--ink-2); text-align: right; line-height: 1.5; max-width: 210px; }
+
+.context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
+.context-card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.4rem; box-shadow: var(--shadow);
+}
+.context-card .cc-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+.context-card h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 6px; }
+.context-card p  { font-size: 13px; color: var(--ink-2); line-height: 1.7; }
+
+/* =============================================
+   PHYSICAL SETUP SECTION
+   ============================================= */
+.setup-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;
+}
+.setup-diagram {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.setup-annotations { display: flex; flex-direction: column; gap: 10px; }
+.anno-card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+  display: flex; gap: 10px; align-items: flex-start; box-shadow: var(--shadow);
+}
+.anno-num {
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--teal); background: rgba(10,143,110,0.08);
+  border: 1px solid var(--teal-border); border-radius: 4px;
+  padding: 1px 7px; flex-shrink: 0; margin-top: 1px;
+}
+.anno-card h5 { font-size: 12px; font-weight: 500; color: var(--ink-0); margin-bottom: 2px; }
+.anno-card p  { font-size: 11px; color: var(--ink-2); line-height: 1.55; }
+
+/* =============================================
+   FREQ COMPARE
+   ============================================= */
+.freq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.5rem 0; }
+.freq-card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow);
+}
+.freq-card.featured {
+  border-color: var(--teal-border); border-width: 2px;
+  background: linear-gradient(135deg, #fff 0%, rgba(10,143,110,0.03) 100%);
+  box-shadow: var(--shadow-md);
+}
+.freq-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-family: var(--mono); letter-spacing: 0.07em;
+  padding: 3px 9px; border-radius: 4px; margin-bottom: 12px;
+}
+.freq-badge.dim  { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--border); }
+.freq-badge.live { background: rgba(10,143,110,0.08); color: var(--teal); border: 1px solid var(--teal-border); }
+.freq-badge .led { width: 5px; height: 5px; border-radius: 50%; background: currentColor; box-shadow: 0 0 5px currentColor; }
+.freq-hz { font-size: 32px; font-weight: 700; font-family: var(--mono); letter-spacing: -0.04em; margin-bottom: 14px; color: var(--ink-2); }
+.freq-card.featured .freq-hz { color: var(--teal); }
+.freq-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--ink-2); gap: 10px; }
+.freq-row:last-child { border-bottom: none; }
+.freq-row strong { font-weight: 500; color: var(--ink-0); }
+.freq-card.featured .freq-row strong { color: var(--teal); }
+.freq-delta { font-size: 10px; font-family: var(--mono); background: rgba(10,143,110,0.1); color: var(--teal); padding: 1px 6px; border-radius: 3px; margin-left: 5px; }
+
+/* =============================================
+   EQUATION
+   ============================================= */
+.equation-block {
+  background: var(--surface-0); border: 1px solid var(--teal-border);
+  border-radius: var(--radius); padding: 1.5rem 2rem; margin: 1.5rem 0;
+  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  box-shadow: var(--shadow-md);
+}
+.eq-formula { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--teal); white-space: nowrap; letter-spacing: 0.04em; }
+.eq-desc { font-size: 13px; color: var(--ink-2); line-height: 1.75; flex: 1; min-width: 220px; }
+.eq-desc strong { color: var(--ink-0); font-weight: 500; }
+
+/* =============================================
+   HARDWARE TABLE
+   ============================================= */
+.hw-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hw-table thead th {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.09em; color: var(--ink-2); font-weight: 500;
+  padding: 10px 16px; border-bottom: 1px solid var(--border); text-align: left;
+  background: var(--surface-1);
+}
+.hw-table tbody td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+.hw-table tbody tr:last-child td { border-bottom: none; }
+.hw-table tbody tr:hover td { background: rgba(10,143,110,0.03); }
+.comp-name { font-weight: 500; color: var(--ink-0); }
+.comp-sub { font-size: 11px; color: var(--ink-3); margin-top: 1px; font-family: var(--mono); }
+.role-cell { color: var(--ink-2); font-size: 12px; }
+.cost-cell { font-family: var(--mono); font-weight: 600; color: var(--teal); white-space: nowrap; }
+.hw-total {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,143,110,0.06); border: 1px solid var(--teal-border);
+  border-top: none; border-radius: 0 0 var(--radius) var(--radius); padding: 13px 16px;
+}
+.hw-total span { font-size: 13px; color: var(--ink-2); }
+.hw-total strong { font-family: var(--mono); font-size: 17px; color: var(--teal); font-weight: 700; }
+
+/* =============================================
+   ENCLOSURE CARDS
+   ============================================= */
+.enc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
+.enc-card {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem 1.3rem;
+  border-left: 3px solid var(--teal-border); box-shadow: var(--shadow);
+}
+.enc-card h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 5px; }
+.enc-card p  { font-size: 12px; color: var(--ink-2); line-height: 1.65; }
+
+/* =============================================
+   PIPELINE  3x2 grid
+   ============================================= */
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.pipe-step {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden; box-shadow: var(--shadow);
+}
+.pipe-step::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.pipe-step.sig::before   { background: var(--teal); }
+.pipe-step.filt::before  { background: var(--blue); }
+.pipe-step.feat::before  { background: var(--purple); }
+.pipe-step.ml::before    { background: var(--amber); }
+.pipe-step.qc::before    { background: var(--coral); }
+/* Bold step number */
+.pipe-num {
+  font-family: var(--mono);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -0.04em;
+  opacity: 0.12;
+  color: var(--ink-0);
+}
+.pipe-step.sig  .pipe-num { color: var(--teal);   opacity: 0.25; }
+.pipe-step.filt .pipe-num { color: var(--blue);   opacity: 0.2; }
+.pipe-step.feat .pipe-num { color: var(--purple); opacity: 0.2; }
+.pipe-step.ml   .pipe-num { color: var(--amber);  opacity: 0.25; }
+.pipe-step.qc   .pipe-num { color: var(--coral);  opacity: 0.2; }
+.pipe-name { font-size: 13px; font-weight: 600; color: var(--ink-0); margin-bottom: 6px; line-height: 1.3; }
+.pipe-desc { font-size: 12px; color: var(--ink-2); line-height: 1.65; flex: 1; }
+.pipe-badge {
+  display: inline-block; font-size: 10px; font-family: var(--mono);
+  padding: 2px 7px; border-radius: 3px; margin-top: 10px;
+  align-self: flex-start; letter-spacing: 0.04em;
+}
+.pb-sig  { background: rgba(10,143,110,0.1);  color: var(--teal); }
+.pb-filt { background: var(--blue-pale);   color: var(--blue); }
+.pb-feat { background: var(--purple-pale); color: var(--purple); }
+.pb-ml   { background: var(--amber-pale);  color: var(--amber); }
+.pb-qc   { background: var(--coral-pale);  color: var(--coral); }
+
+.vdiff-callout {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-left: 4px solid var(--teal); border-radius: var(--radius);
+  padding: 1.1rem 1.4rem; box-shadow: var(--shadow);
+}
+.vdiff-callout h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 5px; }
+.vdiff-callout p  { font-size: 13px; color: var(--ink-2); line-height: 1.7; }
+
+/* =============================================
+   PRICING COMPARISON SECTION
+   ============================================= */
+.pricing-header-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 2rem;
+}
+.price-tier {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.price-tier::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+}
+.price-tier.conventional::after { background: var(--ink-4); }
+.price-tier.conventional-adv::after { background: var(--amber); }
+.price-tier.ours::after { background: var(--teal); }
+.price-tier-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 8px; }
+.price-tier.conventional .price-tier-label { color: var(--ink-3); }
+.price-tier.conventional-adv .price-tier-label { color: var(--amber); }
+.price-tier.ours .price-tier-label { color: var(--teal); }
+.price-device { font-size: 22px; font-weight: 700; font-family: var(--mono); letter-spacing: -0.02em; margin-bottom: 4px; color: var(--ink-0); }
+.price-device-sub { font-size: 11px; color: var(--ink-2); margin-bottom: 14px; }
+.price-row { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--ink-2); }
+.price-row:last-child { border-bottom: none; }
+.price-row strong { color: var(--ink-0); font-weight: 500; }
+.price-row.bad strong { color: var(--coral); }
+.price-row.good strong { color: var(--teal); }
+
+/* Cost-over-time table */
+.cost-table-wrap {
+  background: var(--surface-0); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md);
+  margin-bottom: 1.5rem;
+}
+.cost-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.cost-table thead th {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--ink-2); font-weight: 500;
+  padding: 10px 16px; border-bottom: 1px solid var(--border); text-align: left;
+  background: var(--surface-1);
+}
+.cost-table thead th:not(:first-child) { text-align: right; }
+.cost-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--ink-1); }
+.cost-table tbody tr:last-child td { border-bottom: none; font-weight: 600; background: var(--surface-1); }
+.cost-table tbody td:not(:first-child) { text-align: right; font-family: var(--mono); font-size: 12px; }
+.cost-table .teal { color: var(--teal); font-weight: 600; }
+.cost-table .dim  { color: var(--ink-3); }
+.cost-table .red  { color: var(--coral); }
+
+/* Breakeven bar */
+.breakeven-visual {
+  background: var(--surface-0); border: 1px solid var(--teal-border);
+  border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow);
+}
+.bev-label { font-family: var(--mono); font-size: 10px; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.bev-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.bev-name { font-size: 12px; color: var(--ink-2); min-width: 150px; }
+.bev-bar-wrap { flex: 1; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; border: 1px solid var(--border); }
+.bev-bar { height: 100%; border-radius: 5px; }
+.bev-val { font-family: var(--mono); font-size: 12px; font-weight: 600; min-width: 90px; text-align: right; }
+.bev-note { font-size: 12px; color: var(--ink-2); line-height: 1.7; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+/* =============================================
+   GOLD GRID
+   ============================================= */
+.gold-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.75rem; }
+.gold-card {
+  border-radius: var(--radius); padding: 1.1rem; text-align: center;
+  border: 1px solid transparent; position: relative; overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.gold-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+.gold-stage { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.gold-pct { font-size: 24px; font-weight: 700; font-family: var(--mono); letter-spacing: -0.03em; margin-bottom: 5px; }
+.gold-desc { font-size: 11px; line-height: 1.5; }
+.g1 { background: rgba(10,143,110,0.05); border-color: rgba(10,143,110,0.18); }
+.g1::after { background: var(--teal); }
+.g1 .gold-stage, .g1 .gold-pct { color: var(--teal); }
+.g1 .gold-desc { color: #4a8c75; }
+.g2 { background: var(--blue-pale); border-color: rgba(26,93,180,0.2); }
+.g2::after { background: var(--blue); }
+.g2 .gold-stage, .g2 .gold-pct { color: var(--blue); }
+.g2 .gold-desc { color: #486ea8; }
+.g3 { background: var(--amber-pale); border-color: rgba(184,92,8,0.2); }
+.g3::after { background: var(--amber); }
+.g3 .gold-stage, .g3 .gold-pct { color: var(--amber); }
+.g3 .gold-desc { color: #7a5030; }
+.g4 { background: var(--coral-pale); border-color: rgba(191,44,44,0.2); }
+.g4::after { background: var(--coral); }
+.g4 .gold-stage, .g4 .gold-pct { color: var(--coral); }
+.g4 .gold-desc { color: #8a3030; }
+
+/* =============================================
+   TRIAGE
+   ============================================= */
+.triage-list { background: var(--surface-0); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.triage-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--border); transition: background .15s; }
+.triage-item:last-child { border-bottom: none; }
+.triage-item:hover { background: var(--surface-1); }
+.t-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+.triage-item h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 4px; }
+.triage-item p  { font-size: 12px; color: var(--ink-2); line-height: 1.65; }
+
+/* =============================================
+   MARKET
+   ============================================= */
+.market-list { background: var(--surface-0); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.market-item { display: flex; align-items: center; gap: 1.25rem; padding: 1rem 1.4rem; border-bottom: 1px solid var(--border); }
+.market-item:last-child { border-bottom: none; }
+.market-info { min-width: 195px; }
+.market-info h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 2px; }
+.market-info p  { font-size: 11px; color: var(--ink-3); }
+.bar-track { flex: 1; height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+.bar-fill  { height: 100%; border-radius: 3px; }
+.market-kpi { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--teal); white-space: nowrap; min-width: 110px; text-align: right; }
+
+/* =============================================
+   FUTURE
+   ============================================= */
+.future-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.future-card { background: var(--surface-0); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem 1.3rem; transition: border-color .2s, box-shadow .2s; box-shadow: var(--shadow); }
+.future-card:hover { border-color: var(--teal-border); box-shadow: var(--shadow-md); }
+.future-icon { font-size: 20px; margin-bottom: 10px; display: block; }
+.future-card h4 { font-size: 13px; font-weight: 500; color: var(--ink-0); margin-bottom: 6px; }
+.future-card p  { font-size: 12px; color: var(--ink-2); line-height: 1.65; }
+.horizon { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.06em; margin-top: 10px; display: block; text-transform: uppercase; }
+
+/* =============================================
+   REFS + FOOTER
+   ============================================= */
+.refs { background: var(--surface-0); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem 1.6rem; box-shadow: var(--shadow); }
+.refs h4 { font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.refs ol { list-style: decimal; padding-left: 1.25rem; }
+.refs li { font-size: 12px; color: var(--ink-2); line-height: 1.7; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.refs li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.refs li strong { color: var(--ink-0); }
+.footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-3); font-family: var(--mono); flex-wrap: wrap; gap: 8px; }
+
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 780px) {
+  .sidenav { display: none; }
+  .wrap { padding: 0 1.25rem 5rem; }
+  .hero { padding: 3rem 1.25rem 2.5rem; }
+  .explainer, .freq-grid, .context-grid, .enc-grid, .pricing-header-grid, .setup-layout { grid-template-columns: 1fr; }
+  .exp-half:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  .pipeline-grid { grid-template-columns: 1fr 1fr; }
+  .gold-grid { grid-template-columns: 1fr 1fr; }
+  .future-grid { grid-template-columns: 1fr 1fr; }
+  .hero-waveform { display: none; }
+}
+@media (max-width: 520px) {
+  .pipeline-grid { grid-template-columns: 1fr; }
+  .gold-grid { grid-template-columns: 1fr 1fr; }
+  .future-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 26px; }
+  .pricing-header-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidenav" id="sidenav" aria-label="Page sections">
+  <a href="#background" class="active"><span class="dot"></span></a>
+  <a href="#problem">    <span class="dot"></span></a>
+  <a href="#solution">   <span class="dot"></span></a>
+  <a href="#physics">    <span class="dot"></span></a>
+  <a href="#setup">      <span class="dot"></span></a>
+  <a href="#hardware">   <span class="dot"></span></a>
+  <a href="#pipeline">   <span class="dot"></span></a>
+  <a href="#clinical">   <span class="dot"></span></a>
+  <a href="#pricing">    <span class="dot"></span></a>
+  <a href="#economics">  <span class="dot"></span></a>
+  <a href="#future">     <span class="dot"></span></a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ==================== HERO ==================== -->
+  <div class="hero-band">
+  <div class="hero-glow"></div>
+  <header class="hero">
+    <svg class="hero-waveform" width="440" height="160" viewBox="0 0 440 160" fill="none" aria-hidden="true">
+      <path d="M0 80 C15 80 15 28 32 28 C49 28 49 132 66 132 C83 132 83 8 100 8 C117 8 117 152 134 152 C151 152 151 14 168 14 C185 14 185 128 202 128 C219 128 219 36 236 36 C253 36 253 108 270 108 C287 108 287 48 304 48 C321 48 321 92 338 92 C355 92 355 68 372 68 C389 68 389 80 410 80 L440 80" stroke="url(#wg)" stroke-width="1.5" fill="none"/>
+      <defs>
+        <linearGradient id="wg" x1="0" y1="0" x2="440" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#0a8f6e" stop-opacity="0"/>
+          <stop offset="35%" stop-color="#0a8f6e" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#0a8f6e" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <p class="hero-hall">Meghnad Saha Hall of Residence</p>
+    <p class="hero-competition">General Championship &middot; Product Design 2026</p>
+
+    <h1 class="hero-title">
+      Non-Contact
+      <span class="accent">Pulmonary Function Testing</span>
+    </h1>
+    <p class="hero-subtitle">
+      Every year, millions of patients cannot undergo standard lung function testing because the device requires a mouthpiece. We built a system that removes the mouthpiece entirely, using radar to measure chest wall motion instead.
+    </p>
+
+    <div class="what-we-built">
+      <span class="wwb-label">What we built</span>
+      <p class="wwb-desc">
+        A <strong>77 GHz mmWave radar device</strong> mounted above a supine patient that tracks chest wall displacement to 0.01 mm precision, extracts standard spirometry parameters (FEV1, FVC, PEF) through a six-stage signal processing and machine learning pipeline, and stages lung disease severity in real time against international clinical standards. <strong>No mouthpiece. No consumables. No physical contact.</strong>
+      </p>
+    </div>
+
+    <div class="hero-tags">
+      <span class="htag teal">TI IWR6843ISK &middot; 77 GHz SoC</span>
+      <span class="htag teal">Raspberry Pi CM4 &middot; XGBoost ML</span>
+      <span class="htag teal">ATS/ERS 2019 compliant</span>
+      <span class="htag">Prototype BOM &#8377;30,000&ndash;&#8377;46,000</span>
+      <span class="htag">IP54 sealed enclosure</span>
+      <span class="htag">Zero consumables</span>
+    </div>
+  </header>
+  </div><!-- /hero-band -->
+
+  <!-- ==================== 01 BACKGROUND ==================== -->
+  <section class="section reveal" id="background">
+    <div class="section-header">
+      <p class="sec-eyebrow">01 &mdash; Background</p>
+      <h2 class="sec-title">What is a <strong>Pulmonary Function Test?</strong></h2>
+      <p class="sec-intro">
+        Before explaining what we built, it helps to understand the test we are replacing. Pulmonary Function Tests (PFTs) are the primary tool for diagnosing and monitoring respiratory conditions like asthma, COPD, and cystic fibrosis. The most common form is spirometry: the patient inhales maximally, then blows as hard and fast as possible into a flow-sensing mouthpiece. The resulting trace yields several critical measurements.
+      </p>
+    </div>
+
+    <div class="explainer">
+      <div class="exp-half">
+        <p class="exp-label">Key measurements</p>
+        <div class="exp-metric">
+          <div><div class="name">FVC</div><div class="sub">Forced Vital Capacity</div></div>
+          <div class="detail">Total volume forcefully exhaled after a maximum inhale. Reduced in both obstructive and restrictive lung disease.</div>
+        </div>
+        <div class="exp-metric">
+          <div><div class="name">FEV1</div><div class="sub">Forced Expiratory Volume, 1 sec</div></div>
+          <div class="detail">Volume exhaled in the first second. The single most reproducible and clinically decisive spirometry index.</div>
+        </div>
+        <div class="exp-metric">
+          <div><div class="name">FEV1/FVC</div><div class="sub">Tiffeneau Index</div></div>
+          <div class="detail">Gold standard ratio. Below 0.70 indicates obstructive disease (asthma, COPD). Normal or elevated suggests restriction.</div>
+        </div>
+        <div class="exp-metric">
+          <div><div class="name">PEF</div><div class="sub">Peak Expiratory Flow</div></div>
+          <div class="detail">Maximum speed of exhalation. A shallow PEF is a hallmark of obstructed airways in asthma and COPD.</div>
+        </div>
+      </div>
+      <div class="exp-half">
+        <p class="exp-label">How it works today</p>
+        <div class="exp-metric">
+          <div class="name">Spirometry</div>
+          <div class="detail">Patient inhales maximally, then blows as hard and fast as possible into a mouthpiece connected to a flow sensor.</div>
+        </div>
+        <div class="exp-metric">
+          <div class="name">The mouthpiece</div>
+          <div class="detail">A disposable tube forming an airtight seal with the patient's lips. Every test generates a biohazardous single-use component.</div>
+        </div>
+        <div class="exp-metric">
+          <div class="name">The requirement</div>
+          <div class="detail">The patient must be conscious, co-operative, and physically able to form a lip seal and produce a maximal forced effort.</div>
+        </div>
+        <div class="exp-metric">
+          <div class="name">Why it matters</div>
+          <div class="detail">COPD is the third leading cause of death globally. Early spirometry detects sub-clinical damage years before irreversible decline begins.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 02 PROBLEM ==================== -->
+  <section class="section reveal" id="problem">
+    <div class="section-header">
+      <p class="sec-eyebrow">02 &mdash; The Problem</p>
+      <h2 class="sec-title">Where conventional spirometry <strong>breaks down</strong></h2>
+      <p class="sec-intro">
+        The mouthpiece that makes spirometry work is also the reason it fails the populations who need it most. These are not edge cases: they represent a large fraction of patients at highest risk from respiratory disease.
+      </p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card hi">
+        <p class="stat-label">UK spirometry services suspended during COVID-19</p>
+        <p class="stat-val">&gt;90%</p>
+        <p class="stat-sub">Forced exhalation into a shared mouthpiece is one of the highest-risk aerosol-generating procedures in clinical settings</p>
+      </div>
+      <div class="stat-card warn">
+        <p class="stat-label">Minimum age for reliable spirometry</p>
+        <p class="stat-val">5&ndash;6 yrs</p>
+        <p class="stat-sub">Children under this threshold cannot co-ordinate the forced blow, leaving pediatric lung disease effectively undetectable</p>
+      </div>
+      <div class="stat-card warn">
+        <p class="stat-label">Annual disposable consumable cost at 5,000 tests/yr</p>
+        <p class="stat-val">&#8377;10L+</p>
+        <p class="stat-sub">Mouthpieces at &#8377;6&ndash;&#8377;10 each, bacterial/viral filters at &#8377;80&ndash;&#8377;1,150 each, plus biohazardous waste disposal</p>
+      </div>
+      <div class="stat-card danger">
+        <p class="stat-label">Also excluded from conventional testing</p>
+        <p class="stat-val">Many</p>
+        <p class="stat-sub">Tracheostomy patients, facial deformities, severe dyspnea, and extreme frailty all prevent the required lip seal</p>
+      </div>
+    </div>
+    <div class="context-grid">
+      <div class="context-card">
+        <span class="cc-icon">😷</span>
+        <h4>Infection risk at every test</h4>
+        <p>Mouthpieces harbour SARS-CoV-2 and <em>M. tuberculosis</em>. The forced exhalation required by spirometry aerosolises pathogens at high concentration, demanding full decontamination between every patient and, during outbreaks, making the test clinically untenable.</p>
+      </div>
+      <div class="context-card">
+        <span class="cc-icon">👶</span>
+        <h4>Children under 6 have no test</h4>
+        <p>Pediatric asthma and cystic fibrosis are diagnosed in the years before a child can reliably blow into a mouthpiece on command. Without early detection, sub-clinical damage accumulates unchecked until symptoms are severe enough to require other, more invasive investigations.</p>
+      </div>
+      <div class="context-card">
+        <span class="cc-icon">🛏️</span>
+        <h4>Bedridden patients cannot be tested</h4>
+        <p>ICU patients, post-surgical patients, and the frail elderly are precisely the people most at risk of rapid lung function decline, and precisely the people for whom a clinic visit or even sitting upright to blow into a tube is physically impossible.</p>
+      </div>
+      <div class="context-card">
+        <span class="cc-icon">🏥</span>
+        <h4>Mass screening is impractical</h4>
+        <p>Factory workers, smokers, and residents of high-pollution cities need regular screening. The per-test cost of disposables, sterilisation time, and trained technician availability makes large-scale screening economically and logistically prohibitive.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 03 SOLUTION ==================== -->
+  <section class="section reveal" id="solution">
+    <div class="section-header">
+      <p class="sec-eyebrow">03 &mdash; The Solution</p>
+      <h2 class="sec-title">Removing the mouthpiece by reading <strong>the chest wall itself</strong></h2>
+      <p class="sec-intro">
+        When you exhale, your chest wall moves. The larger and faster the breath, the larger and faster the movement. Instead of measuring airflow through a tube, we measure the motion of the chest wall from a distance using a radar that can resolve displacements smaller than a human hair. No physical contact is needed at any point in the test.
+      </p>
+    </div>
+    <div class="core-idea-box">
+      <div class="cib-label">Core idea</div>
+      <p class="cib-text">
+        The kinematic signature of forced exhalation is encoded in the way the chest surface accelerates, decelerates, and plateaus. A 77 GHz radar emitting and receiving microwave pulses can detect this motion to <strong>0.01 mm precision</strong>. By processing the phase shift of the returning signal, we reconstruct a continuous displacement waveform that encodes the same diagnostic information as a conventional spirometry trace.
+      </p>
+    </div>
+    <div class="context-grid">
+      <div class="context-card">
+        <span class="cc-icon">📡</span>
+        <h4>What the radar actually measures</h4>
+        <p>The radar does not measure airflow speed. It measures how far the chest surface has physically moved, thousands of times per second. All standard spirometric parameters are derived computationally from this displacement record.</p>
+      </div>
+      <div class="context-card">
+        <span class="cc-icon">🛏️</span>
+        <h4>Why the patient lies down</h4>
+        <p>A supine patient has far less random body movement than one sitting upright, meaning a cleaner signal. The device mounts directly above the torso, perpendicular to the chest surface, eliminating the angular measurement bias present in angled desktop configurations.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 04 PHYSICS ==================== -->
+  <section class="section reveal" id="physics">
+    <div class="section-header">
+      <p class="sec-eyebrow">04 &mdash; Sensing Physics</p>
+      <h2 class="sec-title">Why <strong>77 GHz</strong> and how phase-based sensing works</h2>
+      <p class="sec-intro">
+        Standard radar measures how long a signal takes to bounce back (time-of-flight) to compute distance. Our system reads the angular phase of the returning wave instead. Phase changes continuously with even the tiniest displacement, giving far finer resolution than time-of-flight at this range. The choice of 77 GHz over the more common 24 GHz band is driven by three compounding advantages.
+      </p>
+    </div>
+    <div class="equation-block">
+      <div class="eq-formula">x(t) = &lambda; &middot; &phi;(t) &frasl; 4&pi;</div>
+      <div class="eq-desc">Displacement x is directly proportional to phase change &phi;. At 77 GHz, wavelength &lambda; = 3.9 mm, so a full 2&pi; phase cycle corresponds to just 1.95 mm of chest movement. Sampling phase at the chirp repetition frequency reconstructs a continuous displacement waveform with sensitivity down to <strong>0.01 mm</strong>, sufficient to capture the fine acceleration signature used to infer FEV1 and PEF.</div>
+    </div>
+    <div class="freq-grid">
+      <div class="freq-card">
+        <span class="freq-badge dim">24 GHz &mdash; conventional motion radar</span>
+        <div class="freq-hz">24 GHz</div>
+        <div class="freq-row"><span>Phase shift per 1 mm of motion</span><strong>~28&deg;</strong></div>
+        <div class="freq-row"><span>Range resolution (c&frasl;2B)</span><strong>60 cm</strong></div>
+        <div class="freq-row"><span>Available bandwidth</span><strong>~250 MHz</strong></div>
+        <div class="freq-row"><span>Antenna integration</span><strong>Off-chip, bulky</strong></div>
+        <div class="freq-row"><span>Isolate patient from surroundings?</span><strong>Not achievable</strong></div>
+      </div>
+      <div class="freq-card featured">
+        <span class="freq-badge live"><span class="led"></span>77 GHz &mdash; this system (TI IWR6843)</span>
+        <div class="freq-hz">77 GHz</div>
+        <div class="freq-row"><span>Phase shift per 1 mm of motion</span><strong>~92&deg; <span class="freq-delta">3.3&times;</span></strong></div>
+        <div class="freq-row"><span>Range resolution (c&frasl;2B)</span><strong>3.7 cm <span class="freq-delta">16&times; finer</span></strong></div>
+        <div class="freq-row"><span>Available bandwidth</span><strong>4 GHz</strong></div>
+        <div class="freq-row"><span>Antenna integration</span><strong>On-chip MIMO SoC</strong></div>
+        <div class="freq-row"><span>Isolate patient from surroundings?</span><strong>Yes, software-gated</strong></div>
+      </div>
+    </div>
+    <div class="card surface1" style="border-color:var(--border);">
+      <p style="font-family:var(--mono);font-size:10px;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Why range resolution is decisive</p>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.8;">At 60 cm resolution, the radar cannot distinguish the patient from the chair, the nearby equipment, or the person standing behind them. At 3.7 cm, a software range gate selects exclusively the chest surface at 0.5&ndash;1.0 m and zeros all other reflections. On top of this, the on-chip MIMO array uses digital beamforming to steer focus toward the thoracic midline, rejecting arm and head movement artefacts that would otherwise corrupt the lung volume estimate.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 05 PHYSICAL SETUP ==================== -->
+  <section class="section reveal" id="setup">
+    <div class="section-header">
+      <p class="sec-eyebrow">05 &mdash; Physical Setup</p>
+      <h2 class="sec-title">How the system is <strong>deployed in practice</strong></h2>
+      <p class="sec-intro">
+        The entire system lives in a single sealed enclosure mounted on a mobile stand or ceiling gantry directly above the patient. The patient lies still; no technician interaction with the patient is required after positioning.
+      </p>
+    </div>
+    <div class="setup-layout">
+      <!-- SVG Diagram -->
+      <div class="setup-diagram">
+        <svg width="300" height="380" viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Physical setup diagram showing overhead radar box above supine patient">
+          <!-- Stand / gantry poles -->
+          <rect x="42" y="90" width="6" height="220" fill="#c8cdd6" rx="3"/>
+          <rect x="252" y="90" width="6" height="220" fill="#c8cdd6" rx="3"/>
+          <!-- Horizontal arm -->
+          <rect x="42" y="88" width="216" height="5" fill="#b0b8c4" rx="2"/>
+
+          <!-- Box enclosure -->
+          <rect x="80" y="30" width="140" height="65" rx="8" fill="#e8ebf0" stroke="#b0b8c4" stroke-width="1.5"/>
+          <!-- Teal HDPE window strip -->
+          <rect x="90" y="84" width="120" height="8" rx="2" fill="rgba(10,143,110,0.18)" stroke="rgba(10,143,110,0.4)" stroke-width="1"/>
+          <!-- Radar SoC chip symbol inside box -->
+          <rect x="125" y="44" width="50" height="34" rx="4" fill="#0a8f6e" opacity="0.15" stroke="#0a8f6e" stroke-width="1"/>
+          <text x="150" y="57" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#0a8f6e" font-weight="600">IWR</text>
+          <text x="150" y="68" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#0a8f6e" font-weight="600">6843</text>
+          <!-- Pi icon -->
+          <circle cx="108" cy="60" r="12" fill="rgba(26,93,180,0.12)" stroke="rgba(26,93,180,0.3)" stroke-width="1"/>
+          <text x="108" y="64" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#1a5db4" font-weight="600">CM4</text>
+          <!-- Screen -->
+          <circle cx="192" cy="60" r="12" fill="rgba(90,56,181,0.1)" stroke="rgba(90,56,181,0.3)" stroke-width="1"/>
+          <text x="192" y="64" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#5a38b5" font-weight="600">TFT</text>
+
+          <!-- Radar beam / field -->
+          <path d="M110 92 L80 200 M150 92 L150 200 M190 92 L220 200" stroke="#0a8f6e" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.4"/>
+          <path d="M100 92 L60 200 M200 92 L240 200" stroke="#0a8f6e" stroke-width="0.5" stroke-dasharray="3 4" opacity="0.2"/>
+          <!-- Range gate box -->
+          <rect x="62" y="168" width="176" height="36" rx="4" fill="rgba(10,143,110,0.06)" stroke="rgba(10,143,110,0.35)" stroke-width="1" stroke-dasharray="5 3"/>
+          <text x="150" y="180" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#0a8f6e">range gate</text>
+          <text x="150" y="191" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#0a8f6e">0.5&ndash;1.0 m</text>
+
+          <!-- BED -->
+          <rect x="30" y="296" width="240" height="14" rx="4" fill="#dde1e9" stroke="#c8cdd6" stroke-width="1"/>
+          <rect x="30" y="308" width="240" height="8" rx="2" fill="#c8cdd6"/>
+          <!-- BED LEGS -->
+          <rect x="50"  y="316" width="8" height="26" rx="3" fill="#b0b8c4"/>
+          <rect x="242" y="316" width="8" height="26" rx="3" fill="#b0b8c4"/>
+
+          <!-- PATIENT (simplified) -->
+          <!-- body -->
+          <ellipse cx="150" cy="284" rx="60" ry="12" fill="#f0e8da" stroke="#d4c4a8" stroke-width="1"/>
+          <!-- head circle -->
+          <circle cx="230" cy="280" r="16" fill="#f0e8da" stroke="#d4c4a8" stroke-width="1"/>
+          <!-- chest highlight (motion area) -->
+          <ellipse cx="148" cy="280" rx="30" ry="7" fill="rgba(10,143,110,0.12)" stroke="rgba(10,143,110,0.4)" stroke-width="1"/>
+
+          <!-- Distance annotation -->
+          <line x1="226" y1="92" x2="226" y2="268" stroke="#b0b8c4" stroke-width="1" stroke-dasharray="3 2"/>
+          <polygon points="226,92 222,102 230,102" fill="#b0b8c4"/>
+          <polygon points="226,268 222,258 230,258" fill="#b0b8c4"/>
+          <text x="238" y="184" font-family="JetBrains Mono, monospace" font-size="8" fill="#8a96a8">0.5&ndash;</text>
+          <text x="238" y="194" font-family="JetBrains Mono, monospace" font-size="8" fill="#8a96a8">1.0 m</text>
+
+          <!-- Label numbers -->
+          <circle cx="87" cy="30" r="7" fill="#0a8f6e"/>
+          <text x="87" y="33" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="white" font-weight="700">1</text>
+          <circle cx="87" cy="88" r="7" fill="#0a8f6e" opacity="0.7"/>
+          <text x="87" y="91" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="white" font-weight="700">2</text>
+          <circle cx="68" cy="184" r="7" fill="#0a8f6e" opacity="0.5"/>
+          <text x="68" y="187" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="white" font-weight="700">3</text>
+          <circle cx="120" cy="276" r="7" fill="#0a8f6e" opacity="0.5"/>
+          <text x="120" y="279" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="white" font-weight="700">4</text>
+        </svg>
+      </div>
+      <!-- Annotations -->
+      <div class="setup-annotations">
+        <div class="anno-card">
+          <span class="anno-num">1</span>
+          <div>
+            <h5>Sealed enclosure (IP54)</h5>
+            <p>Houses the TI IWR6843ISK radar SoC, Raspberry Pi CM4, medical-grade PSU, and 7&Prime; touchscreen. HDPE radome window allows &lt;0.3 dB transmission loss at 77 GHz. Interior conductive coating prevents CM4 clock harmonics from contaminating radar phase readings.</p>
+          </div>
+        </div>
+        <div class="anno-card">
+          <span class="anno-num">2</span>
+          <div>
+            <h5>HDPE radome window</h5>
+            <p>Thickness tuned to n&middot;&lambda;&frasl;2. Prevents internal reflections that would create false targets in the range FFT while maintaining structural integrity and wipeable clinical finish.</p>
+          </div>
+        </div>
+        <div class="anno-card">
+          <span class="anno-num">3</span>
+          <div>
+            <h5>Software range gate</h5>
+            <p>A digital "box" isolates only the torso reflection at 0.5&ndash;1.0 m. The bed surface, floor, and nearby equipment fall outside the gate and are zeroed. MIMO beamforming further suppresses arm and head motion artefacts.</p>
+          </div>
+        </div>
+        <div class="anno-card">
+          <span class="anno-num">4</span>
+          <div>
+            <h5>Supine patient, zero contact</h5>
+            <p>The patient requires no mouthpiece, no lip seal, and no active co-operation beyond lying still. Reduced macro-motion in the supine position raises SNR and produces more stable FVC readings than an upright seated configuration.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 06 HARDWARE ==================== -->
+  <section class="section reveal" id="hardware">
+    <div class="section-header">
+      <p class="sec-eyebrow">06 &mdash; Hardware Architecture</p>
+      <h2 class="sec-title">Bill of materials and <strong>enclosure design</strong></h2>
+      <p class="sec-intro">
+        Six core components, all commercially available, mount inside a single sealed enclosure. The enclosure itself is an engineered part of the RF system, not just a protective shell.
+      </p>
+    </div>
+    <div class="card glow" style="padding:0; overflow:hidden; margin-bottom:1.5rem;">
+      <table class="hw-table">
+        <thead>
+          <tr>
+            <th style="width:34%">Component</th>
+            <th style="width:33%">Role</th>
+            <th>Approx. cost (&#8377;)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="comp-name">TI IWR6843ISK</div><div class="comp-sub">77 GHz Radar SoC Eval Kit</div></td>
+            <td class="role-cell">Transmit, receive, and phase extraction. Mounted facing downward to capture thoracic and abdominal displacement.</td>
+            <td class="cost-cell">&#8377;15,000&ndash;&#8377;22,000</td>
+          </tr>
+          <tr>
+            <td><div class="comp-name">Raspberry Pi CM4</div><div class="comp-sub">Single Board Computer (ARM)</div></td>
+            <td class="role-cell">Signal processing, ML inference, and UI. Mounted with heat sink to handle continuous inference within the enclosure.</td>
+            <td class="cost-cell">&#8377;8,000&ndash;&#8377;12,000</td>
+          </tr>
+          <tr>
+            <td><div class="comp-name">7&Prime; TFT Touchscreen</div></td>
+            <td class="role-cell">Operator and patient display. Shows real-time displacement waveform, maneuver quality score, and GOLD staging.</td>
+            <td class="cost-cell">&#8377;2,500&ndash;&#8377;4,500</td>
+          </tr>
+          <tr>
+            <td><div class="comp-name">Mean Well GSM60A</div><div class="comp-sub">Medical Grade PSU</div></td>
+            <td class="role-cell">Mains power with double isolation. Zero leakage current to patient or enclosure exterior.</td>
+            <td class="cost-cell">&#8377;4,000&ndash;&#8377;6,500</td>
+          </tr>
+          <tr>
+            <td><div class="comp-name">DC-DC Buck Converters</div></td>
+            <td class="role-cell">Regulated 3.3 V and 5 V rails for SoC and CM4 respectively.</td>
+            <td class="cost-cell">&#8377;300&ndash;&#8377;600</td>
+          </tr>
+          <tr>
+            <td><div class="comp-name">CP2102 &frasl; CH340</div><div class="comp-sub">USB-UART Bridge</div></td>
+            <td class="role-cell">Serial communication link between the radar SoC and the Raspberry Pi.</td>
+            <td class="cost-cell">&#8377;150&ndash;&#8377;300</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hw-total">
+        <span>Total prototype cost estimate</span>
+        <strong>&#8377;30,000 &ndash; &#8377;46,000</strong>
+      </div>
+    </div>
+    <div class="enc-grid">
+      <div class="enc-card">
+        <h4>Perpendicular mount, 0.5&ndash;1.0 m above torso</h4>
+        <p>90&deg; alignment eliminates cosine error (the displacement bias of angled sensors). The supine patient's greatly reduced macro-motion raises SNR and FVC stability compared to seated configurations.</p>
+      </div>
+      <div class="enc-card">
+        <h4>HDPE radome: n&middot;&lambda;&frasl;2 thickness</h4>
+        <p>Tuned to the 77 GHz half-wavelength to prevent internal reflections creating ghost targets in the range FFT. Transmission loss held below 0.3 dB.</p>
+      </div>
+      <div class="enc-card">
+        <h4>Conductive interior coating (EMI shielding)</h4>
+        <p>CM4 clock harmonics are a noise source for radar antennas. Conductive interior paint isolates the digital and RF sub-systems within the shared enclosure.</p>
+      </div>
+      <div class="enc-card">
+        <h4>IP54 sealed for clinical sanitisation</h4>
+        <p>No mouthpiece, no consumable cycle, no biohazardous waste. Room turnaround reduces to a disinfectant wipe and a software reset between patients.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 07 PIPELINE ==================== -->
+  <section class="section reveal" id="pipeline">
+    <div class="section-header">
+      <p class="sec-eyebrow">07 &mdash; Data Processing &amp; ML Pipeline</p>
+      <h2 class="sec-title">From raw radar returns to <strong>lung volume</strong></h2>
+      <p class="sec-intro">
+        The radar sees a scene full of reflections: chest, bed surface, floor, equipment. The pipeline's job is to strip everything away except the displacement of the chest wall, then convert that displacement signal into clinically meaningful spirometry values.
+      </p>
+    </div>
+    <div class="pipeline-grid">
+      <div class="pipe-step sig">
+        <div class="pipe-num">01</div>
+        <div class="pipe-name">Range FFT &amp; Gating</div>
+        <div class="pipe-desc">A Fast Fourier Transform on the beat frequency separates every object in the scene by distance. A range gate selects only the highest-moving peak (the patient's torso at 0.5&ndash;1.0 m) and zeros all other reflections, including the bed frame and floor.</div>
+        <span class="pipe-badge pb-sig">signal</span>
+      </div>
+      <div class="pipe-step sig">
+        <div class="pipe-num">02</div>
+        <div class="pipe-name">Phase Unwrapping</div>
+        <div class="pipe-desc">During a forced exhale, the chest can collapse faster than one quarter-wavelength per chirp (0.975 mm), causing the phase to "wrap" around 2&pi; and produce a jagged, meaningless signal. Itoh's algorithm adds or subtracts multiples of 2&pi; to maintain a continuous, smooth displacement curve through the explosive exhalation onset.</div>
+        <span class="pipe-badge pb-sig">signal</span>
+      </div>
+      <div class="pipe-step filt">
+        <div class="pipe-num">03</div>
+        <div class="pipe-name">Advanced Filtering</div>
+        <div class="pipe-desc">Bandpass filtering at 0.1&ndash;3 Hz removes electronic noise and slow postural drift. An adaptive notch filter then identifies the 1&ndash;2 Hz ballistocardiogram (the heartbeat's mechanical "thump" on the chest surface) and subtracts it, preventing the cardiac pulse from artificially inflating the FVC volume estimate.</div>
+        <span class="pipe-badge pb-filt">filter</span>
+      </div>
+      <div class="pipe-step feat">
+        <div class="pipe-num">04</div>
+        <div class="pipe-name">Feature Extraction</div>
+        <div class="pipe-desc">The displacement waveform is decomposed into clinical features: area under the curve (AUC) maps to FVC; the slope of the first 200 ms corresponds to Peak Expiratory Flow (PEF); and the rib-cage to abdominal contribution ratio provides a positional correction input for the inference model.</div>
+        <span class="pipe-badge pb-feat">features</span>
+      </div>
+      <div class="pipe-step ml">
+        <div class="pipe-num">05</div>
+        <div class="pipe-name">XGBoost Inference</div>
+        <div class="pipe-desc">A gradient-boosted tree model takes radar features alongside patient anthropometrics (age, sex, height, weight) and a supine positional correction factor. A 5 cm chest displacement in a tall young adult represents a very different lung volume than the same displacement in an elderly patient; the model accounts for this.</div>
+        <span class="pipe-badge pb-ml">ML</span>
+      </div>
+      <div class="pipe-step qc">
+        <div class="pipe-num">06</div>
+        <div class="pipe-name">ATS/ERS Quality Scoring</div>
+        <div class="pipe-desc">Every maneuver is scored against 2019 ATS/ERS guidelines. The plateau criterion checks whether displacement stopped changing for at least 1 second, confirming complete exhalation. The Vmax&ndash;Vmin velocity delta validates obstruction grade before a result is accepted and displayed.</div>
+        <span class="pipe-badge pb-qc">QC</span>
+      </div>
+    </div>
+    <div class="vdiff-callout">
+      <h4>The velocity-differential diagnostic insight</h4>
+      <p>A high <strong style="color:var(--teal);">Vmax&ndash;Vmin delta</strong> (the gap between peak chest-wall speed at exhalation onset and the deceleration plateau) correlates with healthy, unobstructed airways and high FEV1. A compressed delta is the radar fingerprint of obstructive disease (COPD, asthma). Measuring the differential rather than absolute displacement makes results less sensitive to inter-session positioning variance, improving repeatability without requiring the patient to maintain an identical position across visits.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 08 CLINICAL ==================== -->
+  <section class="section reveal" id="clinical">
+    <div class="section-header">
+      <p class="sec-eyebrow">08 &mdash; Clinical Application</p>
+      <h2 class="sec-title">Staging lung disease and <strong>triaging patients</strong></h2>
+      <p class="sec-intro">
+        The system is designed for longitudinal monitoring: tracking the trend of a patient's lung health over weeks or months. A single reading may carry a margin of error; a consistent downward trend is a powerful and actionable clinical signal. Results are mapped to the GOLD classification, the international standard for COPD staging, based on FEV1 as a percentage of the expected value for a patient's age, height, and sex.
+      </p>
+    </div>
+    <div class="gold-grid">
+      <div class="gold-card g1">
+        <div class="gold-stage">GOLD 1 &middot; Mild</div>
+        <div class="gold-pct">&ge;80%</div>
+        <div class="gold-desc">FEV1 % predicted. Monitor at home, routine review interval.</div>
+      </div>
+      <div class="gold-card g2">
+        <div class="gold-stage">GOLD 2 &middot; Moderate</div>
+        <div class="gold-pct">50&ndash;79%</div>
+        <div class="gold-desc">Alert physician if 10 percentage-point drop within 48 hours.</div>
+      </div>
+      <div class="gold-card g3">
+        <div class="gold-stage">GOLD 3 &middot; Severe</div>
+        <div class="gold-pct">30&ndash;49%</div>
+        <div class="gold-desc">Prioritise for full PFT lab. Medication review indicated.</div>
+      </div>
+      <div class="gold-card g4">
+        <div class="gold-stage">GOLD 4 &middot; Very Severe</div>
+        <div class="gold-pct">&lt;30%</div>
+        <div class="gold-desc">Immediate referral: plethysmography and arterial blood gas.</div>
+      </div>
+    </div>
+    <div class="triage-list">
+      <div class="triage-item">
+        <div class="t-icon" style="background:rgba(10,143,110,0.08);">📈</div>
+        <div>
+          <h4>Automated acute exacerbation alert</h4>
+          <p>If a patient's FEV1 drops between GOLD stages within a 48-hour window, the system triggers an automated alert without waiting for a scheduled clinic appointment. In home or ICU settings, this can be the difference between a medication adjustment and an emergency admission.</p>
+        </div>
+      </div>
+      <div class="triage-item">
+        <div class="t-icon" style="background:var(--blue-pale);">🔁</div>
+        <div>
+          <h4>Paradoxical breathing detection</h4>
+          <p>The radar observes the entire torso simultaneously. When the rib cage and abdomen move out of phase (thoraco-abdominal paradox), it signals respiratory muscle fatigue and impending failure. This early warning appears before FEV1 reaches a critical threshold and before any conventional contact sensor would register a problem.</p>
+        </div>
+      </div>
+      <div class="triage-item">
+        <div class="t-icon" style="background:var(--amber-pale);">👴</div>
+        <div>
+          <h4>Geriatric passive monitoring</h4>
+          <p>Elderly bedridden patients are monitored without effort or travel. The system flags a 15% FEV1 decline (the standard clinical significance threshold) and notifies the supervising physician, enabling a pharmacological adjustment such as increasing bronchodilator dosage before the patient deteriorates enough to require hospitalisation.</p>
+        </div>
+      </div>
+      <div class="triage-item">
+        <div class="t-icon" style="background:var(--purple-pale);">👶</div>
+        <div>
+          <h4>Pediatric tracking without co-operation</h4>
+          <p>Children are tracked by deviation from their individual Best Personal Displacement baseline. No mouthpiece, no forced maneuver instruction needed. A child can lie still and watch a screen while the radar passively captures lung motion, opening early-stage asthma and cystic fibrosis monitoring to the youngest age groups.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 09 PRICING COMPARISON ==================== -->
+  <section class="section reveal" id="pricing">
+    <div class="section-header">
+      <p class="sec-eyebrow">09 &mdash; Cost Comparison</p>
+      <h2 class="sec-title">What conventional spirometry actually <strong>costs over time</strong></h2>
+      <p class="sec-intro">
+        Traditional spirometry treats the device as a one-time capital purchase. The real cost is the consumable tail that follows it indefinitely. Below is a realistic comparison based on current Indian market prices for devices and consumables, at a clinic performing approximately 5,000 tests per year.
+      </p>
+    </div>
+
+    <!-- Three tiers -->
+    <div class="pricing-header-grid">
+      <div class="price-tier conventional">
+        <div class="price-tier-label">Handheld spirometer</div>
+        <div class="price-device">&#8377;8,000&ndash;20,000</div>
+        <div class="price-device-sub">e.g. Contec SP10, RMS Helios handheld. One-time purchase.</div>
+        <div class="price-row"><span>Device cost</span><strong>&#8377;8,000&ndash;20,000</strong></div>
+        <div class="price-row bad"><span>Mouthpieces (&#8377;6&ndash;10 each)</span><strong>&#8377;30,000&ndash;50,000/yr</strong></div>
+        <div class="price-row bad"><span>Bacterial filters (&#8377;80&ndash;200 each)</span><strong>&#8377;4,00,000&ndash;10,00,000/yr</strong></div>
+        <div class="price-row"><span>Calibration syringe</span><strong>&#8377;3,000&ndash;6,000</strong></div>
+        <div class="price-row bad"><span>Technician sterilisation time</span><strong>~3&ndash;5 min/test</strong></div>
+      </div>
+      <div class="price-tier conventional-adv">
+        <div class="price-tier-label">Desktop / PC spirometer</div>
+        <div class="price-device">&#8377;60,000&ndash;1,80,000</div>
+        <div class="price-device-sub">e.g. RMS Helios 702, MIR Spirolab. Hospital-grade.</div>
+        <div class="price-row"><span>Device cost</span><strong>&#8377;60,000&ndash;1,80,000</strong></div>
+        <div class="price-row bad"><span>Mouthpieces (&#8377;6&ndash;10 each)</span><strong>&#8377;30,000&ndash;50,000/yr</strong></div>
+        <div class="price-row bad"><span>Bacterial filters (&#8377;80&ndash;1,150 each)</span><strong>&#8377;4,00,000&ndash;57,50,000/yr</strong></div>
+        <div class="price-row bad"><span>Annual service contract</span><strong>&#8377;8,000&ndash;20,000/yr</strong></div>
+        <div class="price-row bad"><span>Technician sterilisation time</span><strong>~3&ndash;5 min/test</strong></div>
+      </div>
+      <div class="price-tier ours">
+        <div class="price-tier-label">Our system (prototype)</div>
+        <div class="price-device">&#8377;30,000&ndash;46,000</div>
+        <div class="price-device-sub">One-time BOM. No consumables. Periodic hardware upkeep only.</div>
+        <div class="price-row good"><span>Device cost</span><strong>&#8377;30,000&ndash;46,000</strong></div>
+        <div class="price-row good"><span>Mouthpieces</span><strong>&#8377;0</strong></div>
+        <div class="price-row good"><span>Bacterial filters</span><strong>&#8377;0</strong></div>
+        <div class="price-row"><span>Yr 1&ndash;2: software + minor parts</span><strong>~&#8377;3,000&ndash;5,000/yr</strong></div>
+        <div class="price-row"><span>Yr 3+: radar module recalibration</span><strong>~&#8377;6,000&ndash;10,000/yr</strong></div>
+        <div class="price-row"><span>Yr 3+: Pi CM4 / PSU swap (if needed)</span><strong>~&#8377;8,000&ndash;15,000 one-time</strong></div>
+      </div>
+    </div>
+
+    <!-- Cost-over-time table -->
+    <div class="cost-table-wrap">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Cumulative total cost of ownership</th>
+            <th>Handheld spirometer</th>
+            <th>Desktop spirometer</th>
+            <th>Our system</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>At purchase (Year 0)</td>
+            <td class="dim">&#8377;15,000</td>
+            <td class="dim">&#8377;1,20,000</td>
+            <td class="teal">&#8377;38,000</td>
+          </tr>
+          <tr>
+            <td>End of Year 1 <span style="font-size:11px;color:var(--ink-3);">(+5,000 tests; filters &#8377;100 avg; our sys: &#8377;4k maintenance)</span></td>
+            <td class="red">&#8377;5,55,000</td>
+            <td class="red">&#8377;6,60,000</td>
+            <td class="teal">&#8377;42,000</td>
+          </tr>
+          <tr>
+            <td>End of Year 2 <span style="font-size:11px;color:var(--ink-3);">(our sys: +&#8377;4k maintenance)</span></td>
+            <td class="red">&#8377;10,95,000</td>
+            <td class="red">&#8377;12,00,000</td>
+            <td class="teal">&#8377;46,000</td>
+          </tr>
+          <tr>
+            <td>End of Year 3 <span style="font-size:11px;color:var(--ink-3);">(our sys: recalibration &#8377;8k + possible CM4 swap &#8377;10k)</span></td>
+            <td class="red">&#8377;16,35,000</td>
+            <td class="red">&#8377;17,40,000</td>
+            <td class="teal">&#8377;64,000</td>
+          </tr>
+          <tr>
+            <td>End of Year 4 <span style="font-size:11px;color:var(--ink-3);">(our sys: +&#8377;8k annual recalibration)</span></td>
+            <td class="red">&#8377;21,75,000</td>
+            <td class="red">&#8377;22,80,000</td>
+            <td class="teal">&#8377;72,000</td>
+          </tr>
+          <tr>
+            <td style="color:var(--ink-0);font-weight:600;">5-year total cost of ownership</td>
+            <td class="red">~&#8377;27 lakh</td>
+            <td class="red">~&#8377;29 lakh</td>
+            <td class="teal">~&#8377;80,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--ink-3);margin-bottom:1.5rem;line-height:1.6;">
+      <strong>Assumptions:</strong> 5,000 tests/year. Handheld device mid-range at &#8377;15,000. Desktop mid-range at &#8377;1,20,000. Mouthpieces at &#8377;8 each (IndiaMART mid-market). Bacterial/viral filter at &#8377;100 each (conservative; premium filters reach &#8377;1,150). Our system mid-range BOM at &#8377;38,000. Yr 1&ndash;2 maintenance: &#8377;4,000/yr (minor parts, firmware updates). Yr 3+ annual recalibration: &#8377;8,000 (radar SoC drift correction). Yr 3 one-time CM4 and PSU swap: &#8377;10,000 (included conservatively; components routinely last 5+ years). Even with realistic maintenance, the 5-year TCO of our system is roughly <strong>34&times; lower</strong> than a handheld spirometer and <strong>36&times; lower</strong> than a desktop unit. Figures based on publicly available Indian market pricing, mid-2026.
+    </p>
+
+    <!-- Breakeven visual -->
+    <div class="breakeven-visual">
+      <p class="bev-label">Break-even analysis vs. handheld spirometer at 5,000 tests/yr</p>
+      <div class="bev-row">
+        <span class="bev-name">Our system upfront</span>
+        <div class="bev-bar-wrap"><div class="bev-bar" style="width:7%;background:var(--teal);"></div></div>
+        <span class="bev-val" style="color:var(--teal);">&#8377;38,000</span>
+      </div>
+      <div class="bev-row">
+        <span class="bev-name">Spirometer OPEX: 1 month</span>
+        <div class="bev-bar-wrap"><div class="bev-bar" style="width:8%;background:var(--ink-4);"></div></div>
+        <span class="bev-val" style="color:var(--ink-2);">~&#8377;45,000</span>
+      </div>
+      <div class="bev-row">
+        <span class="bev-name">Spirometer OPEX: 6 months</span>
+        <div class="bev-bar-wrap"><div class="bev-bar" style="width:50%;background:var(--amber);"></div></div>
+        <span class="bev-val" style="color:var(--amber);">~&#8377;2.7 lakh</span>
+      </div>
+      <div class="bev-row">
+        <span class="bev-name">Spirometer OPEX: 1 year</span>
+        <div class="bev-bar-wrap"><div class="bev-bar" style="width:100%;background:var(--coral);"></div></div>
+        <span class="bev-val" style="color:var(--coral);">~&#8377;5.4 lakh</span>
+      </div>
+      <p class="bev-note">At 5,000 tests per year, the monthly consumable spend on a conventional spirometer (&#8377;~45,000) already exceeds the entire hardware cost of our prototype. From the second month onward, every test performed by our system contributes to net savings. The break-even point against a handheld spirometer is approximately <strong style="color:var(--teal);">3&ndash;4 weeks</strong> of operation.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 10 ECONOMICS ==================== -->
+  <section class="section reveal" id="economics">
+    <div class="section-header">
+      <p class="sec-eyebrow">10 &mdash; Market Viability</p>
+      <h2 class="sec-title">A <strong>blue ocean</strong> targeting underserved segments</h2>
+      <p class="sec-intro">
+        The existing PFT market is dominated by companies whose business model depends on consumable revenue. A zero-consumable device is not a competitor to them; it is a product for a different market entirely.
+      </p>
+    </div>
+    <div class="stat-grid" style="margin-bottom:1.75rem;">
+      <div class="stat-card hi">
+        <p class="stat-label">Global PFT market, 2025 projection</p>
+        <p class="stat-val">$4.1B</p>
+        <p class="stat-sub">Dominated by Vyaire and MGC Diagnostics, both entirely contact-based</p>
+      </div>
+      <div class="stat-card hi">
+        <p class="stat-label">Contactless respiratory niche, growth by 2030</p>
+        <p class="stat-val">+$500M</p>
+        <p class="stat-sub">A segment no current market leader competes in</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">BOM reduction at production scale (&gt;10,000 units)</p>
+        <p class="stat-val">40&ndash;60%</p>
+        <p class="stat-sub">Via custom SoM&frasl;ASIC replacing evaluation boards</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Digital respiratory home care CAGR</p>
+        <p class="stat-val">29.9%</p>
+        <p class="stat-sub">The fastest-growing segment in pulmonary diagnostics</p>
+      </div>
+    </div>
+    <div class="market-list" style="margin-bottom:1.5rem;">
+      <div class="market-item">
+        <div class="market-info"><h4>Home telemedicine &amp; COPD remote monitoring</h4><p>Elderly patients unable to travel to a clinic</p></div>
+        <div class="bar-track"><div class="bar-fill" style="width:93%;background:var(--teal);"></div></div>
+        <div class="market-kpi">CAGR 29.9%</div>
+      </div>
+      <div class="market-item">
+        <div class="market-info"><h4>Pediatric screening</h4><p>Ages 3&ndash;6, the current diagnostic gap</p></div>
+        <div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--blue);"></div></div>
+        <div class="market-kpi" style="color:var(--blue);">High unmet need</div>
+      </div>
+      <div class="market-item">
+        <div class="market-info"><h4>ICU &amp; neonatal care</h4><p>Post-COVID aerosol control requirements</p></div>
+        <div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--purple);"></div></div>
+        <div class="market-kpi" style="color:var(--purple);">2&times; throughput</div>
+      </div>
+      <div class="market-item">
+        <div class="market-info"><h4>PHCs in India &amp; South-East Asia</h4><p>Cost-sensitive, high-volume, underserved</p></div>
+        <div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--amber);"></div></div>
+        <div class="market-kpi" style="color:var(--amber);">Chip cost tailwind</div>
+      </div>
+    </div>
+    <div class="card surface1">
+      <p style="font-family:var(--mono);font-size:10px;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Strategic positioning</p>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.8;">The established spirometry companies have no incentive to build a product that eliminates their consumable revenue stream. By focusing on contactless measurement, the device avoids direct competition entirely. As automotive radar demand continues to drive down the unit cost of the TI IWR6843 chip, the bill of materials for the sensing box will fall year on year, making it progressively more accessible to primary health centres and home-care providers across India and South-East Asia.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================== 11 FUTURE ==================== -->
+  <section class="section reveal" id="future">
+    <div class="section-header">
+      <p class="sec-eyebrow">11 &mdash; Future Scope</p>
+      <h2 class="sec-title">What comes after the <strong>prototype</strong></h2>
+      <p class="sec-intro">The current system establishes the core sensing and processing pipeline for supine patients. The roadmap extends it toward anatomical precision, continuous passive monitoring, and full integration with hospital digital infrastructure.</p>
+    </div>
+    <div class="future-grid">
+      <div class="future-card">
+        <span class="future-icon">📡</span>
+        <h4>Dual-radar two-compartment model</h4>
+        <p>Separate thoracic and abdominal units for independent rib-cage and diaphragm tracking. Enables detection of thoraco-abdominal paradox that a single sensor may miss in borderline cases.</p>
+        <span class="horizon">near-term hardware</span>
+      </div>
+      <div class="future-card">
+        <span class="future-icon">🌙</span>
+        <h4>Passive continuous monitoring</h4>
+        <p>Low-power firmware mode tracks tidal volume trends and respiratory rate variability while the patient sleeps. 77 GHz phase sensitivity enables non-invasive OSA detection (chest effort present, airflow absent).</p>
+        <span class="horizon">firmware roadmap</span>
+      </div>
+      <div class="future-card">
+        <span class="future-icon">🧠</span>
+        <h4>Disease-specialised ML sub-models</h4>
+        <p>Separate models for pediatrics (high respiratory rate, compliant rib cage), geriatrics (senile emphysema), and disease-specific chest geometries such as COPD barrel chest and ILD shallow cycling patterns.</p>
+        <span class="horizon">ML specialisation</span>
+      </div>
+      <div class="future-card">
+        <span class="future-icon">🏥</span>
+        <h4>HL7 FHIR &amp; EMR integration</h4>
+        <p>Automated push of test results and ATS/ERS quality scores to Epic or Cerner via Wi-Fi. Secure telehealth portal for remote pulmonologist review without requiring an in-person visit.</p>
+        <span class="horizon">interoperability</span>
+      </div>
+      <div class="future-card">
+        <span class="future-icon">⚙️</span>
+        <h4>Custom SoM &amp; ASIC transition</h4>
+        <p>Migrating from evaluation boards to a single 6-layer PCB integrating radar SoC and ARM processor. Projected 40&ndash;60% BOM reduction at more than 10,000 units, enabling PHC deployment.</p>
+        <span class="horizon">production scale</span>
+      </div>
+      <div class="future-card">
+        <span class="future-icon">🔮</span>
+        <h4>Predictive exacerbation AI</h4>
+        <p>CNN/RNN deep learning on months of continuous breathing data. Goal: 48-hour advance prediction of COPD exacerbations and asthma attacks before symptom onset, enabling preventative medication adjustment.</p>
+        <span class="horizon">long-term AI</span>
+      </div>
+      <div class="future-card" style="border-color:var(--teal-border); grid-column: 1 / -1; background: linear-gradient(135deg, var(--surface-0) 0%, rgba(10,143,110,0.04) 100%);">
+        <span class="future-icon">🔗</span>
+        <h4>Towards a multi-parameter bedside monitor</h4>
+        <p>
+          Modern medical equipment increasingly consolidates multiple diagnostic functions into a single platform. A ventilator tracks pressure and flow; a patient monitor reads ECG, SpO2, and temperature simultaneously. This device should evolve in the same direction. The same 77 GHz radar that measures chest wall displacement can simultaneously extract <strong style="color:var(--teal);">heart rate variability</strong> (from ballistocardiogram signals already present in the pipeline), <strong style="color:var(--teal);">respiratory rate</strong>, and <strong style="color:var(--teal);">coarse body movement</strong> for fall detection. With a secondary physiological sensor layer (e.g. a low-cost SpO2 module and skin temperature patch), the device becomes a non-contact vital-signs hub in addition to a PFT system. The long-term vision is a single ceiling-mounted unit that replaces multiple bedside instruments in ICU and home-care settings, reducing equipment footprint, cabling, and the cognitive burden on nursing staff.
+        </p>
+        <span class="horizon">platform vision</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="section reveal">
+    <div class="refs">
+      <h4>References &amp; how they underpin this work</h4>
+      <p style="font-size:12px;color:var(--ink-2);line-height:1.75;margin-bottom:1.1rem;">This project is not based on a single prior work. It is a deliberate synthesis of independent research threads, each contributing a specific layer of the design. The table below maps each source to the part of our system it directly informs.</p>
+      <ol>
+        <li>
+          <strong>Droitcour AD et al.</strong> Range correlation in single-chip Doppler radars for non-contact cardiopulmonary monitoring. <em>IEEE Trans Microwave Theory Tech.</em> 2004;52(3):838&ndash;848.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Foundational proof that phase-shift radar can resolve sub-millimetre cardiopulmonary motion at a distance. Provides the theoretical basis for our entire sensing approach and the x(t) = &lambda;&phi;(t)/4&pi; displacement equation.</span>
+        </li>
+        <li>
+          <strong>Lv H et al.</strong> FMCW-radar-based respiratory monitoring and lung function estimation. <em>IEEE Access.</em> 2020;8:105272&ndash;105283.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Directly validates that FMCW radar (the modulation type used by the TI IWR6843) can estimate lung function parameters from chest wall displacement. Informs our choice of FMCW over CW radar and our Range FFT gating pipeline design.</span>
+        </li>
+        <li>
+          <strong>Wang G et al.</strong> Simultaneous heart rate and respiration rate monitoring using FMCW radar. <em>IEEE Sensors J.</em> 2020;20(10):5698&ndash;5707.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Demonstrates that heartbeat and breathing signals can be separated from the same radar return. Directly informs our adaptive notch filter design in pipeline Step 03, which subtracts the ballistocardiogram from the FVC displacement trace.</span>
+        </li>
+        <li>
+          <strong>Massagram W et al.</strong> Tidal volume estimation via Doppler radar. <em>IEEE EMBC.</em> 2008:4735&ndash;4738.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Shows that radar displacement AUC correlates with tidal volume. This is the evidence base for our displacement AUC &rarr; FVC mapping in the feature extraction stage (Step 04).</span>
+        </li>
+        <li>
+          <strong>Konno K &amp; Mead J.</strong> Separate volume changes of rib cage and abdomen during breathing. <em>J Appl Physiol.</em> 1967;22(3):407&ndash;422.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">The classic two-compartment model of breathing. Establishes that total lung volume can be decomposed into independent rib-cage and abdominal contributions, which is the physiological rationale for our RC/AB ratio feature and our future dual-radar design.</span>
+        </li>
+        <li>
+          <strong>Graham BL et al.</strong> Standardization of spirometry 2019 update. <em>Am J Respir Crit Care Med.</em> 2019;200(8):e70&ndash;e88.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">The current international standard for spirometry acceptability and repeatability criteria. Our ATS/ERS quality scoring module (pipeline Step 06) is directly built against this document: the plateau criterion, the Vmax&ndash;Vmin delta, and the maneuver acceptance thresholds all derive from these guidelines.</span>
+        </li>
+        <li>
+          <strong>Vogelmeier CF et al.</strong> Global strategy for COPD &ndash; GOLD 2017. <em>Eur Respir J.</em> 2017;49(3):1700214.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Defines the GOLD staging thresholds (GOLD 1&ndash;4) used by our clinical triage engine. The exacerbation alert logic and the 30% / 50% / 80% FEV1 cutoffs in our system are taken directly from this document.</span>
+        </li>
+        <li>
+          <strong>Quanjer PH et al.</strong> Multi-ethnic reference values for spirometry: GLI-2012. <em>Eur Respir J.</em> 2012;40(6):1324&ndash;1343.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Provides the multi-ethnic anthropometric reference equations used to compute FEV1 % predicted from height, age, sex, and ethnicity. This is what the XGBoost model uses as its ground-truth target during training, and what allows the system to account for the Indian patient population specifically.</span>
+        </li>
+        <li>
+          <strong>ISO 26782:2009.</strong> Spirometers intended for measurement of time forced expired volumes &ndash; performance requirements.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Sets the accuracy and repeatability tolerances any spirometer must meet to be clinically valid. Our quality scoring module is designed to produce results that fall within ISO 26782 limits, establishing a clear certification pathway for the device.</span>
+        </li>
+        <li>
+          <strong>IndiaMART, RespBuy, Biomed Suppliers.</strong> Spirometer and consumable pricing data, India market. Accessed June 2026.
+          <span style="display:block;margin-top:3px;color:var(--teal);font-size:11px;">Source for all device and per-unit consumable prices used in the cost-of-ownership comparison (Section 09).</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Meghnad Saha Hall of Residence &middot; Non-Contact PFT System</span>
+    <span>General Championship Product Design 2026</span>
+  </footer>
+</div>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.05 });
+  revealEls.forEach(el => io.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sidenav a');
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.sidenav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => navObs.observe(s));
+</script>
+</body>
+</html>

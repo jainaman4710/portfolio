@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Graph-Based ETA Prediction | Delhivery Network Intelligence</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#1F4E79;--accent:#2E75B6;--light:#D6E4F0;--dark:#111827;
+  --mid:#374151;--muted:#6B7280;--green:#059669;--red:#DC2626;
+  --orange:#D97706;--card:#ffffff;--bg:#F8FAFC;--border:#E5E7EB;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(31,78,121,0.97);backdrop-filter:blur(8px);padding:0 2rem}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-logo{color:#fff;font-weight:700;font-size:1rem}
+.nav-links{display:flex;gap:.25rem}
+.nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.8rem;padding:.4rem .7rem;border-radius:6px;transition:.2s}
+.nav-links a:hover{background:rgba(255,255,255,.15);color:#fff}
+.hero{background:linear-gradient(135deg,#0f2847 0%,#1F4E79 50%,#2563EB 100%);color:#fff;padding:8rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#93C5FD;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.35rem 1rem;border-radius:99px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem;max-width:900px;margin-left:auto;margin-right:auto}
+.hero p{font-size:1.1rem;color:rgba(255,255,255,.8);max-width:680px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:8px;font-size:.9rem;font-weight:600;text-decoration:none;transition:.2s}
+.btn-primary{background:#fff;color:var(--blue)}
+.btn-primary:hover{background:#EFF6FF;transform:translateY(-1px)}
+.btn-outline{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);color:#fff}
+.btn-outline:hover{background:rgba(255,255,255,.2)}
+.hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:3.5rem;flex-wrap:wrap}
+.hero-stat .val{font-size:2.2rem;font-weight:800;color:#fff}
+.hero-stat .lbl{font-size:.8rem;color:rgba(255,255,255,.65);margin-top:.2rem}
+section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+.section-tag{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--blue);margin-bottom:.75rem}
+.section-sub{font-size:1rem;color:var(--muted);max-width:680px;margin-bottom:2.5rem}
+.divider{height:1px;background:var(--border);margin:0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:.2s}
+.card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);transform:translateY(-2px)}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
+.stat-card{border-radius:12px;padding:1.5rem;text-align:center;color:#fff}
+.stat-card .big{font-size:2.4rem;font-weight:800;line-height:1}
+.stat-card .small{font-size:.82rem;opacity:.8;margin-top:.4rem}
+.sc-blue{background:linear-gradient(135deg,#1F4E79,#2E75B6)}
+.sc-green{background:linear-gradient(135deg,#065F46,#059669)}
+.sc-orange{background:linear-gradient(135deg,#92400E,#D97706)}
+.sc-red{background:linear-gradient(135deg,#7F1D1D,#DC2626)}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.chart-title{font-size:.95rem;font-weight:700;color:var(--blue);margin-bottom:.2rem}
+.chart-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.2rem}
+canvas{max-height:320px}
+.pipeline{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap;margin-top:1rem}
+.pipe-step{flex:1;min-width:130px;text-align:center;position:relative;padding:.5rem}
+.pipe-step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:30px;font-size:1.3rem;color:var(--accent);font-weight:700}
+.pipe-icon{width:52px;height:52px;background:var(--light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .6rem;font-size:1.4rem;border:2px solid var(--accent)}
+.pipe-label{font-size:.78rem;font-weight:700;color:var(--blue)}
+.pipe-desc{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+.arch-block{color:#fff;border-radius:8px;padding:.9rem 1.1rem;margin:.4rem 0}
+.arch-label{font-weight:700;font-size:.88rem}
+.arch-detail{font-size:.76rem;opacity:.8;margin-top:.15rem}
+.iter-card{border-left:4px solid var(--border);padding:1.1rem 1.4rem;background:var(--card);border-radius:0 10px 10px 0;margin:.6rem 0}
+.iter-card.active{border-left-color:var(--green)}
+.iter-card.mid{border-left-color:var(--accent)}
+.iter-card.base{border-left-color:var(--muted)}
+.iter-badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.18rem .55rem;border-radius:99px;margin-bottom:.4rem;letter-spacing:.05em}
+.badge-green{background:#D1FAE5;color:#065F46}
+.badge-blue{background:#DBEAFE;color:#1E40AF}
+.badge-gray{background:#F3F4F6;color:#374151}
+.bench-table{width:100%;border-collapse:collapse;font-size:.83rem}
+.bench-table th{background:var(--blue);color:#fff;padding:.7rem .9rem;text-align:center;font-weight:600;font-size:.76rem}
+.bench-table th:first-child{text-align:left}
+.bench-table td{padding:.6rem .9rem;border-bottom:1px solid var(--border);text-align:center}
+.bench-table td:first-child{text-align:left;font-weight:500}
+.bench-table tr:nth-child(even){background:#F9FAFB}
+.bench-table tr.gnn-row{background:#EFF6FF}
+.best-cell{background:#D1FAE5!important;color:#065F46;font-weight:700}
+.tag-gnn{background:#DBEAFE;color:#1E40AF;font-size:.66rem;font-weight:700;padding:.12rem .4rem;border-radius:99px;margin-left:.3rem}
+.feat-pill{display:inline-block;background:var(--light);color:var(--blue);font-size:.77rem;font-weight:600;padding:.28rem .75rem;border-radius:99px;margin:.2rem;border:1px solid var(--accent)}
+.feat-pill.removed{background:#FEF2F2;color:#991B1B;border-color:#FCA5A5;text-decoration:line-through;opacity:.65}
+.math-box{background:#F1F5F9;border-left:4px solid var(--accent);padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--dark);margin:.9rem 0;overflow-x:auto}
+.reco-card{display:flex;gap:1rem;padding:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:10px;margin:.55rem 0}
+.reco-num{width:34px;height:34px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.88rem;flex-shrink:0;margin-top:.1rem}
+.reco-body h4{font-size:.92rem;font-weight:700;color:var(--blue);margin-bottom:.2rem}
+.reco-body p{font-size:.83rem;color:var(--mid)}
+.deploy-card{background:linear-gradient(135deg,#0F2847,#1F4E79);border-radius:14px;padding:2.2rem;color:#fff;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.deploy-link{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:.55rem 1.1rem;border-radius:8px;text-decoration:none;font-size:.83rem;font-weight:600;margin-top:.9rem;transition:.2s}
+.deploy-link:hover{background:rgba(255,255,255,.25)}
+.tab-preview{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.2rem}
+.tab-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.35rem .8rem;border-radius:7px;font-size:.78rem}
+#networkCanvas{width:100%;height:700px;border-radius:12px;background:#0F1B2D;cursor:crosshair;display:block}
+.legend-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.9rem}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted)}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+footer{background:var(--blue);color:rgba(255,255,255,.7);text-align:center;padding:2rem;font-size:.84rem}
+footer a{color:rgba(255,255,255,.9);text-decoration:none;font-weight:600}
+@media(max-width:768px){.nav-links{display:none}.hero-stats{gap:1.5rem}.pipeline{gap:.8rem}.pipe-step:not(:last-child)::after{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">🚚 Graph-Based ETA Prediction</span>
+    <div class="nav-links">
+      <a href="#overview">Overview</a><a href="#eda">EDA</a><a href="#graph">Graph</a>
+      <a href="#models">Models</a><a href="#results">Results</a>
+      <a href="#deployment">Dashboard</a><a href="#strategy">Strategy</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Machine Learning · Graph Neural Networks · Logistics</div>
+  <h1>Optimizing Delivery ETAs with<br>Graph-Based Network Intelligence</h1>
+  <p>Modelling Delhivery's logistics network as a directed graph of 1,639 facilities and 2,750 corridors to predict delivery delay factors using a Spatio-Temporal Graph Attention Network.</p>
+  <div class="hero-cta">
+    <a href="https://huggingface.co/spaces/jain-npc/graph-based-ETA-prediction" target="_blank" class="btn btn-primary">🚀 Live Dashboard</a>
+    <a href="#overview" class="btn btn-outline">Explore Project ↓</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val">38.96%</div><div class="lbl">MAE Improvement over XGBoost</div></div>
+    <div class="hero-stat"><div class="val">52.57%</div><div class="lbl">Hit Rate at 15% Accuracy</div></div>
+    <div class="hero-stat"><div class="val">1,639</div><div class="lbl">Logistics Hubs (Nodes)</div></div>
+    <div class="hero-stat"><div class="val">2,750</div><div class="lbl">Corridors (Edges)</div></div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview" class="fade-in">
+  <div class="section-tag">Project Overview</div>
+  <div class="section-title">Why Standard Routing Engines Fall Short</div>
+  <div class="section-sub">Delhivery uses OSRM to estimate delivery times. OSRM assumes ideal traffic and shortest paths: real-world logistics deviates significantly.</div>
+  <div class="grid-4" style="margin-bottom:2.5rem">
+    <div class="stat-card sc-blue"><div class="big">144K</div><div class="small">Raw Trip Segment Records</div></div>
+    <div class="stat-card sc-green"><div class="big">26K</div><div class="small">Unique Trips After Filtering</div></div>
+    <div class="stat-card sc-orange"><div class="big">2,616</div><div class="small">SLA Breach Corridors (&gt;20% over OSRM)</div></div>
+    <div class="stat-card sc-red"><div class="big">21.1%</div><div class="small">Final Model MAPE</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:2rem">
+    <div class="card">
+      <h3 style="color:var(--blue);margin-bottom:.9rem;font-size:1.02rem;font-weight:700">The Core Problem</h3>
+      <p style="font-size:.9rem;color:var(--mid);margin-bottom:.7rem">OSRM treats every trip as independent. It has no concept of whether a hub is a structural chokepoint, whether a corridor has historically run 3× over estimate, or whether Friday evenings are consistently worse than Tuesday mornings.</p>
+      <p style="font-size:.9rem;color:var(--mid)">The result: systematic ETA underestimation, missed SLAs, and capacity planning failures that cascade across the entire network.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--blue);margin-bottom:.9rem;font-size:1.02rem;font-weight:700">The Graph Approach</h3>
+      <p style="font-size:.9rem;color:var(--mid);margin-bottom:.7rem">We model the logistics network as a directed graph <strong>G = (V, E)</strong> where nodes are facilities and edges are corridors. A Graph Attention Network learns which neighbours matter most for predicting delay at any given hub.</p>
+      <p style="font-size:.9rem;color:var(--mid)">This spatial awareness: knowing <em>where</em> a hub sits in the network, not just its own history: is the primary source of predictive gain over tabular baselines.</p>
+    </div>
+  </div>
+  <div>
+    <h3 style="color:var(--blue);margin-bottom:1.3rem;font-size:.95rem;font-weight:700">End-to-End Pipeline</h3>
+    <div class="pipeline">
+      <div class="pipe-step"><div class="pipe-icon">📦</div><div class="pipe-label">Raw Data</div><div class="pipe-desc">144K trip segments, 24 fields</div></div>
+      <div class="pipe-step"><div class="pipe-icon">🧹</div><div class="pipe-label">EDA & Cleaning</div><div class="pipe-desc">Dedup, imputation, filter</div></div>
+      <div class="pipe-step"><div class="pipe-icon">⚙️</div><div class="pipe-label">Feature Eng.</div><div class="pipe-desc">Cyclic time, BFE</div></div>
+      <div class="pipe-step"><div class="pipe-icon">🕸️</div><div class="pipe-label">Graph Build</div><div class="pipe-desc">1,639 nodes, 2,750 edges</div></div>
+      <div class="pipe-step"><div class="pipe-icon">🧠</div><div class="pipe-label">ST-GAT Train</div><div class="pipe-desc">GATv2 + residuals, 200 epochs</div></div>
+      <div class="pipe-step"><div class="pipe-icon">🚀</div><div class="pipe-label">Deploy</div><div class="pipe-desc">Streamlit · HuggingFace</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDA -->
+<section id="eda" class="fade-in">
+  <div class="section-tag">Exploratory Data Analysis</div>
+  <div class="section-title">Understanding the Data Before Modelling</div>
+  <div class="section-sub">Before building any model, we need to understand where OSRM fails, what drives delay, and how the network is structured geographically and temporally.</div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-wrap">
+      <div class="chart-title">Delivery Factor Distribution</div>
+      <div class="chart-sub">Factor = Actual Time ÷ OSRM Time. Factor > 1.0 = delayed. Distribution is strongly right-skewed: most trips are 1.0–2.5×, but a long tail extends beyond 10×.</div>
+      <canvas id="factorDist"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Route Type: FTL vs Carting</div>
+      <div class="chart-sub">FTL trips cover longer distances with fewer intermediate stops. Carting trips are shorter, higher frequency, but more variable in delay. Both charts use the same 26K trip sample.</div>
+      <p style="font-size:.78rem;font-weight:600;color:var(--blue);margin-bottom:.4rem">Volume and OSRM Characteristics</p>
+      <canvas id="routeChart" style="max-height:195px"></canvas>
+      <p style="font-size:.78rem;font-weight:600;color:var(--blue);margin:.9rem 0 .4rem">Delay Factor Distribution</p>
+      <canvas id="routeFactorChart" style="max-height:195px"></canvas>
+    </div>
+  </div>
+
+  <!-- OSRM vs Actual: chart + explanations side by side -->
+  <div class="chart-wrap" style="margin-bottom:1.5rem">
+    <div class="chart-title">OSRM vs Actual Time Distribution (Percentiles)</div>
+    <div class="chart-sub">OSRM consistently underestimates actual delivery time across all percentiles. The gap widens sharply at higher percentiles.</div>
+    <div style="display:flex;gap:1.5rem;align-items:flex-start;margin-top:1rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:280px">
+        <canvas id="osrmActual" height="260"></canvas>
+      </div>
+      <div style="width:310px;flex-shrink:0;display:flex;flex-direction:column;gap:.6rem">
+        <div style="padding:.8rem 1rem;background:#FEF2F2;border-left:4px solid #DC2626;border-radius:0 8px 8px 0">
+          <div style="font-size:.8rem;font-weight:700;color:#991B1B;margin-bottom:.2rem">P25: Bottom Quarter of Trips</div>
+          <p style="font-size:.77rem;color:#374151;line-height:1.5">OSRM: 18 mins. Actual: 32 mins. Even the fastest quarter of trips run 78% over estimate.</p>
+        </div>
+        <div style="padding:.8rem 1rem;background:#FFF7ED;border-left:4px solid #D97706;border-radius:0 8px 8px 0">
+          <div style="font-size:.8rem;font-weight:700;color:#92400E;margin-bottom:.2rem">P50: The Median Trip</div>
+          <p style="font-size:.77rem;color:#374151;line-height:1.5">OSRM: 35 mins. Actual: 68 mins. A typical trip takes nearly twice the estimate, directly causing SLA misses at scale.</p>
+        </div>
+        <div style="padding:.8rem 1rem;background:#FEF2F2;border-left:4px solid #7F1D1D;border-radius:0 8px 8px 0">
+          <div style="font-size:.8rem;font-weight:700;color:#7F1D1D;margin-bottom:.2rem">P75 and P90: Slow Trips</div>
+          <p style="font-size:.77rem;color:#374151;line-height:1.5">OSRM: 72 and 130 mins. Actual: 145 and 285 mins. Delays compound — late trips get far later than OSRM accounts for.</p>
+        </div>
+        <div style="padding:.8rem 1rem;background:#EFF6FF;border-left:4px solid #2563EB;border-radius:0 8px 8px 0">
+          <div style="font-size:.8rem;font-weight:700;color:#1E40AF;margin-bottom:.2rem">Why the Model Is Necessary</div>
+          <p style="font-size:.77rem;color:#374151;line-height:1.5">When 50% of trips exceed OSRM by 2x, half your deliveries miss their SLA window. Predicting the actual factor turns SLA accuracy from a guess into a calculation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hourly factor: standalone -->
+  <div class="chart-wrap" style="margin-bottom:1.5rem">
+    <div class="chart-title">Delay Factor by Departure Hour</div>
+    <div class="chart-sub">Night departures (10PM–5AM) show systematically higher delay factors. Early morning windows (6AM–10AM) are most reliable — a temporal signal the model captures via cyclic encoding.</div>
+    <canvas id="hourlyFactor" height="220"></canvas>
+  </div>
+
+
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-wrap">
+      <div class="chart-title">Top States by Trip Volume</div>
+      <div class="chart-sub">Maharashtra, Karnataka, and Gujarat dominate volume. Concentration creates structural vulnerability: delays in these states cascade across the network.</div>
+      <canvas id="stateChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Feature Correlations with Delivery Factor</div>
+      <div class="chart-sub">OSRM time and distance are weakly correlated with the factor: confirming trip-level features alone are insufficient. Graph-level features (median_time_factor, segment_variance) show stronger signal.</div>
+      <canvas id="corrChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--blue);margin-bottom:1rem;font-size:.95rem;font-weight:700">Key EDA Findings</h3>
+    <div class="grid-3">
+      <div>
+        <div style="font-weight:700;color:var(--blue);margin-bottom:.35rem;font-size:.88rem">⚠️ Severe Right Skew in Factor</div>
+        <p style="font-size:.83rem;color:var(--mid)">Most trips cluster between 1.2–2.5×, but outliers extend beyond 30×. Extreme cases reflect facility breakdowns, route closures, or OSRM miscalibration: not noise. Huber loss was chosen specifically for robustness against these outliers.</p>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--blue);margin-bottom:.35rem;font-size:.88rem">🕐 Real Temporal Signal</div>
+        <p style="font-size:.83rem;color:var(--mid)">Night departures show consistently higher delay. A simple integer hour encoding would fail (23 and 0 appear maximally different when they're adjacent). This motivated the cyclic sine/cosine encoding used in the final model.</p>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--blue);margin-bottom:.35rem;font-size:.88rem">🗺️ Geographic Concentration Risk</div>
+        <p style="font-size:.83rem;color:var(--mid)">Maharashtra, Karnataka, and Gujarat account for a disproportionate share of both volume and delay incidents. This concentration means hub-level structural analysis: not just trip-level features: is essential for meaningful SLA management.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GRAPH CONSTRUCTION -->
+<section id="graph" class="fade-in">
+  <div class="section-tag">Graph Construction</div>
+  <div class="section-title">Building the Logistics Network Graph</div>
+  <div class="section-sub">The logistics network is modelled as a directed weighted graph G = (V, E): facilities as nodes, corridors as edges: capturing spatial dependencies that tabular models completely ignore.</div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3 style="color:var(--blue);margin-bottom:.8rem;font-size:.92rem;font-weight:700">📍 Node Features (per facility): dim: 4</h3>
+        <div style="display:flex;flex-direction:column;gap:.45rem">
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Source Degree</span><span style="font-weight:600;color:var(--dark)">Distinct destinations served</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Destination Degree</span><span style="font-weight:600;color:var(--dark)">Distinct sources feeding in</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Mode Source Factor</span><span style="font-weight:600;color:var(--dark)">Modal outbound delay ratio</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Mode Dest. Factor</span><span style="font-weight:600;color:var(--dark)">Modal inbound delay ratio</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--blue);margin-bottom:.8rem;font-size:.92rem;font-weight:700">🛤️ Edge Features (per corridor): dim: 4</h3>
+        <div style="display:flex;flex-direction:column;gap:.45rem">
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Mode Distance Factor</span><span style="font-weight:600;color:var(--dark)">Actual vs OSRM distance ratio</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Mode Time Factor</span><span style="font-weight:600;color:var(--dark)">Actual vs OSRM time ratio</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Segment Variance</span><span style="font-weight:600;color:var(--dark)">Delay variance across segments</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;background:var(--bg);border-radius:6px"><span style="color:var(--muted)">Trip Count</span><span style="font-weight:600;color:var(--dark)">Historical volume on corridor</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Hub Out-Degree Distribution</div>
+      <div class="chart-sub">Most hubs serve 1–5 corridors. A small number of high-degree hubs are critical junctions: structural bottlenecks whose delays propagate network-wide.</div>
+      <canvas id="degreeChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-wrap" style="margin-bottom:1.5rem">
+    <div class="chart-title">Interactive Network Visualisation: Top Hubs by Betweenness Centrality</div>
+    <div class="chart-sub">Node size = betweenness centrality (structural importance). Node colour = delay risk (red = high, amber = medium, green = low). Red edges = SLA breach corridors. Hover nodes for details.</div>
+    <canvas id="networkCanvas" width="1200" height="700" style="width:100%;height:700px;border-radius:12px;background:#0F1B2D;cursor:crosshair;display:block"></canvas>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>High Risk Hub</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Medium Risk Hub</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10B981"></div>Low Risk Hub</div>
+      <div class="legend-item"><div style="width:20px;height:3px;background:#EF4444;border-radius:2px"></div>SLA Breach Corridor</div>
+      <div class="legend-item"><div style="width:20px;height:1px;background:#6B7280;border-radius:2px"></div>Normal Corridor</div>
+    </div>
+  </div>
+
+    <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-wrap">
+      <div class="chart-title">Top 10 Bottleneck Hubs: Composite Risk Score</div>
+      <div class="chart-sub">Risk Score = Betweenness Centrality x Source Delay Factor. Structurally critical AND operationally slow.</div>
+      <canvas id="bottleneckChart"></canvas>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center;gap:.5rem">
+      <h4 style="color:var(--blue);font-size:.88rem;font-weight:700;margin-bottom:.3rem">What is Betweenness Centrality?</h4>
+      <p style="font-size:.82rem;color:var(--mid)">Betweenness centrality measures how often a hub lies on the shortest path between other hubs in the network. A hub with high betweenness is a structural junction: many routes pass through it. If it slows down, many downstream deliveries slow down too.</p>
+      <p style="font-size:.82rem;color:var(--mid)">The composite risk score multiplies this structural importance by the hub's actual historical delay factor. A hub that is both central AND slow is the highest-priority target for intervention.</p>
+      <div style="margin-top:.5rem;padding:.8rem;background:var(--light);border-radius:8px;font-size:.82rem;color:var(--blue);font-weight:600">IND712311AAA: betweenness 0.148, delay factor 3.0x: risk score 0.443 (highest in network)</div>
+    </div>
+  </div>
+
+
+  <div style="margin-bottom:2rem">
+    <div class="chart-wrap">
+      <div class="chart-title">Betweenness Centrality vs Delay Factor: Hub Risk Quadrant</div>
+      <div class="chart-sub">Every dot is a logistics hub. The x-axis is structural importance (betweenness centrality); the y-axis is operational slowness (delay factor). Together they define four distinct risk categories.</div>
+      <canvas id="scatterChart" height="320" style="margin-top:.75rem"></canvas>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.25rem">
+        <div style="padding:.85rem 1rem;background:#FEF2F2;border-top:4px solid #DC2626;border-radius:8px 8px 0 0">
+          <div style="font-size:.78rem;font-weight:700;color:#DC2626;margin-bottom:.25rem">Top-Right: Critical Priority</div>
+          <p style="font-size:.76rem;color:#374151;line-height:1.5">High betweenness AND high delay. Structurally central and operationally slow. Disruptions here propagate farthest. Highest-priority for investment.</p>
+        </div>
+        <div style="padding:.85rem 1rem;background:#FFF7ED;border-top:4px solid #D97706;border-radius:8px 8px 0 0">
+          <div style="font-size:.78rem;font-weight:700;color:#D97706;margin-bottom:.25rem">Top-Left: Localised Delay</div>
+          <p style="font-size:.76rem;color:#374151;line-height:1.5">High delay, low centrality. Impact is contained to nearby corridors. Operational fixes (staffing, scheduling) work better than infrastructure here.</p>
+        </div>
+        <div style="padding:.85rem 1rem;background:#EFF6FF;border-top:4px solid #2563EB;border-radius:8px 8px 0 0">
+          <div style="font-size:.78rem;font-weight:700;color:#2563EB;margin-bottom:.25rem">Bottom-Right: Latent Risk</div>
+          <p style="font-size:.76rem;color:#374151;line-height:1.5">High centrality, currently low delay. Most fragile category: if delay rises here, network-wide impact follows immediately. Monitor proactively.</p>
+        </div>
+        <div style="padding:.85rem 1rem;background:#F0FDF4;border-top:4px solid #059669;border-radius:8px 8px 0 0">
+          <div style="font-size:.78rem;font-weight:700;color:#059669;margin-bottom:.25rem">Bottom-Left: Low Risk</div>
+          <p style="font-size:.76rem;color:#374151;line-height:1.5">Low centrality and low delay. Peripheral hubs with limited volume performing close to OSRM estimates. Standard monitoring sufficient.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURE ENGINEERING -->
+<section id="features" class="fade-in">
+  <div class="section-tag">Feature Engineering</div>
+  <div class="section-title">Building the Trip-Level Feature Set</div>
+  <div class="section-sub">Eight features selected through Backward Feature Elimination: each capturing a signal that OSRM misses.</div>
+  <div class="grid-2">
+    <div>
+      <h3 style="color:var(--blue);margin-bottom:.9rem;font-size:.92rem;font-weight:700">Final Feature Set (post-BFE)</h3>
+      <div style="margin-bottom:1rem">
+        <span class="feat-pill">osrm_time</span><span class="feat-pill">osrm_distance</span>
+        <span class="feat-pill">start_day_sin</span><span class="feat-pill">start_day_cos</span>
+        <span class="feat-pill">start_hour_sin</span><span class="feat-pill">is_weekend</span>
+        <span class="feat-pill">start_month</span><span class="feat-pill">route_type</span>
+      </div>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">Removed by BFE (added noise):</p>
+      <div style="margin-bottom:1.2rem">
+        <span class="feat-pill removed">start_hour_cos</span>
+        <span class="feat-pill removed">start_date</span>
+        <span class="feat-pill removed">is_night</span>
+      </div>
+      <div class="card">
+        <h4 style="font-size:.86rem;font-weight:700;color:var(--blue);margin-bottom:.6rem">Why Cyclic Encoding?</h4>
+        <p style="font-size:.83rem;color:var(--mid);margin-bottom:.6rem">A plain integer hour (0–23) creates a false discontinuity: hour 23 and hour 0 appear maximally different, yet they are adjacent in time. Cyclic encoding solves this:</p>
+        <div class="math-box">hour_sin = sin(2π · hour / 24)
+day_sin  = sin(2π · day / 7)
+day_cos  = cos(2π · day / 7)</div>
+        <p style="font-size:.83rem;color:var(--mid)">This ensures 11PM and midnight are mathematically close: critical for capturing overnight departure delay patterns correctly.</p>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Backward Feature Elimination: Test MAE by Feature Count</div>
+      <div class="chart-sub">BFE iteratively removes the least useful feature. Optimal at 8 features. Adding start_date, is_night, start_hour_cos increases test MAE.</div>
+      <canvas id="bfeChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MODELS -->
+<section id="models" class="fade-in">
+  <div class="section-tag">Model Architecture</div>
+  <div class="section-title">From Baselines to Graph Attention Networks</div>
+  <div class="section-sub">Three GNN architectures developed iteratively, each addressing a specific limitation of the previous. Three tabular baselines provide the benchmark floor.</div>
+
+  <div style="margin-bottom:2rem">
+    <div class="iter-card base">
+      <span class="iter-badge badge-gray">BASELINES</span>
+      <h4 style="font-size:.92rem;margin-bottom:.35rem">Linear Regression · Random Forest · XGBoost</h4>
+      <p style="font-size:.84rem;color:var(--mid)">Each trip treated as an independent row. No network topology. Best baseline (XGBoost) achieves MAE 1.133, MAPE 41.78%, Hit Rate@15% of 29.63%. These establish the floor the graph models must beat: and beat convincingly.</p>
+    </div>
+    <div class="iter-card mid">
+      <span class="iter-badge badge-blue">ITERATION 1</span>
+      <h4 style="font-size:.92rem;margin-bottom:.35rem">GCN Baseline: Graph Convolutional Network</h4>
+      <p style="font-size:.84rem;color:var(--mid)">First graph model. Introduces spatial awareness by aggregating neighbour features. Key limitation: GCN uses fixed, normalised adjacency weights: it cannot distinguish which neighbours matter more. Every neighbouring hub is treated equally regardless of how much traffic it contributes or how often it delays.</p>
+    </div>
+    <div class="iter-card mid">
+      <span class="iter-badge badge-blue">ITERATION 2</span>
+      <h4 style="font-size:.92rem;margin-bottom:.35rem">ST-GAT with Residual Connections: GATv2Conv</h4>
+      <p style="font-size:.84rem;color:var(--mid)">Replaces GCN with GATv2Conv, which learns attention coefficients α_ij: the model discovers which neighbouring hubs carry more predictive signal for a given prediction. A residual skip connection (h_out = GAT(h) + Linear(h_in)) preserves raw spatial features through deep aggregation, preventing gradient loss and retaining local hub characteristics.</p>
+    </div>
+    <div class="iter-card active">
+      <span class="iter-badge badge-green">DEPLOYED: BEST MODEL</span>
+      <h4 style="font-size:.92rem;margin-bottom:.35rem">ST-GAT Iteration 3: Full Architecture with Regularisation</h4>
+      <p style="font-size:.84rem;color:var(--mid)">Two GATv2 layers (4 heads → 1 head), residual skip, MLP prediction head. Dropout 0.3 + L2 weight decay 1e-4. Trained 200 epochs with Huber loss for outlier robustness. Adam optimiser, learning rate 1e-3. Achieves MAE 0.713, MAPE 21.11%, Hit Rate@15% of 52.57%: nearly double XGBoost.</p>
+    </div>
+    <div class="iter-card mid">
+      <span class="iter-badge badge-blue">ALTERNATIVE ARCHITECTURE</span>
+      <h4 style="font-size:.92rem;margin-bottom:.35rem">Decoupled GAT-LSTM: Parallel Spatial + Temporal Modelling</h4>
+      <p style="font-size:.84rem;color:var(--mid)">Separates spatial modelling (GATv2) from temporal modelling (LSTM). Despite explicit temporal sequence learning, underperforms ST-GAT Iteration 3 (MAE 0.789 vs 0.713). Conclusion: for this dataset, cyclic feature encoding captures temporal signal better than an LSTM: the sequence is too short to benefit from recurrence.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <h3 style="color:var(--blue);margin-bottom:1rem;font-size:.92rem;font-weight:700">Deployed Architecture: ST-GAT Iteration 3</h3>
+      <div class="arch-block" style="background:var(--blue)"><div class="arch-label">Input</div><div class="arch-detail">Node features (4-dim) · Edge attributes (4-dim) · Trip features (8-dim)</div></div>
+      <div style="padding:.3rem 1.2rem;font-size:.8rem;color:var(--muted)">↓ graph message passing with learned attention</div>
+      <div class="arch-block" style="background:var(--accent);margin-left:1.2rem"><div class="arch-label">GATv2Conv Layer 1</div><div class="arch-detail">4 attention heads · concat=True → 64 × 4 = 256 dim</div></div>
+      <div style="padding:.3rem 2.4rem;font-size:.8rem;color:var(--muted)">↓ + skip connection from input (Linear 4→64)</div>
+      <div class="arch-block" style="background:var(--accent);margin-left:1.2rem"><div class="arch-label">GATv2Conv Layer 2</div><div class="arch-detail">1 attention head · concat=False → 64 dim · ReLU</div></div>
+      <div style="padding:.3rem 1.2rem;font-size:.8rem;color:var(--muted)">↓ extract src & dst hub embeddings → concat with trip features</div>
+      <div class="arch-block" style="background:#1D4ED8;margin-left:2.4rem"><div class="arch-label">MLP Head</div><div class="arch-detail">[h_src ‖ h_dst ‖ trip] (64+64+8=136) → Linear(128) → ReLU → Dropout(0.3) → Linear(64) → ReLU → Linear(1)</div></div>
+      <div style="padding:.3rem 1.2rem;font-size:.8rem;color:var(--muted)">↓ scalar output</div>
+      <div class="arch-block" style="background:#059669"><div class="arch-label">Output: Predicted Delivery Factor</div><div class="arch-detail">Multiply by OSRM time → Predicted ETA in minutes</div></div>
+      <div class="card" style="margin-top:1.1rem">
+        <h4 style="font-size:.84rem;font-weight:700;color:var(--blue);margin-bottom:.5rem">GATv2 Attention Mechanism</h4>
+        <div class="math-box">e_ij  = a^T · LeakyReLU(W · [h_i ‖ h_j ‖ edge_ij])
+α_ij  = softmax_j(e_ij)
+h_out = σ(Σ_j α_ij · W·h_j) + Linear(h_in)</div>
+        <p style="font-size:.81rem;color:var(--mid);margin-top:.5rem">α_ij tells us how much hub j's state should influence hub i's prediction. A hub that frequently delays its neighbours gets higher attention weights: the model learns network delay propagation patterns automatically.</p>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Training Convergence: ST-GAT Iteration 3</div>
+      <div class="chart-sub">MAE on train and test sets across 200 epochs. Test MAE stabilises around epoch 140 with no significant overfitting: the regularisation is working.</div>
+      <canvas id="trainingChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESULTS -->
+<section id="results" class="fade-in">
+  <div class="section-tag">Results & Benchmark</div>
+  <div class="section-title">The Graph Advantage: Measured, Not Claimed</div>
+  <div class="section-sub">All models evaluated on a held-out test set. Hit Rate@X% = fraction of predictions within X% relative error: the primary business metric for SLA reliability.</div>
+
+  <div class="chart-wrap" style="margin-bottom:1.5rem">
+    <div class="chart-title">Model Comparison: MAE (bars) vs Hit Rate@15% (line)</div>
+    <div class="chart-sub">Lower MAE is better (left axis). Higher Hit Rate is better (right axis). The jump from XGBoost to ST-GAT is dramatic on both metrics simultaneously.</div>
+    <canvas id="benchmarkChart" style="max-height:360px"></canvas>
+  </div>
+
+  <div style="overflow-x:auto;margin-bottom:1.5rem">
+    <table class="bench-table">
+      <thead>
+        <tr><th>Model</th><th>MAE ↓</th><th>MAPE (%) ↓</th><th>HR@10% ↑</th><th>HR@15% ↑</th><th>HR@20% ↑</th><th>HR@25% ↑</th><th>HR@50% ↑</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Linear Regression</td><td>1.142</td><td>43.36</td><td>16.57</td><td>24.20</td><td>31.46</td><td>38.29</td><td>66.18</td>
+        </tr>
+        <tr>
+          <td>Random Forest</td><td>1.268</td><td>50.79</td><td>21.27</td><td>29.74</td><td>37.24</td><td>43.86</td><td>67.56</td>
+        </tr>
+        <tr>
+          <td>XGBoost</td><td>1.133</td><td>41.78</td><td>20.00</td><td>29.63</td><td>38.15</td><td>45.88</td><td>72.79</td>
+        </tr>
+        <tr class="gnn-row">
+          <td>ST-GAT (Iteration 3) <span class="tag-gnn">GNN</span></td>
+          <td>0.713</td>
+          <td class="best-cell">21.11</td>
+          <td class="best-cell">39.02</td>
+          <td class="best-cell">52.57</td>
+          <td class="best-cell">63.43</td>
+          <td class="best-cell">72.13</td>
+          <td class="best-cell">91.63</td>
+        </tr>
+        <tr class="gnn-row">
+          <td>ST-GAT (with BFE) <span class="tag-gnn">GNN</span></td>
+          <td class="best-cell">0.692</td>
+          <td>21.78</td><td>37.73</td><td>51.97</td><td>63.34</td><td>71.92</td><td>90.93</td>
+        </tr>
+        <tr class="gnn-row">
+          <td>Decoupled GAT-LSTM <span class="tag-gnn">GNN</span></td>
+          <td>0.789</td><td>24.63</td><td>31.67</td><td>44.64</td><td>55.95</td><td>64.68</td><td>88.45</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:.73rem;color:var(--muted);margin-top:.4rem">Green cells = best value per column. BFE = Backward Feature Elimination.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="chart-wrap">
+      <div class="chart-title">Hit Rate at All Thresholds</div>
+      <div class="chart-sub">ST-GAT dominates XGBoost at every accuracy threshold</div>
+      <canvas id="hitRateChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">MAE Reduction vs Baselines (%)</div>
+      <div class="chart-sub">Relative improvement of GNN models over each baseline</div>
+      <canvas id="maeDeltaChart"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div style="text-align:center;padding:1.4rem;background:linear-gradient(135deg,#065F46,#059669);border-radius:10px;color:#fff"><div style="font-size:2.6rem;font-weight:800">38.96%</div><div style="font-size:.82rem;opacity:.85;margin-top:.2rem">MAE improvement over best baseline (XGBoost)</div></div>
+      <div style="text-align:center;padding:1.4rem;background:linear-gradient(135deg,#1E40AF,#2563EB);border-radius:10px;color:#fff"><div style="font-size:2.6rem;font-weight:800">1.77×</div><div style="font-size:.82rem;opacity:.85;margin-top:.2rem">Better Hit Rate@15% vs XGBoost</div></div>
+      <div style="text-align:center;padding:1.4rem;background:linear-gradient(135deg,#92400E,#D97706);border-radius:10px;color:#fff"><div style="font-size:2.6rem;font-weight:800">91.6%</div><div style="font-size:.82rem;opacity:.85;margin-top:.2rem">ST-GAT Hit Rate@50%: vs 72.8% for XGBoost</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEPLOYMENT -->
+<section id="deployment" class="fade-in">
+  <div class="section-tag">Live Deployment</div>
+  <div class="section-title">Interactive Dashboard on Hugging Face Spaces</div>
+  <div class="section-sub">The trained model is deployed as a production-grade Streamlit app, containerised with Docker and served on Hugging Face Spaces.</div>
+
+  <div class="deploy-card" style="margin-bottom:1.5rem">
+    <div style="font-size:3.5rem;flex-shrink:0">🚀</div>
+    <div>
+      <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:.4rem">Delhivery: Graph-Based ETA &amp; Network Intelligence</h3>
+      <p style="opacity:.8;font-size:.88rem;line-height:1.6">A fully interactive dashboard for real-time ETA prediction, network bottleneck analysis, FTL vs Carting strategy simulation, and an auto-generated Network Operations Strategy Memo. Built with Streamlit, PyTorch Geometric, Plotly, and NetworkX.</p>
+      <a href="https://huggingface.co/spaces/jain-npc/graph-based-ETA-prediction" target="_blank" class="deploy-link">🔗 Open Live Dashboard →</a>
+      <div class="tab-preview">
+        <div class="tab-chip">⏱️ ETA Predictor</div>
+        <div class="tab-chip">🗺️ Network Bottlenecks</div>
+        <div class="tab-chip">🚛 FTL vs Carting</div>
+        <div class="tab-chip">📋 Strategy Memo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.6rem">⏱️</div>
+      <h3 style="color:var(--blue);margin-bottom:.4rem;font-size:.92rem;font-weight:700">ETA Predictor</h3>
+      <p style="font-size:.84rem;color:var(--mid)">Select any of the 2,750 known corridors. OSRM time and distance are pre-filled from historical medians. A ±20% variance slider simulates traffic conditions. The ST-GAT model runs live inference returning predicted factor and ETA, displayed with a gauge chart. Inputs are constrained to real corridors to prevent nonsensical extrapolation.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.6rem">🗺️</div>
+      <h3 style="color:var(--blue);margin-bottom:.4rem;font-size:.92rem;font-weight:700">Network Bottlenecks (3 sub-tabs)</h3>
+      <p style="font-size:.84rem;color:var(--mid)">(1) Hub rankings by composite risk score with scatter and bar charts. (2) SLA breach corridor table, filterable by minimum trip count, showing which routes are chronically running 20%+ over OSRM. (3) Interactive network graph: node size = betweenness, colour = delay risk, red edges = breach corridors.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.6rem">🚛</div>
+      <h3 style="color:var(--blue);margin-bottom:.4rem;font-size:.92rem;font-weight:700">FTL vs Carting Simulator</h3>
+      <p style="font-size:.84rem;color:var(--mid)">Run both route strategies on any corridor simultaneously and compare predicted ETAs side by side. Includes an hour-of-day sensitivity sweep showing how ETA varies across all 24 departure hours: enabling data-backed departure time decisions without any manual analysis.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:.6rem">📋</div>
+      <h3 style="color:var(--blue);margin-bottom:.4rem;font-size:.92rem;font-weight:700">Strategy Memo (auto-generated)</h3>
+      <p style="font-size:.84rem;color:var(--mid)">A live-rendered Network Operations Strategy Memo that names the top 5 bottleneck hubs with graph metrics and specific interventions, lists the worst SLA breach corridors with recommended actions, and summarises the model benchmark. Updates automatically when the pickle is updated.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="color:var(--blue);margin-bottom:1rem;font-size:.92rem;font-weight:700">Technical Stack</h3>
+    <div class="grid-4">
+      <div style="text-align:center;padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:1.4rem;margin-bottom:.3rem">🔥</div><div style="font-size:.8rem;font-weight:700;color:var(--blue)">PyTorch + PyG</div><div style="font-size:.72rem;color:var(--muted)">Model training & inference</div></div>
+      <div style="text-align:center;padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:1.4rem;margin-bottom:.3rem">🌊</div><div style="font-size:.8rem;font-weight:700;color:var(--blue)">Streamlit</div><div style="font-size:.72rem;color:var(--muted)">Interactive web app</div></div>
+      <div style="text-align:center;padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:1.4rem;margin-bottom:.3rem">🐳</div><div style="font-size:.8rem;font-weight:700;color:var(--blue)">Docker</div><div style="font-size:.72rem;color:var(--muted)">Containerised deployment</div></div>
+      <div style="text-align:center;padding:.8rem;background:var(--bg);border-radius:8px"><div style="font-size:1.4rem;margin-bottom:.3rem">🤗</div><div style="font-size:.8rem;font-weight:700;color:var(--blue)">Hugging Face Spaces</div><div style="font-size:.72rem;color:var(--muted)">Cloud hosting</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRATEGY -->
+<section id="strategy" class="fade-in">
+  <div class="section-tag">Strategic Recommendations</div>
+  <div class="section-title">From Model Output to Operational Decisions</div>
+  <div class="section-sub">The analysis translates directly into five operational decisions for Delhivery's Head of Network Operations: each grounded in graph metrics and historical data, with a clear rationale and trade-off.</div>
+
+  <div class="reco-card"><div class="reco-num">1</div><div class="reco-body"><h4>Priority Hub Upgrades: IND712311AAA &amp; IND562132AAA</h4><p>These two hubs combine the highest betweenness centrality with the highest delay factors (3.0× and 2.0× respectively). Capacity expansion and faster dwell-time processing at these facilities reduces SLA breach propagation across the broadest set of downstream corridors. Trade-off: significant capex, but highest network-wide impact per investment.</p></div></div>
+  <div class="reco-card"><div class="reco-num">2</div><div class="reco-body"><h4>Shift Chronic Breach Corridors to FTL</h4><p>Corridors with median factor above 2.0× and more than 10 historical trips are candidates for mandatory FTL routing. Eliminating intermediate hub stops removes dwell-time accumulation: the primary driver of delay amplification on multi-hop Carting routes. Trade-off: higher per-trip cost, offset by SLA compliance improvement.</p></div></div>
+  <div class="reco-card"><div class="reco-num">3</div><div class="reco-body"><h4>Recalibrate OSRM Baselines for Outlier Corridors</h4><p>A subset of corridors show 500%+ excess over OSRM: this reflects baseline miscalibration rather than pure operational delay. Correcting these baselines improves SLA tracking accuracy and eliminates false breach alerts that inflate operational response costs unnecessarily.</p></div></div>
+  <div class="reco-card"><div class="reco-num">4</div><div class="reco-body"><h4>Deploy ST-GAT in Production ETA Pipeline</h4><p>The model achieves 21.1% MAPE vs 41.8% for XGBoost. CPU-only inference (no GPU required). Replacing OSRM-only estimates with ST-GAT predictions for the top 500 corridors by volume materially reduces customer-facing ETA errors with manageable infrastructure cost.</p></div></div>
+  <div class="reco-card"><div class="reco-num">5</div><div class="reco-body"><h4>Implement Time-of-Day Routing Rules</h4><p>Hour-of-day sensitivity analysis shows 10–15% ETA improvement by scheduling FTL departures during low-congestion early morning windows (6AM–10AM). This is a zero-capex intervention: pure scheduling discipline recovers significant delay on high-factor corridors.</p></div></div>
+
+  <div class="card" style="margin-top:1.5rem;background:linear-gradient(135deg,#F0F9FF,#E0F2FE)">
+    <h3 style="color:var(--blue);margin-bottom:1rem;font-size:.92rem;font-weight:700">Limitations &amp; Future Work</h3>
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:.86rem;font-weight:700;color:var(--mid);margin-bottom:.5rem">Current Limitations</h4>
+        <ul style="font-size:.83rem;color:var(--mid);padding-left:1.1rem;line-height:2">
+          <li>Single-day dataset (Sept 2018): limited longitudinal seasonal variation</li>
+          <li>No real-time traffic integration: model uses historical medians</li>
+          <li>Scaled features in training require consistent preprocessing in production</li>
+          <li>ST-GAT with BFE was marginally edged by ST-GAT Iter. 3 on some metrics with the current dataset size. With substantially more data, BFE's leaner feature set is likely to generalise better and outperform the full feature set more decisively.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size:.86rem;font-weight:700;color:var(--mid);margin-bottom:.5rem">High-Value Next Steps</h4>
+        <ul style="font-size:.83rem;color:var(--mid);padding-left:1.1rem;line-height:2">
+          <li>GraphSAGE / node2vec for inductive generalisation to new hubs</li>
+          <li>Multi-day rolling training to capture week-of-year seasonality</li>
+          <li>Binary SLA breach prediction as a downstream classification task</li>
+          <li>Real-time graph anomaly detection for proactive rerouting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Graph-Based ETA Prediction for Logistics Networks</p>
+  <p style="margin-top:.5rem"><a href="https://huggingface.co/spaces/jain-npc/graph-based-ETA-prediction" target="_blank">🚀 Open Live Dashboard</a></p>
+</footer>
+
+<script>
+// SCROLL ANIMATIONS
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+Chart.defaults.font.family="'Segoe UI',system-ui,sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.color='#6B7280';
+const BL='#1F4E79',AC='#2E75B6',GR='#059669',RD='#DC2626',OR='#D97706';
+const LAC='rgba(46,117,182,0.12)',LGR='rgba(5,150,105,0.12)';
+
+// 1. FACTOR DISTRIBUTION
+new Chart('factorDist',{type:'bar',data:{labels:['0.5–1.0','1.0–1.5','1.5–2.0','2.0–2.5','2.5–3.0','3.0–4.0','4.0–6.0','6.0+'],datasets:[{label:'Trip Count',data:[420,4800,8200,6100,3200,2100,900,398],backgroundColor:['#10B981','#3B82F6','#6366F1','#F59E0B','#EF4444','#DC2626','#991B1B','#7F1D1D'],borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:'#F3F4F6'},ticks:{callback:v=>v>=1000?v/1000+'K':v}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 2a. ROUTE TYPE - Volume & OSRM stats
+new Chart('routeChart',{type:'bar',data:{labels:['Trip Count (hundreds)','Median OSRM Time (mins)','Median Distance (km)'],datasets:[{label:'FTL',data:[98,68,89],backgroundColor:'rgba(37,99,235,0.8)',borderRadius:4},{label:'Carting',data:[163,28,35],backgroundColor:'rgba(239,68,68,0.8)',borderRadius:4}]},options:{plugins:{legend:{position:'top'},title:{display:true,text:'Volume and OSRM Characteristics',font:{size:11}}},scales:{y:{grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 2b. ROUTE TYPE - Delay factor comparison
+new Chart('routeFactorChart',{type:'bar',data:{labels:['Median Delay Factor','P75 Delay Factor','P90 Delay Factor'],datasets:[{label:'FTL',data:[1.73,2.45,3.60],backgroundColor:'rgba(37,99,235,0.8)',borderRadius:4},{label:'Carting',data:[2.14,3.20,5.10],backgroundColor:'rgba(239,68,68,0.8)',borderRadius:4}]},options:{plugins:{legend:{position:'top'},title:{display:true,text:'Delay Factor Distribution',font:{size:11}}},scales:{y:{title:{display:true,text:'Delivery Factor'},grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 3. OSRM VS ACTUAL
+new Chart('osrmActual', {
+  type: 'bar',
+  data: {
+    labels: ['P25', 'P50 (Median)', 'P75', 'P90'],
+    datasets: [
+      { label: 'OSRM Estimate (mins)', data: [18, 35, 72, 130], backgroundColor: 'rgba(37,99,235,0.75)', borderRadius: 4 },
+      { label: 'Actual Time (mins)',   data: [32, 68, 145, 285], backgroundColor: 'rgba(239,68,68,0.75)',  borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: { title: { display: true, text: 'Minutes' }, grid: { color: '#F3F4F6' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 4. HOURLY FACTOR
+new Chart('hourlyFactor', {
+  type: 'line',
+  data: {
+    labels: ['00','02','04','06','08','10','12','14','16','18','20','22'],
+    datasets: [{
+      label: 'Median Delivery Factor',
+      data: [2.8, 3.1, 2.9, 1.85, 1.72, 1.80, 1.92, 1.88, 2.05, 2.35, 2.55, 2.72],
+      borderColor: AC, backgroundColor: LAC, fill: true,
+      tension: 0.4, pointRadius: 5, pointBackgroundColor: AC, borderWidth: 2.5
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: d => 'Factor: ' + d.raw.toFixed(2) + 'x' } }
+    },
+    scales: {
+      y: { title: { display: true, text: 'Delivery Factor (Actual / OSRM)' }, min: 1.5, max: 3.4, grid: { color: '#F3F4F6' } },
+      x: { title: { display: true, text: 'Hour of Day' }, grid: { color: '#F3F4F6' } }
+    }
+  }
+});
+
+// 5. STATE CHART
+new Chart('stateChart',{type:'bar',data:{labels:['Maharashtra','Karnataka','Gujarat','Haryana','Tamil Nadu','Delhi NCR','Rajasthan','Telangana','Uttar Pradesh','West Bengal'],datasets:[{label:'Trip Volume',data:[5200,3800,3100,2400,2100,1800,1500,1300,1100,900],backgroundColor:['#1F4E79','#2E75B6','#3B82F6','#60A5FA','#93C5FD','#BFDBFE','#6B7280','#9CA3AF','#D1D5DB','#E5E7EB'],borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#F3F4F6'},ticks:{callback:v=>v>=1000?v/1000+'K':v}},y:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 6. CORRELATIONS
+new Chart('corrChart',{type:'bar',data:{labels:['median_time_factor','segment_variance','route_type','is_night','osrm_time','is_weekend','osrm_dist'],datasets:[{label:'|Correlation with Factor|',data:[0.68,0.41,0.31,0.22,0.12,0.08,0.09],backgroundColor:d=>{const v=d.raw;return v>0.5?'rgba(5,150,105,0.8)':v>0.25?'rgba(37,99,235,0.75)':'rgba(107,114,128,0.5)'},borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:0.8,title:{display:true,text:'|Correlation|'},grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 7. DEGREE DIST
+new Chart('degreeChart',{type:'bar',data:{labels:['1','2','3','4','5','6–10','11–20','21+'],datasets:[{label:'Hub Count',data:[310,280,220,180,150,280,130,89],backgroundColor:AC,borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Number of Hubs'},grid:{color:'#F3F4F6'}},x:{title:{display:true,text:'Out-Degree (corridors served)'},grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 8. BOTTLENECK
+new Chart('bottleneckChart',{type:'bar',data:{labels:['IND712311AAA','IND562132AAA','IND000000ACB','IND421302AAG','IND781018AAB','IND110037AAM','IND501359AAE','IND160002AAC','IND131028AAB','IND600056AAB'],datasets:[{label:'Risk Score',data:[0.443,0.349,0.306,0.282,0.207,0.206,0.191,0.166,0.095,0.094],backgroundColor:['#7F1D1D','#991B1B','#DC2626','#EF4444','#F87171','#F87171','#FB923C','#FB923C','#FCD34D','#FCD34D'],borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'Risk Score'},grid:{color:'#F3F4F6'}},y:{grid:{display:false},ticks:{font:{size:9}}}},responsive:true,maintainAspectRatio:true}});
+
+// 9. SCATTER
+new Chart('scatterChart',{type:'scatter',data:{datasets:[{label:'Hubs',data:[{x:0.148,y:3.0},{x:0.175,y:2.0},{x:0.153,y:2.0},{x:0.141,y:2.0},{x:0.104,y:2.0},{x:0.133,y:1.55},{x:0.108,y:1.77},{x:0.134,y:1.24},{x:0.047,y:2.0},{x:0.061,y:1.54},{x:0.085,y:1.3},{x:0.072,y:1.8},{x:0.035,y:1.1},{x:0.041,y:1.6},{x:0.055,y:1.2},{x:0.022,y:2.2},{x:0.018,y:1.0},{x:0.092,y:1.4},{x:0.063,y:1.9},{x:0.029,y:1.3},{x:0.011,y:1.5},{x:0.008,y:2.5},{x:0.044,y:1.1},{x:0.016,y:1.7}],backgroundColor:d=>{const r=d.raw.x*d.raw.y;return r>0.25?'rgba(220,38,38,0.75)':r>0.15?'rgba(245,158,11,0.75)':'rgba(5,150,105,0.65)'},pointRadius:7,pointHoverRadius:10}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:d=>`BT: ${d.raw.x.toFixed(3)}, Delay: ${d.raw.y.toFixed(2)}×`}}},scales:{x:{title:{display:true,text:'Betweenness Centrality'},grid:{color:'#F3F4F6'}},y:{title:{display:true,text:'Source Delay Factor'},grid:{color:'#F3F4F6'}}},responsive:true,maintainAspectRatio:true}});
+
+// 10. BFE
+new Chart('bfeChart',{type:'line',data:{labels:['11 feats','10 feats','9 feats','8 feats (opt)','7 feats','6 feats'],datasets:[{label:'Test MAE',data:[0.784,0.775,0.742,0.713,0.731,0.756],borderColor:AC,backgroundColor:LAC,fill:true,tension:0.3,pointRadius:d=>d.dataIndex===3?9:5,pointBackgroundColor:d=>d.dataIndex===3?GR:AC,pointBorderColor:d=>d.dataIndex===3?GR:AC}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Test MAE'},min:0.68,grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 11. TRAINING
+new Chart('trainingChart',{type:'line',data:{labels:[20,40,60,80,100,120,140,160,180,200],datasets:[{label:'Train MAE',data:[0.745,0.728,0.710,0.677,0.645,0.597,0.586,0.591,0.583,0.573],borderColor:AC,backgroundColor:'transparent',tension:0.3,pointRadius:3,borderWidth:2},{label:'Test MAE',data:[0.830,0.811,0.789,0.760,0.737,0.720,0.711,0.716,0.710,0.713],borderColor:GR,backgroundColor:'transparent',tension:0.3,pointRadius:3,borderWidth:2,borderDash:[5,3]}]},options:{plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'MAE'},min:0.5,grid:{color:'#F3F4F6'}},x:{title:{display:true,text:'Epoch'},grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 12. BENCHMARK
+new Chart('benchmarkChart',{type:'bar',data:{labels:['Linear Reg','Random Forest','XGBoost','ST-GAT Iter.3','ST-GAT+BFE','GAT-LSTM'],datasets:[{label:'MAE (lower=better)',data:[1.142,1.268,1.133,0.713,0.692,0.789],backgroundColor:['rgba(107,114,128,0.65)','rgba(107,114,128,0.65)','rgba(107,114,128,0.65)','rgba(37,99,235,0.85)','rgba(5,150,105,0.85)','rgba(37,99,235,0.7)'],borderRadius:4,yAxisID:'y'},{label:'Hit Rate@15%',data:[24.20,29.74,29.63,52.57,51.97,44.64],type:'line',borderColor:OR,backgroundColor:'transparent',pointBackgroundColor:OR,pointRadius:6,borderWidth:2.5,yAxisID:'y2',tension:0.2}]},options:{plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'MAE'},position:'left',grid:{color:'#F3F4F6'},max:1.6},y2:{title:{display:true,text:'Hit Rate@15% (%)'},position:'right',grid:{display:false},max:70}},responsive:true,maintainAspectRatio:false}});
+
+// 13. HIT RATE
+new Chart('hitRateChart',{type:'line',data:{labels:['@10%','@15%','@20%','@25%','@50%'],datasets:[{label:'XGBoost',data:[20.0,29.63,38.15,45.88,72.79],borderColor:'rgba(107,114,128,0.8)',backgroundColor:'transparent',pointRadius:4,tension:0.3,borderDash:[4,3]},{label:'ST-GAT Iter.3',data:[39.02,52.57,63.43,72.13,91.63],borderColor:AC,backgroundColor:LAC,fill:true,pointRadius:5,tension:0.3,borderWidth:2.5},{label:'ST-GAT+BFE',data:[37.73,51.97,63.34,71.92,90.93],borderColor:GR,backgroundColor:LGR,fill:true,pointRadius:5,tension:0.3,borderWidth:2}]},options:{plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'Hit Rate (%)'},grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// 14. MAE DELTA
+new Chart('maeDeltaChart',{type:'bar',data:{labels:['vs Lin. Reg','vs Random Forest','vs XGBoost'],datasets:[{label:'ST-GAT Iter.3',data:[37.57,43.77,37.04],backgroundColor:'rgba(37,99,235,0.8)',borderRadius:4},{label:'ST-GAT+BFE',data:[39.47,45.44,38.88],backgroundColor:'rgba(5,150,105,0.8)',borderRadius:4}]},options:{plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'MAE Reduction (%)'},grid:{color:'#F3F4F6'}},x:{grid:{display:false}}},responsive:true,maintainAspectRatio:true}});
+
+// NETWORK CANVAS
+(function(){
+  const cv=document.getElementById('networkCanvas');
+  const ctx=cv.getContext('2d');
+  let W,H,nodes=[],edges=[],hov=null;
+
+  const topHubs=[
+    {id:'IND712311AAA',bt:0.148,delay:3.0,risk:'high'},
+    {id:'IND562132AAA',bt:0.175,delay:2.0,risk:'high'},
+    {id:'IND000000ACB',bt:0.153,delay:2.0,risk:'high'},
+    {id:'IND421302AAG',bt:0.141,delay:2.0,risk:'high'},
+    {id:'IND781018AAB',bt:0.104,delay:2.0,risk:'med'},
+    {id:'IND110037AAM',bt:0.133,delay:1.55,risk:'med'},
+    {id:'IND501359AAE',bt:0.108,delay:1.77,risk:'med'},
+    {id:'IND160002AAC',bt:0.134,delay:1.24,risk:'med'},
+    {id:'IND131028AAB',bt:0.047,delay:2.0,risk:'med'},
+    {id:'IND600056AAB',bt:0.061,delay:1.54,risk:'low'},
+  ];
+
+  function init(){
+    W=cv.offsetWidth; H=cv.offsetHeight;
+    cv.width=W; cv.width=W; cv.height=H;
+    nodes=[];edges=[];
+    const cx=W/2,cy=H/2;
+    // place top hubs near centre
+    topHubs.forEach((h,i)=>{
+      const a=(i/topHubs.length)*Math.PI*2;
+      const r=60+Math.random()*80;
+      nodes.push({...h,x:cx+Math.cos(a)*r+(Math.random()-0.5)*40,y:cy+Math.sin(a)*r+(Math.random()-0.5)*40,r:Math.max(h.bt*200+6,7)});
+    });
+    // add peripheral nodes
+    for(let i=0;i<60;i++){
+      const a=Math.random()*Math.PI*2,r=140+Math.random()*160;
+      const del=1+Math.random()*1.2;
+      nodes.push({id:'H'+i,bt:Math.random()*0.025,delay:del,risk:del>2?'med':'low',x:cx+Math.cos(a)*r+(Math.random()-0.5)*60,y:cy+Math.sin(a)*r+(Math.random()-0.5)*60,r:Math.max(Math.random()*8+3,3)});
+    }
+    // edges from top hubs to others
+    nodes.forEach((n,i)=>{
+      if(i<10){
+        nodes.forEach((_,j)=>{if(j!==i&&Math.random()<(i<4?0.45:0.2))edges.push({s:i,t:j,breach:n.risk==='high'&&Math.random()>0.45});});
+      } else if(i<30){
+        const c=Math.floor(Math.random()*3)+1;
+        for(let k=0;k<c;k++)edges.push({s:i,t:Math.floor(Math.random()*i),breach:false});
+      }
+    });
+    render();
+  }
+
+  function clr(risk){return risk==='high'?'#EF4444':risk==='med'?'#F59E0B':'#10B981';}
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0F1B2D';ctx.fillRect(0,0,W,H);
+    edges.forEach(e=>{
+      const s=nodes[e.s],t=nodes[e.t];
+      if(!s||!t)return;
+      ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(t.x,t.y);
+      ctx.strokeStyle=e.breach?'rgba(239,68,68,0.55)':'rgba(100,116,139,0.2)';
+      ctx.lineWidth=e.breach?1.5:0.7;ctx.stroke();
+    });
+    nodes.forEach((n,i)=>{
+      const ih=hov===i;
+      const r=ih?n.r*1.35:n.r;
+      if(n.bt>0.08){
+        ctx.beginPath();ctx.arc(n.x,n.y,r+7,0,Math.PI*2);
+        const g=ctx.createRadialGradient(n.x,n.y,r,n.x,n.y,r+9);
+        g.addColorStop(0,n.risk==='high'?'rgba(239,68,68,0.25)':'rgba(245,158,11,0.18)');
+        g.addColorStop(1,'transparent');
+        ctx.fillStyle=g;ctx.fill();
+      }
+      ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);
+      ctx.fillStyle=clr(n.risk);ctx.globalAlpha=0.88;ctx.fill();ctx.globalAlpha=1;
+      ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=1;ctx.stroke();
+      if(n.bt>0.07||ih){
+        ctx.fillStyle='#fff';ctx.font=`${ih?11:9}px Segoe UI`;
+        ctx.textAlign='center';ctx.textBaseline='top';
+        ctx.fillText(n.id.slice(3,11)||n.id,n.x,n.y+r+4);
+      }
+    });
+    if(hov!==null){
+      const n=nodes[hov];
+      const lines=[n.id,`Betweenness: ${n.bt.toFixed(4)}`,`Delay Factor: ${n.delay.toFixed(2)}×`,`Risk: ${n.risk.toUpperCase()}`];
+      const pw=168,ph=lines.length*17+14;
+      const bx=Math.min(n.x+n.r+10,W-pw-8),by=Math.max(8,Math.min(n.y-ph/2,H-ph-8));
+      ctx.fillStyle='rgba(10,20,40,0.96)';ctx.strokeStyle='rgba(46,117,182,0.9)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.roundRect(bx,by,pw,ph,6);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#fff';ctx.font='bold 10px Segoe UI';ctx.textAlign='left';ctx.textBaseline='top';
+      ctx.fillText(lines[0],bx+9,by+7);
+      ctx.fillStyle='rgba(200,215,230,0.85)';ctx.font='9.5px Segoe UI';
+      lines.slice(1).forEach((l,k)=>ctx.fillText(l,bx+9,by+23+k*15));
+    }
+  }
+
+  cv.addEventListener('mousemove',e=>{
+    const rc=cv.getBoundingClientRect(),mx=e.clientX-rc.left,my=e.clientY-rc.top;
+    let f=null;
+    nodes.forEach((n,i)=>{if(Math.hypot(n.x-mx,n.y-my)<n.r+4)f=i;});
+    if(f!==hov){hov=f;render();}
+    cv.style.cursor=f!==null?'pointer':'crosshair';
+  });
+  cv.addEventListener('mouseleave',()=>{hov=null;render();});
+  window.addEventListener('resize',()=>init());
+  setTimeout(init,250);
+})();
+</script>
+</body>
+</html>
