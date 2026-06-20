@@ -29,6 +29,21 @@
     --purple-soft:  #F3E5F5;
     --purple-mid:   #CE93D8;
 
+    --amber:        #B8860B;
+    --amber-soft:   #FFF3DC;
+    --amber-mid:    #E8C572;
+    --amber-dark:   #8a5a00;
+
+    --rose:         #C2185B;
+    --rose-soft:    #FCE4EC;
+    --rose-mid:     #F48FB1;
+    --rose-dark:    #880E4F;
+
+    --slate:        #455A64;
+    --slate-soft:   #ECEFF1;
+    --slate-mid:    #B0BEC5;
+    --slate-dark:   #263238;
+
     --fore:         #1a1a2e;
     --fore2:        #6b5b6e;
     --fore3:        #b0a0b4;
@@ -119,12 +134,81 @@
   .cta-primary svg { width: 14px; height: 14px; flex-shrink: 0; }
 
   /* SHARED */
-  section { padding: 5rem 5rem; }
+  section { padding: 5rem 5rem; position: relative; }
   .eyebrow { font-family: var(--mono); font-size: 11px; color: var(--teal); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
   .sec-title { font-family: var(--serif); font-size: clamp(1.9rem, 2.8vw, 2.6rem); font-weight: 400; color: var(--fore); margin-bottom: 2.5rem; }
 
+  /* METHODOLOGY */
+  #methodology { background: var(--bg); padding-bottom: 2rem; }
+  .method-intro {
+    font-size: 14.5px; line-height: 1.85; color: var(--fore2);
+    max-width: 720px; margin-bottom: 2.5rem;
+  }
+  .method-widget {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem 2.5rem 2rem;
+  }
+  .method-diagram { width: 100%; margin-bottom: 1.5rem; overflow-x: auto; }
+  .method-svg { width: 100%; height: auto; display: block; overflow: visible; min-width: 1100px; }
+  .m-node { fill: var(--bg2); stroke: var(--indigo-mid); stroke-width: 3; transition: stroke 0.3s, fill 0.3s; }
+  .m-node-fork { stroke: var(--teal-mid); }
+  .m-node-fan { stroke: var(--indigo-mid); transition: stroke 0.3s, opacity 0.3s; }
+  .m-label { font-family: var(--mono); font-size: 16px; font-weight: 600; fill: var(--fore2); text-transform: uppercase; letter-spacing: 0.03em; }
+  .m-path { fill: none; stroke: var(--border2); stroke-width: 2.4; transition: stroke 0.3s, stroke-width 0.3s, opacity 0.3s; }
+  .m-path-detour { stroke: var(--indigo-mid); opacity: 1; }
+  .m-path-skip { stroke: var(--indigo-mid); opacity: 0.25; }
+  .m-path-fan { stroke: var(--teal-mid); opacity: 0.45; transition: stroke 0.3s, opacity 0.3s; }
+  .m-loop { fill: none; stroke: var(--border2); stroke-width: 1.8; stroke-dasharray: 5,5; opacity: 0.6; }
+  .m-arrowhead { fill: var(--border2); }
+
+  .method-toggle-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .method-toggle-tag {
+    font-family: var(--mono); font-size: 11px; color: var(--fore3);
+    text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+    flex-shrink: 0; cursor: pointer; transition: color 0.25s, font-weight 0.25s;
+  }
+  .method-toggle-tag.is-active { color: var(--indigo-dark); font-weight: 600; }
+  .method-toggle {
+    position: relative; width: 46px; height: 24px; flex-shrink: 0;
+    border-radius: 100px; border: 1.5px solid var(--border2);
+    background: var(--bg); cursor: pointer; padding: 0;
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .method-toggle.is-on { background: var(--indigo-soft); border-color: var(--indigo-mid); }
+  .method-toggle-knob {
+    position: absolute; top: 2px; left: 2px;
+    width: 17px; height: 17px; border-radius: 50%;
+    background: var(--bg2); border: 2px solid var(--indigo-dark);
+    transition: transform 0.25s ease;
+  }
+  .method-toggle.is-on .method-toggle-knob { transform: translateX(20px); }
+
+  .method-terminal {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.8;
+    min-height: 92px; position: relative;
+  }
+  .method-terminal-lines { color: var(--indigo-dark); }
+  .method-terminal-lines div { opacity: 0; transform: translateY(3px); animation: mLineIn 0.3s ease forwards; }
+  .method-terminal-lines div::before { content: '> '; color: var(--teal-mid); }
+  @keyframes mLineIn { to { opacity: 1; transform: translateY(0); } }
+  .method-cursor {
+    color: var(--teal-mid); font-size: 12px;
+    animation: mBlink 1s step-end infinite;
+  }
+  @keyframes mBlink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+  @media (max-width: 640px) {
+    .method-widget { padding: 1.75rem 1.5rem 1.5rem; }
+    .method-toggle-tag { font-size: 9.5px; }
+  }
+
   /* PROJECTS */
-  #projects { background: var(--bg); padding-top: 0; }
+  #projects { background: var(--bg); padding-top: 2rem; }
   .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .pcard {
     background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
@@ -134,12 +218,88 @@
   .pcard:hover { border-color: var(--teal-mid); box-shadow: 0 4px 24px rgba(0,188,212,0.10); transform: translateY(-2px); }
   .pcard::after { content: '\2197'; position: absolute; top: 1.5rem; right: 1.5rem; color: var(--fore3); transition: color 0.2s, transform 0.2s; }
   .pcard:hover::after { color: var(--teal); transform: translate(2px,-2px); }
-  .ptype { font-family: var(--mono); font-size: 10px; color: var(--teal-dark); background: var(--teal-soft); border: 1px solid var(--teal-mid); border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
-  .pname { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--fore); margin-bottom: 0.6rem; line-height: 1.3; }
+  .ptype { font-family: var(--mono); font-size: 10px; color: var(--teal-dark); background: var(--teal-soft); border: 1px solid var(--teal-mid); border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .pcard:hover .ptype { transform: translateX(2px); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .pname { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--fore); margin-bottom: 0.5rem; line-height: 1.3; }
   .pdesc { font-size: 13px; color: var(--fore2); line-height: 1.75; margin-bottom: 1.5rem; }
+  .pobj { font-size: 13px; color: var(--fore2); line-height: 1.7; margin-bottom: 0.9rem; font-style: italic; }
+  .pbullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+  .pbullets li { font-size: 12.5px; color: var(--fore2); line-height: 1.6; padding-left: 1.1rem; position: relative; }
+  .pbullets li::before { content: '\25B8'; position: absolute; left: 0; color: var(--teal); font-size: 10px; top: 3px; transition: transform 0.25s ease, color 0.25s ease; }
+  .pcard:hover .pbullets li::before { transform: translateX(2px); }
+  .pcard:hover .pbullets li:nth-child(1)::before { transition-delay: 0.02s; }
+  .pcard:hover .pbullets li:nth-child(2)::before { transition-delay: 0.07s; }
+  .pcard:hover .pbullets li:nth-child(3)::before { transition-delay: 0.12s; }
   .pstats { display: flex; gap: 1.5rem; }
   .stat-val { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--teal-dark); display: block; }
   .stat-lbl { font-size: 10px; color: var(--fore3); text-transform: uppercase; letter-spacing: 0.05em; }
+  .precog {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+    color: var(--fore3); background: transparent;
+    border: none; border-top: 1px solid var(--border);
+    border-radius: 0; padding: 8px 0 0; margin-top: 1rem; letter-spacing: 0.02em;
+    width: 100%;
+  }
+  .precog svg { width: 11px; height: 11px; flex-shrink: 0; color: var(--fore3); }
+
+  /* WORK CATEGORY TABS */
+  .work-tabs {
+    display: flex; gap: 6px; margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .work-tab {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 7px 20px; border-radius: 100px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--fore3); cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .work-tab:hover { border-color: var(--teal-mid); color: var(--fore); }
+  .work-tab.active {
+    background: var(--teal-soft); border-color: var(--teal-mid);
+    color: var(--teal-dark); font-weight: 600;
+  }
+  .work-panel { display: none; }
+  .work-panel.active { display: block; }
+  .ptype-badge { font-style: normal; }
+  .ptype-badge em { font-style: italic; opacity: 0.75; }
+
+  /* CATEGORY ICON + ACCENT SYSTEM */
+  .ptype { display: inline-flex; align-items: center; gap: 5px; }
+  .ptype .ptype-icon { width: 11px; height: 11px; flex-shrink: 0; opacity: 0.85; }
+
+  /* Product Management -> indigo, roadmap-arrow glyph */
+  #product-mgmt-tab .ptype { color: var(--indigo-dark); background: var(--indigo-soft); border-color: var(--indigo-mid); }
+  #product-mgmt-tab .pcard:hover { border-color: var(--indigo-mid); box-shadow: 0 4px 24px rgba(48,63,159,0.12); }
+  #product-mgmt-tab .pcard:hover::after { color: var(--indigo-mid); }
+  #product-mgmt-tab .pbullets li::before { color: var(--indigo-mid); }
+  .work-tab[data-cat="product-mgmt"].active { background: var(--indigo-soft); border-color: var(--indigo-mid); color: var(--indigo-dark); }
+
+  /* Consumer & Market Research -> rose, magnifier glyph */
+  #research-tab .ptype { color: var(--rose-dark); background: var(--rose-soft); border-color: var(--rose-mid); }
+  #research-tab .pcard:hover { border-color: var(--rose-mid); box-shadow: 0 4px 24px rgba(194,24,91,0.12); }
+  #research-tab .pcard:hover::after { color: var(--rose-mid); }
+  #research-tab .pbullets li::before { color: var(--rose-mid); }
+  .work-tab[data-cat="research"].active { background: var(--rose-soft); border-color: var(--rose-mid); color: var(--rose-dark); }
+
+  /* Business & Growth Strategy -> purple, chess-piece glyph */
+  #strategy-tab .ptype { color: var(--purple); background: var(--purple-soft); border-color: var(--purple-mid); }
+  #strategy-tab .pcard:hover { border-color: var(--purple-mid); box-shadow: 0 4px 24px rgba(156,39,176,0.12); }
+  #strategy-tab .pcard:hover::after { color: var(--purple-mid); }
+  #strategy-tab .pbullets li::before { color: var(--purple-mid); }
+  .work-tab[data-cat="strategy"].active { background: var(--purple-soft); border-color: var(--purple-mid); color: var(--purple); }
+
+  /* Data Science & ML -> teal (existing default), node/graph glyph */
+  #data-science-tab .ptype { color: var(--teal-dark); background: var(--teal-soft); border-color: var(--teal-mid); }
+  #data-science-tab .pcard:hover { border-color: var(--teal-mid); box-shadow: 0 4px 24px rgba(0,188,212,0.12); }
+  .work-tab[data-cat="data-science"].active { background: var(--teal-soft); border-color: var(--teal-mid); color: var(--teal-dark); }
+
+  /* Mechanical & Hardware Engineering -> slate, gear glyph */
+  #engineering-tab .ptype { color: var(--slate-dark); background: var(--slate-soft); border-color: var(--slate-mid); }
+  #engineering-tab .pcard:hover { border-color: var(--slate-mid); box-shadow: 0 4px 24px rgba(69,90,100,0.12); }
+  #engineering-tab .pcard:hover::after { color: var(--slate-mid); }
+  #engineering-tab .pbullets li::before { color: var(--slate-mid); }
+  .work-tab[data-cat="engineering"].active { background: var(--slate-soft); border-color: var(--slate-mid); color: var(--slate-dark); }
 
   /* ABOUT */
   #about {
@@ -191,19 +351,53 @@
   .edu-courses { display: flex; flex-wrap: wrap; gap: 7px; }
   .edu-course { font-size: 12px; color: var(--purple); background: var(--purple-soft); border: 1px solid var(--purple-mid); border-radius: 100px; padding: 3px 11px; }
   .more-courses {
-  display: none;
-  margin-top: 8px;
-}
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease;
+  }
+  .more-courses.open {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 7px;
+  }
 
-.show-more-btn {
-  margin-top: 10px;
-  font-size: 12px;
-  border: none;
-  background: none;
-  color: var(--indigo-mid);
-  cursor: pointer;
-  font-family: var(--mono);
-}
+  .show-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0;
+    align-self: center;
+    font-size: 11px;
+    font-family: var(--mono);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    background: var(--indigo-soft);
+    border: 1px solid #9FA8DA;
+    border-radius: 100px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  }
+  .show-more-btn:hover {
+    background: #C5CAE9;
+    border-color: var(--indigo-mid);
+    transform: translateY(-1px);
+  }
+  .show-more-btn .btn-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+  .show-more-btn.open .btn-arrow {
+    transform: rotate(180deg);
+  }
   /* SKILLS */
   #skills { background: var(--bg3); }
   .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -211,11 +405,33 @@
     background: var(--bg2); border: 1px solid var(--border);
     border-radius: 16px; padding: 1.5rem;
     transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative; overflow: hidden;
   }
   .skill-card:hover { border-color: var(--teal-mid); box-shadow: 0 4px 20px rgba(0,188,212,0.08); }
+  .skill-card-mark {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; opacity: 0.16;
+    pointer-events: none;
+  }
   .skill-cat { font-family: var(--mono); font-size: 10px; color: var(--teal-dark); background: var(--teal-soft); border: 1px solid var(--teal-mid); border-radius: 100px; padding: 3px 10px; display: inline-block; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .skill-items { display: flex; flex-wrap: wrap; gap: 7px; }
   .skill-pill { font-size: 12px; color: var(--fore2); background: var(--bg); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; }
+
+  .skill-card[data-cat="data-science"] .skill-cat { color: var(--teal-dark); background: var(--teal-soft); border-color: var(--teal-mid); }
+  .skill-card[data-cat="data-science"] .skill-card-mark { color: var(--teal-mid); }
+  .skill-card[data-cat="data-science"]:hover { border-color: var(--teal-mid); box-shadow: 0 4px 20px rgba(0,188,212,0.08); }
+
+  .skill-card[data-cat="product-mgmt"] .skill-cat { color: var(--indigo-dark); background: var(--indigo-soft); border-color: var(--indigo-mid); }
+  .skill-card[data-cat="product-mgmt"] .skill-card-mark { color: var(--indigo-mid); }
+  .skill-card[data-cat="product-mgmt"]:hover { border-color: var(--indigo-mid); box-shadow: 0 4px 20px rgba(48,63,159,0.08); }
+
+  .skill-card[data-cat="strategy"] .skill-cat { color: var(--purple); background: var(--purple-soft); border-color: var(--purple-mid); }
+  .skill-card[data-cat="strategy"] .skill-card-mark { color: var(--purple-mid); }
+  .skill-card[data-cat="strategy"]:hover { border-color: var(--purple-mid); box-shadow: 0 4px 20px rgba(156,39,176,0.08); }
+
+  .skill-card[data-cat="engineering"] .skill-cat { color: var(--slate-dark); background: var(--slate-soft); border-color: var(--slate-mid); }
+  .skill-card[data-cat="engineering"] .skill-card-mark { color: var(--slate-mid); }
+  .skill-card[data-cat="engineering"]:hover { border-color: var(--slate-mid); box-shadow: 0 4px 20px rgba(69,90,100,0.08); }
 
   /* CONTACT */
   #contact { background: var(--bg); text-align: center; padding: 7rem 5rem; }
@@ -270,7 +486,8 @@
 <section class="hero" id="home">
   <svg class="hero-bg-art" viewBox="0 0 1100 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 
-    <g opacity="0.11" transform="translate(40, 90)">
+    <!-- Stress-strain curve (left) — boosted opacity -->
+    <g opacity="0.18" transform="translate(40, 90)">
       <line x1="50" y1="360" x2="500" y2="360" stroke="#303F9F" stroke-width="1.4"/>
       <line x1="50" y1="360" x2="50"  y2="20"  stroke="#303F9F" stroke-width="1.4"/>
       <polygon points="500,355 510,360 500,365" fill="#303F9F"/>
@@ -316,7 +533,8 @@
       <text x="412" y="165" font-size="10" fill="#303F9F" font-family="monospace" opacity="0.45">Necking</text>
     </g>
 
-    <g opacity="0.09" transform="translate(680, 75)" font-family="Georgia, serif" fill="#303F9F">
+    <!-- Euler-Lagrange equation (top right) — boosted opacity -->
+    <g opacity="0.16" transform="translate(680, 75)" font-family="Georgia, serif" fill="#303F9F">
       <text font-size="13" font-style="italic"><tspan x="0" y="-8">&#x2202;L</tspan></text>
       <text font-size="17" font-style="italic"><tspan x="-2" y="4">d</tspan></text>
       <line x1="0" y1="6" x2="32" y2="6" stroke="#303F9F" stroke-width="1.2"/>
@@ -328,7 +546,8 @@
       <text font-size="24" x="108" y="6">= 0</text>
     </g>
 
-    <g opacity="0.09" transform="translate(660, 230)">
+    <!-- Neural network graph (mid right) — boosted opacity -->
+    <g opacity="0.16" transform="translate(660, 230)">
       <g stroke="#303F9F" stroke-width="0.9">
         <line x1="20" y1="30"  x2="130" y2="20"/><line x1="20" y1="30"  x2="130" y2="60"/>
         <line x1="20" y1="30"  x2="130" y2="100"/><line x1="20" y1="30" x2="130" y2="140"/>
@@ -356,7 +575,8 @@
       </g>
     </g>
 
-    <g opacity="0.09" transform="translate(710, 555)" font-family="monospace" font-size="12" fill="#303F9F">
+    <!-- 4-step product double-diamond (bottom right) — boosted opacity -->
+    <g opacity="0.16" transform="translate(710, 555)" font-family="monospace" font-size="12" fill="#303F9F">
       <rect x="0"  y="0"   width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
       <text x="14" y="20">Discover</text>
       <rect x="0"  y="50"  width="90" height="30" rx="6" fill="none" stroke="#5C6BC0" stroke-width="1.2"/>
@@ -369,6 +589,52 @@
       <line x1="45" y1="80"  x2="45" y2="100" stroke="#5C6BC0" stroke-width="1" stroke-dasharray="3,2"/>
       <line x1="45" y1="130" x2="45" y2="150" stroke="#5C6BC0" stroke-width="1" stroke-dasharray="3,2"/>
     </g>
+
+    <!-- NEW: Scatter plot with regression line (bottom left, above stress-strain) -->
+    <g opacity="0.14" transform="translate(55, 490)">
+      <line x1="0" y1="200" x2="300" y2="200" stroke="#303F9F" stroke-width="1.2"/>
+      <line x1="0" y1="200" x2="0"   y2="10"  stroke="#303F9F" stroke-width="1.2"/>
+      <line x1="10" y1="170" x2="280" y2="30" stroke="#5C6BC0" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- scatter points -->
+      <circle cx="20"  cy="180" r="3" fill="#5C6BC0"/><circle cx="35"  cy="155" r="3" fill="#5C6BC0"/>
+      <circle cx="55"  cy="148" r="3" fill="#303F9F"/><circle cx="70"  cy="130" r="3" fill="#5C6BC0"/>
+      <circle cx="90"  cy="125" r="3" fill="#5C6BC0"/><circle cx="110" cy="110" r="3" fill="#303F9F"/>
+      <circle cx="130" cy="100" r="3" fill="#5C6BC0"/><circle cx="148" cy="88"  r="3" fill="#5C6BC0"/>
+      <circle cx="165" cy="80"  r="3" fill="#303F9F"/><circle cx="185" cy="70"  r="3" fill="#5C6BC0"/>
+      <circle cx="205" cy="60"  r="3" fill="#5C6BC0"/><circle cx="225" cy="52"  r="3" fill="#303F9F"/>
+      <circle cx="248" cy="45"  r="3" fill="#5C6BC0"/><circle cx="265" cy="38"  r="3" fill="#5C6BC0"/>
+      <text x="290" y="205" font-size="10" fill="#303F9F" font-family="monospace">x</text>
+      <text x="-10" y="8"   font-size="10" fill="#303F9F" font-family="monospace">y</text>
+      <text x="95"  y="195" font-size="9"  fill="#303F9F" font-family="monospace" opacity="0.6">R&#xB2; = 0.91</text>
+    </g>
+
+    <!-- NEW: Funnel conversion diagram (centre-right gap filler) -->
+    <g opacity="0.13" transform="translate(840, 220)">
+      <rect x="0"  y="0"   width="200" height="28" rx="4" fill="#E8EAF6" stroke="#5C6BC0" stroke-width="1"/>
+      <text x="10" y="19" font-size="10" font-family="monospace" fill="#303F9F">Awareness</text>
+      <text x="155" y="19" font-size="10" font-family="monospace" fill="#5C6BC0" opacity="0.8">100%</text>
+      <polygon points="0,28 200,28 175,56 25,56" fill="#E8EAF6" stroke="#5C6BC0" stroke-width="1"/>
+      <text x="55" y="48" font-size="10" font-family="monospace" fill="#303F9F">Consideration</text>
+      <polygon points="25,56 175,56 148,84 52,84" fill="#E8EAF6" stroke="#303F9F" stroke-width="1"/>
+      <text x="62" y="76" font-size="10" font-family="monospace" fill="#303F9F">Intent</text>
+      <text x="128" y="76" font-size="10" font-family="monospace" fill="#5C6BC0" opacity="0.8">38%</text>
+      <polygon points="52,84 148,84 124,112 76,112" fill="#E8EAF6" stroke="#5C6BC0" stroke-width="1"/>
+      <text x="79" y="103" font-size="10" font-family="monospace" fill="#303F9F">Convert</text>
+      <text x="105" y="103" font-size="10" font-family="monospace" fill="#5C6BC0" opacity="0.8">12%</text>
+    </g>
+
+    <!-- NEW: Small bar-chart fragment (top centre) -->
+    <g opacity="0.13" transform="translate(390, 60)">
+      <line x1="0" y1="100" x2="200" y2="100" stroke="#303F9F" stroke-width="1"/>
+      <rect x="10"  y="30" width="20" height="70" rx="2" fill="#C5CAE9" stroke="#5C6BC0" stroke-width="0.8"/>
+      <rect x="40"  y="50" width="20" height="50" rx="2" fill="#C5CAE9" stroke="#5C6BC0" stroke-width="0.8"/>
+      <rect x="70"  y="15" width="20" height="85" rx="2" fill="#9FA8DA" stroke="#303F9F" stroke-width="0.8"/>
+      <rect x="100" y="45" width="20" height="55" rx="2" fill="#C5CAE9" stroke="#5C6BC0" stroke-width="0.8"/>
+      <rect x="130" y="60" width="20" height="40" rx="2" fill="#C5CAE9" stroke="#5C6BC0" stroke-width="0.8"/>
+      <rect x="160" y="35" width="20" height="65" rx="2" fill="#9FA8DA" stroke="#303F9F" stroke-width="0.8"/>
+      <text x="65" y="112" font-size="9" font-family="monospace" fill="#303F9F" opacity="0.6">revenue / cohort</text>
+    </g>
+
   </svg>
 
   <div class="hero-content">
@@ -386,46 +652,420 @@
   </div>
 </section>
 
+<section id="methodology">
+  <p class="eyebrow">Method</p>
+  <h2 class="sec-title">My Methodology</h2>
+  <p class="method-intro">When a new problem lands, I start by understanding it, then check whether I already have the baseline knowledge to move on: knowledge of the deliverable itself, and knowledge of the industry it sits in. If I don't, I build that up first. Either way, I move into a deep dive on the context, the data, or the core of the problem and everything around it, then search out the directions I could take and explore them one by one. I pick the strongest direction and go deep there, that becomes the core of the work. From there it's refinement, filling gaps, sometimes finding a better solution along the way, before the output goes out the door with a clear sense of what to expect from it. Feedback comes too, though how much depends on the project.</p>
+
+  <div class="method-widget" id="methodWidget">
+    <div class="method-diagram">
+      <svg class="method-svg" viewBox="0 0 2050 340" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- main spine -->
+        <circle class="m-node" cx="60" cy="180" r="9"/>
+        <text class="m-label" x="60" y="215" text-anchor="middle">New Problem</text>
+
+        <path class="m-path" d="M70 180 L220 180"/>
+        <circle class="m-node" cx="230" cy="180" r="9"/>
+        <text class="m-label" x="230" y="215" text-anchor="middle">Understand</text>
+
+        <path class="m-path" d="M240 180 L390 180"/>
+        <circle class="m-node m-node-fork" cx="400" cy="180" r="9"/>
+        <text class="m-label" x="400" y="215" text-anchor="middle">Baseline?</text>
+
+        <!-- detour above: build baseline knowledge (active when toggle says "no") -->
+        <path class="m-path m-path-detour" id="detourOut" d="M400 170 C 400 100, 460 75, 530 75"/>
+        <circle class="m-node" cx="530" cy="75" r="9" id="buildNode"/>
+        <text class="m-label" x="530" y="50" text-anchor="middle">Build Baseline</text>
+        <path class="m-path m-path-detour" id="detourIn" d="M540 75 C 590 75, 610 100, 610 170"/>
+
+        <!-- direct skip path (active when toggle says "yes") -->
+        <path class="m-path m-path-skip" id="skipPath" d="M410 180 L610 180"/>
+
+        <circle class="m-node" cx="620" cy="180" r="9"/>
+        <text class="m-label" x="620" y="215" text-anchor="middle">Deep Dive: Context</text>
+
+        <path class="m-path" d="M630 180 L815 180"/>
+        <circle class="m-node" cx="830" cy="180" r="9"/>
+        <text class="m-label" x="830" y="215" text-anchor="middle">Explore</text>
+
+        <!-- fan out into 3 directions, explored one by one -->
+        <path class="m-path m-path-fan" d="M840 172 C 950 110, 1030 95, 1110 95"/>
+        <circle class="m-node m-node-fan" cx="1125" cy="95" r="7"/>
+        <path class="m-path m-path-fan" d="M840 180 L1118 180"/>
+        <circle class="m-node m-node-fan" cx="1125" cy="180" r="7"/>
+        <path class="m-path m-path-fan" d="M840 188 C 950 250, 1030 265, 1110 265"/>
+        <circle class="m-node m-node-fan" cx="1125" cy="265" r="7"/>
+
+        <!-- converge into deep dive best -->
+        <path class="m-path m-path-fan" d="M1132 95 C 1210 95, 1260 140, 1273 172"/>
+        <path class="m-path m-path-fan" d="M1132 180 L1273 180"/>
+        <path class="m-path m-path-fan" d="M1132 265 C 1210 265, 1260 220, 1273 188"/>
+        <circle class="m-node" cx="1285" cy="180" r="9"/>
+        <text class="m-label" x="1285" y="215" text-anchor="middle">Deep Dive: Best Fit</text>
+
+        <path class="m-path" d="M1295 180 L1480 180"/>
+        <circle class="m-node" cx="1495" cy="180" r="9"/>
+        <text class="m-label" x="1495" y="215" text-anchor="middle">Refine</text>
+
+        <path class="m-path" d="M1505 180 L1650 180"/>
+        <circle class="m-node" cx="1665" cy="180" r="9"/>
+        <text class="m-label" x="1665" y="215" text-anchor="middle">Output</text>
+
+        <path class="m-path" d="M1675 180 L1820 180"/>
+        <circle class="m-node" cx="1835" cy="180" r="9"/>
+        <text class="m-label" x="1835" y="215" text-anchor="middle">Feedback</text>
+
+        <!-- loop back, routed below everything -->
+        <path class="m-loop" d="M1835 189 C 1835 310, 60 310, 60 189" marker-end="url(#mArrow)"/>
+        <defs>
+          <marker id="mArrow" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto">
+            <path d="M0,0 L9,4.5 L0,9 Z" class="m-arrowhead" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="method-toggle-row">
+      <span class="method-toggle-tag" id="tagNo">No Baseline</span>
+      <button class="method-toggle" id="methodToggle" role="switch" aria-checked="false" aria-label="Toggle baseline knowledge state">
+        <span class="method-toggle-knob"></span>
+      </button>
+      <span class="method-toggle-tag" id="tagYes">Have Baseline</span>
+    </div>
+
+    <div class="method-terminal" id="methodTerminal" aria-live="polite">
+      <div class="method-terminal-lines" id="methodLines"></div>
+      <span class="method-cursor">&#9608;</span>
+    </div>
+  </div>
+
+</section>
+
 <section id="projects">
   <p class="eyebrow">Proof of Work</p>
-  <h2 class="sec-title">Projects</h2>
-  <div class="projects-grid">
-    <a href="/projects/mauritius-study.html" class="pcard">
-      <span class="ptype">Statistical Analysis</span>
-      <h3 class="pname">Mauritius Blended Learning Study</h3>
-      <p class="pdesc">Multivariate analysis of digital literacy and motivation using EFA, CFA, ANOVA, stepwise regression, and SEM.</p>
-      <div class="pstats">
-        <div><span class="stat-val">86.1%</span><span class="stat-lbl">KMO Index</span></div>
-        <div><span class="stat-val">&#x3B2;=0.928</span><span class="stat-lbl">Path Coef.</span></div>
-      </div>
-    </a>
-    <a href="/projects/vr-adoption.html" class="pcard">
-      <span class="ptype">Market Research</span>
-      <h3 class="pname">VR Adoption Divergence</h3>
-      <p class="pdesc">In-depth analysis of VR adoption patterns across enterprise and consumer segments, examining divergent trajectories.</p>
-      <div class="pstats">
-        <div><span class="stat-val">+24%</span><span class="stat-lbl">Enterprise</span></div>
-        <div><span class="stat-val">1.2K+</span><span class="stat-lbl">Data Points</span></div>
-      </div>
-    </a>
-    <a href="/projects/hospitality-revenue.html" class="pcard">
-      <span class="ptype">Business Analytics</span>
-      <h3 class="pname">Hospitality Revenue Optimization</h3>
-      <p class="pdesc">Data-driven investigation into booking behavior, cancellation patterns, and dynamic pricing across a 25-property hotel chain.</p>
-      <div class="pstats">
-        <div><span class="stat-val">+20.86%</span><span class="stat-lbl">Revenue Uplift</span></div>
-        <div><span class="stat-val">134,590</span><span class="stat-lbl">Transactions</span></div>
-      </div>
-    </a>
-    <a href="/projects/autoencoder.html" class="pcard">
-      <span class="ptype">Machine Learning</span>
-      <h3 class="pname">Convolutional Autoencoder for Topology Optimization</h3>
-      <p class="pdesc">Surrogate deep learning model replacing expensive physics solvers with millisecond-scale neural inference.</p>
-      <div class="pstats">
-        <div><span class="stat-val">74.2%</span><span class="stat-lbl">Accuracy</span></div>
-        <div><span class="stat-val">&lt;100ms</span><span class="stat-lbl">Inference</span></div>
-      </div>
-    </a>
+  <h2 class="sec-title">Projects &amp; Competitions</h2>
+
+  <div class="work-tabs">
+    <button class="work-tab active" data-cat="product-mgmt" onclick="switchTab('product-mgmt-tab', this)">Product Management</button>
+    <button class="work-tab" data-cat="research" onclick="switchTab('research-tab', this)">Consumer &amp; Market Research</button>
+    <button class="work-tab" data-cat="strategy" onclick="switchTab('strategy-tab', this)">Business &amp; Growth Strategy</button>
+    <button class="work-tab" data-cat="data-science" onclick="switchTab('data-science-tab', this)">Data Science &amp; ML</button>
+    <button class="work-tab" data-cat="engineering" onclick="switchTab('engineering-tab', this)">Mechanical &amp; Hardware Engineering</button>
+  </div>
+
+  <!-- PRODUCT MANAGEMENT TAB -->
+  <div class="work-panel active" id="product-mgmt-tab">
+    <div class="projects-grid">
+
+      <a href="/projects/linguafly-casestudy.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Management</span>
+        <h3 class="pname">LinguaFly: Product Roadmap</h3>
+        <p class="pobj">Existing language learning apps like Duolingo and Babbel are built for leisure learners, leaving Indian students preparing to study or work abroad without a tool designed for their actual context: visa interviews, campus life, and professional communication in a foreign language.</p>
+        <ul class="pbullets">
+          <li>Mapped competitive landscape across Duolingo, Babbel, and Preply to identify an underserved segment: practical, goal-specific language prep for visa and campus contexts.</li>
+          <li>Defined three core user personas, prioritised feature backlog using a RICE framework, and scoped the MVP to conversational fluency and cultural orientation modules.</li>
+          <li>Built a Business Model Canvas and go-to-market plan targeting university coaching centres and study-abroad consultancies as B2B2C distribution channels.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/PromptAssist_PRD.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Management</span>
+        <h3 class="pname">PromptAssist PRD</h3>
+        <p class="pobj">Most users get poor output from AI tools not because the models are weak, but because they cannot articulate their intent as a well-structured prompt; the gap between what a user means and what they type into ChatGPT is the problem PromptAssist is designed to close.</p>
+        <ul class="pbullets">
+          <li>Defined three B2C personas whose AI output quality was bottlenecked by prompting skill, and scoped V1 to an opt-in inline flow within ChatGPT, Gemini, Claude, and Copilot without disrupting existing workflows.</li>
+          <li>Specified a two-model architecture (context understanding + prompt generation) with session memory, a structured user feedback loop, and explicit V1 / post-V1 feature boundaries.</li>
+          <li>Designed a three-layer success metric framework: adoption metrics unlocking first, followed by quality depth signals, then downstream business outcomes tied to Grammarly Premium retention.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/tata_neu_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Teardown</span>
+        <h3 class="pname">Tata Neu Super-App Teardown</h3>
+        <p class="pobj">Tata Neu's Daily grocery vertical was losing users to Blinkit and Zepto despite a strong loyalty programme on paper, with UX friction and opaque NeuCoin mechanics suppressing repeat purchase rates.</p>
+        <ul class="pbullets">
+          <li>Mined 1,300+ Play Store reviews and ran a 38-person primary survey, identifying NeuCoin redemption confusion, slow cart load, and poor category discoverability as the top three drop-off drivers.</li>
+          <li>Benchmarked the loyalty programme structure against Blinkit and Zepto, quantifying that NeuCoin earn rates were perceived as insufficient relative to the cognitive effort of tracking them.</li>
+          <li>Delivered a redesigned homepage architecture with contextual NeuCoin nudges, persistent category shortcuts, and a simplified one-tap checkout flow to reduce friction at the two highest-exit points.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>IIM Sambalpur Product Case &middot; Finalist</span>
+      </a>
+
+      <a href="/projects/nykaa_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Teardown</span>
+        <h3 class="pname">Nykaa Product Teardown</h3>
+        <p class="pobj">Nykaa's D1 retention of 55% and DAU/MAU of 30.8% masked a deeper post-purchase abandonment problem: users were buying but not returning, eroding LTV in a category where repurchase frequency is the core monetisation lever.</p>
+        <ul class="pbullets">
+          <li>Analysed Play Store sentiment across the top rating-driver categories, surfacing app performance instability, wishlist UX friction, and poor search relevance as the structural barriers to repeat engagement.</li>
+          <li>Proposed a skin-type personalisation layer at onboarding, a post-purchase editorial content loop, and a redesigned loyalty tier structure as the three highest-leverage interventions for 30-day retention.</li>
+          <li>Completed as Team Vanguard for ProductSpace Season 12, delivering an end-to-end teardown from metric benchmarking through to prioritised feature roadmap with success metrics per intervention.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>ProductSpace S12 &middot; Top 5%</span>
+      </a>
+
+      <a href="/projects/policyease_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Management</span>
+        <h3 class="pname">PolicyEase: Insurance Super-App</h3>
+        <p class="pobj">India's general insurance experience is broken by opaque claims processes, fragmented document management, and zero post-purchase engagement, verified through sentiment analysis of 661 real user reviews that revealed multi-party claim tracking failures as the dominant pain point.</p>
+        <ul class="pbullets">
+          <li>Designed PolicyEase as a unified insurance platform integrating 15 features across three tiers (must-have, functional, integrated services), prioritised on an impact-versus-effort matrix derived from the review analysis and three cross-demographic user personas.</li>
+          <li>Built a four-phase, 180-day go-to-market plan with matched acquisition strategies per phase, targeting India's online insurance market as it scales from $2.09B in 2025 toward a projected $35.73B, with a layered KPI framework for adoption and retention.</li>
+          <li>Delivered end-to-end UX flows for four core journeys (claim filing, document locker, real-time tracking, and policy renewal), each screen traceable to a specific pain point from the sentiment data.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/fitpass_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h11"/><path d="M12 5l7 7-7 7"/></svg>Product Management</span>
+        <h3 class="pname">FITPASS Engagement Strategy</h3>
+        <p class="pobj">FITPASS has India's largest gym network (8,100+ partners, 75+ cities) but faces a structural retention problem common to all fitness platforms: 0.4% penetration in a country where the addressable market is enormous, driven by poor personalisation and low community stickiness.</p>
+        <ul class="pbullets">
+          <li>Audited FITPASS across 30K+ reviews and four user personas, identifying that the absence of adaptive AI coaching and social accountability features were the primary drivers of post-trial churn in the urban fitness-curious segment.</li>
+          <li>Proposed an AI coach with a 100K+ Indian food database, community challenge mechanics, and a corporate wellness module as the three highest-impact retention levers, each tied to specific impact metrics and effort estimates.</li>
+          <li>Positioned the roadmap within India's digital fitness market scaling from $0.5B to a projected $6.7B by 2029, using rising obesity and diabetes rates to frame the urgency of capturing the penetration gap before international players localise.</li>
+        </ul>
+      </a>
+
+    </div>
+  </div>
+  <!-- CONSUMER &AMP; MARKET RESEARCH TAB -->
+  <div class="work-panel" id="research-tab">
+    <div class="projects-grid">
+
+      <a href="/projects/ethical_supply_chain_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5.2-5.2"/></svg>Consulting / ESG</span>
+        <h3 class="pname">Ethical Supply Chain in Electronics</h3>
+        <p class="pobj">The global electronics supply chain conceals severe ESG violations across its three tiers -- from cobalt and lithium extraction at Tier 3 through to manufacturing and logistics -- that corporate sustainability disclosures systematically underreport or obscure.</p>
+        <ul class="pbullets">
+          <li>Documented critical mineral extraction risks (cobalt, lithium) at Tier 3, tracing labour and environmental violations to specific sourcing geographies.</li>
+          <li>Evaluated existing corporate ESG commitments against measurable outcomes, identifying gaps between declared targets and supply chain audit disclosures.</li>
+          <li>Proposed five solution pillars spanning blockchain traceability, supplier scorecards, circular design mandates, policy levers, and consumer transparency mechanisms.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/free-trials-dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5.2-5.2"/></svg>Consumer Psychology</span>
+        <h3 class="pname">The Psychology of Free Trials</h3>
+        <p class="pobj">Free trials are reported as a neutral acquisition mechanism, but peak B2B opt-out conversion rates of 84% suggest they function as engineered psychological traps, exploiting loss aversion, habit formation, and commitment escalation in ways most users do not recognise in the moment.</p>
+        <ul class="pbullets">
+          <li>Synthesised evidence across SaaS, streaming, and AI-credit-based trial models to build a four-archetype taxonomy of trial design strategies and their psychological mechanisms.</li>
+          <li>Traced the historical arc from direct-mail origins through SaaS PLG to modern AI hybrid and opt-out trial structures, identifying where friction is deliberately engineered.</li>
+          <li>Evaluated implications for users and regulators, arguing that peak B2B opt-out conversion rates of 84% reflect design manipulation rather than genuine product-market fit signals.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>Academic Project</span>
+      </a>
+
+      <a href="/projects/mirage_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5.2-5.2"/></svg>Product Design</span>
+        <h3 class="pname">Mirage: Bringing Boredom Back</h3>
+        <p class="pobj">Global happiness indices show people are less bored than ever, yet creativity metrics and mental health indicators are declining in parallel -- pointing to overstimulation, not under-engagement, as the structural problem that product design has not yet addressed.</p>
+        <ul class="pbullets">
+          <li>Built the research foundation across nine sections, citing evidence that boredom suppression correlates with declining creativity indices and rising chemical-dependency rates.</li>
+          <li>Designed two product variants (residential and commercial) engineered to induce the zone-out feeling through slow, non-interactive visual output rather than engagement mechanics.</li>
+          <li>Positioned Mirage against the attention economy paradigm, framing it as a wellness product for knowledge workers and public waiting environments.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/vr_adoption_btp.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5.2-5.2"/></svg>Market Research / SEM</span>
+        <h3 class="pname">VR Adoption Divergence</h3>
+        <p class="pobj">Enterprise and consumer VR are growing at starkly different rates (+24% CAGR vs near-flat) despite sharing the same underlying hardware, pointing to a fundamental divergence in adoption drivers that existing technology diffusion models do not fully explain.</p>
+        <ul class="pbullets">
+          <li>Surveyed 144 valid respondents across 8 independent constructs on a 7-point Likert scale, running KMO/Bartlett's, Cronbach's alpha, and full SEM path analysis to isolate behavioural intention drivers.</li>
+          <li>Applied a four-lever analytical framework across Meta, Sony, and HTC case studies, finding that subsidised pricing determines consumer market share while credible B2B pivots require simultaneous trust-building.</li>
+          <li>Ran mediation and moderation analysis (PV &rarr; HM &rarr; BI) and one-way ANOVA across demographic subgroups to validate findings beyond the core path model.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>Bachelor Term Project (BTP)</span>
+      </a>
+
+    </div>
+  </div>
+  <!-- BUSINESS &AMP; GROWTH STRATEGY TAB -->
+  <div class="work-panel" id="strategy-tab">
+    <div class="projects-grid">
+
+      <a href="/projects/magentacard_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M8 7h8l-1.5 9h-5L8 7z"/><path d="M7 21h10"/><path d="M9 21c0-2 1.5-3 3-3s3 1 3 3"/></svg>Product Strategy</span>
+        <h3 class="pname">MagentaCard: Fintech Flywheel &ndash; IIT KGP GC 2026</h3>
+        <p class="pobj">Deutsche Telekom's MagentaCard had 54.2M customers and 10M MAUs in MeinMagenta but negligible fintech adoption, because previous telco-fintech attempts in Germany failed by positioning as banks rather than working with Germany's cash-dominant, trust-conservative financial culture.</p>
+        <ul class="pbullets">
+          <li>Built a five-hypothesis behavioural strategy grounded in German market psychology: framing rewards as "bill discounts" over cashback, triggering KYC via loss-framing rather than onboarding incentives, and leveraging family broadband plans (50% lower churn) as the household penetration surface.</li>
+          <li>Designed a Payzy + MeinMagenta integration architecture positioning MagentaCard as a telecom utility tool rather than a financial product, targeting Monthly Active Payers above 12% and household penetration above 25% as the primary north star metrics.</li>
+          <li>Entered under Meghnad Saha Hall of Residence for IIT KGP General Championship Product Management 2026, with a competitive differentiation matrix benchmarking the strategy against N26, Revolut, and Twint.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/amorist_case_study.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M8 7h8l-1.5 9h-5L8 7z"/><path d="M7 21h10"/><path d="M9 21c0-2 1.5-3 3-3s3 1 3 3"/></svg>Brand Strategy</span>
+        <h3 class="pname">Amorist Perfumes: 3-Year Growth Strategy</h3>
+        <p class="pobj">Amorist had scaled through continuous 50% markdowns in India's $1.25B fragrance market (growing 18-20% CAGR in the mid-premium segment), a model that drives short-term volume but actively erodes brand equity, pricing power, and the retention needed to compound LTV.</p>
+        <ul class="pbullets">
+          <li>Diagnosed the "discount death spiral" structurally, then designed a Good-Better-Best value ladder with tiered separation to eliminate cannibalisation while preserving an accessible entry point.</li>
+          <li>Built a WhatsApp-based gamified loyalty system mapped to Oliver's Four-Stage Loyalty Model, progressing customers from rational preference to habitual omnichannel action without relying on margin-eroding discounts.</li>
+          <li>Modelled a phased 36-month channel expansion from online-only to omnichannel, targeting a 3.85:1 LTV:CAC ratio and Rs. 1,925 customer LTV by Year 3 for IIT KGP General Championship Case Study 2026.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/qpo_cabs_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M8 7h8l-1.5 9h-5L8 7z"/><path d="M7 21h10"/><path d="M9 21c0-2 1.5-3 3-3s3 1 3 3"/></svg>Product Strategy</span>
+        <h3 class="pname">QPo Cabs: Shared Mobility for Chennai</h3>
+        <p class="pobj">Chennai's shared mobility market is projected to grow from $96B in 2024 to $551.57B by 2029, yet underserved suburbs and metro-adjacent areas lack affordable, safe last-mile connectivity, and women riders in particular have no trusted option in the existing auto-rickshaw ecosystem.</p>
+        <ul class="pbullets">
+          <li>Benchmarked 5 competitors on service model, safety, and pricing to validate QPo's hotspot-based fixed-pricing model (Rs. 28/km base fare) as a clear structural differentiator versus dynamic-pricing incumbents.</li>
+          <li>Mapped 3 user personas to a hotspot-first expansion plan targeting high-traffic zones, achieving a projected Rs. 35 CAC and 4,840 monthly downloads at launch.</li>
+          <li>Designed a layered safety system (nominee monitoring, women-driver programme) as the core trust mechanism for Team C-53's case study, addressing the segment most underserved by existing ride-hailing options.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>Open IIT Case Study &middot; Gold Medal</span>
+      </a>
+
+      <a href="/projects/intimuse_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4"/><path d="M8 7h8l-1.5 9h-5L8 7z"/><path d="M7 21h10"/><path d="M9 21c0-2 1.5-3 3-3s3 1 3 3"/></svg>Strategy / New Venture</span>
+        <h3 class="pname">Intimuse &ndash; BCG Bruce Henderson 2025</h3>
+        <p class="pobj">The adult content market is large but homogeneous, leaving a significant unmet need for emotionally resonant, personalised, and relationship-safe intimate content, particularly for couples and users seeking audio-first or AI-personalised formats.</p>
+        <ul class="pbullets">
+          <li>Sized the serviceable addressable market and identified audio erotica and AI personalisation as the two fastest-growing sub-segments by CAGR, building the business case for Intimuse as a subscription audio platform targeting underserved user archetypes.</li>
+          <li>Defined three core user personas around content gaps (couples seeking emotional alignment, individuals seeking realistic narratives, users alienated by visual content homogeneity) and mapped each to specific product features.</li>
+          <li>Submitted as a case entry for BCG Bruce Henderson Competition 2025, delivering a full market sizing, competitive positioning, monetisation model, and breakeven user analysis.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>BCG Bruce Henderson</span>
+      </a>
+
+    </div>
+  </div>
+  <!-- DATA SCIENCE &AMP; ML TAB -->
+  <div class="work-panel" id="data-science-tab">
+    <div class="projects-grid">
+
+      <a href="/projects/credit_card_fraud_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Machine Learning</span>
+        <h3 class="pname">Credit Card Fraud Detection</h3>
+        <p class="pobj">Credit card fraud detection is a class-imbalance problem where a naive classifier can achieve 99.6% accuracy by predicting no fraud at all, making standard evaluation metrics useless and requiring a rethinking of both the modelling pipeline and the success criteria.</p>
+        <ul class="pbullets">
+          <li>Applied SMOTE oversampling and feature engineering across 23 raw features to surface behavioural transaction signals, after establishing that high-amount outliers are genuine fraud indicators rather than noise.</li>
+          <li>Compared Logistic Regression, Decision Tree, Random Forest, XGBoost, and a Neural Network; XGBoost achieved 99.9% accuracy with the strongest precision-recall balance on the minority class.</li>
+          <li>Structured the analysis around EDA, scaling, imbalance handling, and model comparison to produce a reproducible fraud detection pipeline applicable to real transaction datasets.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/GNN_ETA_prediction.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Data Science / Logistics</span>
+        <h3 class="pname">Graph-Based ETA Prediction: Delhivery Network</h3>
+        <p class="pobj">Delhivery's ETA model relied on OSRM routing estimates that treat each trip independently, ignoring network-level congestion and hub-level throughput dynamics; 50% of actual trips exceeded OSRM estimates by 2x or more, systematically triggering SLA breaches at scale.</p>
+        <ul class="pbullets">
+          <li>Constructed node and edge feature sets capturing hub-level throughput, corridor historical delay ratios, and cyclic time encodings across 1,639 facilities and 2,750 corridors; even the fastest quarter of trips ran 78% over OSRM's estimate.</li>
+          <li>Trained a Spatio-Temporal Graph Attention Network (ST-GAT) across three architecture iterations, with Huber loss chosen for robustness against the heavy-tailed delay distribution (outliers up to 30x OSRM).</li>
+          <li>Surfaced Maharashtra, Karnataka, and Gujarat as structural chokepoint corridors, and identified night departures and Friday volumes as high-risk temporal patterns for proactive capacity planning.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/autoencoder_report.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Machine Learning</span>
+        <h3 class="pname">Convolutional Autoencoder for Topology Optimization</h3>
+        <p class="pobj">Topology optimisation via FEA solvers takes 8-12 minutes per iteration, making real-time design exploration infeasible; the challenge was whether a neural surrogate could approximate structural outcomes fast enough to be practically useful without unacceptable accuracy loss.</p>
+        <ul class="pbullets">
+          <li>Designed encoder-decoder architecture with skip connections trained on 10,000+ FEA-generated topology samples, achieving 74.2% structural accuracy on held-out test geometries.</li>
+          <li>Reduced per-query inference time to under 100ms, making real-time design exploration feasible where iterative FEA would have taken 8-12 minutes per run.</li>
+          <li>Analysed failure modes on thin-wall and high-stress-concentration geometries, proposing training augmentation strategies to close the remaining accuracy gap.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>Academic Project</span>
+      </a>
+
+      <a href="/projects/hospitality_revenue_report.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Business Analytics</span>
+        <h3 class="pname">Hospitality Revenue Optimization</h3>
+        <p class="pobj">A 25-property hotel chain was leaving revenue on the table through undifferentiated pricing and high OTA-driven cancellations, with no systematic model linking booking channel, lead time, and room type to actual realised revenue.</p>
+        <ul class="pbullets">
+          <li>Identified that direct bookings and longer lead times were the strongest positive revenue signals, while OTA-sourced bookings carried a 2.3x higher cancellation rate.</li>
+          <li>Developed a dynamic pricing recommendation engine segmented by seasonality, room type, and customer segment, projecting a +20.86% revenue uplift.</li>
+          <li>Produced a cancellation risk scoring model using logistic regression that correctly flagged 78% of eventual cancellations at point of booking.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/electromart_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Data Analytics</span>
+        <h3 class="pname">ElectroMart Analytics &ndash; IIT KGP GC 2025</h3>
+        <p class="pobj">ElectroMart's Rs. 8.46B advertising budget was allocated across 9 channels with no systematic model of diminishing returns, non-linear saturation, or cross-channel cannibalism, leaving significant GMV on the table.</p>
+        <ul class="pbullets">
+          <li>Built a full analytics stack on 1.65M order records using distance correlation (dCor) over Pearson to expose non-linear KPI dependencies invisible to standard methods.</li>
+          <li>Fitted Ridge regression (R&sup2; = 0.968) to quantify per-channel revenue elasticity, then applied constrained gradient-ascent optimisation with 100 random restarts to reallocate the budget, projecting Rs. 10.94B GMV at 128% ROI.</li>
+          <li>Discovered that temperature drops below 15&deg;C correlate with a measurable electronics demand spike, incorporating weather as a seasonal demand signal in the inventory optimisation module submitted alongside the budget model.</li>
+        </ul>
+        <span class="precog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>GC Data Analytics 2025 &middot; Gold Medal</span>
+      </a>
+
+      <a href="/projects/mauritius_analysis_portfolio.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4L10.5 16.2"/><path d="M17.2 7.4L13.5 16.2"/><path d="M7.2 6h9.6"/></svg>Statistical Analysis</span>
+        <h3 class="pname">Mauritius Blended Learning Study</h3>
+        <p class="pobj">Blended learning adoption in Mauritius was producing inconsistent outcomes, with no clear evidence of which student-level factors -- digital literacy, motivation, or prior attitude -- were actually driving academic performance in hybrid course formats.</p>
+        <ul class="pbullets">
+          <li>Ran EFA and CFA across 5 latent constructs, achieving KMO of 0.861 and all factor loadings above 0.6, validating the measurement model before structural testing.</li>
+          <li>Built a SEM path model revealing motivation as the dominant predictor of learning outcomes (&beta; = 0.928), with digital literacy acting as a partial mediator.</li>
+          <li>Conducted ANOVA and stepwise regression as supplementary checks, confirming robustness of findings across demographic subgroups.</li>
+        </ul>
+      </a>
+
+    </div>
+  </div>
+  <!-- MECHANICAL &AMP; HARDWARE ENGINEERING TAB -->
+  <div class="work-panel" id="engineering-tab">
+    <div class="projects-grid">
+
+      <a href="/projects/BrACHeS_Report.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Engineering Design</span>
+        <h3 class="pname">BrACHeS: Brake-Assisted Cabin Heating</h3>
+        <p class="pobj">EV cabin heating draws directly from the traction battery, cutting range by 20-40% in cold weather; the problem is that a large fraction of braking energy is already being wasted as heat that no current system recovers.</p>
+        <ul class="pbullets">
+          <li>Quantified that ~19% of total braking energy survives as recoverable friction heat even after regenerative braking capture, establishing the theoretical basis for a supplementary thermal channel.</li>
+          <li>Designed and iterated three prototype variants of a ventilated disc heat-exchange system, applying Newton's law of cooling and laminar/turbulent transition analysis to optimise vane geometry and airflow path.</li>
+          <li>Validated thermal output via CFD simulation, produced a full BOM and cost analysis, and scoped the final design around Swift Dzire VDI disc geometry as a production-representative reference platform.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/smart_bin_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Engineering Design</span>
+        <h3 class="pname">Smart Bin: Compacting Waste System</h3>
+        <p class="pobj">India generates 150M+ tonnes of municipal solid waste annually but collects only 69% of it, with high-footfall commercial zones suffering the worst overflow rates due to fixed-capacity bins and infrequent collection cycles.</p>
+        <ul class="pbullets">
+          <li>Engineered a hydraulic compaction mechanism delivering up to 30 kN of force, achieving 2x effective bin capacity at an estimated unit cost of Rs. 73,588, with a payback case built on reduced collection frequency.</li>
+          <li>Designed locking animal-proof access with sensor-triggered compaction, targeting the specific failure modes (overflow, animal intrusion, odour) most acute in commercial zones with unpredictable deposition rates.</li>
+          <li>Specified a future-state IoT roadmap including solar-powered actuation and GSM-linked fill-level alerts to enable data-driven municipal fleet dispatch and eliminate reactive collection scheduling.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/tmd_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Hardware Modelling</span>
+        <h3 class="pname">Passive TMD: Trailer Sway Mitigation</h3>
+        <p class="pobj">Trailer sway causes roughly 5-7% of all road accidents and 18,000+ annual incidents in India, with current solutions (electronic stability systems, weight-distribution hitches, speed limits) all requiring either power, driver skill, or restrictive trade-offs that fail at the moment sway actually begins.</p>
+        <ul class="pbullets">
+          <li>Identified that trailer oscillation amplitude grows by roughly 40% per second once past a critical threshold, leaving a narrow multi-second window before fishtailing escalates to jackknifing or rollover at highway speed.</li>
+          <li>Adapted tuned mass damper principles from tall-building wind and seismic stabilisation into a zero-power, fully mechanical multi-point damping system that responds at the instant of sway onset, with no electrical failure mode.</li>
+          <li>Built for IIT KGP General Championship Hardware Modelling 2025 under Meghnad Saha Hall, with a comparative analysis showing the passive system eliminates the activation delay inherent to electronic stability systems.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/railsafe_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Hardware / IoT</span>
+        <h3 class="pname">RailSafe Thermal Inspector (RSIT)</h3>
+        <p class="pobj">India's railway crack inspection relies on a Keyman walking ~4 km of track twice daily on visual inspection alone, a method that is shift-bound, error-prone, and structurally blind to subsurface microfractures that precede derailments.</p>
+        <ul class="pbullets">
+          <li>Designed an infrared thermography system (FLIR Lepton 3, 160x120 resolution) that detects four key defect types, transverse cracks, head checks, squats, and subsurface fractures, through thermal conductivity anomalies invisible to the human eye.</li>
+          <li>Engineered a Peltier-cooled (TEC1-12706) sensor housing with Raspberry Pi 4B processing at a total unit cost of Rs. 18,920, validated through simulation of common rail defect types against visual inspection baselines.</li>
+          <li>Scoped a three-phase rollout from 200-500 units/month pilot production to 1,000+ units/month at full-scale deployment across operational passenger and freight networks.</li>
+        </ul>
+      </a>
+
+      <a href="/projects/PD2026-08_dashboard.html" class="pcard">
+        <span class="ptype"><svg class="ptype-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Product Design</span>
+        <h3 class="pname">Non-Contact PFT System &ndash; IIT KGP GC 2026</h3>
+        <p class="pobj">Standard spirometry requires a patient to blow forcefully into a shared mouthpiece, excluding children under 5-6, bedridden patients, tracheostomy cases, and immunocompromised individuals from testing precisely when early lung function screening matters most.</p>
+        <ul class="pbullets">
+          <li>Designed a 77 GHz mmWave radar system (TI IWR6843ISK + Raspberry Pi CM4) that measures chest wall displacement to 0.01 mm precision, deriving FEV1, FVC, and PEF through a six-stage signal processing and XGBoost ML pipeline with no physical contact required.</li>
+          <li>Addressed the consumable cost problem (Rs. 10L+ annually at 5,000 tests/year in mouthpieces, filters, and biohazardous disposal) and the infection risk that caused UK spirometry services to suspend entirely during COVID-19.</li>
+          <li>Produced a working prototype with a BOM of Rs. 30,000-46,000, scoped for bedside and population-screening deployment, and entered under Meghnad Saha Hall of Residence for IIT KGP General Championship Product Design 2026.</li>
+        </ul>
+      </a>
+
+    </div>
   </div>
 </section>
 
@@ -438,7 +1078,7 @@
       <div class="about-pull">
         <p>I enjoy working on ambiguous problems where data meets strategy: optimizing marketing budgets, tearing down products to improve retention, or building deep learning models for engineering applications.</p>
       </div>
-      <p>I've interned as a <strong style="color:var(--fore);font-weight:500">Product Management Intern at BookMyMentor</strong>, where I architected user flows, authored PRDs for 15+ features, and coordinated a 17-member cross-functional team. Previously, I worked as a <strong style="color:var(--fore);font-weight:500">Business Analyst Intern at SCMYuga Technologies</strong>, evaluating India's logistics infrastructure.</p>
+      <p>I've interned as a <strong style="color:var(--fore);font-weight:500">Product Management Intern at DevLaunch</strong>, where I worked on product strategy, user flows, and feature scoping for early-stage SaaS products. Alongside that, I worked as a <strong style="color:var(--fore);font-weight:500">Business Analyst Intern at SCMYuga Technologies</strong>, evaluating India's logistics infrastructure and producing structured market intelligence reports.</p>
     </div>
   </div>
   <div class="cv-aside">
@@ -468,6 +1108,10 @@
   <span class="edu-course">Operations Research</span>
   <span class="edu-course">Consumer Happiness and Well Being</span>
   <span class="edu-course">Intelligent Machines and Systems</span>
+  <button class="show-more-btn" id="showMoreBtn" onclick="toggleCourses()">
+    <span class="btn-text">+15 more</span>
+    <span class="btn-arrow">&#x2304;</span>
+  </button>
 
   <!-- Hidden courses -->
   <div class="more-courses" id="moreCourses">
@@ -488,22 +1132,20 @@
     <span class="edu-course">Engineering Drawing</span>
   </div>
 
-  <button class="show-more-btn" onclick="toggleCourses()">Show More</button>
-
 </div>
   </div>
     <div class="edu-card">
       <span class="edu-level">Class XII</span>
       <h3 class="edu-degree">Senior Secondary</h3>
-      <p class="edu-school">&#x2022; School name here</p>
-      <p class="edu-year">&#x2022; Year</p>
+      <p class="edu-school">H. R. Memorial Sr. Sec. School, Lunkaransar, Bikaner</p>
+      <p class="edu-year">2021</p>
     </div>
 
     <div class="edu-card">
       <span class="edu-level">Class X</span>
       <h3 class="edu-degree">Secondary</h3>
-      <p class="edu-school">&#x2022; School name here</p>
-      <p class="edu-year">&#x2022; Year</p>
+      <p class="edu-school">Govt. Sr. Sec. School, Lunkaransar, Bikaner</p>
+      <p class="edu-year">2019</p>
     </div>
 
   </div>
@@ -513,65 +1155,126 @@
   <p class="eyebrow">Toolkit</p>
   <h2 class="sec-title">Skills</h2>
   <div class="skills-grid">
-    <div class="skill-card">
-      <span class="skill-cat">Analytics</span>
+    <div class="skill-card" data-cat="data-science"><svg class="skill-card-mark" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 20 L18 60 L40 100" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M300 20 L322 60 L300 100" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M62 35 L48 85" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M84 35 L98 85" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <line x1="120" y1="40" x2="220" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="120" y1="55" x2="190" y2="55" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="120" y1="70" x2="210" y2="70" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="120" y1="85" x2="165" y2="85" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <rect x="225" y="34" width="14" height="14" fill="currentColor"/>
+        <path d="M30 130 L52 170 L30 210" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M75 130 L67 170" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <path d="M95 130 L103 170" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <line x1="130" y1="135" x2="250" y2="135" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="130" y1="150" x2="200" y2="150" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="130" y1="165" x2="230" y2="165" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M270 125 L290 165 L270 205" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <span class="skill-cat">Programming &amp; Data</span>
       <div class="skill-items">
         <span class="skill-pill">Python</span>
         <span class="skill-pill">R</span>
         <span class="skill-pill">SQL</span>
-        <span class="skill-pill">Excel</span>
-        <span class="skill-pill">Google Sheets</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <span class="skill-cat">Machine Learning</span>
-      <div class="skill-items">
-        <span class="skill-pill">TensorFlow</span>
+        <span class="skill-pill">MATLAB</span>
+        <span class="skill-pill">NumPy / Pandas</span>
         <span class="skill-pill">Scikit-learn</span>
-        <span class="skill-pill">XGBoost</span>
-        <span class="skill-pill">Keras</span>
-        <span class="skill-pill">NumPy</span>
-        <span class="skill-pill">Pandas</span>
+        <span class="skill-pill">TensorFlow / Keras</span>
       </div>
     </div>
-    <div class="skill-card">
-      <span class="skill-cat">Statistics</span>
+    <div class="skill-card" data-cat="data-science"><svg class="skill-card-mark" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="175" x2="320" y2="175" stroke="currentColor" stroke-width="2.5"/>
+        <line x1="20" y1="175" x2="20" y2="20" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M30 175 C 70 175, 95 35, 150 35 C 205 35, 230 175, 290 175" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path d="M30 175 C 70 175, 110 90, 150 90 C 190 90, 230 175, 290 175" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <line x1="150" y1="35" x2="150" y2="175" stroke="currentColor" stroke-width="2" stroke-dasharray="6,6"/>
+        <line x1="100" y1="160" x2="100" y2="175" stroke="currentColor" stroke-width="2"/>
+        <line x1="200" y1="160" x2="200" y2="175" stroke="currentColor" stroke-width="2"/>
+        <line x1="250" y1="168" x2="250" y2="175" stroke="currentColor" stroke-width="2"/>
+        <line x1="50" y1="168" x2="50" y2="175" stroke="currentColor" stroke-width="2"/>
+        <circle cx="150" cy="35" r="5" fill="currentColor"/>
+      </svg>
+      <span class="skill-cat">Statistics &amp; Modelling</span>
       <div class="skill-items">
-        <span class="skill-pill">SEM</span>
+        <span class="skill-pill">SEM / EFA / CFA</span>
         <span class="skill-pill">ANOVA</span>
         <span class="skill-pill">Regression</span>
-        <span class="skill-pill">EFA / CFA</span>
         <span class="skill-pill">Hypothesis Testing</span>
+        <span class="skill-pill">Graph Neural Networks</span>
+        <span class="skill-pill">Time-Series Forecasting</span>
       </div>
     </div>
-    <div class="skill-card">
-      <span class="skill-cat">Product</span>
+    <div class="skill-card" data-cat="product-mgmt"><svg class="skill-card-mark" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 170 Q 70 170, 90 120 Q 110 70, 160 70 Q 210 70, 230 30 Q 245 5, 320 15" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path d="M90 120 Q 130 140, 170 160 Q 210 180, 280 175" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <path d="M160 70 Q 190 50, 230 80 Q 260 105, 310 95" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+        <circle cx="20" cy="170" r="7" fill="currentColor"/>
+        <circle cx="90" cy="120" r="7" fill="currentColor"/>
+        <circle cx="160" cy="70" r="7" fill="currentColor"/>
+        <circle cx="230" cy="30" r="7" fill="currentColor"/>
+        <circle cx="280" cy="175" r="5.5" fill="currentColor" opacity="0.6"/>
+        <circle cx="310" cy="95" r="5.5" fill="currentColor" opacity="0.6"/>
+        <circle cx="320" cy="15" r="5.5" fill="currentColor"/>
+      </svg>
+      <span class="skill-cat">Product &amp; Strategy</span>
       <div class="skill-items">
         <span class="skill-pill">PRD Writing</span>
+        <span class="skill-pill">Product Roadmapping</span>
         <span class="skill-pill">User Research</span>
+        <span class="skill-pill">Competitive Analysis</span>
+        <span class="skill-pill">Product Teardown</span>
         <span class="skill-pill">Agile / Scrum</span>
-        <span class="skill-pill">Roadmapping</span>
-        <span class="skill-pill">Wireframing</span>
       </div>
     </div>
-    <div class="skill-card">
-      <span class="skill-cat">Visualization</span>
+    <div class="skill-card" data-cat="data-science"><svg class="skill-card-mark" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="60" x2="320" y2="60" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+        <line x1="20" y1="100" x2="320" y2="100" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+        <line x1="20" y1="140" x2="320" y2="140" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+        <line x1="20" y1="180" x2="320" y2="180" stroke="currentColor" stroke-width="2.5"/>
+        <rect x="35"  y="120" width="26" height="60" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <rect x="80"  y="90"  width="26" height="90" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <rect x="125" y="60"  width="26" height="120" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <rect x="170" y="100" width="26" height="80" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <rect x="215" y="40"  width="26" height="140" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <rect x="260" y="75"  width="26" height="105" rx="3" stroke="currentColor" stroke-width="3.5" fill="none"/>
+        <path d="M48 110 L 93 75 L 138 45 L 183 85 L 228 25 L 273 60" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+        <circle cx="138" cy="45" r="5" fill="currentColor"/>
+        <circle cx="228" cy="25" r="5" fill="currentColor"/>
+      </svg>
+      <span class="skill-cat">Visualization &amp; Reporting</span>
       <div class="skill-items">
-        <span class="skill-pill">Matplotlib</span>
-        <span class="skill-pill">Seaborn</span>
-        <span class="skill-pill">Plotly</span>
+        <span class="skill-pill">Matplotlib / Seaborn</span>
+        <span class="skill-pill">Plotly / Chart.js</span>
         <span class="skill-pill">Tableau</span>
-        <span class="skill-pill">Power BI</span>
+        <span class="skill-pill">Excel / Google Sheets</span>
+        <span class="skill-pill">HTML / CSS Dashboards</span>
       </div>
     </div>
-    <div class="skill-card">
+    <div class="skill-card" data-cat="engineering"><svg class="skill-card-mark" viewBox="0 0 340 200" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- gear, simple and instantly recognizable -->
+        <g fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M 135.5 88.8 L 152.6 92.9 L 152.6 107.1 L 135.5 111.2 L 131.6 120.7 L 140.7 135.7 L 130.7 145.7 L 115.7 136.6 L 106.2 140.5 L 102.1 157.6 L 87.9 157.6 L 83.8 140.5 L 74.3 136.6 L 59.3 145.7 L 49.3 135.7 L 58.4 120.7 L 54.5 111.2 L 37.4 107.1 L 37.4 92.9 L 54.5 88.8 L 58.4 79.3 L 49.3 64.3 L 59.3 54.3 L 74.3 63.4 L 83.8 59.5 L 87.9 42.4 L 102.1 42.4 L 106.2 59.5 L 115.7 63.4 L 130.7 54.3 L 140.7 64.3 L 131.6 79.3 Z"/>
+          <circle cx="95" cy="100" r="20"/>
+        </g>
+        <!-- bolt, simple hex head + threaded shaft -->
+        <g stroke="currentColor" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M255 35 L288 53 L288 89 L255 107 L222 89 L222 53 Z" stroke-width="7"/>
+          <line x1="255" y1="107" x2="255" y2="170" stroke-width="12"/>
+          <line x1="237" y1="120" x2="273" y2="120" stroke-width="4.5"/>
+          <line x1="237" y1="134" x2="273" y2="134" stroke-width="4.5"/>
+          <line x1="237" y1="148" x2="273" y2="148" stroke-width="4.5"/>
+          <line x1="237" y1="162" x2="273" y2="162" stroke-width="4.5"/>
+        </g>
+      </svg>
       <span class="skill-cat">Engineering</span>
       <div class="skill-items">
-        <span class="skill-pill">Solidworks</span>
+        <span class="skill-pill">SolidWorks</span>
         <span class="skill-pill">Fusion 360</span>
-        <span class="skill-pill">Ansys</span>
+        <span class="skill-pill">Ansys / CFD</span>
         <span class="skill-pill">Abaqus</span>
-        <span class="skill-pill">MATLAB</span>
+        <span class="skill-pill">FEA / Structural Analysis</span>
       </div>
     </div>
   </div>
@@ -596,5 +1299,133 @@
   </div>
 </footer>
 
+<script>
+  function toggleCourses() {
+    const more = document.getElementById('moreCourses');
+    const btn  = document.getElementById('showMoreBtn');
+    const isOpen = more.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.querySelector('.btn-text').textContent = isOpen ? 'Show Less' : '+15 more';
+  }
+
+  function switchTab(panelId, btnEl) {
+    document.querySelectorAll('.work-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.work-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+    btnEl.classList.add('active');
+  }
+
+  // METHODOLOGY WIDGET
+  (function () {
+    const toggle = document.getElementById('methodToggle');
+    const tagNo = document.getElementById('tagNo');
+    const tagYes = document.getElementById('tagYes');
+    const linesEl = document.getElementById('methodLines');
+    const detourOut = document.getElementById('detourOut');
+    const detourIn = document.getElementById('detourIn');
+    const buildNode = document.getElementById('buildNode');
+    const skipPath = document.getElementById('skipPath');
+    if (!toggle || !linesEl) return;
+
+    const directions = ['Direction A', 'Direction B', 'Direction C'];
+    let sequenceRunning = false;
+    let hasBaseline = false; // false = "No Baseline" (default), true = "Have Baseline"
+    let autoTimer = null;
+
+    function clearLines() {
+      linesEl.innerHTML = '';
+    }
+
+    function addLine(text, delay) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.textContent = text;
+          linesEl.appendChild(div);
+          while (linesEl.children.length > 5) linesEl.removeChild(linesEl.firstChild);
+          resolve();
+        }, delay);
+      });
+    }
+
+    function updateForkVisual(on) {
+      detourOut.style.opacity = on ? '0.25' : '1';
+      detourIn.style.opacity = on ? '0.25' : '1';
+      buildNode.style.opacity = on ? '0.4' : '1';
+      skipPath.style.opacity = on ? '1' : '0.25';
+      toggle.classList.toggle('is-on', on);
+      toggle.setAttribute('aria-checked', String(on));
+      tagNo.classList.toggle('is-active', !on);
+      tagYes.classList.toggle('is-active', on);
+    }
+
+    function liveLogForState(on) {
+      clearLines();
+      addLine(on ? 'baseline already in place — moving on' : 'no baseline yet — building it first', 0);
+    }
+
+    function pulseFan(on) {
+      document.querySelectorAll('.m-path-fan').forEach(p => {
+        p.style.opacity = on ? '1' : '0.45';
+      });
+      document.querySelectorAll('.m-node-fan').forEach(n => {
+        n.style.opacity = on ? '1' : '0.7';
+      });
+    }
+
+    async function runSequence() {
+      if (sequenceRunning) return;
+      sequenceRunning = true;
+      clearLines();
+
+      await addLine('understanding the problem', 0);
+
+      if (!hasBaseline) {
+        await addLine('no baseline yet — building it first', 500);
+        await addLine('deliverable knowledge + industry knowledge', 550);
+      } else {
+        await addLine('baseline already in place — moving on', 500);
+      }
+
+      await addLine('deep dive: context, data, the core of it', 650);
+      await addLine('searching out the possible directions', 600);
+
+      pulseFan(true);
+      for (const d of directions) {
+        await addLine(`> ${d} ... explored`, 500);
+      }
+      pulseFan(false);
+
+      await addLine('best fit gets the deep dive', 600);
+      await addLine('refining — closing gaps, sometimes finding better', 650);
+      await addLine('shipped, with what to expect from it', 650);
+      await addLine('feedback varies — then back to a new problem', 600);
+
+      const loop = document.querySelector('.m-loop');
+      if (loop) {
+        loop.style.opacity = '1';
+        loop.style.stroke = 'var(--teal-mid)';
+        setTimeout(() => {
+          loop.style.opacity = '0.6';
+          loop.style.stroke = 'var(--border2)';
+        }, 1400);
+      }
+
+      sequenceRunning = false;
+    }
+
+    // initial state
+    updateForkVisual(hasBaseline);
+    liveLogForState(hasBaseline);
+
+    toggle.addEventListener('click', () => {
+      hasBaseline = !hasBaseline;
+      updateForkVisual(hasBaseline);
+      liveLogForState(hasBaseline);
+      if (autoTimer) clearTimeout(autoTimer);
+      autoTimer = setTimeout(runSequence, 450);
+    });
+  })();
+</script>
 </body>
 </html>
