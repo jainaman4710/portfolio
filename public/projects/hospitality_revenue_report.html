@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Revenue Optimization — Hospitality Sector | Aman Tater</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0f0e0d; --cream: #faf7f2; --gold: #c9a84c; --gold-light: #e8d48a;
@@ -13,10 +12,10 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
   #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--gold)); width: 0%; z-index: 9999; transition: width 0.1s ease; }
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,247,242,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--teal); letter-spacing: -0.01em; }
+  .nav-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; font-weight: 700; color: var(--teal); letter-spacing: -0.01em; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { font-size: 0.78rem; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--teal); }
@@ -26,17 +25,17 @@
   #hero { background: var(--ink); color: var(--cream); display: flex; align-items: center; position: relative; overflow: hidden; padding: 0; min-height: 100vh; }
   .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px); background-size: 60px 60px; }
   .hero-content { position: relative; z-index: 2; padding: 140px 4rem 100px; max-width: 1100px; margin: 0 auto; width: 100%; }
-  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+  .hero-eyebrow { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
   .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
-  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5.2rem); font-weight: 900; line-height: 1.05; color: var(--cream); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+  h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.8rem, 6vw, 5.2rem); font-weight: 900; line-height: 1.05; color: var(--cream); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
   h1 em { color: var(--gold); font-style: normal; border-bottom: 3px solid var(--gold); }
   .hero-desc { font-size: 1.05rem; font-weight: 300; line-height: 1.7; color: rgba(250,247,242,0.65); max-width: 560px; margin-bottom: 3rem; }
   .hero-stats { display: flex; gap: 3rem; border-top: 1px solid rgba(201,168,76,0.25); padding-top: 2.5rem; }
-  .hero-stat-val { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
+  .hero-stat-val { font-family: 'Playfair Display', Georgia, serif; font-size: 2.6rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
   .hero-stat-label { font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(250,247,242,0.5); text-transform: uppercase; }
-  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.25em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-label { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 0.68rem; letter-spacing: 0.25em; color: var(--teal); text-transform: uppercase; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.6rem; }
   .section-label::before { content: ''; width: 24px; height: 2px; background: var(--teal); }
-  h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 1rem; }
+  h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 1rem; }
   .section-subtitle { font-size: 1rem; color: var(--muted); line-height: 1.65; max-width: 620px; margin-bottom: 3rem; }
   /* DATA CARDS */
   #overview { background: var(--cream); }
@@ -44,18 +43,18 @@
   .data-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; overflow: hidden; }
   .data-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--teal); }
   .data-card-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(13,110,110,0.09); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem; }
-  .data-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .data-card h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
   .data-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
-  .data-card .rows { font-family: 'DM Mono', monospace; font-size: 1.4rem; font-weight: 500; color: var(--teal); margin-bottom: 0.2rem; }
+  .data-card .rows { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 1.4rem; font-weight: 500; color: var(--teal); margin-bottom: 0.2rem; }
   /* EDA */
   #eda { background: #f4f0e8; }
   .eda-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
   .finding-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; display: flex; gap: 1rem; }
-  .finding-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold-light); line-height: 1; flex-shrink: 0; width: 2.5rem; }
+  .finding-num { font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; font-weight: 900; color: var(--gold-light); line-height: 1; flex-shrink: 0; width: 2.5rem; }
   .finding-card h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
   .finding-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
   .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
-  .chart-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .chart-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
   .chart-subtitle { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
   /* SOLUTIONS */
   #solutions { background: var(--ink); color: var(--cream); }
@@ -64,7 +63,7 @@
   #solutions .section-label::before { background: var(--gold); }
   #solutions .section-subtitle { color: rgba(250,247,242,0.55); }
   .solution-tabs { display: flex; gap: 0; margin-bottom: 2.5rem; border: 1px solid rgba(250,247,242,0.15); border-radius: 10px; overflow: hidden; }
-  .sol-tab { flex: 1; padding: 0.9rem 1.2rem; background: transparent; color: rgba(250,247,242,0.45); border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; border-right: 1px solid rgba(250,247,242,0.1); }
+  .sol-tab { flex: 1; padding: 0.9rem 1.2rem; background: transparent; color: rgba(250,247,242,0.45); border: none; cursor: pointer; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; border-right: 1px solid rgba(250,247,242,0.1); }
   .sol-tab:last-child { border-right: none; }
   .sol-tab.active { background: var(--gold); color: var(--ink); }
   .sol-tab:hover:not(.active) { background: rgba(250,247,242,0.07); color: rgba(250,247,242,0.7); }
@@ -77,11 +76,11 @@
   .policy-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.1); }
   .policy-badge { display: inline-block; background: rgba(201,168,76,0.2); color: var(--gold); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem; }
   .policy-badge.selected-badge { background: var(--gold); color: var(--ink); }
-  .policy-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.8rem; }
+  .policy-card h4 { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.8rem; }
   .policy-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid rgba(250,247,242,0.08); font-size: 0.78rem; }
   .policy-row:last-child { border-bottom: none; }
   .policy-row .label { color: rgba(250,247,242,0.5); }
-  .policy-row .val { color: var(--cream); font-family: 'DM Mono', monospace; }
+  .policy-row .val { color: var(--cream); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; }
   .policy-row .val.good { color: #2dd4bf; }
   .policy-row .val.mid { color: var(--gold); }
   .sat-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(250,247,242,0.5); margin-bottom: 0.3rem; margin-top: 0.8rem; }
@@ -92,11 +91,11 @@
   .var-card { background: rgba(250,247,242,0.05); border: 1px solid rgba(250,247,242,0.1); border-radius: 10px; padding: 1.4rem; margin-bottom: 1rem; }
   .var-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--gold); margin-bottom: 0.5rem; }
   .var-card p { font-size: 0.78rem; color: rgba(250,247,242,0.55); line-height: 1.6; }
-  .var-card .formula { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: #2dd4bf; margin-top: 0.5rem; background: rgba(13,110,110,0.12); padding: 0.4rem 0.6rem; border-radius: 4px; }
+  .var-card .formula { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 0.72rem; color: #2dd4bf; margin-top: 0.5rem; background: rgba(13,110,110,0.12); padding: 0.4rem 0.6rem; border-radius: 4px; }
   .lead-time-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 0.75rem; }
   .lead-time-table th { padding: 0.4rem 0.6rem; background: rgba(250,247,242,0.06); color: rgba(250,247,242,0.45); font-weight: 500; text-align: left; border-bottom: 1px solid rgba(250,247,242,0.1); }
   .lead-time-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid rgba(250,247,242,0.05); color: rgba(250,247,242,0.7); }
-  .lead-time-table tr td:first-child { font-family: 'DM Mono', monospace; color: #2dd4bf; }
+  .lead-time-table tr td:first-child { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; color: #2dd4bf; }
   /* Tier table */
   .tier-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
   .tier-table th { text-align: left; padding: 0.7rem 1rem; background: rgba(250,247,242,0.06); color: rgba(250,247,242,0.5); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid rgba(250,247,242,0.1); }
@@ -111,7 +110,7 @@
   .result-card.c1::after { background: var(--teal); } .result-card.c2::after { background: var(--gold); }
   .result-card.c3::after { background: var(--rust); } .result-card.c4::after { background: var(--slate); }
   .result-card-icon { font-size: 1.4rem; margin-bottom: 0.8rem; }
-  .result-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; line-height: 1; margin-bottom: 0.3rem; }
+  .result-num { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 900; line-height: 1; margin-bottom: 0.3rem; }
   .result-num.teal{color:var(--teal);} .result-num.gold{color:var(--gold);} .result-num.rust{color:var(--rust);} .result-num.slate{color:var(--slate);}
   .result-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; text-transform: uppercase; letter-spacing: 0.06em; }
   /* WORKFLOW */
@@ -125,11 +124,11 @@
   .wf-step p { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
   .roadmap { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
   .phase-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; }
-  .phase-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; position: absolute; top: -0.5rem; right: 1.2rem; opacity: 0.06; color: var(--ink); line-height: 1; }
+  .phase-num { font-family: 'Playfair Display', Georgia, serif; font-size: 3.5rem; font-weight: 900; position: absolute; top: -0.5rem; right: 1.2rem; opacity: 0.06; color: var(--ink); line-height: 1; }
   .phase-badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 0.8rem; }
   .phase-badge.p1{background:rgba(13,110,110,0.1);color:var(--teal);} .phase-badge.p2{background:rgba(201,168,76,0.15);color:#9a7a20;} .phase-badge.p3{background:rgba(184,75,47,0.1);color:var(--rust);}
-  .phase-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
-  .phase-time { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem; }
+  .phase-card h4 { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .phase-time { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem; }
   .phase-item { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.45; }
   .phase-item::before { content: '→'; color: var(--teal); flex-shrink: 0; }
   footer { background: var(--ink); color: rgba(250,247,242,0.4); padding: 3rem; text-align: center; font-size: 0.78rem; line-height: 1.9; }
@@ -140,7 +139,7 @@
   .reveal.visible { opacity: 1; transform: none; }
   .reveal-delay-1{transition-delay:0.1s;} .reveal-delay-2{transition-delay:0.2s;} .reveal-delay-3{transition-delay:0.3s;} .reveal-delay-4{transition-delay:0.4s;} .reveal-delay-5{transition-delay:0.5s;}
   [data-tip]{position:relative;cursor:help;}
-  [data-tip]::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:0.72rem;line-height:1.4;padding:0.5rem 0.8rem;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.2s;font-family:'DM Sans',sans-serif;z-index:999;}
+  [data-tip]::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:0.72rem;line-height:1.4;padding:0.5rem 0.8rem;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.2s;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;z-index:999;}
   [data-tip]:hover::after{opacity:1;}
   ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:rgba(15,14,13,0.2);border-radius:3px;}
   @media(max-width:768px){
@@ -151,6 +150,9 @@
     .hero-stats{flex-wrap:wrap;gap:1.5rem;}
   }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 <div id="progress-bar"></div>
@@ -362,7 +364,7 @@
       </div>
       <div style="background:rgba(250,247,242,0.05);border:1px solid rgba(250,247,242,0.1);border-radius:10px;padding:1.6rem;margin-bottom:2rem;">
         <h4 style="color:var(--gold);font-size:0.88rem;font-weight:600;margin-bottom:0.8rem;">Why Policy 2?</h4>
-        <p style="font-size:0.82rem;color:rgba(250,247,242,0.6);line-height:1.7;max-width:680px;">Policy 1 generates the highest raw revenue (+9.24%) by retaining 90% on last-minute cancellations — but it also scores the <em>lowest</em> on customer satisfaction (4.72/10), meaning aggressive revenue extraction comes at a real cost to guest relationships. Policy 3 improves slightly on satisfaction (4.94/10) but surrenders revenue (+7.43%). Policy 2 is the strategic sweet spot: it earns slightly less than Policy 1 in raw terms (+7.65%) but scores the highest on satisfaction (5.21/10) — the only policy where both metrics move in a favorable direction together. The graduated structure also naturally aligns with booking behavior, rewarding advance planners with 80% refunds while deterring last-minute cancellations through 80% revenue retention.<br><br><span style="color:#2dd4bf;font-family:'DM Mono',monospace;font-size:0.78rem;">Net revenue uplift from Policy 2: +7.65% · Satisfaction: 5.21/10</span></p>
+        <p style="font-size:0.82rem;color:rgba(250,247,242,0.6);line-height:1.7;max-width:680px;">Policy 1 generates the highest raw revenue (+9.24%) by retaining 90% on last-minute cancellations — but it also scores the <em>lowest</em> on customer satisfaction (4.72/10), meaning aggressive revenue extraction comes at a real cost to guest relationships. Policy 3 improves slightly on satisfaction (4.94/10) but surrenders revenue (+7.43%). Policy 2 is the strategic sweet spot: it earns slightly less than Policy 1 in raw terms (+7.65%) but scores the highest on satisfaction (5.21/10) — the only policy where both metrics move in a favorable direction together. The graduated structure also naturally aligns with booking behavior, rewarding advance planners with 80% refunds while deterring last-minute cancellations through 80% revenue retention.<br><br><span style="color:#2dd4bf;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:0.78rem;">Net revenue uplift from Policy 2: +7.65% · Satisfaction: 5.21/10</span></p>
       </div>
       <div class="chart-container" style="background:rgba(255,255,255,0.04);border-color:rgba(250,247,242,0.1);">
         <div class="chart-title" style="color:var(--cream);">Revenue uplift vs. satisfaction score — all policies</div>
@@ -414,7 +416,7 @@
         </div>
       </div>
       <div style="margin-top:1.5rem;background:rgba(13,110,110,0.12);border:1px solid rgba(26,155,155,0.25);border-radius:10px;padding:1.6rem;">
-        <span style="font-family:'DM Mono',monospace;font-size:0.78rem;color:#2dd4bf;">Revenue uplift from dynamic pricing: +12.55%</span>
+        <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:0.78rem;color:#2dd4bf;">Revenue uplift from dynamic pricing: +12.55%</span>
         <p style="font-size:0.82rem;color:rgba(250,247,242,0.55);margin-top:0.5rem;line-height:1.6;">Back-tested by replacing revenue_generated with new_revenue_generated under the model, then applying Policy 2 cancellation retention rates to arrive at new_revenue_realised. Both levers were also tested in combination, yielding the cumulative +20.86%.</p>
       </div>
     </div>
@@ -482,9 +484,9 @@
         <div class="chart-title">Cancellation timing assumption model</div>
         <div class="chart-subtitle">How lead time was estimated for policy back-testing</div>
         <div style="font-size:0.82rem;color:var(--muted);line-height:1.8;margin-top:0.5rem;">
-          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">≥ 8 days</span><span>Cancels at 40% of original lead time<br><small>days_cancelled = int(lead × 0.4)</small></span></div>
-          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">2–7 days</span><span>Cancels at 60% of original lead time<br><small>days_cancelled = int(lead × 0.6)</small></span></div>
-          <div style="display:flex;gap:1rem;padding:0.6rem 0;"><span style="font-family:'DM Mono',monospace;color:var(--teal);min-width:80px;">0–1 days</span><span>Cancels at 80% of original lead time<br><small>days_cancelled = int(lead × 0.8)</small></span></div>
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--teal);min-width:80px;">≥ 8 days</span><span>Cancels at 40% of original lead time<br><small>days_cancelled = int(lead × 0.4)</small></span></div>
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--border);"><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--teal);min-width:80px;">2–7 days</span><span>Cancels at 60% of original lead time<br><small>days_cancelled = int(lead × 0.6)</small></span></div>
+          <div style="display:flex;gap:1rem;padding:0.6rem 0;"><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--teal);min-width:80px;">0–1 days</span><span>Cancels at 80% of original lead time<br><small>days_cancelled = int(lead × 0.8)</small></span></div>
           <p style="color:var(--muted);font-size:0.75rem;margin-top:0.8rem;font-style:italic;">These assumptions distribute cancellations across policy tiers before revenue is recalculated under each scenario.</p>
         </div>
       </div>
@@ -579,7 +581,7 @@ function switchTab(name) {
   document.getElementById('panel-'+name).classList.add('active');
 }
 
-Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.family = "'Geist', ui-sans-serif, system-ui, sans-serif";
 Chart.defaults.color = '#8a8070';
 const TEAL='#0d6e6e', GOLD='#c9a84c', RUST='#b84b2f', SLATE='#3d4a5c', TEAL_L='#1a9b9b', MUTED='#8a8070';
 

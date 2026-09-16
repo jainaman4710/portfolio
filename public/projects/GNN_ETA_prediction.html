@@ -13,7 +13,7 @@
   --orange:#D97706;--card:#ffffff;--bg:#F8FAFC;--border:#E5E7EB;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
+body{font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(31,78,121,0.97);backdrop-filter:blur(8px);padding:0 2rem}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
 .nav-logo{color:#fff;font-weight:700;font-size:1rem}
@@ -83,7 +83,7 @@ canvas{max-height:320px}
 .tag-gnn{background:#DBEAFE;color:#1E40AF;font-size:.66rem;font-weight:700;padding:.12rem .4rem;border-radius:99px;margin-left:.3rem}
 .feat-pill{display:inline-block;background:var(--light);color:var(--blue);font-size:.77rem;font-weight:600;padding:.28rem .75rem;border-radius:99px;margin:.2rem;border:1px solid var(--accent)}
 .feat-pill.removed{background:#FEF2F2;color:#991B1B;border-color:#FCA5A5;text-decoration:line-through;opacity:.65}
-.math-box{background:#F1F5F9;border-left:4px solid var(--accent);padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--dark);margin:.9rem 0;overflow-x:auto}
+.math-box{background:#F1F5F9;border-left:4px solid var(--accent);padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.85rem;color:var(--dark);margin:.9rem 0;overflow-x:auto}
 .reco-card{display:flex;gap:1rem;padding:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:10px;margin:.55rem 0}
 .reco-num{width:34px;height:34px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.88rem;flex-shrink:0;margin-top:.1rem}
 .reco-body h4{font-size:.92rem;font-weight:700;color:var(--blue);margin-bottom:.2rem}
@@ -103,6 +103,9 @@ footer{background:var(--blue);color:rgba(255,255,255,.7);text-align:center;paddi
 footer a{color:rgba(255,255,255,.9);text-decoration:none;font-weight:600}
 @media(max-width:768px){.nav-links{display:none}.hero-stats{gap:1.5rem}.pipeline{gap:.8rem}.pipe-step:not(:last-child)::after{display:none}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -634,7 +637,7 @@ h_out = σ(Σ_j α_ij · W·h_j) + Linear(h_in)</div>
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.08});
 document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-Chart.defaults.font.family="'Segoe UI',system-ui,sans-serif";
+Chart.defaults.font.family = "'Geist', ui-sans-serif, system-ui, sans-serif";
 Chart.defaults.font.size=11;
 Chart.defaults.color='#6B7280';
 const BL='#1F4E79',AC='#2E75B6',GR='#059669',RD='#DC2626',OR='#D97706';
@@ -800,7 +803,7 @@ new Chart('maeDeltaChart',{type:'bar',data:{labels:['vs Lin. Reg','vs Random For
       ctx.fillStyle=clr(n.risk);ctx.globalAlpha=0.88;ctx.fill();ctx.globalAlpha=1;
       ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=1;ctx.stroke();
       if(n.bt>0.07||ih){
-        ctx.fillStyle='#fff';ctx.font=`${ih?11:9}px Segoe UI`;
+        ctx.fillStyle='#fff';ctx.font=`'Geist', ui-sans-serif, system-ui, sans-serif`;
         ctx.textAlign='center';ctx.textBaseline='top';
         ctx.fillText(n.id.slice(3,11)||n.id,n.x,n.y+r+4);
       }
@@ -812,9 +815,9 @@ new Chart('maeDeltaChart',{type:'bar',data:{labels:['vs Lin. Reg','vs Random For
       const bx=Math.min(n.x+n.r+10,W-pw-8),by=Math.max(8,Math.min(n.y-ph/2,H-ph-8));
       ctx.fillStyle='rgba(10,20,40,0.96)';ctx.strokeStyle='rgba(46,117,182,0.9)';ctx.lineWidth=1.5;
       ctx.beginPath();ctx.roundRect(bx,by,pw,ph,6);ctx.fill();ctx.stroke();
-      ctx.fillStyle='#fff';ctx.font='bold 10px Segoe UI';ctx.textAlign='left';ctx.textBaseline='top';
+      ctx.fillStyle='#fff';ctx.font='bold 10px 'Geist', ui-sans-serif, system-ui, sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
       ctx.fillText(lines[0],bx+9,by+7);
-      ctx.fillStyle='rgba(200,215,230,0.85)';ctx.font='9.5px Segoe UI';
+      ctx.fillStyle='rgba(200,215,230,0.85)';ctx.font='9.5px 'Geist', ui-sans-serif, system-ui, sans-serif';
       lines.slice(1).forEach((l,k)=>ctx.fillText(l,bx+9,by+23+k*15));
     }
   }

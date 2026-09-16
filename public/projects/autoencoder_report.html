@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Convolutional Autoencoder for Topology Optimization · Academic Report</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
 <style>
@@ -25,9 +24,9 @@
     --text: #0a0f1e;
     --text2: #1e293b;
     --text3: #475569;
-    --mono: 'IBM Plex Mono', monospace;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'Inter', sans-serif;
+    --mono: 'Geist Mono', ui-monospace, 'Courier New', monospace;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +34,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--sans);
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     font-size: 15px;
     line-height: 1.7;
     scroll-behavior: smooth;
@@ -69,7 +68,7 @@
 
   .hero-tag {
     display: inline-block;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--accent);
     background: rgba(37,99,235,0.08);
@@ -81,7 +80,7 @@
   }
 
   .hero h1 {
-    font-family: var(--serif);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 3rem;
     line-height: 1.15;
     color: var(--text);
@@ -106,7 +105,7 @@
   }
 
   .hero-stat .val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 2rem;
     font-weight: 500;
     color: var(--accent2);
@@ -134,7 +133,7 @@
   .section:last-child { border-bottom: none; }
 
   .section-tag {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--accent);
     letter-spacing: 0.1em;
@@ -144,7 +143,7 @@
   }
 
   .section h2 {
-    font-family: var(--serif);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 2rem;
     color: var(--text);
     margin-bottom: 0.75rem;
@@ -211,7 +210,7 @@
   }
 
   .math-label {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--accent);
     letter-spacing: 0.1em;
@@ -226,7 +225,7 @@
     padding: 1.25rem;
     margin: 1rem 0;
     overflow-x: auto;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 12.5px;
     line-height: 1.7;
     color: #1e293b;
@@ -248,7 +247,7 @@
   }
 
   .metric-card .mval {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 2rem;
     font-weight: 500;
     line-height: 1;
@@ -353,7 +352,7 @@
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(37,99,235,0.03); }
 
-  .mono { font-family: var(--mono); font-size: 12.5px; }
+  .mono { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12.5px; }
   .accent { color: var(--accent2); }
   .gold { color: var(--gold); }
   .teal { color: var(--teal); }
@@ -363,7 +362,7 @@
   /* BADGE */
   .badge {
     display: inline-block;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     padding: 2px 8px;
     border-radius: 2px;
@@ -430,7 +429,7 @@
   }
 
   .lv-label {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     color: var(--text3);
     text-align: center;
@@ -458,7 +457,7 @@
     border-bottom: 2px solid transparent;
     cursor: pointer;
     transition: all 0.2s;
-    font-family: var(--sans);
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     letter-spacing: 0.02em;
     margin-bottom: -1px;
   }
@@ -501,7 +500,7 @@
   }
 
   .ref-item .ref-num {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--accent);
     margin-bottom: 4px;
@@ -536,6 +535,9 @@
     .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
   }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -664,7 +666,7 @@
     </p>
 
     <div style="background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:2rem; margin-bottom:2rem;">
-      <div style="font-family:var(--mono); font-size:11px; color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.25rem;">The Core Idea (No Engineering Background Required)</div>
+      <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; color:var(--accent); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.25rem;">The Core Idea (No Engineering Background Required)</div>
       <div class="card-grid-3" style="gap:1rem;">
         <div style="background:#fff; border:1px solid var(--border); border-radius:6px; padding:1.25rem;">
           <div style="font-size:22px; margin-bottom:8px;">🏗️</div>
@@ -1089,85 +1091,85 @@
 
         <!-- INPUT -->
         <rect x="10" y="30" width="70" height="120" rx="5" fill="rgba(37,99,235,0.07)" stroke="rgba(37,99,235,0.5)" stroke-width="1.5"/>
-        <text x="45" y="70" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="IBM Plex Mono, monospace">64×64×5</text>
-        <text x="45" y="170" text-anchor="middle" fill="#1d4ed8" font-size="10" font-family="Inter, sans-serif" font-weight="600">Input</text>
+        <text x="45" y="70" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">64×64×5</text>
+        <text x="45" y="170" text-anchor="middle" fill="#1d4ed8" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600">Input</text>
 
         <!-- arrow -->
         <line x1="82" y1="90" x2="100" y2="90" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- ENC CONV1 -->
         <rect x="102" y="40" width="68" height="102" rx="5" fill="rgba(37,99,235,0.05)" stroke="rgba(37,99,235,0.3)" stroke-width="1.2"/>
-        <text x="136" y="76" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="IBM Plex Mono, monospace">64×64×32</text>
-        <text x="136" y="164" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">Conv 3×3</text>
-        <text x="136" y="176" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">32 ch · ReLU</text>
+        <text x="136" y="76" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">64×64×32</text>
+        <text x="136" y="164" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">Conv 3×3</text>
+        <text x="136" y="176" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">32 ch · ReLU</text>
 
         <!-- arrow -->
         <line x1="172" y1="91" x2="190" y2="91" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- ENC POOL+CONV2 -->
         <rect x="192" y="52" width="68" height="80" rx="5" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.25)" stroke-width="1.2"/>
-        <text x="226" y="82" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="IBM Plex Mono, monospace">32×32×64</text>
-        <text x="226" y="148" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">MaxPool↓</text>
-        <text x="226" y="160" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">Conv · 64 ch</text>
+        <text x="226" y="82" text-anchor="middle" fill="#1d4ed8" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">32×32×64</text>
+        <text x="226" y="148" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">MaxPool↓</text>
+        <text x="226" y="160" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">Conv · 64 ch</text>
 
         <!-- arrow -->
         <line x1="262" y1="92" x2="280" y2="92" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- ENC POOL+CONV3 -->
         <rect x="282" y="66" width="68" height="54" rx="5" fill="rgba(37,99,235,0.04)" stroke="rgba(37,99,235,0.22)" stroke-width="1.2"/>
-        <text x="316" y="91" text-anchor="middle" fill="#1d4ed8" font-size="8.5" font-family="IBM Plex Mono, monospace">16×16×128</text>
-        <text x="316" y="138" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">MaxPool↓</text>
-        <text x="316" y="150" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">Conv · 128 ch</text>
+        <text x="316" y="91" text-anchor="middle" fill="#1d4ed8" font-size="8.5" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">16×16×128</text>
+        <text x="316" y="138" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">MaxPool↓</text>
+        <text x="316" y="150" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">Conv · 128 ch</text>
 
         <!-- arrow -->
         <line x1="352" y1="93" x2="372" y2="93" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- BOTTLENECK -->
         <rect x="374" y="76" width="68" height="34" rx="5" fill="rgba(246,201,94,0.15)" stroke="rgba(246,201,94,0.6)" stroke-width="2"/>
-        <text x="408" y="97" text-anchor="middle" fill="#b45309" font-size="8.5" font-family="IBM Plex Mono, monospace">8×8×128</text>
-        <text x="408" y="128" text-anchor="middle" fill="#b45309" font-size="10" font-family="Inter, sans-serif" font-weight="600">Bottleneck</text>
-        <text x="408" y="141" text-anchor="middle" fill="#b45309" font-size="9" font-family="Inter, sans-serif" opacity="0.7">8,192 dim</text>
+        <text x="408" y="97" text-anchor="middle" fill="#b45309" font-size="8.5" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">8×8×128</text>
+        <text x="408" y="128" text-anchor="middle" fill="#b45309" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600">Bottleneck</text>
+        <text x="408" y="141" text-anchor="middle" fill="#b45309" font-size="9" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" opacity="0.7">8,192 dim</text>
 
         <!-- arrow -->
         <line x1="444" y1="93" x2="464" y2="93" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- DEC CONVT1 -->
         <rect x="466" y="66" width="68" height="54" rx="5" fill="rgba(56,217,169,0.07)" stroke="rgba(56,217,169,0.28)" stroke-width="1.2"/>
-        <text x="500" y="91" text-anchor="middle" fill="#38d9a9" font-size="8.5" font-family="IBM Plex Mono, monospace">16×16×128</text>
-        <text x="500" y="138" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">ConvT↑ 128ch</text>
-        <text x="500" y="150" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">stride=2</text>
+        <text x="500" y="91" text-anchor="middle" fill="#38d9a9" font-size="8.5" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">16×16×128</text>
+        <text x="500" y="138" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">ConvT↑ 128ch</text>
+        <text x="500" y="150" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">stride=2</text>
 
         <!-- arrow -->
         <line x1="536" y1="93" x2="556" y2="93" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- DEC CONVT2 -->
         <rect x="558" y="52" width="68" height="80" rx="5" fill="rgba(56,217,169,0.08)" stroke="rgba(56,217,169,0.3)" stroke-width="1.2"/>
-        <text x="592" y="82" text-anchor="middle" fill="#0d7a5f" font-size="9" font-family="IBM Plex Mono, monospace">32×32×64</text>
-        <text x="592" y="148" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">ConvT↑ 64ch</text>
-        <text x="592" y="160" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">stride=2</text>
+        <text x="592" y="82" text-anchor="middle" fill="#0d7a5f" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">32×32×64</text>
+        <text x="592" y="148" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">ConvT↑ 64ch</text>
+        <text x="592" y="160" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">stride=2</text>
 
         <!-- arrow -->
         <line x1="628" y1="92" x2="648" y2="92" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- DEC CONVT3 -->
         <rect x="650" y="40" width="68" height="102" rx="5" fill="rgba(56,217,169,0.09)" stroke="rgba(56,217,169,0.32)" stroke-width="1.2"/>
-        <text x="684" y="76" text-anchor="middle" fill="#0d7a5f" font-size="9" font-family="IBM Plex Mono, monospace">64×64×32</text>
-        <text x="684" y="164" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">ConvT↑ 32ch</text>
-        <text x="684" y="176" text-anchor="middle" fill="#475569" font-size="9.5" font-family="Inter, sans-serif">stride=2</text>
+        <text x="684" y="76" text-anchor="middle" fill="#0d7a5f" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">64×64×32</text>
+        <text x="684" y="164" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">ConvT↑ 32ch</text>
+        <text x="684" y="176" text-anchor="middle" fill="#475569" font-size="9.5" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">stride=2</text>
 
         <!-- arrow -->
         <line x1="720" y1="91" x2="740" y2="91" stroke="#94a3b8" stroke-width="1.2" marker-end="url(#arr)"/>
 
         <!-- OUTPUT -->
         <rect x="742" y="30" width="70" height="120" rx="5" fill="rgba(255,113,89,0.1)" stroke="rgba(255,113,89,0.45)" stroke-width="1.5"/>
-        <text x="777" y="70" text-anchor="middle" fill="#c0392b" font-size="9" font-family="IBM Plex Mono, monospace">64×64×1</text>
-        <text x="777" y="168" text-anchor="middle" fill="#c0392b" font-size="10" font-family="Inter, sans-serif" font-weight="600">Output</text>
-        <text x="777" y="180" text-anchor="middle" fill="#c0392b" font-size="9" font-family="Inter, sans-serif" opacity="0.75">Sigmoid</text>
+        <text x="777" y="70" text-anchor="middle" fill="#c0392b" font-size="9" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">64×64×1</text>
+        <text x="777" y="168" text-anchor="middle" fill="#c0392b" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600">Output</text>
+        <text x="777" y="180" text-anchor="middle" fill="#c0392b" font-size="9" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" opacity="0.75">Sigmoid</text>
 
         <!-- Section labels -->
-        <text x="225" y="208" text-anchor="middle" fill="#2563eb" font-size="10" font-family="Inter, sans-serif" font-weight="600" letter-spacing="0.08em">↑ ENCODER</text>
-        <text x="408" y="208" text-anchor="middle" fill="#b45309" font-size="10" font-family="Inter, sans-serif" font-weight="600" letter-spacing="0.08em">BOTTLENECK</text>
-        <text x="620" y="208" text-anchor="middle" fill="#0d7a5f" font-size="10" font-family="Inter, sans-serif" font-weight="600" letter-spacing="0.08em">DECODER ↑</text>
+        <text x="225" y="208" text-anchor="middle" fill="#2563eb" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em">↑ ENCODER</text>
+        <text x="408" y="208" text-anchor="middle" fill="#b45309" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em">BOTTLENECK</text>
+        <text x="620" y="208" text-anchor="middle" fill="#0d7a5f" font-size="10" font-family="'Geist', ui-sans-serif, system-ui, sans-serif" font-weight="600" letter-spacing="0.08em">DECODER ↑</text>
 
         <!-- Bracket lines under sections -->
         <line x1="80" y1="200" x2="370" y2="200" stroke="rgba(37,99,235,0.15)" stroke-width="1"/>
@@ -1373,20 +1375,20 @@
         <div style="color: var(--text2); padding: 8px 0; border-top: 1px solid var(--border);">Data split</div>
         <div style="padding: 8px 0; border-top: 1px solid var(--border);">
           <div style="display: flex; gap: 4px;">
-            <div style="background: rgba(79,140,255,0.2); border: 1px solid rgba(79,140,255,0.3); border-radius: 3px; padding: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--accent2);">Train ~50%</div>
-            <div style="background: rgba(246,201,94,0.15); border: 1px solid rgba(246,201,94,0.3); border-radius: 3px; padding: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--gold);">Val ~50%</div>
+            <div style="background: rgba(79,140,255,0.2); border: 1px solid rgba(79,140,255,0.3); border-radius: 3px; padding: 4px 10px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--accent2);">Train ~50%</div>
+            <div style="background: rgba(246,201,94,0.15); border: 1px solid rgba(246,201,94,0.3); border-radius: 3px; padding: 4px 10px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--gold);">Val ~50%</div>
           </div>
         </div>
         <div style="padding: 8px 0; border-top: 1px solid var(--border);">
           <div style="display: flex; gap: 4px;">
-            <div style="background: rgba(246,201,94,0.15); border: 1px solid rgba(246,201,94,0.3); border-radius: 3px; padding: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--gold);">Val ~50%</div>
-            <div style="background: rgba(79,140,255,0.2); border: 1px solid rgba(79,140,255,0.3); border-radius: 3px; padding: 4px 10px; font-family: var(--mono); font-size: 11px; color: var(--accent2);">Train ~50%</div>
+            <div style="background: rgba(246,201,94,0.15); border: 1px solid rgba(246,201,94,0.3); border-radius: 3px; padding: 4px 10px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--gold);">Val ~50%</div>
+            <div style="background: rgba(79,140,255,0.2); border: 1px solid rgba(79,140,255,0.3); border-radius: 3px; padding: 4px 10px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--accent2);">Train ~50%</div>
           </div>
         </div>
 
         <div style="color: var(--text2); padding: 8px 0; border-top: 1px solid var(--border);">Model reset</div>
-        <div style="padding: 8px 0; border-top: 1px solid var(--border); color: var(--teal); font-family: var(--mono); font-size: 12px;">Re-init weights</div>
-        <div style="padding: 8px 0; border-top: 1px solid var(--border); color: var(--teal); font-family: var(--mono); font-size: 12px;">Re-init weights</div>
+        <div style="padding: 8px 0; border-top: 1px solid var(--border); color: var(--teal); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px;">Re-init weights</div>
+        <div style="padding: 8px 0; border-top: 1px solid var(--border); color: var(--teal); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px;">Re-init weights</div>
 
         <div style="color: var(--text2); padding: 8px 0; border-top: 1px solid var(--border);">Evaluation</div>
         <div style="padding: 8px 0; border-top: 1px solid var(--border); color: var(--text2); font-size: 12px;">Dice on val fold 1</div>
@@ -1545,21 +1547,21 @@
       <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); font-weight:600; margin-bottom:10px;">Test Set Evaluation · 3,000 Samples</div>
       <div style="display:flex; gap:2.5rem; flex-wrap:wrap; align-items:center;">
         <div>
-          <div style="font-family:var(--mono); font-size:1.75rem; font-weight:600; color:var(--teal); line-height:1;">0.7413</div>
+          <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:1.75rem; font-weight:600; color:var(--teal); line-height:1;">0.7413</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-top:4px;">Test Dice Coefficient</div>
           <div style="font-size:11px; color:var(--text3);">full: 0.7413429021835327</div>
         </div>
         <div>
-          <div style="font-family:var(--mono); font-size:1.75rem; font-weight:600; color:var(--coral); line-height:1;">0.2595</div>
+          <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:1.75rem; font-weight:600; color:var(--coral); line-height:1;">0.2595</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-top:4px;">Test Loss</div>
         </div>
         <div>
-          <div style="font-family:var(--mono); font-size:1.75rem; font-weight:600; color:var(--text2); line-height:1;">47 steps</div>
+          <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:1.75rem; font-weight:600; color:var(--text2); line-height:1;">47 steps</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-top:4px;">Inference (458 ms/step)</div>
           <div style="font-size:11px; color:var(--text3);">≈ 21.5 s total · 3,000 samples</div>
         </div>
         <div>
-          <div style="font-family:var(--mono); font-size:1.75rem; font-weight:600; color:var(--text2); line-height:1;">0.0010</div>
+          <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:1.75rem; font-weight:600; color:var(--text2); line-height:1;">0.0010</div>
           <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text3); margin-top:4px;">Final LR (no reduction)</div>
         </div>
       </div>
@@ -1997,7 +1999,7 @@ function animateBars() {
 
         <!-- INPUT -->
         <button class="arch-layer-btn" data-id="input" onclick="showLayerDetail('input')"
-          style="background:rgba(79,140,255,0.12); border:1px solid rgba(79,140,255,0.35); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--accent2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+          style="background:rgba(79,140,255,0.12); border:1px solid rgba(79,140,255,0.35); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--accent2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
           <div style="font-weight:600; margin-bottom:3px;">Input</div>
           <div style="color:var(--text3); font-size:10px;">64×64×5</div>
         </button>
@@ -2009,27 +2011,27 @@ function animateBars() {
           <div style="font-size:10px; color:var(--accent); text-transform:uppercase; letter-spacing:0.1em; writing-mode:vertical-rl; transform:rotate(180deg); padding-right:4px;">Encoder</div>
 
           <button class="arch-layer-btn" data-id="ec1" onclick="showLayerDetail('ec1')"
-            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">Conv-1</div><div style="color:var(--text3);font-size:10px;">64×64×32</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">↓</div>
           <button class="arch-layer-btn" data-id="mp1" onclick="showLayerDetail('mp1')"
-            style="background:rgba(92,114,148,0.1); border:1px solid rgba(92,114,148,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--text2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(92,114,148,0.1); border:1px solid rgba(92,114,148,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--text2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">Pool-1</div><div style="color:var(--text3);font-size:10px;">32×32×32</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">→</div>
           <button class="arch-layer-btn" data-id="ec2" onclick="showLayerDetail('ec2')"
-            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">Conv-2</div><div style="color:var(--text3);font-size:10px;">32×32×64</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">↓</div>
           <button class="arch-layer-btn" data-id="mp2" onclick="showLayerDetail('mp2')"
-            style="background:rgba(92,114,148,0.1); border:1px solid rgba(92,114,148,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--text2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(92,114,148,0.1); border:1px solid rgba(92,114,148,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--text2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">Pool-2</div><div style="color:var(--text3);font-size:10px;">16×16×64</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">→</div>
           <button class="arch-layer-btn" data-id="ec3" onclick="showLayerDetail('ec3')"
-            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(79,140,255,0.09); border:1px solid rgba(79,140,255,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--accent2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">Conv-3</div><div style="color:var(--text3);font-size:10px;">16×16×128</div>
           </button>
         </div>
@@ -2038,7 +2040,7 @@ function animateBars() {
 
         <!-- BOTTLENECK -->
         <button class="arch-layer-btn" data-id="bn" onclick="showLayerDetail('bn')"
-          style="background:rgba(246,201,94,0.12); border:2px solid rgba(246,201,94,0.5); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--gold); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+          style="background:rgba(246,201,94,0.12); border:2px solid rgba(246,201,94,0.5); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--gold); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
           <div style="font-weight:600; margin-bottom:3px;">Bottleneck</div>
           <div style="font-size:10px; color:rgba(246,201,94,0.6);">8×8×128</div>
         </button>
@@ -2050,17 +2052,17 @@ function animateBars() {
           <div style="font-size:10px; color:var(--teal); text-transform:uppercase; letter-spacing:0.1em; writing-mode:vertical-rl; transform:rotate(180deg); padding-right:4px;">Decoder</div>
 
           <button class="arch-layer-btn" data-id="dc1" onclick="showLayerDetail('dc1')"
-            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">ConvT-1</div><div style="color:var(--text3);font-size:10px;">16×16×128</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">→</div>
           <button class="arch-layer-btn" data-id="dc2" onclick="showLayerDetail('dc2')"
-            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">ConvT-2</div><div style="color:var(--text3);font-size:10px;">32×32×64</div>
           </button>
           <div style="color:var(--text3);font-size:12px;">→</div>
           <button class="arch-layer-btn" data-id="dc3" onclick="showLayerDetail('dc3')"
-            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+            style="background:rgba(56,217,169,0.08); border:1px solid rgba(56,217,169,0.25); border-radius:5px; padding:8px 12px; cursor:pointer; color:var(--teal); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
             <div style="font-weight:600; margin-bottom:2px;">ConvT-3</div><div style="color:var(--text3);font-size:10px;">64×64×32</div>
           </button>
         </div>
@@ -2069,22 +2071,22 @@ function animateBars() {
 
         <!-- OUTPUT -->
         <button class="arch-layer-btn" data-id="output" onclick="showLayerDetail('output')"
-          style="background:rgba(255,113,89,0.1); border:1px solid rgba(255,113,89,0.35); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--coral); font-family:var(--mono); font-size:11px; transition:all 0.2s;">
+          style="background:rgba(255,113,89,0.1); border:1px solid rgba(255,113,89,0.35); border-radius:6px; padding:10px 14px; cursor:pointer; color:var(--coral); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; transition:all 0.2s;">
           <div style="font-weight:600; margin-bottom:3px;">Output</div>
           <div style="font-size:10px; color:rgba(255,113,89,0.6);">64×64×1</div>
         </button>
       </div>
 
       <div style="margin-top:1rem; text-align:center; font-size:12px; color:var(--text3);">
-        Total trainable parameters: <span style="color:var(--accent2); font-family:var(--mono);">200,833</span>
+        Total trainable parameters: <span style="color:var(--accent2); font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">200,833</span>
       </div>
     </div>
 
     <!-- Detail panel -->
     <div id="layer-detail-panel" style="background:var(--bg3); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:6px; padding:1.25rem; min-height:200px;">
       <div class="ld-title" style="font-size:15px; font-weight:600; color:var(--accent2); margin-bottom:10px;">Click a layer to inspect</div>
-      <div class="ld-shape"  style="font-family:var(--mono); font-size:12px; color:var(--text3); margin-bottom:4px;">Shape: select a layer</div>
-      <div class="ld-params" style="font-family:var(--mono); font-size:12px; color:var(--text3); margin-bottom:12px;">Parameters: select a layer</div>
+      <div class="ld-shape"  style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:12px; color:var(--text3); margin-bottom:4px;">Shape: select a layer</div>
+      <div class="ld-params" style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:12px; color:var(--text3); margin-bottom:12px;">Parameters: select a layer</div>
       <div class="ld-desc"   style="font-size:13px; color:var(--text2); line-height:1.7;">Select any layer block on the left to see a detailed explanation of its role, dimensionality, and contribution to the topology prediction.</div>
     </div>
   </div>
@@ -2185,7 +2187,7 @@ function animateBars() {
   <div style="display:flex; gap:8px; margin-bottom:1.25rem; flex-wrap:wrap; align-items:center;">
     <span style="font-size:13px; color:var(--text2);">Parameter:</span>
     <select id="hp-param" onchange="updateHPChart()"
-      style="background:var(--bg3); border:1px solid var(--border2); color:var(--text); padding:7px 14px; border-radius:5px; font-size:13px; font-family:var(--sans); cursor:pointer;">
+      style="background:var(--bg3); border:1px solid var(--border2); color:var(--text); padding:7px 14px; border-radius:5px; font-size:13px; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; cursor:pointer;">
       <option value="lr">Learning Rate</option>
       <option value="batch">Batch Size</option>
       <option value="depth">Encoder Depth</option>
@@ -2193,7 +2195,7 @@ function animateBars() {
       <option value="epochs">Training Epochs</option>
     </select>
     <span style="font-size:12px; color:var(--text3); margin-left:8px;">
-      <span style="background:rgba(246,201,94,0.15); border:1px solid rgba(246,201,94,0.35); padding:2px 10px; border-radius:3px; font-family:var(--mono); font-size:11px; color:var(--gold);">★ chosen value</span>
+      <span style="background:rgba(246,201,94,0.15); border:1px solid rgba(246,201,94,0.35); padding:2px 10px; border-radius:3px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; color:var(--gold);">★ chosen value</span>
     </span>
   </div>
 
@@ -2240,10 +2242,10 @@ function animateBars() {
   <div style="background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:2rem;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
       <div style="display:flex; gap:8px;">
-        <button onclick="fpPrev()" style="background:var(--bg4); border:1px solid var(--border); color:var(--text2); padding:7px 16px; border-radius:5px; cursor:pointer; font-size:13px; font-family:var(--sans);">← Prev</button>
-        <button onclick="fpNext()" style="background:rgba(79,140,255,0.15); border:1px solid rgba(79,140,255,0.4); color:var(--accent2); padding:7px 16px; border-radius:5px; cursor:pointer; font-size:13px; font-family:var(--sans);">Next →</button>
+        <button onclick="fpPrev()" style="background:var(--bg4); border:1px solid var(--border); color:var(--text2); padding:7px 16px; border-radius:5px; cursor:pointer; font-size:13px; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;">← Prev</button>
+        <button onclick="fpNext()" style="background:rgba(79,140,255,0.15); border:1px solid rgba(79,140,255,0.4); color:var(--accent2); padding:7px 16px; border-radius:5px; cursor:pointer; font-size:13px; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;">Next →</button>
       </div>
-      <span id="fp-step-label" style="font-family:var(--mono); font-size:12px; color:var(--text3);">Step 1 / 9</span>
+      <span id="fp-step-label" style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:12px; color:var(--text3);">Step 1 / 9</span>
     </div>
 
     <!-- Step indicator dots -->
@@ -2341,7 +2343,7 @@ function animateBars() {
           <div>
             <div style="font-size:16px; font-weight:600; color:${s.color}; margin-bottom:10px;">${s.title}</div>
             <div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
-              <span style="font-family:var(--mono); font-size:11px; background:rgba(79,140,255,0.1); border:1px solid rgba(79,140,255,0.25); padding:3px 10px; border-radius:3px; color:var(--accent2);">Shape: ${s.shape}</span>
+              <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size:11px; background:rgba(79,140,255,0.1); border:1px solid rgba(79,140,255,0.25); padding:3px 10px; border-radius:3px; color:var(--accent2);">Shape: ${s.shape}</span>
             </div>
             <div style="font-size:13px; color:var(--text2); line-height:1.75; margin-bottom:12px;"><strong style="color:var(--text);">Operation:</strong> ${s.operation}</div>
             <div style="font-size:13px; color:var(--text2); line-height:1.75;">${s.detail}</div>

@@ -1,10 +1,4 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/projects/:path*",
-      "destination": "/public/projects/:path*"
-    }
-  ]
+  "cleanUrls": true
 }

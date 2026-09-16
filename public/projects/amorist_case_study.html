@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amorist Perfumes | IIT Kharagpur General Championship Case Study 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -19,12 +18,12 @@
   --gold:#F59E0B;
   --border:#E8E4F8;--border2:#D1C4F5;
   --nav-h:60px;
-  --serif:'DM Serif Display',Georgia,serif;
-  --sans:'Inter',system-ui,sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, 'Courier New', monospace;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);color:var(--text);background:var(--light);overflow-x:hidden}
+body{font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;color:var(--text);background:var(--light);overflow-x:hidden}
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:#f1f0f8}
 ::-webkit-scrollbar-thumb{background:var(--p3);border-radius:3px}
@@ -33,7 +32,7 @@ body{font-family:var(--sans);color:var(--text);background:var(--light);overflow-
 nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(--nav-h);display:flex;align-items:center;padding:0 2.5rem;border-bottom:1px solid rgba(139,92,246,0.35);backdrop-filter:blur(12px);}
 .nav-brand{display:flex;align-items:center;gap:10px;margin-right:2.5rem;flex-shrink:0}
 .nav-logo{width:32px;height:32px;border:1.5px solid var(--p2);border-radius:50%;display:flex;align-items:center;justify-content:center}
-.nav-name{font-family:var(--serif);font-size:17px;color:#fff;letter-spacing:.03em}
+.nav-name{font-family: 'Playfair Display', Georgia, serif;font-size:17px;color:#fff;letter-spacing:.03em}
 .nav-sub{font-size:10px;color:var(--p3);text-transform:uppercase;letter-spacing:.12em;font-weight:500}
 .nav-links{display:flex;gap:2px;flex:1;overflow-x:auto}
 .nav-links::-webkit-scrollbar{display:none}
@@ -47,14 +46,14 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:1}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.18);border:1px solid rgba(139,92,246,0.4);border-radius:30px;padding:5px 14px;margin-bottom:1.5rem;font-size:11px;font-weight:600;color:var(--p3);letter-spacing:.1em;text-transform:uppercase}
 .hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--p2)}
-.hero h1{font-family:var(--serif);font-size:52px;line-height:1.1;color:#fff;margin-bottom:.75rem}
+.hero h1{font-family: 'Playfair Display', Georgia, serif;font-size:52px;line-height:1.1;color:#fff;margin-bottom:.75rem}
 .hero h1 em{color:var(--p3);font-style:italic}
 .hero-tagline{font-size:16px;color:rgba(196,181,253,0.85);line-height:1.7;max-width:620px;margin-bottom:2rem;font-weight:300}
 .hero-meta-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
 .hero-meta-chip{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(167,139,250,0.8)}
 .hero-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .hero-kpi{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1.1rem 1.25rem;backdrop-filter:blur(6px)}
-.hero-kpi-val{font-family:var(--serif);font-size:26px;color:#fff;line-height:1}
+.hero-kpi-val{font-family: 'Playfair Display', Georgia, serif;font-size:26px;color:#fff;line-height:1}
 .hero-kpi-lbl{font-size:11px;color:rgba(196,181,253,0.7);margin-top:5px;line-height:1.4}
 
 /* SECTIONS */
@@ -62,7 +61,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .sec-header{margin-bottom:2.25rem}
 .sec-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem}
 .sec-eyebrow-line{width:24px;height:1px;background:var(--p2)}
-.sec-title{font-family:var(--serif);font-size:30px;color:var(--text);line-height:1.15}
+.sec-title{font-family: 'Playfair Display', Georgia, serif;font-size:30px;color:var(--text);line-height:1.15}
 .sec-subtitle{font-size:14px;color:var(--muted);margin-top:.4rem;line-height:1.6;max-width:640px}
 .divider{border:none;border-top:1px solid var(--border);max-width:960px;margin:0 auto}
 
@@ -77,7 +76,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 
 /* STAT CARDS */
 .stat-card{background:var(--p5);border:1px solid var(--border2);border-radius:12px;padding:1.1rem 1.25rem}
-.stat-val{font-family:var(--serif);font-size:28px;color:var(--p1);line-height:1}
+.stat-val{font-family: 'Playfair Display', Georgia, serif;font-size:28px;color:var(--p1);line-height:1}
 .stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
 
 /* BADGE */
@@ -152,7 +151,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .pt-entry{background:#F5F3FF;border-color:#DDD6FE}
 .pt-core{background:#EDE9FE;border-color:#C4B5FD}
 .pt-hero{background:var(--deep);border-color:var(--p2)}
-.ptier-price{font-family:var(--serif);font-size:28px;color:var(--p1);margin:.5rem 0}
+.ptier-price{font-family: 'Playfair Display', Georgia, serif;font-size:28px;color:var(--p1);margin:.5rem 0}
 .pt-hero .ptier-price{color:#E9D5FF}
 .ptier-name{font-size:11px;color:var(--muted);margin-bottom:.4rem}
 .pt-hero .ptier-name{color:rgba(196,181,253,0.7)}
@@ -179,7 +178,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .phase{border-radius:12px;padding:1.25rem;background:var(--p5);border:1px solid var(--border);border-left:4px solid}
 .phase-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem}
 .phase-title{font-size:15px;font-weight:700;color:var(--text);margin:.25rem 0}
-.phase-months{font-size:11px;color:var(--muted);margin-bottom:.75rem;font-family:var(--mono)}
+.phase-months{font-size:11px;color:var(--muted);margin-bottom:.75rem;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace}
 .phase-item{font-size:12px;color:var(--muted);padding:3px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
 .phase-item-arrow{color:var(--p2);flex-shrink:0;font-size:12px}
 
@@ -190,7 +189,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .lt-curator{background:var(--deep);border-color:var(--p2)}
 .lt-tier-name{font-size:15px;font-weight:700;color:var(--p1);margin-bottom:2px}
 .lt-curator .lt-tier-name{color:#E9D5FF}
-.lt-tier-sub{font-size:10px;color:var(--muted);margin-bottom:.75rem;font-family:var(--mono)}
+.lt-tier-sub{font-size:10px;color:var(--muted);margin-bottom:.75rem;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace}
 .lt-curator .lt-tier-sub{color:rgba(167,139,250,0.6)}
 .lt-perks{list-style:none}
 .lt-perk{font-size:12px;color:var(--muted);padding:4px 0;display:flex;align-items:flex-start;gap:7px}
@@ -213,7 +212,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .gwp-2{background:#EFF6FF;border-color:#BFDBFE}
 .gwp-3{background:#FAF5FF;border-color:#E9D5FF}
 .gwp-name{font-size:14px;font-weight:700;color:var(--text);margin:.4rem 0}
-.gwp-range{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.gwp-range{font-size:10px;color:var(--muted);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace}
 .gwp-gift{font-size:12px;font-weight:600;color:var(--p1);margin:.5rem 0}
 .gwp-desc{font-size:11px;color:var(--muted);line-height:1.5}
 .gwp-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:.6rem}
@@ -226,16 +225,16 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 .fin-tbl tr:last-child td{border-bottom:none;font-weight:700}
 .fin-tbl tr:hover td{background:#FAF8FF}
 .fin-metric{font-weight:600;color:var(--text)}
-.fin-current{color:var(--red);font-family:var(--mono);font-size:13px}
-.fin-target{color:var(--green);font-weight:700;font-family:var(--mono);font-size:13px}
+.fin-current{color:var(--red);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px}
+.fin-target{color:var(--green);font-weight:700;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px}
 .fin-driver{color:var(--muted);font-size:10px;font-style:italic}
 
 /* COMPOUNDING GRID */
 .compound-box{background:var(--p5);border:1px solid var(--border2);border-radius:10px;padding:1rem;text-align:center}
 .cb-label{font-size:10px;color:var(--muted);margin-bottom:4px}
-.cb-from{font-size:13px;color:var(--red);font-family:var(--mono)}
+.cb-from{font-size:13px;color:var(--red);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace}
 .cb-arrow{font-size:14px;color:var(--muted);margin:2px 0}
-.cb-to{font-size:20px;font-weight:700;color:var(--green);font-family:var(--mono)}
+.cb-to{font-size:20px;font-weight:700;color:var(--green);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace}
 
 /* RISK SECTION -- REDESIGNED */
 .risk-panel{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:1.5rem}
@@ -261,7 +260,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(18,8,42,0.97);height:var(-
 
 /* FOOTER */
 footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:2rem 2.5rem;text-align:center}
-.footer-brand{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:.4rem}
+.footer-brand{font-family: 'Playfair Display', Georgia, serif;font-size:20px;color:#fff;margin-bottom:.4rem}
 .footer-sub{font-size:11px;color:rgba(167,139,250,0.7);line-height:1.8}
 .footer-sep{display:inline-block;margin:0 8px;color:rgba(139,92,246,0.4)}
 
@@ -276,6 +275,9 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
 .mt1{margin-top:1rem}
 .mt15{margin-top:1.5rem}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -369,7 +371,7 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
   <!-- The core question -->
   <div class="card" style="border-left:4px solid var(--p1);margin-bottom:1.5rem">
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--p1);margin-bottom:.75rem">The Central Strategic Question</div>
-    <p style="font-size:16px;font-family:var(--serif);color:var(--text);line-height:1.65;font-style:italic;">
+    <p style="font-size:16px;font-family: 'Playfair Display', Georgia, serif;color:var(--text);line-height:1.65;font-style:italic;">
       &ldquo;Can Amorist scale into a profitable, differentiated, and high-retention fragrance brand without becoming structurally dependent on discounting and short-term acquisition tactics?&rdquo;
     </p>
     <div style="margin-top:1rem;font-size:12px;color:var(--muted);line-height:1.6">
@@ -504,7 +506,7 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
     <div style="display:flex;align-items:center;gap:8px;margin-top:.75rem;font-size:11px">
       <span style="color:var(--muted)">Budget Sprays &larr;</span>
       <div style="flex:1;border-top:1.5px solid var(--p1)"></div>
-      <span style="background:var(--deep);color:#C4B5FD;padding:3px 14px;border-radius:20px;font-weight:600;font-size:11px;font-family:var(--mono)">AMORIST &#8377;1,000&ndash;&#8377;2,500</span>
+      <span style="background:var(--deep);color:#C4B5FD;padding:3px 14px;border-radius:20px;font-weight:600;font-size:11px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;1,000&ndash;&#8377;2,500</span>
       <div style="flex:1;border-top:1px dashed var(--border2)"></div>
       <span style="color:var(--muted)">&rarr; Designer Luxury</span>
     </div>
@@ -673,9 +675,9 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <rect x="18" y="1" width="24" height="7" rx="2" fill="#88AACC"/>
                 <!-- Label -->
                 <rect x="12" y="48" width="36" height="26" rx="2" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width=".5"/>
-                <text x="30" y="58" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" font-weight="600" letter-spacing="1">A</text>
-                <text x="30" y="67" text-anchor="middle" font-size="4" fill="white" font-family="sans-serif" letter-spacing="1">AMORIST</text>
-                <text x="30" y="73" text-anchor="middle" font-size="4" fill="rgba(255,255,255,0.8)" font-family="sans-serif">SLATE</text>
+                <text x="30" y="58" text-anchor="middle" font-size="5" fill="white" font-family="'Playfair Display', Georgia, serif" font-weight="600" letter-spacing="1">A</text>
+                <text x="30" y="67" text-anchor="middle" font-size="4" fill="white" font-family="'Playfair Display', Georgia, serif" letter-spacing="1">AMORIST</text>
+                <text x="30" y="73" text-anchor="middle" font-size="4" fill="rgba(255,255,255,0.8)" font-family="'Playfair Display', Georgia, serif">SLATE</text>
               </svg>
               <div>
                 <div class="scent-name">Slate</div>
@@ -698,9 +700,9 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <rect x="22" y="8" width="16" height="8" rx="2" fill="#98C8B8"/>
                 <rect x="20" y="2" width="20" height="8" rx="3" fill="#D0E8DF"/>
                 <rect x="12" y="48" width="36" height="28" rx="2" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width=".5"/>
-                <text x="30" y="59" text-anchor="middle" font-size="5" fill="#3A7A60" font-family="sans-serif" letter-spacing="1">AMORIST</text>
-                <text x="30" y="68" text-anchor="middle" font-size="4.5" fill="#3A7A60" font-family="sans-serif" font-weight="600">BREEZE</text>
-                <text x="30" y="75" text-anchor="middle" font-size="3.5" fill="#5A9A80" font-family="sans-serif">EAU DE PARFUM</text>
+                <text x="30" y="59" text-anchor="middle" font-size="5" fill="#3A7A60" font-family="'Playfair Display', Georgia, serif" letter-spacing="1">AMORIST</text>
+                <text x="30" y="68" text-anchor="middle" font-size="4.5" fill="#3A7A60" font-family="'Playfair Display', Georgia, serif" font-weight="600">BREEZE</text>
+                <text x="30" y="75" text-anchor="middle" font-size="3.5" fill="#5A9A80" font-family="'Playfair Display', Georgia, serif">EAU DE PARFUM</text>
               </svg>
               <div>
                 <div class="scent-name">Breeze</div>
@@ -726,8 +728,8 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <rect x="12" y="34" width="36" height="56" rx="2" fill="rgba(255,255,255,0.04)"/>
                 <!-- Engraved label -->
                 <rect x="13" y="50" width="34" height="24" rx="1" fill="rgba(255,255,255,0.06)" stroke="rgba(100,160,100,0.3)" stroke-width=".5"/>
-                <text x="30" y="60" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
-                <text x="30" y="69" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="sans-serif" font-weight="600">MOSS</text>
+                <text x="30" y="60" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="'Playfair Display', Georgia, serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="69" text-anchor="middle" font-size="5" fill="#A0C8A0" font-family="'Playfair Display', Georgia, serif" font-weight="600">MOSS</text>
                 <!-- Shoulder -->
                 <path d="M8,28 Q9,18 14,14 L46,14 Q51,18 52,28 Z" fill="#1E3822"/>
                 <!-- Dark cap -->
@@ -759,8 +761,8 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <line x1="30" y1="4" x2="30" y2="9" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
                 <line x1="39" y1="5" x2="39" y2="9" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
                 <rect x="13" y="52" width="34" height="26" rx="2" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.35)" stroke-width=".5"/>
-                <text x="30" y="62" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
-                <text x="30" y="71" text-anchor="middle" font-size="5" fill="white" font-family="sans-serif" font-weight="600">BLOOM</text>
+                <text x="30" y="62" text-anchor="middle" font-size="5" fill="white" font-family="'Playfair Display', Georgia, serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="71" text-anchor="middle" font-size="5" fill="white" font-family="'Playfair Display', Georgia, serif" font-weight="600">BLOOM</text>
               </svg>
               <div>
                 <div class="scent-name">Bloom</div>
@@ -786,8 +788,8 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <!-- Faceted panel -->
                 <path d="M12,32 L12,90 L48,90 L48,32 Z" fill="rgba(255,255,255,0.04)"/>
                 <rect x="13" y="50" width="34" height="26" rx="1" fill="rgba(0,0,0,0.15)" stroke="rgba(200,160,80,0.4)" stroke-width=".7"/>
-                <text x="30" y="61" text-anchor="middle" font-size="5" fill="#E8C880" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
-                <text x="30" y="70" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="sans-serif" font-weight="600">SUEDE</text>
+                <text x="30" y="61" text-anchor="middle" font-size="5" fill="#E8C880" font-family="'Playfair Display', Georgia, serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="70" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="'Playfair Display', Georgia, serif" font-weight="600">SUEDE</text>
                 <path d="M8,28 Q9,16 14,12 L46,12 Q51,16 52,28 Z" fill="#8A5828"/>
                 <!-- Gold hexagonal cap like original -->
                 <rect x="16" y="5" width="28" height="9" rx="2" fill="url(#goldCapS)"/>
@@ -823,8 +825,8 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
                 <line x1="38" y1="2" x2="38" y2="8" stroke="rgba(255,255,255,0.2)" stroke-width=".8"/>
                 <!-- Label on dark bottle -->
                 <rect x="12" y="54" width="36" height="26" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(200,160,80,0.35)" stroke-width=".5"/>
-                <text x="30" y="64" text-anchor="middle" font-size="5" fill="#E8C880" font-family="sans-serif" letter-spacing=".5">AMORIST</text>
-                <text x="30" y="73" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="sans-serif" font-weight="600">VELVET</text>
+                <text x="30" y="64" text-anchor="middle" font-size="5" fill="#E8C880" font-family="'Playfair Display', Georgia, serif" letter-spacing=".5">AMORIST</text>
+                <text x="30" y="73" text-anchor="middle" font-size="5.5" fill="#E8C880" font-family="'Playfair Display', Georgia, serif" font-weight="600">VELVET</text>
               </svg>
               <div>
                 <div class="scent-name">Velvet</div>
@@ -953,43 +955,43 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
       <text x="852" y="37" text-anchor="middle" font-size="7" fill="#8B6A3A" font-weight="bold">9</text>
       <!-- Wax seal / ribbon icon -->
       <circle cx="852" cy="52" r="9" fill="none" stroke="#C4A870" stroke-width="1.5"/>
-      <text x="852" y="56" text-anchor="middle" font-size="6" fill="#8B6A3A" font-family="serif">Amrst</text>
+      <text x="852" y="56" text-anchor="middle" font-size="6" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
       <!-- Ribbon lines -->
       <path d="M846,45 L843,40 M858,45 L861,40" stroke="#8B6A3A" stroke-width="1" opacity=".6"/>
       <path d="M843,40 Q847,42 852,40 Q857,42 861,40" fill="none" stroke="#8B6A3A" stroke-width=".8"/>
 
       <!-- STEP LABELS BELOW ROAD -->
-      <text x="48" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Dawn</text>
-      <text x="48" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Selection</text>
-      <text x="148" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Botanical</text>
-      <text x="148" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Sorting</text>
-      <text x="235" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Steam</text>
-      <text x="235" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Distillation</text>
-      <text x="310" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Molecular</text>
-      <text x="310" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Infusion</text>
-      <text x="385" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Master&apos;s</text>
-      <text x="385" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Blend</text>
-      <text x="460" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Maceration</text>
-      <text x="460" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">42 days</text>
-      <text x="595" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Chill</text>
-      <text x="595" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Filtration</text>
-      <text x="730" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Hand</text>
-      <text x="730" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Pour</text>
-      <text x="852" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Final</text>
-      <text x="852" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="sans-serif" font-weight="600">Seal</text>
+      <text x="48" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Dawn</text>
+      <text x="48" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Selection</text>
+      <text x="148" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Botanical</text>
+      <text x="148" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Sorting</text>
+      <text x="235" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Steam</text>
+      <text x="235" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Distillation</text>
+      <text x="310" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Molecular</text>
+      <text x="310" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Infusion</text>
+      <text x="385" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Master&apos;s</text>
+      <text x="385" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Blend</text>
+      <text x="460" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Maceration</text>
+      <text x="460" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">42 days</text>
+      <text x="595" y="134" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Chill</text>
+      <text x="595" y="143" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Filtration</text>
+      <text x="730" y="113" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Hand</text>
+      <text x="730" y="122" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Pour</text>
+      <text x="852" y="77" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Final</text>
+      <text x="852" y="86" text-anchor="middle" font-size="6.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-weight="600">Seal</text>
 
       <!-- STEP DESCRIPTIONS BELOW LABELS (alternating top/bottom) -->
       <!-- Below road steps -->
-      <text x="48" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Peak purity at 4 AM</text>
-      <text x="460" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Flawless complexity</text>
-      <text x="595" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Crystal-clear clarity</text>
+      <text x="48" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Peak purity at 4 AM</text>
+      <text x="460" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Flawless complexity</text>
+      <text x="595" y="155" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Crystal-clear clarity</text>
       <!-- Above road steps -->
-      <text x="235" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Pure essence captured</text>
-      <text x="310" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Odor-Trap complex added</text>
-      <text x="385" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Notes perfectly balanced</text>
-      <text x="852" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Your invisible armour</text>
-      <text x="148" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Finest blooms chosen</text>
-      <text x="730" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="sans-serif">Bottled in luxury flacons</text>
+      <text x="235" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Pure essence captured</text>
+      <text x="310" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Odor-Trap complex added</text>
+      <text x="385" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Notes perfectly balanced</text>
+      <text x="852" y="24" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Your invisible armour</text>
+      <text x="148" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Finest blooms chosen</text>
+      <text x="730" y="100" text-anchor="middle" font-size="5.5" fill="#8B6A3A" font-family="'Playfair Display', Georgia, serif">Bottled in luxury flacons</text>
     </svg>
   </div>
 </div>
@@ -1022,20 +1024,20 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <!-- Three vials -->
           <rect x="42" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
           <rect x="42" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
-          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="74" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
           <rect x="74" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
-          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="106" y="90" width="22" height="46" rx="3" fill="url(#vialG)" stroke="#C4A870" stroke-width=".5"/>
           <rect x="106" y="90" width="22" height="10" rx="2" fill="#8B6A3A"/>
-          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="serif">Amrst</text>
+          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <!-- Botanical accents -->
           <circle cx="148" cy="95" r="4" fill="#8B6A3A" opacity=".7"/>
           <circle cx="155" cy="100" r="3" fill="#A0784A" opacity=".6"/>
           <circle cx="38" cy="130" r="3" fill="#8B6A3A" opacity=".5"/>
           <!-- Lid open, hinged back -->
           <path d="M20,75 L20,25 Q20,20 25,20 L175,20 Q180,20 180,25 L180,75" fill="url(#tanLid)" stroke="#8B6A3A" stroke-width="1"/>
-          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#6B4A2A" font-family="serif" font-style="italic">Amrst</text>
+          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif" font-style="italic">Amrst</text>
           <!-- Card slot -->
           <rect x="60" y="50" width="80" height="18" rx="2" fill="#F5EDD8" stroke="#C4A870" stroke-width=".5"/>
         </svg>
@@ -1058,13 +1060,13 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <!-- Three vials gold-capped -->
           <rect x="38" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".85" stroke="#D4A830" stroke-width=".5"/>
           <rect x="38" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
-          <text x="50" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <text x="50" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="72" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".9" stroke="#D4A830" stroke-width=".5"/>
           <rect x="72" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
-          <text x="84" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <text x="84" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="106" y="105" width="24" height="48" rx="3" fill="#C4A870" opacity=".95" stroke="#D4A830" stroke-width=".5"/>
           <rect x="106" y="105" width="24" height="11" rx="2" fill="url(#gold1)"/>
-          <text x="118" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="serif">Amrst</text>
+          <text x="118" y="136" text-anchor="middle" font-size="5" fill="#8B6A2A" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <!-- Botanical accents in box -->
           <circle cx="150" cy="110" r="5" fill="#2A4F3A" opacity=".7"/>
           <circle cx="158" cy="118" r="3" fill="#3A5F4A" opacity=".5"/>
@@ -1080,10 +1082,10 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <path d="M116,48 L120,52 L116,56 L112,52 Z" fill="#D4A830" opacity=".4"/>
           <path d="M84,48 L88,52 L84,56 L80,52 Z" fill="#D4A830" opacity=".4"/>
           <!-- Brand name on lid -->
-          <text x="100" y="48" text-anchor="middle" font-size="13" fill="#D4A830" font-family="serif" font-style="italic">Amrst</text>
+          <text x="100" y="48" text-anchor="middle" font-size="13" fill="#D4A830" font-family="'Playfair Display', Georgia, serif" font-style="italic">Amrst</text>
           <!-- Discovery label card -->
           <rect x="62" y="60" width="76" height="18" rx="2" fill="#A8C4E0" opacity=".9"/>
-          <text x="100" y="72" text-anchor="middle" font-size="9" fill="#1A3460" font-family="sans-serif" font-weight="bold">Discovery</text>
+          <text x="100" y="72" text-anchor="middle" font-size="9" fill="#1A3460" font-family="'Playfair Display', Georgia, serif" font-weight="bold">Discovery</text>
         </svg>
         <div style="font-size:10px;font-weight:600;color:var(--p1);margin-top:4px">Mughal Artisan &mdash; Signature Edition</div>
       </div>
@@ -1101,19 +1103,19 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <!-- Three vials -->
           <rect x="42" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".8" stroke="#4A8A5A" stroke-width=".5"/>
           <rect x="42" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
-          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <text x="53" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="74" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".85" stroke="#4A8A5A" stroke-width=".5"/>
           <rect x="74" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
-          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <text x="85" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <rect x="106" y="90" width="22" height="46" rx="3" fill="#C4A870" opacity=".9" stroke="#4A8A5A" stroke-width=".5"/>
           <rect x="106" y="90" width="22" height="10" rx="2" fill="#2D5A3D"/>
-          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="serif">Amrst</text>
+          <text x="117" y="120" text-anchor="middle" font-size="5" fill="#C4A870" font-family="'Playfair Display', Georgia, serif">Amrst</text>
           <circle cx="148" cy="94" r="4" fill="#4A8A5A" opacity=".7"/>
           <circle cx="155" cy="101" r="3" fill="#3A6E4E" opacity=".6"/>
           <!-- Lid -->
           <path d="M20,75 L20,25 Q20,20 25,20 L175,20 Q180,20 180,25 L180,75" fill="url(#grnLid)" stroke="#4A8A5A" stroke-width="1"/>
           <rect x="20" y="20" width="160" height="3" fill="#C4A830" opacity=".5"/>
-          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#C4A870" font-family="serif" font-style="italic">Amrst</text>
+          <text x="100" y="42" text-anchor="middle" font-size="11" fill="#C4A870" font-family="'Playfair Display', Georgia, serif" font-style="italic">Amrst</text>
           <rect x="60" y="50" width="80" height="18" rx="2" fill="#C4A870" opacity=".25" stroke="#4A8A5A" stroke-width=".5"/>
         </svg>
         <div style="font-size:10px;font-weight:600;color:var(--muted);margin-top:4px">Forest Green</div>
@@ -1136,13 +1138,13 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <!-- Fold line at top -->
           <rect x="10" y="20" width="100" height="8" rx="3" fill="#A07838" opacity=".4"/>
           <!-- Text area -->
-          <text x="60" y="82" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="sans-serif" font-weight="bold">BOTANICAL SEED</text>
-          <text x="60" y="93" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="sans-serif" font-weight="bold">COMPLEMENT</text>
-          <text x="60" y="105" text-anchor="middle" font-size="6" fill="#6B4A2A" font-family="sans-serif">AMRST GENTLE SEED POUCH</text>
+          <text x="60" y="82" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="'Playfair Display', Georgia, serif" font-weight="bold">BOTANICAL SEED</text>
+          <text x="60" y="93" text-anchor="middle" font-size="8" fill="#4A2A0A" font-family="'Playfair Display', Georgia, serif" font-weight="bold">COMPLEMENT</text>
+          <text x="60" y="105" text-anchor="middle" font-size="6" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">AMRST GENTLE SEED POUCH</text>
           <!-- Dividing line -->
           <line x1="22" y1="110" x2="98" y2="110" stroke="#8B6A3A" stroke-width=".5" opacity=".5"/>
-          <text x="60" y="120" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="sans-serif">Contains: Rare Jasmine, Rose,</text>
-          <text x="60" y="129" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="sans-serif">and Citrus Seed Mix</text>
+          <text x="60" y="120" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">Contains: Rare Jasmine, Rose,</text>
+          <text x="60" y="129" text-anchor="middle" font-size="5.5" fill="#6B4A2A" font-family="'Playfair Display', Georgia, serif">and Citrus Seed Mix</text>
           <!-- Botanical icons row -->
           <!-- Jasmine -->
           <circle cx="38" cy="143" r="6" fill="none" stroke="#6B4A2A" stroke-width=".8"/>
@@ -1176,10 +1178,10 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <rect x="68" y="28" width="18" height="72" rx="4" fill="url(#vt1)"/>
           <rect x="68" y="18" width="18" height="12" rx="3" fill="#5B21B6"/>
           <rect x="71" y="10" width="12" height="10" rx="2" fill="#4C1D95"/>
-          <text x="13" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,13,80)">AMRST</text>
-          <text x="45" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,45,80)">AMRST</text>
-          <text x="77" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="serif" transform="rotate(-90,77,80)">AMRST</text>
-          <text x="45" y="120" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="Inter,sans-serif">3&times;15ml</text>
+          <text x="13" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="'Playfair Display', Georgia, serif" transform="rotate(-90,13,80)">AMRST</text>
+          <text x="45" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="'Playfair Display', Georgia, serif" transform="rotate(-90,45,80)">AMRST</text>
+          <text x="77" y="80" text-anchor="middle" font-size="4.5" fill="#EDE9FE" font-family="'Playfair Display', Georgia, serif" transform="rotate(-90,77,80)">AMRST</text>
+          <text x="45" y="120" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">3&times;15ml</text>
         </svg>
       </div>
       <div class="ptier-price">&#8377;899</div>
@@ -1196,8 +1198,8 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <path d="M18,32 Q14,40 14,50 L14,108 Q14,114 20,114 L50,114 Q56,114 56,108 L56,50 Q56,40 52,32 Z" fill="url(#bt1)"/>
           <!-- Label area -->
           <rect x="18" y="60" width="34" height="30" rx="2" fill="rgba(255,255,255,0.12)"/>
-          <text x="35" y="72" text-anchor="middle" font-size="5" fill="#EDE9FE" font-family="serif" font-style="italic">AMORIST</text>
-          <text x="35" y="82" text-anchor="middle" font-size="4" fill="#C4B5FD" font-family="sans-serif">50ml EDP</text>
+          <text x="35" y="72" text-anchor="middle" font-size="5" fill="#EDE9FE" font-family="'Playfair Display', Georgia, serif" font-style="italic">AMORIST</text>
+          <text x="35" y="82" text-anchor="middle" font-size="4" fill="#C4B5FD" font-family="'Playfair Display', Georgia, serif">50ml EDP</text>
           <!-- Shoulder -->
           <path d="M18,32 Q20,20 25,16 L45,16 Q50,20 52,32 Z" fill="#6C3FCF"/>
           <!-- Neck -->
@@ -1206,7 +1208,7 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <rect x="26" y="2" width="18" height="8" rx="3" fill="#4C1D95"/>
           <!-- Highlight -->
           <path d="M18,50 Q16,70 17,90" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
-          <text x="35" y="124" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="Inter,sans-serif">50ml</text>
+          <text x="35" y="124" text-anchor="middle" font-size="8" fill="#5B21B6" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">50ml</text>
         </svg>
       </div>
       <div class="ptier-price">&#8377;849</div>
@@ -1235,10 +1237,10 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <path d="M14,40 Q11,60 11,90 L14,110" stroke="url(#hthi)" stroke-width="4" fill="none"/>
           <!-- Label -->
           <rect x="16" y="58" width="48" height="34" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(196,181,253,0.3)" stroke-width=".5"/>
-          <text x="40" y="71" text-anchor="middle" font-size="6" fill="#E9D5FF" font-family="serif" font-style="italic">AMORIST</text>
+          <text x="40" y="71" text-anchor="middle" font-size="6" fill="#E9D5FF" font-family="'Playfair Display', Georgia, serif" font-style="italic">AMORIST</text>
           <line x1="20" y1="75" x2="60" y2="75" stroke="rgba(196,181,253,0.4)" stroke-width=".5"/>
-          <text x="40" y="84" text-anchor="middle" font-size="5" fill="#C4B5FD" font-family="sans-serif">EAU DE PARFUM</text>
-          <text x="40" y="91" text-anchor="middle" font-size="4.5" fill="#A78BFA" font-family="sans-serif">100ml</text>
+          <text x="40" y="84" text-anchor="middle" font-size="5" fill="#C4B5FD" font-family="'Playfair Display', Georgia, serif">EAU DE PARFUM</text>
+          <text x="40" y="91" text-anchor="middle" font-size="4.5" fill="#A78BFA" font-family="'Playfair Display', Georgia, serif">100ml</text>
           <!-- Base ridge -->
           <rect x="10" y="104" width="60" height="6" rx="0" fill="#2E1065" opacity=".5"/>
           <!-- Shoulder -->
@@ -1252,7 +1254,7 @@ footer{background:var(--deep);border-top:1px solid rgba(139,92,246,0.3);padding:
           <line x1="34" y1="4" x2="34" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
           <line x1="46" y1="4" x2="46" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
           <line x1="52" y1="4" x2="52" y2="10" stroke="rgba(0,0,0,0.15)" stroke-width=".8"/>
-          <text x="40" y="122" text-anchor="middle" font-size="8" fill="#C4B5FD" font-family="Inter,sans-serif">100ml</text>
+          <text x="40" y="122" text-anchor="middle" font-size="8" fill="#C4B5FD" font-family="'Geist', ui-sans-serif, system-ui, sans-serif">100ml</text>
         </svg>
       </div>
       <div class="ptier-price">&#8377;1,499</div>
@@ -1659,7 +1661,7 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.25, rootMargin: '-60px 0px 0px 0px' });
 sections.forEach(s => io.observe(s));
 
-Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.family = "'Geist', ui-sans-serif, system-ui, sans-serif";
 Chart.defaults.color = '#6B7280';
 
 new Chart(document.getElementById('marketChart'), {

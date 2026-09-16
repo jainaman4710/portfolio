@@ -1,5 +1,5 @@
-import { Mail } from "lucide-react"
 import Link from "next/link"
+import { GithubIcon, LinkedinIcon } from "./icons"
 
 export function Header() {
   return (
@@ -33,13 +33,35 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <a
-          href="mailto:amantater026@gmail.com"
-          className="font-mono no-underline transition-colors"
-          style={{ fontSize: "12px", color: "#b0a0b4" }}
-        >
-          amantater026@gmail.com
-        </a>
+        <div className="flex items-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/aman-tater"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="transition-colors"
+            style={{ color: "#b0a0b4" }}
+          >
+            <LinkedinIcon className="h-4 w-4" />
+          </a>
+          <a
+            href="https://github.com/jainaman4710"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="transition-colors"
+            style={{ color: "#b0a0b4" }}
+          >
+            <GithubIcon className="h-4 w-4" />
+          </a>
+          <a
+            href="mailto:amantater026@gmail.com"
+            className="font-mono no-underline transition-colors hidden md:inline"
+            style={{ fontSize: "12px", color: "#b0a0b4" }}
+          >
+            amantater026@gmail.com
+          </a>
+        </div>
       </div>
     </header>
   )

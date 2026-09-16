@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PolicyEase | PM Case Study</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap');
 :root{
   --green:#1DB87E;--green-dark:#0F9B67;--green-light:#E8F9F2;--green-mid:#A8EDD2;
   --navy:#0D1B2A;--navy-mid:#1A2E42;--slate:#2C4059;
@@ -18,7 +17,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);line-height:1.6;}
+body{font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;background:var(--surface);color:var(--text);line-height:1.6;}
 nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:54px;box-shadow:0 2px 16px rgba(0,0,0,.25);}
 .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .nav-logo{width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
@@ -33,18 +32,18 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .sec-head{padding:40px 0 22px;}
 .sec-head h2{font-size:28px;font-weight:700;}
 .sec-head p{font-size:14px;color:var(--soft);margin-top:6px;max-width:640px;}
-.sec-label{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+.sec-label{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 55%,#163525 100%);border-radius:20px;padding:60px 52px;margin-top:32px;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(29,184,126,.14) 0%,transparent 70%);}
 .hero::after{content:'';position:absolute;right:60px;bottom:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(29,184,126,.07) 0%,transparent 70%);}
-.hero-eye{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.hero-eye{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;font-weight:500;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
 .hero h1{font-size:44px;font-weight:700;color:#fff;line-height:1.18;margin-bottom:18px;}
 .hero h1 span{color:var(--green);}
 .hero-sub{color:rgba(255,255,255,.58);font-size:16px;max-width:560px;margin-bottom:36px;line-height:1.7;}
 .hero-stats{display:flex;gap:36px;flex-wrap:wrap;}
-.h-stat-val{font-size:30px;font-weight:700;color:var(--green);font-family:'DM Mono',monospace;}
+.h-stat-val{font-size:30px;font-weight:700;color:var(--green);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;}
 .h-stat-lbl{font-size:12px;color:rgba(255,255,255,.46);margin-top:3px;}
-.hero-badge{position:absolute;top:24px;right:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 13px;font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;}
+.hero-badge{position:absolute;top:24px;right:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 13px;font-size:11px;color:rgba(255,255,255,.4);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
@@ -52,12 +51,12 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);margin-bottom:14px;}
 .sc{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--border);}
 .sc.g{border-top:3px solid var(--green);}.sc.w{border-top:3px solid var(--warn);}.sc.o{border-top:3px solid var(--gold);}.sc.r{border-top:3px solid var(--red);}
-.sc .v{font-size:32px;font-weight:700;font-family:'DM Mono',monospace;}
+.sc .v{font-size:32px;font-weight:700;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;}
 .sc.g .v{color:var(--green-dark);}.sc.w .v{color:var(--warn);}.sc.o .v{color:#B07800;}.sc.r .v{color:var(--red);}
 .sc .lb{font-size:13px;color:var(--soft);margin-top:4px;}.sc .sb{font-size:11px;color:var(--muted);margin-top:6px;}
 .bar-chart{display:flex;flex-direction:column;gap:7px;}
 .bar-row{display:flex;align-items:center;gap:10px;}
-.bar-lbl{font-size:12px;color:var(--soft);width:78px;text-align:right;flex-shrink:0;font-family:'DM Mono',monospace;}
+.bar-lbl{font-size:12px;color:var(--soft);width:78px;text-align:right;flex-shrink:0;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;}
 .bar-track{flex:1;height:26px;background:var(--surface);border-radius:6px;overflow:hidden;}
 .bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:9px;font-size:11px;font-weight:600;color:#fff;transition:width 1.1s cubic-bezier(.4,0,.2,1);}
 .rtbl{width:100%;border-collapse:collapse;}
@@ -66,7 +65,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .rtbl tr:last-child td{border-bottom:none;}
 .rtbl tr:hover td{background:var(--green-light);}
 .rnk{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.hv{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--green-dark);}
+.hv{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;font-weight:700;color:var(--green-dark);}
 .sneg{color:var(--warn);font-weight:700;font-size:12px;}
 .swot-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
 .swot-tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--soft);transition:all .2s;}
@@ -88,7 +87,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .sq.t .si::before{content:'!';position:absolute;left:0;font-size:11px;font-weight:800;color:var(--red);}
 .si-sub{font-size:11px;color:var(--muted);margin-top:3px;display:block;}
 .hbar-row{margin-bottom:14px;}
-.hbar-lbl{font-size:12px;font-weight:600;color:var(--soft);margin-bottom:5px;font-family:'DM Mono',monospace;}
+.hbar-lbl{font-size:12px;font-weight:600;color:var(--soft);margin-bottom:5px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;}
 .hbar-stack{display:flex;height:22px;border-radius:6px;overflow:hidden;gap:2px;}
 .hseg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
 .pcard{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border);}
@@ -125,7 +124,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .rm-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-bottom:12px;}
 .rm-title{font-size:14px;font-weight:700;margin-bottom:4px;}
 .rm-tag{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
-.rm-dur{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+.rm-dur{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px;}
 .rm-desc{font-size:12px;color:var(--soft);line-height:1.6;margin-bottom:10px;}
 .rm-strat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;}
 .rm-strat-v{font-size:13px;font-weight:700;}
@@ -137,11 +136,11 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
 .north-star::after{content:'*';position:absolute;right:32px;top:50%;transform:translateY(-50%);font-size:100px;opacity:.04;color:var(--green);}
 .ns-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:var(--green);font-weight:700;margin-bottom:8px;}
 .ns-metric{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
-.ns-formula{font-family:'DM Mono',monospace;font-size:13px;color:rgba(255,255,255,.55);}
+.ns-formula{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;color:rgba(255,255,255,.55);}
 .mc{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--border);}
 .mc-type{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:8px;}
 .mc-name{font-size:15px;font-weight:700;margin-bottom:6px;}
-.mc-formula{font-family:'DM Mono',monospace;font-size:11px;color:var(--soft);background:var(--surface);padding:8px;border-radius:6px;margin-bottom:8px;line-height:1.55;}
+.mc-formula{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--soft);background:var(--surface);padding:8px;border-radius:6px;margin-bottom:8px;line-height:1.55;}
 .mc-benefit{font-size:12px;color:var(--soft);}
 .scope-item{display:flex;gap:14px;padding:14px;border-radius:10px;background:var(--green-light);border:1px solid var(--green-mid);margin-bottom:10px;}
 .scope-icon{font-size:20px;flex-shrink:0;}
@@ -218,6 +217,9 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
   .page{padding:0 16px 60px;}.flow-track::before{display:none;}
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 <nav>
@@ -303,19 +305,19 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
   <div class="card">
     <div class="card-label">Insurance Aggregators Global Market Growth</div>
     <div style="display:flex;flex-direction:column;gap:9px;margin-top:10px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2024</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:33.7%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$35.73B</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2025</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:42%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$44.53B</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family:'DM Mono',monospace;">2029F</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark);">$106.24B</span></div>
-      <div style="text-align:center;padding:10px;background:var(--green-light);border-radius:8px;"><span style="font-size:20px;font-weight:700;color:var(--green-dark);font-family:'DM Mono',monospace;">CAGR 24.3%</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">2024</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:33.7%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--green-dark);">$35.73B</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">2025</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:42%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--green-dark);">$44.53B</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface);border-radius:8px;"><span style="font-size:13px;color:var(--soft);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">2029F</span><div style="flex:1;margin:0 12px;background:var(--border);border-radius:4px;height:8px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--green);border-radius:4px;"></div></div><span style="font-weight:700;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--green-dark);">$106.24B</span></div>
+      <div style="text-align:center;padding:10px;background:var(--green-light);border-radius:8px;"><span style="font-size:20px;font-weight:700;color:var(--green-dark);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">CAGR 24.3%</span></div>
     </div>
   </div>
   <div class="card">
     <div class="card-label">Distribution Dynamics in India</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
-      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Private Sector)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--green-dark);">42.5%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:42.5%;height:100%;background:var(--green);border-radius:4px;"></div></div></div>
-      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Agency Networks (Public)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--navy);">32.4%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.4%;height:100%;background:var(--navy);border-radius:4px;"></div></div></div>
-      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Public Sector)</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);">32.2%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.2%;height:100%;background:var(--gold);border-radius:4px;"></div></div></div>
-      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Bancassurance</span><span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--warn);">9.1%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:9.1%;height:100%;background:var(--warn);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Private Sector)</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;font-weight:700;color:var(--green-dark);">42.5%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:42.5%;height:100%;background:var(--green);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Agency Networks (Public)</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;font-weight:700;color:var(--navy);">32.4%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.4%;height:100%;background:var(--navy);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Brokers (Public Sector)</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;font-weight:700;color:var(--gold);">32.2%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:32.2%;height:100%;background:var(--gold);border-radius:4px;"></div></div></div>
+      <div style="padding:12px;background:var(--surface);border-radius:8px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:13px;font-weight:600;">Bancassurance</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:13px;font-weight:700;color:var(--warn);">9.1%</span></div><div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;"><div style="width:9.1%;height:100%;background:var(--warn);border-radius:4px;"></div></div></div>
     </div>
   </div>
 </div>
@@ -428,7 +430,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);display:flex;align-
         <circle cx="80" cy="80" r="60" fill="none" stroke="#F5A623" stroke-width="40" stroke-dasharray="98 314" stroke-dashoffset="-188" transform="rotate(-90 80 80)"/>
         <circle cx="80" cy="80" r="60" fill="none" stroke="#1DB87E" stroke-width="40" stroke-dasharray="75 314" stroke-dashoffset="-286" transform="rotate(-90 80 80)"/>
         <circle cx="80" cy="80" r="40" fill="white"/>
-        <text x="80" y="76" text-anchor="middle" font-size="18" font-weight="700" fill="#1A2E42" font-family="DM Mono,monospace">661</text>
+        <text x="80" y="76" text-anchor="middle" font-size="18" font-weight="700" fill="#1A2E42" font-family="'Geist Mono', ui-monospace, 'Courier New', monospace">661</text>
         <text x="80" y="91" text-anchor="middle" font-size="10" fill="#6B8299">reviews</text>
       </svg>
       <div style="display:flex;flex-direction:column;gap:12px;">

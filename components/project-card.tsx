@@ -1,14 +1,20 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight, BarChart3, Brain, Building2, Headset } from "lucide-react"
+import { ArrowUpRight, BarChart3, Brain, Building2, Headset, Rocket, Wrench, TrendingUp, FlaskConical } from "lucide-react"
 import type { Project } from "@/lib/projects"
+import { GearIcon } from "./icons"
 
 const categoryConfig = {
   "Statistical Analysis": { icon: BarChart3, color: "bg-teal/10 border-teal/40 text-teal" },
   "Market Research": { icon: Headset, color: "bg-purple/10 border-purple/40 text-purple" },
   "Business Analytics": { icon: Building2, color: "bg-amber/10 border-amber/40 text-amber" },
   "Machine Learning": { icon: Brain, color: "bg-pink/10 border-pink/40 text-pink" },
+  "Product Management": { icon: Rocket, color: "bg-teal/10 border-teal/40 text-teal" },
+  "Product Design": { icon: Wrench, color: "bg-amber/10 border-amber/40 text-amber" },
+  "Business Strategy": { icon: TrendingUp, color: "bg-purple/10 border-purple/40 text-purple" },
+  "Mechanical Design": { icon: GearIcon, color: "bg-pink/10 border-pink/40 text-pink" },
+  Research: { icon: FlaskConical, color: "bg-teal/10 border-teal/40 text-teal" },
 }
 
 export function ProjectCard({ project }: { project: Project }) {

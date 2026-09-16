@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Bin / Product Design Report</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,14 +21,14 @@
     --accent-2: #2e9e5a;
     --accent-bg: #eaf4ee;
     --accent-mid: #c0e4ce;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'Geist Mono', ui-monospace, 'Courier New', monospace;
+    --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
     --warn: #b35c00;
     --warn-bg: #fef3e6;
   }
 
   body {
-    font-family: var(--sans);
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     background: var(--bg);
     color: var(--ink);
     font-size: 15px;
@@ -58,7 +57,7 @@
     padding: 56px 40px 48px;
   }
   .header-eyebrow {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     letter-spacing: 0.12em;
     color: var(--accent-mid);
@@ -85,7 +84,7 @@
   }
   .header-meta {
     text-align: right;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: rgba(255,255,255,0.35);
     line-height: 2;
@@ -105,7 +104,7 @@
   }
   .header-stat:last-child { border-right: none; }
   .header-stat-val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 26px;
     font-weight: 500;
     color: #fff;
@@ -134,7 +133,7 @@
     gap: 0;
   }
   .nav-tab {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -171,7 +170,7 @@
     padding-bottom: 16px;
   }
   .section-num {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--ink-4);
     letter-spacing: 0.08em;
@@ -183,7 +182,7 @@
   }
   .section-tag {
     margin-left: auto;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.1em;
     background: var(--accent-bg);
@@ -201,7 +200,7 @@
   }
   .card-sm { padding: 18px 20px; }
   .card-label {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -209,14 +208,14 @@
     margin-bottom: 10px;
   }
   .card-val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 28px;
     font-weight: 500;
     color: var(--ink);
     line-height: 1;
   }
   .card-val-sm {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 20px;
     font-weight: 500;
   }
@@ -251,7 +250,7 @@
     margin-bottom: 12px;
   }
   .problem-title {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -280,7 +279,7 @@
   }
   .stat-cell:last-child { border-right: none; }
   .stat-cell-val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 28px;
     font-weight: 500;
     color: var(--accent-2);
@@ -292,7 +291,7 @@
     margin-top: 5px;
   }
   .stat-cell-src {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 9px;
     color: rgba(255,255,255,0.2);
     margin-top: 8px;
@@ -307,7 +306,7 @@
   .mechanism-header {
     background: var(--ink);
     padding: 12px 20px;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -332,7 +331,7 @@
   }
   .mechanism-step:last-child { border-bottom: none; }
   .mechanism-step-num {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--accent);
     min-width: 24px;
@@ -371,7 +370,7 @@
     background: var(--accent-2);
   }
   .bar-label {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     color: var(--ink-3);
     display: flex;
@@ -382,7 +381,7 @@
   /* ── MATERIALS TABLE ── */
   .mat-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .mat-table th {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -402,7 +401,7 @@
   .mat-name { font-weight: 500; color: var(--ink); font-size: 13px; }
   .mat-tag {
     display: inline-block;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 9px;
     letter-spacing: 0.08em;
     background: var(--accent-bg);
@@ -420,7 +419,7 @@
   /* ── COST TABLE ── */
   .cost-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .cost-table th {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -436,13 +435,13 @@
     color: var(--ink-2);
   }
   .cost-table .cost-val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 13px;
     color: var(--ink);
     text-align: right;
   }
   .cost-table .cost-total {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-weight: 500;
     font-size: 14px;
     color: var(--ink);
@@ -462,7 +461,7 @@
     margin-bottom: 12px;
   }
   .weight-label {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--ink-2);
     min-width: 140px;
@@ -479,7 +478,7 @@
     background: var(--ink);
   }
   .weight-val {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     color: var(--ink-3);
     min-width: 70px;
@@ -494,7 +493,7 @@
     position: relative;
   }
   .prospect-num {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 32px;
     font-weight: 500;
     color: var(--border);
@@ -518,7 +517,7 @@
   .prospect-badge {
     display: inline-block;
     margin-top: 12px;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 9px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -531,7 +530,7 @@
   .formula-box {
     background: var(--ink);
     padding: 16px 20px;
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 12px;
     color: rgba(255,255,255,0.7);
     line-height: 2;
@@ -556,7 +555,7 @@
   /* ── DENSITY TABLE ── */
   .density-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .density-table th {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 10px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -572,7 +571,7 @@
     color: var(--ink-2);
   }
   .density-table tr:last-child td { border-bottom: none; }
-  .density-table .d-val { font-family: var(--mono); text-align: right; }
+  .density-table .d-val { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; text-align: right; }
 
   /* ── SOLUTION COMPARE ── */
   .solution-col { border: 1px solid var(--border); background: var(--bg-card); }
@@ -586,7 +585,7 @@
     align-items: center;
   }
   .solution-col-header-badge {
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 9px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -611,7 +610,7 @@
   .footer {
     background: var(--ink);
     color: rgba(255,255,255,0.4);
-    font-family: var(--mono);
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px;
     letter-spacing: 0.05em;
     padding: 24px 40px;
@@ -633,6 +632,9 @@
     .footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -1008,7 +1010,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><div class="mat-name">HDPE</div><div style="font-size:11px;color:var(--ink-4);font-family:var(--mono);">High Density Polyethylene</div></td>
+          <td><div class="mat-name">HDPE</div><div style="font-size:11px;color:var(--ink-4);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">High Density Polyethylene</div></td>
           <td>Main container / bin body</td>
           <td>Durable, lightweight, recyclable, chemical resistant</td>
           <td><span class="mat-tag">3 mm thick</span></td>
@@ -1078,44 +1080,44 @@
         <tbody>
           <tr>
             <td>Container / Bin walls</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">HDPE, 3 mm</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">19.5 m² × 0.003 m × 950 kg/m³</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">HDPE, 3 mm</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">19.5 m² × 0.003 m × 950 kg/m³</td>
             <td class="cost-val">56</td>
           </tr>
           <tr>
             <td>Outer cover (partial enclosure)</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel, 1 mm</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">12 m² × 0.001 m × 7,850 kg/m³</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Mild steel, 1 mm</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">12 m² × 0.001 m × 7,850 kg/m³</td>
             <td class="cost-val">94</td>
           </tr>
           <tr>
             <td>Piston plate</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel, 4 mm</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">1.5 × 2.5 × 0.004 m × 7,850 kg/m³</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Mild steel, 4 mm</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">1.5 × 2.5 × 0.004 m × 7,850 kg/m³</td>
             <td class="cost-val">118</td>
           </tr>
           <tr>
             <td>Scissor-lift frame</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild steel sections</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Estimated from CAD geometry</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Mild steel sections</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Estimated from CAD geometry</td>
             <td class="cost-val">22</td>
           </tr>
           <tr>
             <td>Lead screw + nut assembly</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Steel</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Standard industrial unit</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Steel</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Standard industrial unit</td>
             <td class="cost-val">8</td>
           </tr>
           <tr>
             <td>Worm gearbox</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Steel worm / brass wheel</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Standard 50:1 ratio unit</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Steel worm / brass wheel</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Standard 50:1 ratio unit</td>
             <td class="cost-val">12</td>
           </tr>
           <tr>
             <td>Support columns + hand wheel shaft</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Mild / stainless steel</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 columns + shaft</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Mild / stainless steel</td>
+            <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">4 columns + shaft</td>
             <td class="cost-val">15</td>
           </tr>
           <tr style="background:var(--accent-bg);">
@@ -1139,32 +1141,32 @@
           <tbody>
             <tr>
               <td>Container / Bin</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">HDPE, 3 mm, ~56 kg</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">HDPE, 3 mm, ~56 kg</td>
               <td class="cost-val">3,800</td>
             </tr>
             <tr>
               <td>Caster wheels</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 units × ₹350</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">4 units × ₹350</td>
               <td class="cost-val">1,400</td>
             </tr>
             <tr>
               <td>Ball bearings</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">2 units × ₹40</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">2 units × ₹40</td>
               <td class="cost-val">80</td>
             </tr>
             <tr>
               <td>Outer cover</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">MS sheet, 1 mm, ~94 kg</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">MS sheet, 1 mm, ~94 kg</td>
               <td class="cost-val">8,200</td>
             </tr>
             <tr>
               <td>Rubber cork</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">4 units × ₹27</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">4 units × ₹27</td>
               <td class="cost-val">108</td>
             </tr>
             <tr>
               <td>Main mechanism</td>
-              <td style="font-family:var(--mono);font-size:11px;color:var(--ink-3);">Piston + scissor + gearbox</td>
+              <td style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-3);">Piston + scissor + gearbox</td>
               <td class="cost-val">60,000</td>
             </tr>
             <tr class="cost-total">
@@ -1173,7 +1175,7 @@
             </tr>
           </tbody>
         </table>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--ink-4);margin-top:10px;line-height:1.8;">
+        <div style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:10px;color:var(--ink-4);margin-top:10px;line-height:1.8;">
           Outer cover revised from 0.024 m³ solid volume to 1 mm sheet<br>
           calculation (94 kg vs 188 kg). Mechanism cost reflects optimised<br>
           4 mm piston plate and standard-grade gearbox procurement.

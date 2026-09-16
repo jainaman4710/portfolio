@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mirage · Bringing Boredom Back</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --red:#C0392B;--red-dark:#8B1A0F;--red-light:#E8524A;
@@ -15,14 +14,14 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+body{font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
 
 /* PROGRESS BAR */
 #prog{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:999;width:0%;transition:width .08s linear;box-shadow:0 0 6px rgba(192,57,43,0.5);pointer-events:none;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:60px;}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--dark);text-decoration:none;}
+.nav-logo{font-family: 'Playfair Display', Georgia, serif;font-size:1.7rem;letter-spacing:0.12em;color:var(--dark);text-decoration:none;}
 .nav-logo span{color:var(--red);}
 .nav-links{display:flex;gap:2rem;list-style:none;}
 .nav-links a{text-decoration:none;color:var(--muted);font-size:0.74rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;transition:color 0.2s;position:relative;padding-bottom:3px;}
@@ -38,21 +37,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,
 .hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);border:1px solid var(--border);padding:6px 14px;margin-bottom:2rem;font-weight:600;background:rgba(192,57,43,0.04);}
 .hero-tag .dot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8.5vw,7.5rem);line-height:0.9;letter-spacing:0.03em;color:var(--dark);margin-bottom:1.75rem;}
+.hero-title{font-family: 'Playfair Display', Georgia, serif;font-size:clamp(3.5rem,8.5vw,7.5rem);line-height:0.9;letter-spacing:0.03em;color:var(--dark);margin-bottom:1.75rem;}
 .hero-title .red{color:var(--red);}
 .hero-title .outline{-webkit-text-stroke:2px var(--dark);color:transparent;}
-.hero-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.2rem;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:2.5rem;}
+.hero-sub{font-family: 'Playfair Display', Georgia, serif;font-style:italic;font-size:1.2rem;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:2.5rem;}
 .hero-problem{background:rgba(192,57,43,0.06);border-left:3px solid var(--red);padding:1.25rem 1.5rem;max-width:640px;}
 .hero-problem p{font-size:0.95rem;line-height:1.75;color:var(--ink);}
 .hero-problem strong{color:var(--red);}
 
 /* STAT STRIP */
 .stat-strip{background:var(--red);padding:1.75rem 0;position:relative;overflow:hidden;}
-.stat-strip::before{content:'IDLE TIME IS DECLINING';position:absolute;right:1rem;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'Bebas Neue',sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:rgba(0,0,0,0.1);white-space:nowrap;}
+.stat-strip::before{content:'IDLE TIME IS DECLINING';position:absolute;right:1rem;top:50%;transform:translateY(-50%) rotate(90deg);font-family: 'Playfair Display', Georgia, serif;font-size:0.75rem;letter-spacing:0.2em;color:rgba(0,0,0,0.1);white-space:nowrap;}
 .stat-row{max-width:1200px;margin:0 auto;padding:0 2.5rem;display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;}
 .stat-item{padding:0.5rem 1rem;border-right:1px solid rgba(255,255,255,0.2);flex:1;display:flex;flex-direction:column;align-items:center;}
 .stat-item:last-child{border:none;}
-.stat-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:#fff;display:block;}
+.stat-num{font-family: 'Playfair Display', Georgia, serif;font-size:3rem;line-height:1;color:#fff;display:block;}
 .stat-label{font-size:0.68rem;color:rgba(255,255,255,0.75);line-height:1.4;margin-top:4px;}
 
 /* SHARED */
@@ -60,7 +59,7 @@ section{padding:7rem 0 5rem;}
 .container{max-width:1200px;margin:0 auto;padding:0 2.5rem;}
 .eyebrow{font-size:0.67rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:0.75rem;display:flex;align-items:center;gap:10px;}
 .eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--red);}
-.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5.5vw,4.2rem);line-height:0.95;letter-spacing:0.04em;color:var(--dark);margin-bottom:1.5rem;}
+.sec-title{font-family: 'Playfair Display', Georgia, serif;font-size:clamp(2.6rem,5.5vw,4.2rem);line-height:0.95;letter-spacing:0.04em;color:var(--dark);margin-bottom:1.5rem;}
 .divider{width:100%;height:1px;background:linear-gradient(90deg,var(--red),rgba(192,57,43,0.2),transparent);margin-bottom:4rem;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
 .body-text{font-size:0.91rem;color:var(--muted);line-height:1.85;}
@@ -75,11 +74,11 @@ section{padding:7rem 0 5rem;}
 .boredom-def p{font-size:1.05rem;line-height:1.85;color:var(--ink);}
 .hl{color:var(--red);font-weight:700;}
 .why-box{background:rgba(192,57,43,0.05);border:1px solid var(--border);padding:1.75rem;margin-top:1.75rem;}
-.why-box h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--red);margin-bottom:0.75rem;letter-spacing:0.06em;}
+.why-box h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.5rem;color:var(--red);margin-bottom:0.75rem;letter-spacing:0.06em;}
 .why-box p{font-size:0.89rem;line-height:1.8;color:var(--muted);}
 .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .price-card{background:var(--bg2);border-top:3px solid var(--red);padding:1.25rem;}
-.price-card h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.06em;color:var(--red);margin-bottom:0.4rem;}
+.price-card h4{font-family: 'Playfair Display', Georgia, serif;font-size:1.1rem;letter-spacing:0.06em;color:var(--red);margin-bottom:0.4rem;}
 .price-card p{font-size:0.81rem;color:var(--muted);line-height:1.6;}
 .cite{font-size:0.67rem;color:var(--muted);font-style:italic;margin-top:0.5rem;opacity:0.7;}
 
@@ -88,7 +87,7 @@ section{padding:7rem 0 5rem;}
 .scenario-card{background:var(--bg2);border:1px solid var(--border-light);padding:0;overflow:hidden;position:relative;}
 .scenario-card-art{height:140px;position:relative;overflow:hidden;}
 .scenario-card-body{padding:1.25rem;}
-.scenario-card h5{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.4rem;}
+.scenario-card h5{font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.4rem;}
 .scenario-card p{font-size:0.79rem;color:var(--muted);line-height:1.55;}
 
 /* CONCEPT */
@@ -107,23 +106,23 @@ section{padding:7rem 0 5rem;}
 
 /* ENGAGING SECTION — visual grid */
 .engaging-header{text-align:center;margin:2rem 0 1.5rem;}
-.engaging-header span{background:var(--red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.12em;padding:7px 22px;}
+.engaging-header span{background:var(--red);color:#fff;font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.12em;padding:7px 22px;}
 .principle-visual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border-light);}
 .pcell{background:#fff;padding:0.9rem 1rem;border-right:1px solid var(--border-light);border-bottom:1px solid var(--border-light);position:relative;overflow:hidden;transition:background 0.2s;}
 .pcell:hover{background:rgba(192,57,43,0.03);}
 .pcell:nth-child(3n){border-right:none;}
 .pcell:nth-child(7),.pcell:nth-child(8),.pcell:nth-child(9){border-bottom:none;}
-.pcell-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(192,57,43,0.1);position:absolute;top:0.3rem;right:0.5rem;line-height:1;}
+.pcell-num{font-family: 'Playfair Display', Georgia, serif;font-size:1.8rem;color:rgba(192,57,43,0.1);position:absolute;top:0.3rem;right:0.5rem;line-height:1;}
 .picon{width:26px;height:26px;background:rgba(192,57,43,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:0.4rem;font-size:0.85rem;color:var(--red);}
-.pcell h4{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.2rem;}
+.pcell h4{font-family: 'Playfair Display', Georgia, serif;font-size:0.9rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.2rem;}
 .pcell p{font-size:0.73rem;color:var(--muted);line-height:1.5;}
 
 /* SIMULATOR */
 .sim-wrap{margin-top:3rem;background:#fff;border:1px solid var(--border-light);padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
 .sim-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;}
-.sim-head h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);}
+.sim-head h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);}
 .sim-controls{display:flex;gap:0.6rem;flex-wrap:wrap;}
-.sbtn{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:6px 13px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.sbtn{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:6px 13px;cursor:pointer;transition:all 0.2s;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;}
 .sbtn:hover,.sbtn.active{background:var(--red);border-color:var(--red);color:#fff;}
 #mc{width:100%;height:240px;display:block;background:#080810;}
 .sim-cap{font-size:0.74rem;color:var(--muted);text-align:center;margin-top:0.75rem;font-style:italic;}
@@ -135,19 +134,19 @@ section{padding:7rem 0 5rem;}
 .vcard:hover{box-shadow:0 4px 20px rgba(192,57,43,0.1);}
 .vh{background:var(--red);padding:1.25rem 1.5rem;}
 .vtype{font-size:0.67rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:0.2rem;}
-.vh h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.05em;color:#fff;}
+.vh h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.5rem;letter-spacing:0.05em;color:#fff;}
 .vb{padding:1.5rem;}
 .vdesc{font-size:0.86rem;color:var(--muted);line-height:1.65;margin-bottom:0.75rem;}
 .vmatter{font-size:0.82rem;color:var(--red);font-weight:600;margin-bottom:1.25rem;line-height:1.5;}
 .cycle{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin:1.25rem 0;flex-wrap:wrap;}
-.cnode{background:var(--red);color:#fff;padding:0.5rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;}
+.cnode{background:var(--red);color:#fff;padding:0.5rem 1rem;font-family: 'Playfair Display', Georgia, serif;font-size:0.9rem;letter-spacing:0.08em;}
 .carrow{color:var(--muted);font-size:0.85rem;}
 .mech-tag{display:inline-block;font-size:0.63rem;letter-spacing:0.14em;text-transform:uppercase;background:rgba(192,57,43,0.08);color:var(--red);padding:4px 10px;margin-bottom:0.75rem;}
 .mitem{margin-bottom:0.75rem;}
 .mitem h5{font-size:0.81rem;color:var(--dark);font-weight:600;margin-bottom:0.18rem;}
 .mitem p{font-size:0.77rem;color:var(--muted);line-height:1.55;}
 .dchars{margin-top:3rem;background:var(--bg2);border:1px solid var(--border-light);padding:2rem;}
-.dchars h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:1.5rem;}
+.dchars h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.4rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:1.5rem;}
 .cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
 .ci{display:flex;gap:0.7rem;align-items:flex-start;}
 .cdot{width:5px;height:5px;background:var(--red);flex-shrink:0;margin-top:7px;}
@@ -157,7 +156,7 @@ section{padding:7rem 0 5rem;}
 #technical{background:var(--bg2);}
 .twrap{overflow-x:auto;margin-top:2rem;border:1px solid var(--border-light);box-shadow:0 1px 6px rgba(0,0,0,0.04);}
 table{width:100%;border-collapse:collapse;}
-th{background:var(--red);color:#fff;padding:1rem 1.1rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;text-align:left;font-weight:400;}
+th{background:var(--red);color:#fff;padding:1rem 1.1rem;font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;text-align:left;font-weight:400;}
 td{padding:0.9rem 1.1rem;font-size:0.82rem;vertical-align:top;border-bottom:1px solid var(--border-light);line-height:1.65;color:var(--muted);background:#fff;}
 tr:nth-child(even) td{background:var(--bg2);}
 tr:hover td{background:rgba(192,57,43,0.03);}
@@ -167,12 +166,12 @@ td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacin
 /* GTM */
 #gtm{background:var(--bg);}
 .gtm-heads{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:1.5rem;}
-.gtm-vh{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+.gtm-vh{font-family: 'Playfair Display', Georgia, serif;font-size:1.7rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
 .gtm-cols{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
 .pcard{border:1px solid var(--border-light);margin-bottom:1rem;overflow:hidden;background:#fff;transition:box-shadow 0.2s;}
 .pcard:hover{box-shadow:0 3px 12px rgba(192,57,43,0.08);}
 .phead{background:var(--bg2);padding:0.9rem 1.2rem;display:flex;justify-content:space-between;align-items:center;}
-.phead h4{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--dark);letter-spacing:0.08em;}
+.phead h4{font-family: 'Playfair Display', Georgia, serif;font-size:1.05rem;color:var(--dark);letter-spacing:0.08em;}
 .ptag{font-size:0.67rem;color:var(--red);font-weight:700;letter-spacing:0.08em;background:rgba(192,57,43,0.08);padding:3px 9px;white-space:nowrap;}
 .pbody{padding:1rem 1.2rem;}
 .pfocus{font-size:0.71rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:0.6rem;}
@@ -185,7 +184,7 @@ td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacin
 .tnode{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:0 0.5rem;position:relative;}
 .tnode-dot{width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid var(--red);position:relative;z-index:2;transition:transform 0.2s,box-shadow 0.2s;flex-shrink:0;}
 .tnode:hover .tnode-dot,.tnode.active .tnode-dot{transform:scale(1.5);box-shadow:0 0 14px rgba(192,57,43,0.5);}
-.tnode-title{font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.08em;color:var(--dark);margin-top:0.6rem;text-align:center;white-space:nowrap;}
+.tnode-title{font-family: 'Playfair Display', Georgia, serif;font-size:0.8rem;letter-spacing:0.08em;color:var(--dark);margin-top:0.6rem;text-align:center;white-space:nowrap;}
 .tnode-sub{font-size:0.64rem;color:var(--muted);text-align:center;margin-top:2px;white-space:nowrap;}
 /* #tnode-detail removed — replaced by ptl-detail */
 
@@ -195,7 +194,7 @@ td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacin
 .ns{background:var(--red);padding:2rem;position:relative;overflow:hidden;margin-bottom:2rem;}
 .ns::after{content:'★';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:6rem;opacity:0.12;color:#fff;line-height:1;}
 .ns-tag{font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.4rem;}
-.ns h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;letter-spacing:0.05em;line-height:1.2;}
+.ns h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.5rem;color:#fff;letter-spacing:0.05em;line-height:1.2;}
 .mg{margin-bottom:2rem;}
 .mgl{font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:0.75rem;border-bottom:1px solid var(--border-light);padding-bottom:0.5rem;}
 .mr{background:#fff;border-left:3px solid var(--red);padding:0.85rem 1rem;margin-bottom:0.5rem;transition:background 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
@@ -204,7 +203,7 @@ td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacin
 .mr p{font-size:0.76rem;color:var(--muted);line-height:1.5;}
 .rtable{width:100%;border-collapse:collapse;margin-top:0.75rem;}
 .rtable thead tr{background:var(--bg3);}
-.rtable th{padding:0.65rem 0.9rem;font-size:0.67rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;font-family:'DM Sans',sans-serif;border-bottom:1px solid var(--border-light);}
+.rtable th{padding:0.65rem 0.9rem;font-size:0.67rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;border-bottom:1px solid var(--border-light);}
 .rtable th:first-child{color:var(--red);}
 .rtable th:last-child{color:var(--gold);}
 .rtable td{padding:0.85rem 0.9rem;font-size:0.8rem;line-height:1.6;border-bottom:1px solid var(--border-light);vertical-align:top;background:#fff;}
@@ -213,13 +212,13 @@ td:first-child{color:var(--dark);font-weight:600;font-size:0.79rem;letter-spacin
 .mname{display:block;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.25rem;}
 .ugrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem;}
 .ubadge{background:#fff;border:1px solid var(--border-light);padding:1rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
-.ubadge h5{font-family:'Bebas Neue',sans-serif;font-size:0.93rem;color:var(--red);letter-spacing:0.08em;margin-bottom:0.4rem;}
+.ubadge h5{font-family: 'Playfair Display', Georgia, serif;font-size:0.93rem;color:var(--red);letter-spacing:0.08em;margin-bottom:0.4rem;}
 .ubadge p{font-size:0.75rem;color:var(--muted);line-height:1.55;}
 
 /* CLOSING */
 .closing{background:var(--red);padding:5rem 0;text-align:center;position:relative;overflow:hidden;}
-.closing::before{content:'MIRAGE';font-family:'Bebas Neue',sans-serif;font-size:18rem;color:rgba(0,0,0,0.07);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;letter-spacing:0.1em;pointer-events:none;}
-.cquote{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.9rem);color:#fff;max-width:720px;margin:0 auto 1.25rem;line-height:1.5;padding:0 2rem;position:relative;z-index:1;}
+.closing::before{content:'MIRAGE';font-family: 'Playfair Display', Georgia, serif;font-size:18rem;color:rgba(0,0,0,0.07);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;letter-spacing:0.1em;pointer-events:none;}
+.cquote{font-family: 'Playfair Display', Georgia, serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.9rem);color:#fff;max-width:720px;margin:0 auto 1.25rem;line-height:1.5;padding:0 2rem;position:relative;z-index:1;}
 .cattr{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);position:relative;z-index:1;}
 footer{background:var(--bg2);padding:1.5rem;text-align:center;font-size:0.71rem;color:var(--muted);letter-spacing:0.08em;border-top:1px solid var(--border-light);}
 footer span{color:var(--red);}
@@ -232,7 +231,7 @@ footer span{color:var(--red);}
 .cq-content{padding-left:0;}
 .cq-header{display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.25rem;flex-wrap:wrap;}
 .cq-icon{color:var(--red);font-size:0.85rem;flex-shrink:0;line-height:1;}
-.cq-header h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.06em;color:var(--dark);flex:1;min-width:0;}
+.cq-header h4{font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.06em;color:var(--dark);flex:1;min-width:0;}
 .cq-cite{font-size:0.64rem;color:var(--muted);font-style:italic;white-space:nowrap;}
 .cq-item p{font-size:0.8rem;color:var(--muted);line-height:1.55;padding-left:1.2rem;}
 
@@ -243,12 +242,12 @@ footer span{color:var(--red);}
 .risk-left{background:#fff;padding:1.1rem 1.1rem 1.1rem 1.1rem;position:relative;border-right:none;}
 .risk-right{background:rgba(192,57,43,0.04);padding:1.1rem;border-left:none;}
 .risk-arrow{background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;font-weight:700;flex-shrink:0;}
-.risk-index{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:rgba(192,57,43,0.12);line-height:1;margin-bottom:0.3rem;letter-spacing:0.05em;}
+.risk-index{font-family: 'Playfair Display', Georgia, serif;font-size:1.6rem;color:rgba(192,57,43,0.12);line-height:1;margin-bottom:0.3rem;letter-spacing:0.05em;}
 .risk-icon-wrap{font-size:0.85rem;color:var(--red);margin-bottom:0.35rem;opacity:0.8;}
-.risk-name-label{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.35rem;}
+.risk-name-label{font-family: 'Playfair Display', Georgia, serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--dark);margin-bottom:0.35rem;}
 .risk-desc{font-size:0.77rem;color:var(--muted);line-height:1.55;}
 .mit-icon-wrap{font-size:0.85rem;color:var(--red);margin-bottom:0.35rem;}
-.mit-name-label{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--red);margin-bottom:0.35rem;}
+.mit-name-label{font-family: 'Playfair Display', Georgia, serif;font-size:0.95rem;letter-spacing:0.07em;color:var(--red);margin-bottom:0.35rem;}
 .mit-desc{font-size:0.77rem;color:var(--muted);line-height:1.55;}
 
 
@@ -258,12 +257,12 @@ footer span{color:var(--red);}
 .ptl-months span{font-size:0.62rem;color:var(--muted);letter-spacing:0.05em;font-weight:600;}
 .ptl-row{display:grid;grid-template-columns:100px 1fr;gap:0;margin-bottom:0.6rem;align-items:center;}
 .ptl-label-col{padding-right:1rem;}
-.ptl-variant-label{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.3rem 0.6rem;text-transform:uppercase;}
+.ptl-variant-label{font-family: 'Playfair Display', Georgia, serif;font-size:0.82rem;letter-spacing:0.1em;padding:0.3rem 0.6rem;text-transform:uppercase;}
 .ptl-track-col{position:relative;}
 .ptl-track{position:relative;height:36px;background:var(--bg3);overflow:hidden;}
 .ptl-phase{position:absolute;top:0;height:100%;display:flex;align-items:center;padding:0 0.6rem;cursor:pointer;transition:filter 0.2s;overflow:hidden;}
 .ptl-phase:hover{filter:brightness(1.15);}
-.ptl-phase span{font-family:'Bebas Neue',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ptl-phase span{font-family: 'Playfair Display', Georgia, serif;font-size:0.72rem;letter-spacing:0.08em;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ptl-phase::after{content:'›';position:absolute;right:6px;color:rgba(255,255,255,0.5);font-size:0.9rem;}
 
 @media(max-width:900px){
@@ -273,19 +272,19 @@ footer span{color:var(--red);}
 }
 
 .snav-dot{width:8px;height:8px;border-radius:50%;background:rgba(192,57,43,0.2);border:1.5px solid rgba(192,57,43,0.3);display:block;transition:all 0.25s;position:relative;text-decoration:none;}
-.snav-dot::before{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);white-space:nowrap;opacity:0;transition:opacity 0.2s;font-family:'DM Sans',sans-serif;font-weight:600;background:rgba(255,255,255,0.95);padding:2px 8px;border:1px solid var(--border);pointer-events:none;}
+.snav-dot::before{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);white-space:nowrap;opacity:0;transition:opacity 0.2s;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;font-weight:600;background:rgba(255,255,255,0.95);padding:2px 8px;border:1px solid var(--border);pointer-events:none;}
 .snav-dot:hover::before,.snav-dot.active-dot::before{opacity:1;}
 .snav-dot:hover,.snav-dot.active-dot{background:var(--red);border-color:var(--red);transform:scale(1.3);}
 
 /* DATA VIZ BAR */
 .data-bar-wrap{margin-top:2.5rem;background:#fff;border:1px solid var(--border-light);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
-.data-bar-wrap h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);margin-bottom:1.25rem;}
+.data-bar-wrap h4{font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);margin-bottom:1.25rem;}
 .bar-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
 .bar-row:last-child{margin-bottom:0;}
 .bar-label{font-size:0.74rem;color:var(--muted);width:120px;flex-shrink:0;text-align:right;}
 .bar-track{flex:1;background:var(--bg3);height:22px;position:relative;overflow:hidden;}
 .bar-fill{height:100%;background:var(--red);width:0%;transition:width 1.2s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;}
-.bar-fill span{font-family:'Bebas Neue',sans-serif;font-size:0.82rem;color:#fff;letter-spacing:0.05em;white-space:nowrap;}
+.bar-fill span{font-family: 'Playfair Display', Georgia, serif;font-size:0.82rem;color:#fff;letter-spacing:0.05em;white-space:nowrap;}
 .bar-fill.gold{background:var(--gold);}
 .bar-fill.dim{background:rgba(192,57,43,0.35);}
 
@@ -300,6 +299,9 @@ footer span{color:var(--red);}
   .principle-visual-grid .pcell:nth-child(7),.principle-visual-grid .pcell:nth-child(8),.principle-visual-grid .pcell:nth-child(9){border-bottom:1px solid var(--border-light);}
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -392,7 +394,7 @@ footer span{color:var(--red);}
 
         <div style="margin-top:2.5rem;margin-bottom:1rem;">
   <div style="background:var(--dark);padding:0.75rem 1.25rem;display:inline-block;">
-    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);">In 10 Years, When Boredom Reduces to Zero</span>
+    <span style="font-family: 'Playfair Display', Georgia, serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);">In 10 Years, When Boredom Reduces to Zero</span>
   </div>
 </div>
 <div class="scenario-row">
@@ -474,10 +476,10 @@ footer span{color:var(--red);}
         <canvas id="mirage-illus"></canvas>
       </div>
       <div>
-        <p style="font-family:'DM Serif Display',serif;font-style:italic;font-size:1.45rem;color:var(--dark);line-height:1.7;margin-bottom:1.25rem;">Remember those moments when you're travelling? Instead of looking at your phone, you find yourself just staring out the window at the passing scenery, letting your mind drift.</p>
+        <p style="font-family: 'Playfair Display', Georgia, serif;font-style:italic;font-size:1.45rem;color:var(--dark);line-height:1.7;margin-bottom:1.25rem;">Remember those moments when you're travelling? Instead of looking at your phone, you find yourself just staring out the window at the passing scenery, letting your mind drift.</p>
         <p class="body-text" style="margin-bottom:1.5rem;">That specific <strong style="color:var(--red);">"zone-out" feeling</strong>: that effortless pause where your mind isn't actively working, just quietly observing. This was our core inspiration. We designed <strong style="color:var(--red);">Mirage</strong> to recreate that moment of calm, quiet reflection and make it part of your regular life.</p>
 
-        <p style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem;">IS THE ART OF DOING NOTHING THE KEY TO CREATIVITY?</p>
+        <p style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:1rem;">IS THE ART OF DOING NOTHING THE KEY TO CREATIVITY?</p>
         <div class="rstack">
           <div class="rq"><p>Deliberate mind wandering is associated with greater creativity and helps generate creative ideas and solutions.</p><div class="auth">Fang et al. (2025)</div></div>
           <div class="rq"><p>Mind wandering during undemanding tasks significantly enhances creative idea generation and serves as a foundation for creative inspiration.</p><div class="auth">Baird et al. (2012)</div></div>
@@ -495,27 +497,27 @@ footer span{color:var(--red);}
       <div style="display:flex;align-items:center;justify-content:center;gap:0;margin:1.5rem 0 2rem;flex-wrap:wrap;background:#fff;border:1px solid var(--border-light);padding:1.5rem;">
         <div style="text-align:center;padding:0 1.5rem;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">👁</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Gaze Lingers</div>
+          <div style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Gaze Lingers</div>
         </div>
         <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
         <div style="text-align:center;padding:0 1.5rem;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">🪞</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mirror Shifts</div>
+          <div style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mirror Shifts</div>
         </div>
         <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
         <div style="text-align:center;padding:0 1.5rem;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">🌊</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Calm Visuals</div>
+          <div style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Calm Visuals</div>
         </div>
         <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
         <div style="text-align:center;padding:0 1.5rem;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.08);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">💭</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mind Wanders</div>
+          <div style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--dark);">Mind Wanders</div>
         </div>
         <div style="color:var(--red);font-size:1.5rem;padding:0 0.5rem;">›</div>
         <div style="text-align:center;padding:0 1.5rem;">
           <div style="width:60px;height:60px;border-radius:50%;background:rgba(192,57,43,0.15);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-size:1.4rem;">✦</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--red);">Creativity</div>
+          <div style="font-family: 'Playfair Display', Georgia, serif;font-size:0.85rem;letter-spacing:0.08em;color:var(--red);">Creativity</div>
         </div>
       </div>
 
@@ -630,12 +632,12 @@ footer span{color:var(--red);}
     <div style="display:flex;gap:2rem;margin-bottom:2.5rem;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:14px;height:14px;background:var(--red);flex-shrink:0;"></div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Residential Variant</span>
+        <span style="font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Residential Variant</span>
         <span style="font-size:0.75rem;color:var(--muted);">4 phases over 24 months</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:14px;height:14px;background:var(--gold);flex-shrink:0;"></div>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Commercial Variant</span>
+        <span style="font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;color:var(--dark);">Commercial Variant</span>
         <span style="font-size:0.75rem;color:var(--muted);">2 phases over 24 months</span>
       </div>
     </div>
@@ -701,7 +703,7 @@ footer span{color:var(--red);}
 
       <!-- CLICK DETAIL PANEL -->
       <div id="ptl-detail" style="display:none;margin-top:1.5rem;background:var(--bg2);border-left:3px solid var(--red);padding:1.1rem 1.4rem;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.3rem;" id="ptl-phase-label"></div>
+        <div style="font-family: 'Playfair Display', Georgia, serif;font-size:1rem;letter-spacing:0.08em;color:var(--red);margin-bottom:0.3rem;" id="ptl-phase-label"></div>
         <div style="font-size:0.83rem;color:var(--muted);line-height:1.65;" id="ptl-phase-detail"></div>
       </div>
     </div>
@@ -709,14 +711,14 @@ footer span{color:var(--red);}
     <!-- PHASE DETAIL CARDS below, side by side -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;" class="fade-up">
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.6rem;border-bottom:2px solid var(--red);margin-bottom:1.25rem;">Residential · 4 Phases</div>
+        <div style="font-family: 'Playfair Display', Georgia, serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--red);padding-bottom:0.6rem;border-bottom:2px solid var(--red);margin-bottom:1.25rem;">Residential · 4 Phases</div>
         <div class="pcard"><div class="phead"><h4>Phase 1: Launch</h4><span class="ptag" style="background:var(--red);color:#fff;">0–6 months</span></div><div class="pbody"><div class="pfocus">B2B introduction through hotels &amp; short-stay spaces</div><ul><li>Partner with boutique hotels, co-living spaces, and wellness retreats.</li><li>Position the mirror as a "guest experience enhancer."</li></ul></div></div>
         <div class="pcard"><div class="phead"><h4>Phase 2: Digital Expansion</h4><span class="ptag" style="background:#A0291C;color:#fff;">6–12 months</span></div><div class="pbody"><div class="pfocus">Direct-to-consumer (B2C) through online channels</div><ul><li>Launch on premium e-commerce and home-tech platforms.</li><li>Run narrative-driven campaigns: "art that breathes" and "boredom as beauty."</li></ul></div></div>
         <div class="pcard"><div class="phead"><h4>Phase 3: Experience Creation</h4><span class="ptag" style="background:#822214;color:#fff;">12–18 months</span></div><div class="pbody"><div class="pfocus">Establish "Boredom Stores" &amp; brand zones</div><ul><li>Create immersive offline experience stores in malls and interior design showrooms.</li><li>Allow users to experience the transition in real time.</li></ul></div></div>
         <div class="pcard"><div class="phead"><h4>Phase 4: Market Penetration</h4><span class="ptag" style="background:#601A0E;color:#fff;">18–24 months</span></div><div class="pbody"><div class="pfocus">Penetrate through local vendors &amp; design partners</div><ul><li>Collaborate with interior designers, architects, and home decor vendors.</li><li>Offer modular, size-adaptive mirrors for personalised spaces.</li></ul></div></div>
       </div>
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--gold);padding-bottom:0.6rem;border-bottom:2px solid var(--gold);margin-bottom:1.25rem;">Commercial · 2 Phases</div>
+        <div style="font-family: 'Playfair Display', Georgia, serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--gold);padding-bottom:0.6rem;border-bottom:2px solid var(--gold);margin-bottom:1.25rem;">Commercial · 2 Phases</div>
         <div class="pcard" style="border-left:3px solid var(--gold);"><div class="phead"><h4>Phase 1: Strategic Entry</h4><span class="ptag" style="background:var(--gold);color:#fff;">0–12 months</span></div><div class="pbody"><div class="pfocus">B2B partnerships &amp; institutional onboarding</div><ul><li>Target premium offices, wellness centers, airports, and hospitality lobbies.</li><li>Use demo installations and architect collaborations for awareness.</li></ul></div></div>
         <div class="pcard" style="border-left:3px solid var(--gold);"><div class="phead"><h4>Phase 2: Spatial Expansion</h4><span class="ptag" style="background:#8A6A1A;color:#fff;">12–24 months</span></div><div class="pbody"><div class="pfocus">Offline experience stores (parallel to Residential Phase 3)</div><ul><li>Launch interactive "Boredom Stores" within design studios and smart-space showrooms.</li><li>Showcase large-format mirrors and adaptive visuals for corporate buyers.</li></ul></div></div>
         <div style="background:rgba(184,150,46,0.07);border:1px solid rgba(184,150,46,0.2);padding:1.25rem;margin-top:1rem;">
@@ -739,7 +741,7 @@ footer span{color:var(--red);}
           <canvas id="metrics-ring" width="110" height="110" style="flex-shrink:0;"></canvas>
           <div>
             <div style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;">Success Framework</div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:0.5rem;">3 Outcome Layers</div>
+            <div style="font-family: 'Playfair Display', Georgia, serif;font-size:1.2rem;letter-spacing:0.06em;color:var(--dark);margin-bottom:0.5rem;">3 Outcome Layers</div>
             <div style="display:flex;flex-direction:column;gap:4px;">
               <div style="display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted);"><div style="width:8px;height:8px;background:var(--red);flex-shrink:0;"></div>North Star · Units Sold</div>
               <div style="display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted);"><div style="width:8px;height:8px;background:#E87050;flex-shrink:0;"></div>L1 · Business Outcomes (3 metrics)</div>
@@ -988,12 +990,12 @@ new IntersectionObserver(entries=>{
       ctx.fillRect(bx,by,bw,bh);
       ctx.globalAlpha=1;
       // rank number
-      ctx.fillStyle='rgba(0,0,0,0.5)';ctx.font=`bold ${Math.round(bw*0.35)}px DM Sans,sans-serif`;
+      ctx.fillStyle='rgba(0,0,0,0.5)';ctx.font=`'Geist', ui-sans-serif, system-ui, sans-serif`;
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.fillText(p.label,bx+bw/2,by+bh/2);
       // bouncing snack on top
       const bounce=Math.sin(t3*2+(trophyParts.indexOf(p)))* 4;
-      ctx.font=`${Math.round(bw*0.45)}px serif`;
+      ctx.font=`'Playfair Display', Georgia, serif`;
       ctx.fillText('🍿',bx+bw/2,by-16+bounce);
     });
     // floating snack particles
@@ -1009,7 +1011,7 @@ new IntersectionObserver(entries=>{
     ctx.fillStyle='rgba(192,57,43,0.9)';
     const lw=w*0.7,lh=22;
     ctx.fillRect(w/2-lw/2,8,lw,lh);
-    ctx.fillStyle='#fff';ctx.font=`bold 11px DM Sans,sans-serif`;
+    ctx.fillStyle='#fff';ctx.font=`bold 11px 'Geist', ui-sans-serif, system-ui, sans-serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText('FASTEST CHEWERS LEADERBOARD',w/2,8+lh/2);
     ctx.globalAlpha=1;
@@ -1112,7 +1114,7 @@ new IntersectionObserver(entries=>{
     // torso
     ctx.beginPath();ctx.moveTo(px2+8,py2+13);ctx.lineTo(px2+32,py2+13);ctx.lineTo(px2+28,py2+65);ctx.lineTo(px2+12,py2+65);ctx.closePath();ctx.fill();
     // label
-    ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font=`italic 11px 'DM Serif Display',serif`;
+    ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font=`italic 11px 'Playfair Display', Georgia, serif`;
     ctx.textAlign='center';ctx.textBaseline='top';
     ctx.fillText('the zone-out feeling',W/2,my+mh+10);
     requestAnimationFrame(draw);
@@ -1302,8 +1304,8 @@ new IntersectionObserver(entries=>{
         ctx.strokeStyle=s.color;ctx.lineWidth=12;ctx.lineCap='round';ctx.stroke();
         ang+=sl;
       });
-      ctx.fillStyle=`rgba(26,22,20,${prog})`;ctx.font='bold 13px DM Sans,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('7',cx,cy-7);
-      ctx.fillStyle='rgba(26,22,20,0.4)';ctx.font='9px DM Sans,sans-serif';ctx.fillText('metrics',cx,cy+7);
+      ctx.fillStyle=`rgba(26,22,20,${prog})`;ctx.font='bold 13px 'Geist', ui-sans-serif, system-ui, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('7',cx,cy-7);
+      ctx.fillStyle='rgba(26,22,20,0.4)';ctx.font='9px 'Geist', ui-sans-serif, system-ui, sans-serif';ctx.fillText('metrics',cx,cy+7);
       if(prog<1)requestAnimationFrame(anim);
     }
     requestAnimationFrame(anim);

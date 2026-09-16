@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Credit Card Fraud Detection | ML Dashboard</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap');
-
-  :root {
+:root {
     --bg:        #0a0d12;
     --bg2:       #10141c;
     --bg3:       #161b26;
@@ -30,7 +28,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.6;
   }
@@ -45,7 +43,7 @@
     padding: 28px 0; z-index: 100;
   }
   .sidebar-logo {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     font-size: 13px; font-weight: 800;
     color: var(--accent);
     letter-spacing: 0.08em;
@@ -53,7 +51,7 @@
     border-bottom: 1px solid var(--border);
     text-transform: uppercase;
   }
-  .sidebar-logo span { color: var(--muted); font-weight: 400; font-family: 'Inter', sans-serif; font-size: 11px; display: block; margin-top: 2px; letter-spacing: 0; text-transform: none; }
+  .sidebar-logo span { color: var(--muted); font-weight: 400; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 11px; display: block; margin-top: 2px; letter-spacing: 0; text-transform: none; }
   .nav { margin-top: 20px; flex: 1; }
   .nav a {
     display: flex; align-items: center; gap: 10px;
@@ -100,13 +98,13 @@
     pointer-events: none;
   }
   .hero-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px; font-weight: 600;
     color: var(--accent); letter-spacing: 0.14em;
     text-transform: uppercase; margin-bottom: 14px;
   }
   .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     font-size: 42px; font-weight: 800;
     line-height: 1.1; color: #fff;
     max-width: 640px;
@@ -121,7 +119,7 @@
   }
   .hero-stat { display: flex; flex-direction: column; gap: 3px; }
   .hero-stat-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 28px; font-weight: 600; color: #fff;
   }
   .hero-stat-val span { font-size: 16px; color: var(--accent); }
@@ -135,14 +133,14 @@
     margin-bottom: 28px;
   }
   .section-num {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 11px; color: var(--accent);
     background: rgba(56,189,248,0.1);
     padding: 3px 8px; border-radius: 4px;
     letter-spacing: 0.06em;
   }
   .section h2 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
     font-size: 22px; font-weight: 700; color: #fff;
   }
   .section-desc {
@@ -173,7 +171,7 @@
   }
   .stat-card-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
   .stat-card-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
     font-size: 26px; font-weight: 600; color: #fff;
   }
   .stat-card-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
@@ -212,7 +210,7 @@
   .bar-label { width: 120px; font-size: 12px; color: var(--muted); text-align: right; flex-shrink: 0; }
   .bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-  .bar-val { width: 50px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); }
+  .bar-val { width: 50px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px; color: var(--text); }
 
   /* ── CATEGORY BAR CHART ── */
   .cat-chart { display: flex; flex-direction: column; gap: 10px; }
@@ -221,7 +219,7 @@
   .cat-track { flex: 1; height: 16px; background: var(--border); border-radius: 3px; overflow: hidden; position: relative; }
   .cat-fill-normal { height: 100%; background: rgba(56,189,248,0.4); border-radius: 3px; float: left; }
   .cat-fill-fraud  { height: 100%; background: rgba(248,113,113,0.7); border-radius: 3px; float: left; }
-  .cat-pct { width: 42px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .cat-pct { width: 42px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--muted); }
 
   /* ── HEATMAP ── */
   .heatmap-grid { display: flex; flex-direction: column; gap: 0; }
@@ -229,7 +227,7 @@
   .heatmap-cell {
     flex: 1; aspect-ratio: 1.5;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; font-weight: 600;
     border: 1px solid var(--bg); border-radius: 2px;
   }
   .heatmap-labels { display: flex; gap: 0; padding-left: 60px; margin-bottom: 4px; }
@@ -254,7 +252,7 @@
   .model-table tr:hover td { background: rgba(255,255,255,0.02); }
   .model-name { font-weight: 600; color: #fff; }
   .model-name small { display: block; font-size: 10px; color: var(--muted); font-weight: 400; margin-top: 1px; }
-  .metric-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .metric-val { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px; }
   .best-val { color: var(--green); font-weight: 600; }
   .winner-row td { background: rgba(52,211,153,0.04) !important; }
 
@@ -268,7 +266,7 @@
     width: 66px; height: 52px;
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 2px;
-    border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+    border-radius: 4px; font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
   }
   .cm-cell-val { font-size: 18px; font-weight: 600; }
   .cm-cell-label { font-size: 9px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -290,11 +288,11 @@
 
   /* ── FEATURE IMPORTANCE ── */
   .feat-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .feat-rank { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); width: 18px; flex-shrink:0; }
+  .feat-rank { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 10px; color: var(--muted); width: 18px; flex-shrink:0; }
   .feat-name { width: 170px; font-size: 12px; color: var(--text); flex-shrink: 0; }
   .feat-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .feat-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-  .feat-score { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 44px; text-align: right; }
+  .feat-score { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--muted); width: 44px; text-align: right; }
 
   /* ── SCALER COMPARISON ── */
   .scaler-row { display: flex; gap: 16px; }
@@ -324,7 +322,7 @@
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; position: relative;
   }
-  .auc-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #fff; }
+  .auc-val { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 14px; font-weight: 600; color: #fff; }
   .auc-name { font-size: 10px; color: var(--muted); text-align: center; max-width: 80px; }
 
   /* ── IMBALANCE VISUAL ── */
@@ -359,6 +357,9 @@
   .kde-track { height: 60px; position: relative; overflow: hidden; border-radius: 4px; background: var(--bg3); }
   .kde-svg { width: 100%; height: 100%; }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -601,28 +602,13 @@
       <div style="background:var(--bg3);border-radius:8px;padding:16px">
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em">Overall</div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family:'JetBrains Mono',monospace">$71.22</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family:'JetBrains Mono',monospace">$47.11</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family:'JetBrains Mono',monospace">$83.61</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family:'JetBrains Mono',monospace">$1,334.07</span></div>
-        </div>
-      </div>
-      <div style="background:rgba(56,189,248,0.05);border:1px solid rgba(56,189,248,0.15);border-radius:8px;padding:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;border:1px solid rgba(56,189,248,0.15);border-radius:8px;padding:16px">
         <div style="font-size:11px;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em">Non-Fraud</div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family:'JetBrains Mono',monospace">$67.10</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family:'JetBrains Mono',monospace">$45.54</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family:'JetBrains Mono',monospace">$81.20</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family:'JetBrains Mono',monospace">$1,001.12</span></div>
-        </div>
-      </div>
-      <div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:16px">
         <div style="font-size:11px;color:var(--red);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em">Fraud</div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family:'JetBrains Mono',monospace">$123.81</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family:'JetBrains Mono',monospace">$89.20</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family:'JetBrains Mono',monospace">$176.30</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family:'JetBrains Mono',monospace;color:var(--red)">$186.97</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Mean</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Median</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">75th pct</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;justify-content:space-between;font-size:12px"><span style="color:var(--muted)">Max</span><span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;color:var(--red)">$186.97</span></div>
         </div>
       </div>
     </div>
@@ -768,7 +754,7 @@
           <div class="imb-half" style="background:rgba(56,189,248,0.25);color:var(--accent)">21 Normal</div>
           <div class="imb-half" style="background:rgba(248,113,113,0.25);color:var(--red)">21 Fraud</div>
         </div>
-        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--green)">0.763</span></div>
+        <div style="margin-top:8px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--green)">0.763</span></div>
       </div>
       <div class="method-block red" style="margin-top:10px">
         <h4>Disadvantage</h4>
@@ -783,7 +769,7 @@
           <div class="imb-half" style="background:rgba(56,189,248,0.25);color:var(--accent)">5,536 Normal</div>
           <div class="imb-half" style="background:rgba(248,113,113,0.25);color:var(--red)">5,536 Fraud</div>
         </div>
-        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--amber)">0.741</span></div>
+        <div style="margin-top:8px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--amber)">0.741</span></div>
       </div>
       <div class="method-block amber" style="margin-top:10px">
         <h4>Disadvantage</h4>
@@ -798,7 +784,7 @@
           <div class="imb-half" style="background:rgba(56,189,248,0.25);color:var(--accent)">5,536 Normal</div>
           <div class="imb-half" style="background:rgba(52,211,153,0.25);color:var(--green)">5,536 Synthetic</div>
         </div>
-        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--amber)">0.749</span></div>
+        <div style="margin-top:8px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--text)">amt ↔ is_fraud corr: <span style="color:var(--amber)">0.749</span></div>
       </div>
       <div class="method-block green" style="margin-top:10px">
         <h4>Why SMOTE wins</h4>
@@ -1009,23 +995,23 @@
       <div style="display:flex;flex-direction:column;gap:8px">
         <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(52,211,153,0.06);border-radius:6px">
           <span style="font-size:12px;color:var(--muted)">Test Accuracy</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">99.91%</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--green)">99.91%</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(52,211,153,0.06);border-radius:6px">
           <span style="font-size:12px;color:var(--muted)">TPR (Test)</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">~100%</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--green)">~100%</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(52,211,153,0.06);border-radius:6px">
           <span style="font-size:12px;color:var(--muted)">FPR (Test)</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">~0.00%</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--green)">~0.00%</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(52,211,153,0.06);border-radius:6px">
           <span style="font-size:12px;color:var(--muted)">F1 Score</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">0.99896</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--green)">0.99896</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(52,211,153,0.06);border-radius:6px">
           <span style="font-size:12px;color:var(--muted)">AUC</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">0.99998</span>
+          <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--green)">0.99998</span>
         </div>
       </div>
     </div>
@@ -1045,7 +1031,7 @@
     </div>
   </div>
   <div style="padding:20px 24px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--muted);line-height:1.8">
-    <strong style="color:#fff;font-family:'Space Grotesk',sans-serif">Final Takeaway &nbsp;+&nbsp;</strong>
+    <strong style="color:#fff;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;+&nbsp;</strong>
     XGBoost has been determined to be the best and most suitable ML model for credit card fraud detection in this project, achieving near-perfect scores across every evaluation metric. The combination of Robust Scaling, SMOTE balancing, and 8 engineered feature groups created the conditions for this result. Future improvements could include hyperparameter tuning via grid search, real-time streaming feature computation, and testing on the full 555K transaction dataset.
   </div>
 </div>
@@ -1118,7 +1104,7 @@ function drawROC() {
 
   // axes labels
   ctx.fillStyle = '#64748b';
-  ctx.font = '10px Inter, sans-serif';
+  ctx.font = '10px 'Geist', ui-sans-serif, system-ui, sans-serif';
   ctx.textAlign = 'center';
   [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(v => {
     const [cx] = toCanvas(v, 0);
@@ -1132,7 +1118,7 @@ function drawROC() {
 
   ctx.fillStyle = '#94a3b8';
   ctx.textAlign = 'center';
-  ctx.font = '11px Inter';
+  ctx.font = '11px 'Geist', ui-sans-serif, system-ui, sans-serif';
   ctx.fillText('False Positive Rate (FPR)', W/2, H-2);
   ctx.save(); ctx.translate(10, H/2); ctx.rotate(-Math.PI/2);
   ctx.fillText('True Positive Rate (TPR)', 0, 0);
@@ -1144,7 +1130,7 @@ function drawROC() {
     ctx.fillStyle = m.color;
     ctx.fillRect(PAD+10, ly-7, 14, 3);
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.font = '10px 'Geist Mono', ui-monospace, 'Courier New', monospace';
     ctx.textAlign = 'left';
     ctx.fillText(`${m.label}  AUC=${m.auc}`, PAD+30, ly);
     ly += 16;

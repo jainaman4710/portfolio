@@ -5,6 +5,9 @@ import {
   ProductRoadmapDiagram,
 } from "@/components/icons"
 import { Header } from "@/components/header"
+import { ProjectsShowcase } from "@/components/projects-showcase"
+import { projects } from "@/lib/projects"
+import { GithubIcon, LinkedinIcon } from "@/components/icons"
 
 export default function Home() {
   const courses = [
@@ -20,37 +23,6 @@ export default function Home() {
     { cat: "Product",          items: ["PRD Writing","User Research","Agile / Scrum","Roadmapping","Wireframing"] },
     { cat: "Visualization",    items: ["Matplotlib","Seaborn","Plotly","Tableau","Power BI"] },
     { cat: "Engineering",      items: ["CAD","FEA","Simulation","Topology Optimisation","MATLAB"] },
-  ]
-
-  const projects = [
-    {
-      type: "Statistical Analysis",
-      name: "Mauritius Blended Learning Study",
-      desc: "Multivariate analysis of digital literacy and motivation using EFA, CFA, ANOVA, stepwise regression, and SEM.",
-      stats: [{ val: "86.1%", lbl: "KMO Index" }, { val: "β=0.928", lbl: "Path Coef." }],
-      href: "/projects/mauritius-study",
-    },
-    {
-      type: "Market Research",
-      name: "VR Adoption Divergence",
-      desc: "In-depth analysis of VR adoption patterns across enterprise and consumer segments, examining divergent trajectories.",
-      stats: [{ val: "+24%", lbl: "Enterprise" }, { val: "1.2K+", lbl: "Data Points" }],
-      href: "/projects/vr-adoption",
-    },
-    {
-      type: "Business Analytics",
-      name: "Hospitality Revenue Optimization",
-      desc: "Data-driven investigation into booking behavior, cancellation patterns, and dynamic pricing across a 25-property hotel chain.",
-      stats: [{ val: "+20.86%", lbl: "Revenue Uplift" }, { val: "134,590", lbl: "Transactions" }],
-      href: "/projects/hospitality-revenue",
-    },
-    {
-      type: "Machine Learning",
-      name: "Convolutional Autoencoder for Topology Optimization",
-      desc: "Surrogate deep learning model replacing expensive physics solvers with millisecond-scale neural inference.",
-      stats: [{ val: "74.2%", lbl: "Accuracy" }, { val: "<100ms", lbl: "Inference" }],
-      href: "/projects/autoencoder",
-    },
   ]
 
   return (
@@ -138,42 +110,7 @@ export default function Home() {
         <h2 className="font-serif font-normal mb-10" style={{ fontSize: "clamp(1.9rem,2.8vw,2.6rem)", color: "#1a1a2e" }}>
           Projects
         </h2>
-        <div className="grid grid-cols-2 gap-4">
-          {projects.map((p) => (
-            <a
-              key={p.name}
-              href={p.href}
-              className="relative block rounded-2xl no-underline transition-all"
-              style={{ background: "#fff", border: "1px solid #F8BBD9", padding: "2rem" }}
-            >
-              <span className="absolute top-6 right-6" style={{ color: "#b0a0b4" }}>&#x2197;</span>
-              <span
-                className="font-mono uppercase inline-block rounded-full mb-4"
-                style={{ fontSize: "10px", color: "#006064", background: "#E0F7FA", border: "1px solid #80DEEA", padding: "3px 10px", letterSpacing: "0.06em" }}
-              >
-                {p.type}
-              </span>
-              <h3 className="font-serif font-normal mb-2 leading-snug" style={{ fontSize: "1.2rem", color: "#1a1a2e" }}>
-                {p.name}
-              </h3>
-              <p className="leading-[1.75] mb-6" style={{ fontSize: "13px", color: "#6b5b6e" }}>
-                {p.desc}
-              </p>
-              <div className="flex gap-6">
-                {p.stats.map((s) => (
-                  <div key={s.lbl}>
-                    <span className="font-mono font-medium block" style={{ fontSize: "15px", color: "#006064" }}>
-                      {s.val}
-                    </span>
-                    <span className="uppercase" style={{ fontSize: "10px", color: "#b0a0b4", letterSpacing: "0.05em" }}>
-                      {s.lbl}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </a>
-          ))}
-        </div>
+        <ProjectsShowcase projects={projects} />
       </section>
 
       {/* ── ABOUT ── */}
@@ -357,13 +294,33 @@ export default function Home() {
         <p className="mb-10" style={{ fontSize: "15px", color: "#6b5b6e" }}>
           Interested in discussing opportunities, collaborations, or just want to connect?
         </p>
-        <a
-          href="mailto:amantater026@gmail.com"
-          className="font-mono inline-block rounded-full no-underline"
-          style={{ fontSize: "1rem", color: "#303F9F", background: "#E8EAF6", border: "1px solid #9FA8DA", padding: "14px 32px" }}
-        >
-          amantater026@gmail.com
-        </a>
+        <div className="flex flex-wrap justify-center gap-3">
+          <a
+            href="mailto:amantater026@gmail.com"
+            className="font-mono inline-block rounded-full no-underline"
+            style={{ fontSize: "1rem", color: "#303F9F", background: "#E8EAF6", border: "1px solid #9FA8DA", padding: "14px 32px" }}
+          >
+            amantater026@gmail.com
+          </a>
+          <a
+            href="https://www.linkedin.com/in/aman-tater"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono inline-block rounded-full no-underline"
+            style={{ fontSize: "1rem", color: "#303F9F", background: "#E8EAF6", border: "1px solid #9FA8DA", padding: "14px 32px" }}
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/jainaman4710"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono inline-block rounded-full no-underline"
+            style={{ fontSize: "1rem", color: "#303F9F", background: "#E8EAF6", border: "1px solid #9FA8DA", padding: "14px 32px" }}
+          >
+            GitHub
+          </a>
+        </div>
       </section>
 
       {/* ── FOOTER ── */}
@@ -371,9 +328,29 @@ export default function Home() {
         className="px-20 py-7 flex justify-between items-center"
         style={{ borderTop: "1px solid #F8BBD9", backgroundColor: "#FFF5F7" }}
       >
-        <span className="font-mono" style={{ fontSize: "11px", color: "#b0a0b4" }}>
-          &copy; {new Date().getFullYear()} Aman Tater
-        </span>
+        <div className="flex items-center gap-4">
+          <span className="font-mono" style={{ fontSize: "11px", color: "#b0a0b4" }}>
+            &copy; {new Date().getFullYear()} Aman Tater
+          </span>
+          <a
+            href="https://www.linkedin.com/in/aman-tater"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            style={{ color: "#b0a0b4" }}
+          >
+            <LinkedinIcon className="h-3.5 w-3.5" />
+          </a>
+          <a
+            href="https://github.com/jainaman4710"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            style={{ color: "#b0a0b4" }}
+          >
+            <GithubIcon className="h-3.5 w-3.5" />
+          </a>
+        </div>
         <div className="flex gap-6">
           {["home","projects","about","education","skills","contact"].map((l) => (
             <a

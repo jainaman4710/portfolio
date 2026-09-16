@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PromptAssist · Product Requirements Document</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -59,7 +56,7 @@
 
 html{scroll-behavior:smooth}
 body{
-  font-family:'Inter',system-ui,sans-serif;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size:15px;line-height:1.7;
   color:var(--ink);background:var(--page);
   -webkit-font-smoothing:antialiased;
@@ -78,12 +75,12 @@ nav{
   height:50px;
 }
 .nav-logo{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:16px;color:var(--ink);
   display:flex;align-items:center;gap:8px;
 }
 .nav-logo em{color:var(--accent);font-style:normal}
-.nav-logo-sep{color:var(--ink-4);font-family:'DM Mono',monospace;font-size:11px;font-weight:400}
+.nav-logo-sep{color:var(--ink-4);font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;font-weight:400}
 .nav-links{display:flex;list-style:none}
 .nav-links a{
   display:block;padding:0 11px;
@@ -128,7 +125,7 @@ nav{
   color:var(--ink-3);
 }
 .hero-title{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:clamp(44px,6vw,72px);
   line-height:1.04;letter-spacing:-0.025em;
   color:var(--ink);margin-bottom:1.5rem;
@@ -163,7 +160,7 @@ nav{
   margin-bottom:0.5rem;
 }
 .sec-num{
-  font-family:'DM Mono',monospace;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
   font-size:10px;font-weight:500;
   color:var(--ink-4);letter-spacing:0.05em;
 }
@@ -173,7 +170,7 @@ nav{
   color:var(--ink-3);
 }
 .section-heading{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:clamp(26px,3vw,36px);
   line-height:1.1;letter-spacing:-0.02em;
   color:var(--ink);margin-bottom:0.75rem;
@@ -241,11 +238,11 @@ nav{
   line-height:1.55;
 }
 .tbl tr:last-child td{border-bottom:none}
-.tbl-mono{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4)}
+.tbl-mono{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-4)}
 
 /* PULL QUOTE */
 .pull-quote{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:clamp(18px,2.2vw,24px);
   line-height:1.35;
   color:var(--ink);
@@ -368,7 +365,7 @@ nav{
 }
 .cap-cell:nth-child(even){border-right:none}
 .cap-cell:nth-last-child(-n+2){border-bottom:none}
-.cap-id{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-4);margin-bottom:6px}
+.cap-id{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:10px;color:var(--ink-4);margin-bottom:6px}
 .cap-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
 .cap-body{font-size:12.5px;color:var(--ink-2);line-height:1.6}
 
@@ -426,7 +423,7 @@ nav{
   position:absolute;right:-10px;top:-20px;
   font-size:120px;color:var(--accent-mid);opacity:0.12;
   line-height:1;user-select:none;pointer-events:none;
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
 }
 .ns-kicker{
   font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;
@@ -435,7 +432,7 @@ nav{
 }
 .ns-kicker svg{flex-shrink:0}
 .ns-title{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:24px;color:var(--ink);margin-bottom:0.5rem;
 }
 .ns-def{font-size:13px;color:var(--ink-2);line-height:1.65;max-width:540px}
@@ -480,7 +477,7 @@ nav{
 .benchmark-nums{display:flex;gap:1.5rem;flex-wrap:wrap}
 .benchmark-num{display:flex;flex-direction:column;gap:2px}
 .benchmark-val{
-  font-family:'DM Mono',monospace;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
   font-size:22px;font-weight:500;line-height:1;
 }
 .benchmark-sub{font-size:11px;color:var(--ink-3)}
@@ -494,11 +491,11 @@ nav{
   border-bottom:0.5px solid var(--rule);
 }
 .latency-row:last-child{border-bottom:none;padding-top:14px;border-top:1px solid var(--rule);font-weight:600}
-.latency-step{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-4)}
+.latency-step{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:10px;color:var(--ink-4)}
 .latency-label{font-size:13px;color:var(--ink-2)}
 .latency-bar-wrap{background:var(--rule);border-radius:3px;height:5px;overflow:hidden}
 .latency-bar-fill{height:100%;border-radius:3px;background:var(--accent)}
-.latency-time{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);text-align:right;white-space:nowrap}
+.latency-time{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:12px;color:var(--accent);text-align:right;white-space:nowrap}
 
 /* PHASE SUMMARY BAR */
 .phase-bar{
@@ -512,7 +509,7 @@ nav{
 .phase-lbl{font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
 .phase-col.active .phase-lbl{color:var(--accent)}
 .phase-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
-.phase-weeks{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);margin-bottom:4px}
+.phase-weeks{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-4);margin-bottom:4px}
 .phase-aud{font-size:11.5px;color:var(--ink-3)}
 
 /* GTM DISCOVERY TABLE */
@@ -546,7 +543,7 @@ nav{
 .tl-dot.filled{background:var(--accent)}
 .tl-phase{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
 .tl-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
-.tl-weeks{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);margin-bottom:6px;display:block}
+.tl-weeks{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-4);margin-bottom:6px;display:block}
 .tl-body{font-size:13px;color:var(--ink-2);line-height:1.65}
 .tl-exit{
   margin-top:10px;padding:9px 12px;
@@ -627,7 +624,7 @@ nav{
   border-bottom:0.5px solid var(--rule);align-items:start;
 }
 .oq-item:last-child{border-bottom:none}
-.oq-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-4);padding-top:2px}
+.oq-num{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:11px;color:var(--ink-4);padding-top:2px}
 .oq-q{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
 .oq-body{font-size:13px;color:var(--ink-2);line-height:1.65}
 
@@ -673,7 +670,7 @@ nav{
 .stat-row{display:flex;gap:2rem;flex-wrap:wrap;margin:1.5rem 0}
 .stat-item{display:flex;flex-direction:column;gap:3px}
 .stat-num{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:40px;letter-spacing:-0.02em;
   color:var(--accent);line-height:1;
 }
@@ -687,7 +684,7 @@ footer{
   flex-wrap:wrap;gap:1rem;
 }
 .footer-brand{
-  font-family:'DM Serif Display',serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-size:15px;color:var(--ink);
 }
 .footer-brand em{color:var(--accent);font-style:normal}
@@ -718,6 +715,9 @@ footer{
   .hero-meta-item{border-right:none;border-bottom:0.5px solid var(--rule)}
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -993,7 +993,7 @@ footer{
       <div class="flow-step">
         <div class="flow-bubble">2</div>
         <div class="flow-title">Trigger</div>
-        <div class="flow-body">Toolbar button or <span style="font-family:'DM Mono',monospace;font-size:10px">Alt+G</span> opens overlay</div>
+        <div class="flow-body">Toolbar button or <span style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:10px">Alt+G</span> opens overlay</div>
       </div>
       <div class="flow-step">
         <div class="flow-bubble">3</div>

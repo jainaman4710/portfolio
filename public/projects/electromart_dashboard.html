@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ElectroMart Analytics · IIT KGP General Championship Data Analytics 2025</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@700;900&display=swap');
-  :root {
+:root {
     --bg:#0c0e14; --surface:#13161f; --surface2:#1a1e2a; --border:#2a2f3d;
     --gold:#f4b942; --gold-dim:rgba(244,185,66,.15); --gold-glow:rgba(244,185,66,.06);
     --cyan:#4fd1c5; --cyan-dim:rgba(79,209,197,.12);
@@ -14,13 +13,13 @@
     --text:#e2e8f0; --muted:#64748b; --label:#94a3b8;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+  body{font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 
   /* ── NAV ── */
   nav{position:sticky;top:0;z-index:100;background:rgba(12,14,20,.94);backdrop-filter:blur(14px);
     border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;
     justify-content:space-between;height:56px}
-  .nav-brand{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gold);letter-spacing:.05em}
+  .nav-brand{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.78rem;color:var(--gold);letter-spacing:.05em}
   .nav-links{display:flex;gap:1.5rem;list-style:none}
   .nav-links a{font-size:.72rem;font-weight:500;color:var(--muted);text-decoration:none;
     letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
@@ -33,23 +32,23 @@
   .hero{padding:5rem 2rem 3.5rem;max-width:1140px;margin:0 auto;position:relative}
   .hero::before{content:'';position:absolute;top:0;right:0;width:600px;height:400px;
     background:radial-gradient(ellipse at 80% 20%,rgba(244,185,66,.07) 0%,transparent 70%);pointer-events:none}
-  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);
+  .eyebrow{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.72rem;color:var(--cyan);
     letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
-  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.2rem);
+  .hero h1{font-family: 'Playfair Display', Georgia, serif;font-size:clamp(2.4rem,5vw,4.2rem);
     font-weight:900;line-height:1.08;margin-bottom:1.3rem}
   .hero h1 em{font-style:normal;color:var(--gold)}
   .hero-sub{font-size:1rem;color:var(--label);max-width:640px;margin-bottom:2.5rem;line-height:1.8}
   .stat-row{display:flex;flex-wrap:wrap;gap:2.5rem;padding:1.8rem 0;
     border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
   .stat{display:flex;flex-direction:column;gap:.2rem}
-  .stat-val{font-family:'JetBrains Mono',monospace;font-size:1.55rem;font-weight:600;color:var(--gold)}
+  .stat-val{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.55rem;font-weight:600;color:var(--gold)}
   .stat-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
 
   /* ── LAYOUT ── */
   .section{max-width:1140px;margin:0 auto;padding:3.5rem 2rem;border-top:1px solid var(--border)}
-  .sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--cyan);
+  .sec-eyebrow{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.68rem;color:var(--cyan);
     text-transform:uppercase;letter-spacing:.14em;margin-bottom:.4rem}
-  .sec-title{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;margin-bottom:.6rem}
+  .sec-title{font-family: 'Playfair Display', Georgia, serif;font-size:1.75rem;font-weight:700;margin-bottom:.6rem}
   .sec-desc{color:var(--label);font-size:.88rem;max-width:680px;margin-bottom:2rem;line-height:1.8}
 
   /* ── CARDS ── */
@@ -63,7 +62,7 @@
   .card:hover{border-color:rgba(244,185,66,.5);transform:translateY(-2px)}
   .card-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;
     color:var(--muted);margin-bottom:.55rem}
-  .card-val{font-family:'JetBrains Mono',monospace;font-size:1.75rem;font-weight:600;margin-bottom:.25rem}
+  .card-val{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.75rem;font-weight:600;margin-bottom:.25rem}
   .card-sub{font-size:.79rem;color:var(--muted);line-height:1.5}
   .c-gold .card-val{color:var(--gold)}
   .c-cyan .card-val{color:var(--cyan)}
@@ -76,11 +75,11 @@
   .bar-chart{display:flex;flex-direction:column;gap:.6rem}
   .bar-row{display:flex;align-items:center;gap:.75rem}
   .bar-lbl{font-size:.75rem;color:var(--label);min-width:140px;text-align:right;
-    font-family:'JetBrains Mono',monospace;flex-shrink:0}
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;flex-shrink:0}
   .bar-track{flex:1;height:22px;background:var(--surface2);border-radius:4px;overflow:hidden}
   .bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;
     justify-content:flex-end;padding-right:6px;width:0;transition:width 1.1s ease}
-  .bar-fill span{font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:700;
+  .bar-fill span{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.69rem;font-weight:700;
     color:rgba(0,0,0,.75)}
   .bg-gold{background:linear-gradient(90deg,#c8962e,var(--gold))}
   .bg-cyan{background:linear-gradient(90deg,#2d9188,var(--cyan))}
@@ -94,21 +93,21 @@
   .steps{display:flex;flex-direction:column;gap:0}
   .step{display:flex;gap:1.1rem;padding:1.25rem 0;border-bottom:1px solid var(--border)}
   .step:last-child{border-bottom:none}
-  .step-num{font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:700;
+  .step-num{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.69rem;font-weight:700;
     color:var(--gold);background:var(--gold-dim);border:1px solid rgba(244,185,66,.3);
     border-radius:6px;padding:.18rem .45rem;height:fit-content;min-width:34px;
     text-align:center;flex-shrink:0;margin-top:.12rem}
   .step h4{font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
   .step p{font-size:.82rem;color:var(--muted);line-height:1.65}
-  code{font-family:'JetBrains Mono',monospace;font-size:.78rem;background:var(--surface2);
+  code{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.78rem;background:var(--surface2);
     border:1px solid var(--border);border-radius:4px;padding:.1rem .4rem;color:var(--cyan)}
 
   /* ── EQUATIONS ── */
   .eq{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--cyan);
     border-radius:0 8px 8px 0;padding:.95rem 1.3rem;margin:.8rem 0;
-    font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--cyan);line-height:2.1}
+    font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.82rem;color:var(--cyan);line-height:2.1}
   .eq .eq-lbl{font-size:.66rem;color:var(--muted);text-transform:uppercase;
-    letter-spacing:.1em;margin-bottom:.3rem;font-family:'Space Grotesk',sans-serif}
+    letter-spacing:.1em;margin-bottom:.3rem;font-family: 'Geist', ui-sans-serif, system-ui, sans-serif}
 
   /* ── INSIGHTS BOX ── */
   .ibox{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.4rem}
@@ -121,17 +120,17 @@
   /* ── ACCENT / GOLD CARD ── */
   .acard{background:var(--gold-glow);border:1px solid rgba(244,185,66,.25);
     border-radius:12px;padding:1.8rem 2rem}
-  .acard h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold);margin-bottom:.8rem}
+  .acard h3{font-family: 'Playfair Display', Georgia, serif;font-size:1.2rem;color:var(--gold);margin-bottom:.8rem}
   .acard p{color:var(--label);font-size:.87rem;line-height:1.8}
 
   /* ── RESULT HERO ── */
   .result-hero{background:linear-gradient(135deg,rgba(244,185,66,.07),rgba(79,209,197,.07));
     border:1px solid rgba(244,185,66,.22);border-radius:16px;padding:2.5rem 2rem;text-align:center;
     margin:1.5rem 0}
-  .rh-big{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;color:var(--gold);line-height:1}
+  .rh-big{font-family: 'Playfair Display', Georgia, serif;font-size:5rem;font-weight:900;color:var(--gold);line-height:1}
   .rh-label{font-size:.95rem;color:var(--label);margin-top:.5rem}
   .rh-stats{display:flex;justify-content:center;gap:2.8rem;margin-top:1.8rem;flex-wrap:wrap}
-  .rh-stat .num{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--cyan)}
+  .rh-stat .num{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.5rem;font-weight:600;color:var(--cyan)}
   .rh-stat .lbl{font-size:.72rem;color:var(--muted);margin-top:.2rem}
 
   /* ── DATA TABLE ── */
@@ -140,7 +139,7 @@
     color:var(--muted);padding:.55rem 1rem;border-bottom:1px solid var(--border)}
   .dtable td{padding:.65rem 1rem;border-bottom:1px solid rgba(42,47,61,.5);color:var(--label)}
   .dtable tr:hover td{background:rgba(255,255,255,.02)}
-  .mono{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--cyan)}
+  .mono{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.78rem;color:var(--cyan)}
   .hl{color:var(--gold);font-weight:600}
   .hl-g{color:var(--green);font-weight:600}
   .hl-r{color:var(--red)}
@@ -174,8 +173,8 @@
   .comp-row:first-child{font-size:.68rem;font-weight:700;text-transform:uppercase;
     letter-spacing:.08em;color:var(--muted);padding-bottom:.8rem}
   .comp-row .c1{color:var(--label);font-size:.82rem}
-  .comp-row .c2{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--red);text-align:center}
-  .comp-row .c3{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--green);text-align:right}
+  .comp-row .c2{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.82rem;color:var(--red);text-align:center}
+  .comp-row .c3{font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:.82rem;color:var(--green);text-align:right}
 
   /* ── FADE IN ── */
   .fade-in{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}
@@ -190,6 +189,9 @@
   @media(max-width:700px){.nav-links{display:none}.hero{padding:3rem 1.2rem 2rem}
     .section{padding:2rem 1.2rem}.rh-big{font-size:3.5rem}.bar-lbl{min-width:90px;font-size:.68rem}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -584,10 +586,10 @@
       <div class="card c-gold">
         <p class="card-label">Model Performance, Final Ridge (α=0.14)</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem">
-          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.55rem;color:var(--gold)">0.968</p><p style="font-size:.72rem;color:var(--muted)">R² Score</p></div>
-          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.55rem;color:var(--cyan)">₹13M</p><p style="font-size:.72rem;color:var(--muted)">Mean Abs. Error</p></div>
-          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--purple)">α=0.14</p><p style="font-size:.72rem;color:var(--muted)">Ridge Alpha (GridSearchCV)</p></div>
-          <div><p style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--green)">3-fold CV</p><p style="font-size:.72rem;color:var(--muted)">Cross-validation strategy</p></div>
+          <div><p style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.55rem;color:var(--gold)">0.968</p><p style="font-size:.72rem;color:var(--muted)">R² Score</p></div>
+          <div><p style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.55rem;color:var(--cyan)">₹13M</p><p style="font-size:.72rem;color:var(--muted)">Mean Abs. Error</p></div>
+          <div><p style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.3rem;color:var(--purple)">α=0.14</p><p style="font-size:.72rem;color:var(--muted)">Ridge Alpha (GridSearchCV)</p></div>
+          <div><p style="font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;font-size:1.3rem;color:var(--green)">3-fold CV</p><p style="font-size:.72rem;color:var(--muted)">Cross-validation strategy</p></div>
         </div>
       </div>
       <div class="ibox">
@@ -981,7 +983,7 @@ if(ctx){
       responsive:true,
       interaction:{mode:'index',intersect:false},
       plugins:{
-        legend:{labels:{color:'#94a3b8',font:{size:11,family:'Space Grotesk'}}},
+        legend:{labels:{color:'#94a3b8',font:{size:11,family: ''Geist', ui-sans-serif, system-ui, sans-serif'}}},
         tooltip:{backgroundColor:'#1a1e2a',borderColor:'#2a2f3d',borderWidth:1,
           titleColor:'#e2e8f0',bodyColor:'#94a3b8',padding:10}
       },

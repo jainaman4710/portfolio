@@ -4,9 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Nykaa Product Teardown | Aman Tater, Vanguard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
@@ -22,7 +19,7 @@
   --green: #22C55E;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'DM Sans',sans-serif; background:#FAFAFA; color:var(--dark); overflow-x:hidden; }
+body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; background:#FAFAFA; color:var(--dark); overflow-x:hidden; }
 
 /* NAV */
 nav {
@@ -32,7 +29,7 @@ nav {
   padding:0 48px; height:60px;
   box-shadow:0 2px 12px rgba(255,31,109,0.08);
 }
-.nav-logo { font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:var(--pink); }
+.nav-logo { font-family: 'Playfair Display', Georgia, serif; font-size:18px; font-weight:900; color:var(--pink); }
 .nav-badge { font-size:11px; font-weight:600; background:var(--pink-pale); color:var(--pink); padding:4px 10px; border-radius:20px; }
 .nav-links { display:flex; gap:28px; }
 .nav-links a { font-size:13px; font-weight:500; color:var(--gray); text-decoration:none; transition:color 0.2s; }
@@ -55,7 +52,7 @@ nav {
   padding:5px 14px; border-radius:20px; margin-bottom:24px; text-transform:uppercase;
 }
 .hero h1 {
-  font-family:'Playfair Display',serif; font-size:clamp(40px,6vw,72px); font-weight:900;
+  font-family: 'Playfair Display', Georgia, serif; font-size:clamp(40px,6vw,72px); font-weight:900;
   color:var(--white); line-height:1.05; max-width:700px; margin-bottom:20px;
 }
 .hero h1 span { color:var(--pink); }
@@ -70,13 +67,13 @@ nav {
   border-radius:12px; padding:20px 24px; backdrop-filter:blur(10px); transition:background 0.2s;
 }
 .hero-stat:hover { background:rgba(255,31,109,0.12); }
-.hero-stat .num { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--pink); line-height:1; }
+.hero-stat .num { font-family: 'Playfair Display', Georgia, serif; font-size:32px; font-weight:900; color:var(--pink); line-height:1; }
 .hero-stat .desc { font-size:12px; color:rgba(255,255,255,0.55); margin-top:6px; line-height:1.4; }
 
 /* SECTIONS */
 .section { padding:72px 48px; }
 .section-label { font-size:11px; font-weight:600; letter-spacing:3px; color:var(--pink); text-transform:uppercase; margin-bottom:12px; }
-.section-title { font-family:'Playfair Display',serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; color:var(--dark); margin-bottom:8px; line-height:1.15; }
+.section-title { font-family: 'Playfair Display', Georgia, serif; font-size:clamp(26px,3.5vw,40px); font-weight:900; color:var(--dark); margin-bottom:8px; line-height:1.15; }
 .section-sub { font-size:15px; color:var(--gray); max-width:580px; line-height:1.6; margin-bottom:48px; }
 
 /* RCA */
@@ -89,14 +86,14 @@ nav {
 .rca-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(255,31,109,0.1); }
 .rca-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--pink); }
 .rca-icon { width:44px; height:44px; border-radius:12px; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:18px; }
-.rca-card h3 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:10px; }
+.rca-card h3 { font-family: 'Playfair Display', Georgia, serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:10px; }
 .rca-card p { font-size:14px; color:var(--gray); line-height:1.65; }
 .rca-card .rca-cause { margin-top:16px; padding-top:16px; border-top:1px solid var(--pink-pale); font-size:12px; color:var(--pink); font-weight:600; }
 
 /* CHARTS */
 .review-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:40px; }
 .chart-card { background:var(--white); border-radius:16px; padding:28px; border:1px solid var(--pink-pale); box-shadow:0 4px 20px rgba(0,0,0,0.04); }
-.chart-card h4 { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+.chart-card h4 { font-family: 'Playfair Display', Georgia, serif; font-size:17px; font-weight:700; color:var(--dark); margin-bottom:6px; }
 .chart-card .chart-sub { font-size:12px; color:var(--gray); margin-bottom:20px; }
 .chart-wrap { position:relative; height:260px; }
 .sentiment-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
@@ -104,7 +101,7 @@ nav {
 .sentiment-chip.pos { background:#F0FFF4; }
 .sentiment-chip.neg { background:#FFF0F5; }
 .sentiment-chip.neu { background:#F5F5F5; }
-.sentiment-chip .pct { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; }
+.sentiment-chip .pct { font-family: 'Playfair Display', Georgia, serif; font-size:22px; font-weight:900; }
 .sentiment-chip.pos .pct { color:var(--green); }
 .sentiment-chip.neg .pct { color:var(--pink); }
 .sentiment-chip.neu .pct { color:#9CA3AF; }
@@ -118,7 +115,7 @@ nav {
 /* QUOTES */
 .quotes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
 .quote-card { background:var(--white); border-radius:14px; padding:22px; border-left:4px solid var(--pink); box-shadow:0 2px 12px rgba(0,0,0,0.04); position:relative; }
-.quote-card::before { content:'\201C'; position:absolute; top:10px; right:16px; font-size:48px; color:var(--pink-pale); font-family:'Playfair Display',serif; line-height:1; }
+.quote-card::before { content:'\201C'; position:absolute; top:10px; right:16px; font-size:48px; color:var(--pink-pale); font-family: 'Playfair Display', Georgia, serif; line-height:1; }
 .quote-card p { font-size:13px; color:var(--dark); line-height:1.65; font-style:italic; position:relative; z-index:1; }
 .quote-tag { display:inline-block; margin-top:12px; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:var(--pink-pale); color:var(--pink); }
 
@@ -130,7 +127,7 @@ nav {
 }
 .market-size-card .msc-col { display:flex; flex-direction:column; align-items:center; gap:4px; }
 .market-size-card .msc-year { font-size:11px; font-weight:600; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; }
-.market-size-card .msc-val { font-family:'Playfair Display',serif; font-size:46px; font-weight:900; color:var(--pink); line-height:1; }
+.market-size-card .msc-val { font-family: 'Playfair Display', Georgia, serif; font-size:46px; font-weight:900; color:var(--pink); line-height:1; }
 .market-size-card .msc-arrow {
   display:flex; flex-direction:column; align-items:center; gap:4px;
   font-size:13px; font-weight:600; color:var(--pink-light);
@@ -139,7 +136,7 @@ nav {
 .market-channels-card {
   background:var(--white); border:1px solid var(--pink-pale); border-radius:20px; padding:28px;
 }
-.market-channels-card h4 { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; margin-bottom:20px; color:var(--dark); }
+.market-channels-card h4 { font-family: 'Playfair Display', Georgia, serif; font-size:17px; font-weight:700; margin-bottom:20px; color:var(--dark); }
 .channel-item { margin-bottom:16px; }
 .channel-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
 .channel-name { font-size:13px; font-weight:600; color:var(--dark); }
@@ -157,8 +154,8 @@ nav {
   border-radius:50%; background:var(--pink-pale); transform:translate(30px,30px);
 }
 .trend-tile-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--pink); }
-.trend-tile-title { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:var(--dark); line-height:1.3; }
-.trend-tile-cagr { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; color:var(--pink); line-height:1; }
+.trend-tile-title { font-family: 'Playfair Display', Georgia, serif; font-size:16px; font-weight:700; color:var(--dark); line-height:1.3; }
+.trend-tile-cagr { font-family: 'Playfair Display', Georgia, serif; font-size:32px; font-weight:900; color:var(--pink); line-height:1; }
 .trend-tile-sub { font-size:12px; color:var(--gray); line-height:1.5; }
 
 .gen-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
@@ -215,7 +212,7 @@ nav {
   margin:10px; background:#F5F5F5; border-radius:20px;
   display:flex; align-items:center; gap:8px; padding:8px 12px;
 }
-.ps-search input { border:none; background:transparent; font-size:11px; color:#333; outline:none; flex:1; font-family:'DM Sans',sans-serif; }
+.ps-search input { border:none; background:transparent; font-size:11px; color:#333; outline:none; flex:1; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; }
 .ps-search span { font-size:13px; }
 .ps-tag-row { display:flex; gap:6px; padding:0 10px 8px; flex-wrap:wrap; }
 .ps-tag { font-size:10px; font-weight:600; padding:4px 10px; border-radius:12px; white-space:nowrap; }
@@ -247,13 +244,13 @@ nav {
 .ps-shade-row { display:flex; gap:5px; justify-content:center; margin-bottom:8px; }
 .ps-shade { width:22px; height:22px; border-radius:50%; cursor:pointer; transition:transform 0.1s; }
 .ps-shade:hover { transform:scale(1.2); }
-.ps-tryon-btn { width:100%; padding:9px; background:var(--pink); color:var(--white); border:none; border-radius:12px; font-size:11px; font-weight:700; font-family:'DM Sans',sans-serif; cursor:pointer; }
+.ps-tryon-btn { width:100%; padding:9px; background:var(--pink); color:var(--white); border:none; border-radius:12px; font-size:11px; font-weight:700; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; cursor:pointer; }
 
 /* Sol content */
 .sol-content {}
 .sol-header { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
-.sol-num { font-family:'Playfair Display',serif; font-size:48px; font-weight:900; color:var(--pink-pale); line-height:1; margin-top:-6px; }
-.sol-info h3 { font-family:'Playfair Display',serif; font-size:24px; font-weight:900; color:var(--dark); margin-bottom:4px; }
+.sol-num { font-family: 'Playfair Display', Georgia, serif; font-size:48px; font-weight:900; color:var(--pink-pale); line-height:1; margin-top:-6px; }
+.sol-info h3 { font-family: 'Playfair Display', Georgia, serif; font-size:24px; font-weight:900; color:var(--dark); margin-bottom:4px; }
 .sol-info .sol-sub { font-size:13px; color:var(--gray); }
 .sol-rice { display:inline-flex; align-items:center; gap:8px; background:var(--dark); color:var(--white); border-radius:20px; padding:6px 16px; font-size:12px; font-weight:600; margin-bottom:16px; }
 .sol-rice strong { color:var(--pink-light); font-size:14px; }
@@ -273,7 +270,7 @@ nav {
 .rice-table td { padding:16px 20px; text-align:center; border-bottom:1px solid var(--pink-pale); font-size:14px; font-weight:500; }
 .rice-table td:first-child { text-align:left; font-weight:600; }
 .rice-table tr:last-child td { border-bottom:none; }
-.rice-score { font-family:'Playfair Display',serif; font-weight:900; font-size:22px; color:var(--pink); }
+.rice-score { font-family: 'Playfair Display', Georgia, serif; font-weight:900; font-size:22px; color:var(--pink); }
 .rank-badge { display:inline-block; width:28px; height:28px; border-radius:50%; background:var(--pink); color:var(--white); font-size:13px; font-weight:700; line-height:28px; text-align:center; margin-right:8px; }
 
 /* METRICS */
@@ -281,7 +278,7 @@ nav {
 .metric-card { background:var(--white); border-radius:16px; padding:24px; border:1px solid var(--pink-pale); border-left:4px solid var(--pink); }
 .metric-card .metric-type { font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--gray); text-transform:uppercase; margin-bottom:8px; }
 .metric-card .metric-name { font-size:14px; font-weight:600; color:var(--dark); margin-bottom:6px; }
-.metric-card .metric-target { font-family:'Playfair Display',serif; font-size:20px; font-weight:900; color:var(--pink); }
+.metric-card .metric-target { font-family: 'Playfair Display', Georgia, serif; font-size:20px; font-weight:900; color:var(--pink); }
 .metric-card.l0 { border-left-color:var(--dark); background:var(--dark); }
 .metric-card.l0 .metric-type { color:rgba(255,255,255,0.5); }
 .metric-card.l0 .metric-name { color:var(--white); }
@@ -313,7 +310,7 @@ nav {
 
 /* FOOTER */
 footer { background:var(--dark); padding:48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px; }
-.footer-left .name { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:var(--white); }
+.footer-left .name { font-family: 'Playfair Display', Georgia, serif; font-size:22px; font-weight:900; color:var(--white); }
 .footer-left .detail { font-size:13px; color:rgba(255,255,255,0.4); margin-top:4px; }
 .footer-right { text-align:right; }
 .footer-right .comp { font-size:12px; color:var(--pink-light); font-weight:600; }
@@ -338,6 +335,9 @@ footer { background:var(--dark); padding:48px; display:flex; justify-content:spa
   .solution-inner.reverse .phone-mock,.solution-inner.reverse .sol-content { order:unset; }
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -467,7 +467,7 @@ footer { background:var(--dark); padding:48px; display:flex; justify-content:spa
     <div class="wordcloud" id="wordcloud"></div>
   </div>
 
-  <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:20px;">Real Voices: Pain Points Validated</div>
+  <div style="font-family: 'Playfair Display', Georgia, serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:20px;">Real Voices: Pain Points Validated</div>
   <div class="quotes-grid">
     <div class="quote-card">
       <p>Very very poor service of delivery partner. I want to cancel my order and delete my account. I will never use this app.</p>
@@ -1188,7 +1188,7 @@ new Chart(document.getElementById('sentimentDonut').getContext('2d'), {
     labels:['Negative (46.7%)','Positive (30.8%)','Neutral (22.5%)'],
     datasets:[{data:[825,544,399],backgroundColor:['#FF1F6D','#22C55E','#D1D5DB'],borderWidth:0,hoverOffset:8}]
   },
-  options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{position:'bottom',labels:{font:{family:'DM Sans',size:12},padding:16,boxWidth:12}}}}
+  options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{position:'bottom',labels:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:12},padding:16,boxWidth:12}}}}
 });
 
 // THEME BAR
@@ -1207,8 +1207,8 @@ new Chart(document.getElementById('themeBar').getContext('2d'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
     scales:{
-      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}},
-      y:{grid:{color:'#F5EEF1'},ticks:{font:{family:'DM Sans',size:11}}}
+      x:{grid:{display:false},ticks:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:11}}},
+      y:{grid:{color:'#F5EEF1'},ticks:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:11}}}
     }
   }
 });
@@ -1225,10 +1225,10 @@ new Chart(document.getElementById('monthlyLine').getContext('2d'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{font:{family:'DM Sans',size:12},boxWidth:12}},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y}%`}}},
+    plugins:{legend:{position:'top',labels:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:12},boxWidth:12}},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y}%`}}},
     scales:{
-      x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:11}}},
-      y:{max:80,min:0,grid:{color:'#F5EEF1'},ticks:{font:{family:'DM Sans',size:11},callback:v=>v+'%'}}
+      x:{grid:{display:false},ticks:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:11}}},
+      y:{max:80,min:0,grid:{color:'#F5EEF1'},ticks:{font:{family: ''Geist', ui-sans-serif, system-ui, sans-serif',size:11},callback:v=>v+'%'}}
     }
   }
 });

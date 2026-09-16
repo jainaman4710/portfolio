@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BrACHeS: Technical Report | IIT Kharagpur</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:      #ffffff;
@@ -20,17 +17,17 @@
   --ink3:    #7a7570;
   --ink4:    #b0aa9f;
   --red:     #9b2b1a;
-  --serif-display: 'Cormorant Garamond', 'Georgia', serif;
-  --serif-body:    'Crimson Pro', 'Georgia', serif;
-  --sans:          'DM Sans', system-ui, sans-serif;
-  --mono:          'JetBrains Mono', 'Courier New', monospace;
+  --serif-display: 'Playfair Display', Georgia, serif;
+  --serif-body: 'Playfair Display', Georgia, serif;
+  --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, 'Courier New', monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--serif-body);
+  font-family: 'Playfair Display', Georgia, serif;
   background: var(--bg);
   color: var(--ink);
   font-size: 18px;
@@ -60,26 +57,26 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .sb-tag {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 9px; font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink4); margin-bottom: 10px;
 }
 .sb-title {
-  font-family: var(--serif-display);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 30px; font-weight: 500;
   color: var(--ink); line-height: 1.05;
   letter-spacing: -.01em;
 }
 .sb-title em { font-style: italic; color: var(--ink3); }
 .sb-sub {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px; color: var(--ink4);
   margin-top: 8px; line-height: 1.55;
 }
 .nav-grp { padding: 18px 16px 6px; }
 .nav-grp-label {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 9px; font-weight: 600;
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--ink4); padding: 0 8px; margin-bottom: 5px;
@@ -88,7 +85,7 @@ body {
   display: flex; align-items: center; gap: 10px;
   width: 100%; padding: 7px 10px;
   border: none; background: transparent;
-  font-family: var(--sans); font-size: 12.5px; font-weight: 400;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12.5px; font-weight: 400;
   color: var(--ink3); cursor: pointer;
   border-radius: 5px; text-align: left;
   transition: background .14s, color .14s;
@@ -96,7 +93,7 @@ body {
 .nav-btn:hover { background: var(--bg2); color: var(--ink); }
 .nav-btn.active { background: var(--ink); color: var(--bg); }
 .nav-n {
-  font-family: var(--mono); font-size: 10px;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 10px;
   color: var(--ink4); min-width: 20px;
   transition: color .14s;
 }
@@ -105,7 +102,7 @@ body {
   margin-top: auto;
   padding: 18px 22px;
   border-top: 1px solid var(--border);
-  font-family: var(--sans); font-size: 11px;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 11px;
   color: var(--ink4); line-height: 1.7;
 }
 .sb-footer strong { color: var(--ink3); font-weight: 500; }
@@ -127,7 +124,7 @@ body {
 /* ── TYPOGRAPHY SYSTEM ── */
 /* H1 - page/section title */
 h1.sec-title {
-  font-family: var(--serif-display);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 52px; font-weight: 400;
   line-height: 1.05; letter-spacing: -.025em;
   color: var(--ink);
@@ -137,7 +134,7 @@ h1.sec-title em { font-style: italic; }
 
 /* H2 - subsection heading */
 h2.sub-head {
-  font-family: var(--serif-display);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 26px; font-weight: 400;
   line-height: 1.2; letter-spacing: -.01em;
   color: var(--ink);
@@ -146,7 +143,7 @@ h2.sub-head {
 
 /* H3 - sub-subsection */
 h3.sub-sub {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 12px; font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase;
   color: var(--ink3);
@@ -155,7 +152,7 @@ h3.sub-sub {
 
 /* eyebrow above h1 */
 .eyebrow {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 10px; font-weight: 600;
   letter-spacing: .18em; text-transform: uppercase;
   color: var(--ink4); margin-bottom: 14px;
@@ -171,7 +168,7 @@ h3.sub-sub {
 
 /* lead paragraph */
 .lead {
-  font-family: var(--serif-body);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 20px; font-weight: 300;
   color: var(--ink3); line-height: 1.75;
   max-width: 620px;
@@ -182,7 +179,7 @@ h3.sub-sub {
 
 /* body prose */
 .prose {
-  font-family: var(--serif-body);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 17px; color: var(--ink2);
   line-height: 1.82; max-width: 680px;
 }
@@ -190,7 +187,7 @@ h3.sub-sub {
 
 /* sup citations */
 sup {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 10px; font-weight: 500;
   color: var(--red); cursor: pointer;
   vertical-align: super; line-height: 0;
@@ -200,7 +197,7 @@ sup:hover { text-decoration: underline; }
 
 /* ── SECTION DIVIDERS ── */
 .sec-rule {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 9px; font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink4);
@@ -208,7 +205,7 @@ sup:hover { text-decoration: underline; }
   margin: 0 0 20px;
 }
 .sec-rule::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.sec-rule .sec-n { font-family: var(--mono); font-size: 10px; }
+.sec-rule .sec-n { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 10px; }
 
 hr.divider {
   border: none; border-top: 1px solid var(--border);
@@ -231,7 +228,7 @@ hr.divider {
   background: var(--bg2);
 }
 .figcap {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 11.5px; color: var(--ink4);
   margin-top: 8px; line-height: 1.5;
   text-align: center;
@@ -248,7 +245,7 @@ hr.divider {
   overflow: hidden;
 }
 .eq-label-bar {
-  font-family: var(--sans);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   font-size: 10px; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink4);
@@ -258,7 +255,7 @@ hr.divider {
 }
 .eq-body {
   padding: 16px 22px;
-  font-family: var(--mono);
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
   font-size: 15px; color: var(--ink);
   line-height: 1.9;
   overflow-x: auto;
@@ -266,7 +263,7 @@ hr.divider {
 .eq-body .eqvar {
   color: var(--red);
   font-style: italic;
-  font-family: var(--mono);
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;
 }
 /* fraction-style display */
 .eq-frac {
@@ -292,12 +289,12 @@ hr.divider {
 }
 .eq-param-row:last-child { border-bottom: none; }
 .eq-sym {
-  font-family: var(--mono); font-size: 13px;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 13px;
   color: var(--red); min-width: 68px; flex-shrink: 0;
 }
-.eq-desc { color: var(--ink3); flex: 1; font-family: var(--sans); font-size: 12.5px; }
+.eq-desc { color: var(--ink3); flex: 1; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12.5px; }
 .eq-unit {
-  font-family: var(--mono); font-size: 11.5px;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11.5px;
   color: var(--ink4);
 }
 
@@ -310,7 +307,7 @@ hr.divider {
   margin: 18px 0;
 }
 .callout p {
-  font-family: var(--serif-body);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 15px; color: var(--ink2); line-height: 1.75;
 }
 .callout.warn { border-left-color: var(--red); background: #fdf6f4; }
@@ -318,7 +315,7 @@ hr.divider {
 /* ── TABLES ── */
 .dtable { width: 100%; border-collapse: collapse; font-size: 14px; margin: 14px 0; }
 .dtable th {
-  font-family: var(--sans); font-size: 10px; font-weight: 600;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 10px; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink4); padding: 9px 14px;
   border-bottom: 2px solid var(--border); text-align: left;
@@ -326,9 +323,9 @@ hr.divider {
 .dtable td {
   padding: 9px 14px; color: var(--ink2);
   border-bottom: 1px solid var(--border);
-  font-size: 15px; font-family: var(--sans);
+  font-size: 15px; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
 }
-.dtable td:last-child { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.dtable td:last-child { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 13px; color: var(--ink); }
 .dtable tr:last-child td { border-bottom: none; }
 .dtable tr:hover td { background: var(--bg2); }
 
@@ -338,7 +335,7 @@ hr.divider {
   padding: 18px 20px; background: var(--bg);
 }
 .card-h {
-  font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 11.5px; font-weight: 600;
   letter-spacing: .04em; text-transform: uppercase;
   color: var(--ink); margin-bottom: 10px;
 }
@@ -358,11 +355,11 @@ hr.divider {
 }
 .stat-cell:last-child { border-right: none; }
 .stat-val {
-  font-family: var(--serif-display);
+  font-family: 'Playfair Display', Georgia, serif;
   font-size: 34px; font-weight: 400; color: var(--ink); line-height: 1;
 }
 .stat-label {
-  font-family: var(--sans); font-size: 11px; color: var(--ink4);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 11px; color: var(--ink4);
   margin-top: 7px; line-height: 1.4;
 }
 
@@ -374,23 +371,23 @@ hr.divider {
 }
 .step-item:last-child { border-bottom: none; }
 .step-n {
-  font-family: var(--mono); font-size: 11px; color: var(--ink4);
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11px; color: var(--ink4);
   min-width: 26px; padding-top: 3px;
 }
-.step-t { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
-.step-d { font-family: var(--serif-body); font-size: 15.5px; color: var(--ink2); line-height: 1.7; }
+.step-t { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.step-d { font-family: 'Playfair Display', Georgia, serif; font-size: 15.5px; color: var(--ink2); line-height: 1.7; }
 
 /* ── PROGRESS BARS ── */
 .prog-row { display: flex; align-items: center; gap: 14px; margin: 9px 0; }
-.prog-label { font-family: var(--sans); font-size: 12.5px; color: var(--ink2); min-width: 190px; }
+.prog-label { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12.5px; color: var(--ink2); min-width: 190px; }
 .prog-track { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
 .prog-fill { height: 100%; border-radius: 2px; }
-.prog-val { font-family: var(--mono); font-size: 12px; color: var(--ink); min-width: 44px; text-align: right; }
+.prog-val { font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px; color: var(--ink); min-width: 44px; text-align: right; }
 
 /* ── BADGES ── */
 .badge {
   display: inline-block;
-  font-family: var(--sans); font-size: 10px; font-weight: 500;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 10px; font-weight: 500;
   letter-spacing: .04em; padding: 2px 8px;
   border-radius: 3px; border: 1px solid;
 }
@@ -404,7 +401,7 @@ hr.divider {
 .cfd-cell img { width: 100%; display: block; border: 1px solid var(--border); border-radius: 4px; }
 .cfd-tag {
   position: absolute; top: 8px; left: 8px;
-  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 10px; font-weight: 500;
   background: rgba(255,255,255,.92); color: var(--ink);
   padding: 2px 8px; border-radius: 2px; border: 1px solid var(--border);
 }
@@ -417,13 +414,13 @@ hr.divider {
 }
 .ref-item:last-child { border-bottom: none; }
 .ref-n {
-  font-family: var(--mono); font-size: 12px; color: var(--ink4);
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 12px; color: var(--ink4);
   min-width: 30px; padding-top: 2px; flex-shrink: 0;
 }
-.ref-body { font-family: var(--serif-body); font-size: 15.5px; color: var(--ink2); line-height: 1.65; flex: 1; }
+.ref-body { font-family: 'Playfair Display', Georgia, serif; font-size: 15.5px; color: var(--ink2); line-height: 1.65; flex: 1; }
 .ref-body em { font-style: italic; }
 .ref-body .ref-url {
-  font-family: var(--mono); font-size: 11.5px; color: var(--ink4);
+  font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace; font-size: 11.5px; color: var(--ink4);
   display: block; margin-top: 3px; word-break: break-all;
 }
 
@@ -440,8 +437,8 @@ hr.divider {
 }
 .cmi:nth-child(2n) { border-right: none; }
 .cmi:nth-last-child(-n+2) { border-bottom: none; }
-.cmi-l { font-family: var(--sans); font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink4); margin-bottom: 3px; }
-.cmi-v { font-family: var(--sans); font-size: 13px; color: var(--ink); }
+.cmi-l { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink4); margin-bottom: 3px; }
+.cmi-v { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 13px; color: var(--ink); }
 
 /* hero image */
 .hero {
@@ -461,9 +458,9 @@ hr.divider {
   border-bottom: 1px solid var(--border);
   display: flex; justify-content: space-between; align-items: center;
 }
-.proto-title { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--ink); }
+.proto-title { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 600; color: var(--ink); }
 .proto-body { padding: 14px 16px; }
-.proto-body p { font-family: var(--serif-body); font-size: 14px; color: var(--ink2); line-height: 1.7; }
+.proto-body p { font-family: 'Playfair Display', Georgia, serif; font-size: 14px; color: var(--ink2); line-height: 1.7; }
 
 /* scrollbar */
 ::-webkit-scrollbar { width: 5px; }
@@ -479,6 +476,9 @@ hr.divider {
 .content-wrap { overflow-wrap: break-word; }
 .fig-cell img { display: block; width: 100%; height: auto; }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 <div class="shell">
@@ -519,7 +519,7 @@ hr.divider {
 <div id="s-cover" class="section-anchor">
   <div class="eyebrow">Mechanical Engineering &middot; IIT Kharagpur &middot; Group Project</div>
   <h1 class="sec-title">Br<em>ACHeS</em></h1>
-  <p style="font-family:var(--sans);font-size:13px;color:var(--ink4);margin-bottom:24px;letter-spacing:.02em;">/&nbsp;&#712;bre&#618;ks&nbsp;/ &nbsp;&middot;&nbsp; Brake Assisted Cabin Heating System</p>
+  <p style="font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;font-size:13px;color:var(--ink4);margin-bottom:24px;letter-spacing:.02em;">/&nbsp;&#712;bre&#618;ks&nbsp;/ &nbsp;&middot;&nbsp; Brake Assisted Cabin Heating System</p>
   <p class="lead">Capturing and redirecting waste friction-heat from ventilated disc brakes to supplement cabin heating in electric vehicles, a passive zero-energy thermal recovery systemstem designed, modelled, and CFD-validated at IIT Kharagpur.</p>
 
   <div class="cover-meta-grid">
@@ -611,11 +611,11 @@ hr.divider {
   <div class="grid-2" style="margin-top:8px;">
     <div class="card">
       <div class="card-h">Battery Range Impact</div>
-      <p style="font-family:var(--serif-body);font-size:15.5px;color:var(--ink2);line-height:1.75;">Unlike ICE vehicles that use engine waste heat for free, EVs convert battery energy to heat. In cold climates this substantially reduces driving range.<sup onclick="goRef(12)">[12]</sup> Any supplementary heat source directly extends effective range.</p>
+      <p style="font-family: 'Playfair Display', Georgia, serif;font-size:15.5px;color:var(--ink2);line-height:1.75;">Unlike ICE vehicles that use engine waste heat for free, EVs convert battery energy to heat. In cold climates this substantially reduces driving range.<sup onclick="goRef(12)">[12]</sup> Any supplementary heat source directly extends effective range.</p>
     </div>
     <div class="card">
       <div class="card-h">Heater Element Life</div>
-      <p style="font-family:var(--serif-body);font-size:15.5px;color:var(--ink2);line-height:1.75;">Resistive heating elements undergo thermal fatigue under repeated full-load cycling. Supplementary brake heat reduces average operating load, lowering thermal stress and extending the heater&rsquo;s service life.</p>
+      <p style="font-family: 'Playfair Display', Georgia, serif;font-size:15.5px;color:var(--ink2);line-height:1.75;">Resistive heating elements undergo thermal fatigue under repeated full-load cycling. Supplementary brake heat reduces average operating load, lowering thermal stress and extending the heater&rsquo;s service life.</p>
     </div>
   </div>
 
@@ -790,7 +790,7 @@ hr.divider {
       <div class="eq-body">
         <span class="eqvar">h</span> &nbsp;=&nbsp; 0.7 &middot;
         <span class="eq-frac"><span class="num"><span class="eqvar">K&#8336;</span></span><span class="den"><span class="eqvar">D</span></span></span>
-        &middot; Re<sup style="font-size:11px;font-family:var(--mono);">0.55</sup>
+        &middot; Re<sup style="font-size:11px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">0.55</sup>
       </div>
     </div>
     <div class="eq-block">
@@ -798,7 +798,7 @@ hr.divider {
       <div class="eq-body">
         <span class="eqvar">h</span> &nbsp;=&nbsp; 0.04 &middot;
         <span class="eq-frac"><span class="num"><span class="eqvar">K&#8336;</span></span><span class="den"><span class="eqvar">D</span></span></span>
-        &middot; Re<sup style="font-size:11px;font-family:var(--mono);">0.8</sup>
+        &middot; Re<sup style="font-size:11px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">0.8</sup>
       </div>
     </div>
   </div>
@@ -915,7 +915,7 @@ hr.divider {
     <div class="eq-label-bar">Outlet air temperature as a function of disc temperature</div>
     <div class="eq-body" style="font-size:17px;">
       <span class="eqvar">T<sub>air</sub></span> &nbsp;=&nbsp;
-      <span class="eqvar">T<sub>disc</sub></span> &minus; <span class="eqvar">e</span><sup style="font-size:12px;font-family:var(--mono);">&minus;0.012326 &middot; (T<sub>disc</sub> &minus; 5&thinsp;&deg;C)</sup>
+      <span class="eqvar">T<sub>disc</sub></span> &minus; <span class="eqvar">e</span><sup style="font-size:12px;font-family: 'Geist Mono', ui-monospace, 'Courier New', monospace;">&minus;0.012326 &middot; (T<sub>disc</sub> &minus; 5&thinsp;&deg;C)</sup>
     </div>
   </div>
 
@@ -1099,11 +1099,11 @@ hr.divider {
   <div class="grid-2" style="margin-top:8px;">
     <div class="card">
       <div class="card-h">Battery Range Preserved</div>
-      <p style="font-family:var(--serif-body);font-size:15.5px;color:var(--ink2);line-height:1.75;">Supplementing cabin heating with otherwise wasted brake heat reduces the electrical drain on the battery pack. In cold climates, where cabin heating can consume a substantial fraction of range<sup onclick="goRef(12)">[12]</sup>; even partial supplementation meaningfully extends driving distance.</p>
+      <p style="font-family: 'Playfair Display', Georgia, serif;font-size:15.5px;color:var(--ink2);line-height:1.75;">Supplementing cabin heating with otherwise wasted brake heat reduces the electrical drain on the battery pack. In cold climates, where cabin heating can consume a substantial fraction of range<sup onclick="goRef(12)">[12]</sup>; even partial supplementation meaningfully extends driving distance.</p>
     </div>
     <div class="card">
       <div class="card-h">Heater Element Life Extended</div>
-      <p style="font-family:var(--serif-body);font-size:15.5px;color:var(--ink2);line-height:1.75;">Operating the resistive heater at reduced average load lowers thermal cycling stress and peak current demand. BrACHeS acts as a thermal support system, reducing degradation of the heating element and extending its service life.</p>
+      <p style="font-family: 'Playfair Display', Georgia, serif;font-size:15.5px;color:var(--ink2);line-height:1.75;">Operating the resistive heater at reduced average load lowers thermal cycling stress and peak current demand. BrACHeS acts as a thermal support system, reducing degradation of the heating element and extending its service life.</p>
     </div>
   </div>
 
@@ -1152,7 +1152,7 @@ hr.divider {
 
   <hr class="divider">
   <p class="prose" style="font-size:15.5px;max-width:100%;">BrACHeS demonstrates that, even after regenerative braking recovers its &asymp;19% share, accessible thermal energy remains in the disc airstream. Treating this stream as a resource rather than waste contributes to a more complete energy utilisation strategy for electric vehicles, consistent with the goals of sustainable and efficient transportation.<sup onclick="goRef(10)">[10]</sup> The iterative, simulation-validated methodology (from TEG rejection through three prototype generations) produced a physically realisable, low-complexity addition to EV braking infrastructure with measurable energy and comfort benefits.</p>
-  <p style="font-family:var(--sans);font-size:12px;color:var(--ink4);line-height:1.8;margin-top:20px;">
+  <p style="font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;font-size:12px;color:var(--ink4);line-height:1.8;margin-top:20px;">
     <strong style="color:var(--ink3);">Aman Tater</strong> &middot; Undergraduate, Department of Mechanical Engineering &middot; Indian Institute of Technology Kharagpur &middot; Collaborative group project
   </p>
 </div>

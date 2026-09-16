@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Psychology of Free Trials</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,8 +25,8 @@
   --accent3-light: #dff5ec;
   --amber: #b56e00;
   --amber-light: #fff4d6;
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --max: 880px;
   --r: 12px;
 }
@@ -37,7 +34,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-body);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   background: var(--paper);
   color: var(--ink);
   font-size: 15px;
@@ -58,7 +55,7 @@ nav {
   height: 50px; gap: 1rem;
 }
 .nav-brand {
-  font-family: var(--font-body); font-weight: 600; font-size: 13px;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-weight: 600; font-size: 13px;
   letter-spacing: 0.01em; color: var(--ink); text-decoration: none; white-space: nowrap;
 }
 .nav-links { display: flex; gap: 0; list-style: none; overflow-x: auto; }
@@ -93,7 +90,7 @@ nav {
   content: ''; display: inline-block; width: 20px; height: 2px; background: var(--accent);
 }
 .hero h1 {
-  font-family: var(--font-display); font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: clamp(2.8rem, 6.5vw, 4.6rem);
    line-height: 1.1;  color: var(--ink);
   margin-bottom: 1.6rem;
 }
@@ -121,7 +118,7 @@ nav {
 }
 .stat-cell:last-child { border-right: none; }
 .stat-num {
-  font-family: var(--font-display); font-size: 2.1rem; 
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 2.1rem; 
   color: var(--ink); line-height: 1; margin-bottom: 6px;
   transition: color .3s;
 }
@@ -140,12 +137,12 @@ nav {
 }
 .section-eyebrow::before { content: ''; display: inline-block; width: 14px; height: 2px; background: var(--accent); flex-shrink: 0; }
 h2.section-title {
-  font-family: var(--font-display); font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: clamp(1.7rem, 3.5vw, 2.3rem);
    line-height: 1.12; 
   color: var(--ink); margin-bottom: 0.7rem;
 }
 .section-lead { font-size: 15.5px; color: var(--ink-muted); max-width: 600px; margin-bottom: 2.5rem; }
-h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink); margin-bottom: 5px; }
+h3.sub { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 1rem;   color: var(--ink); margin-bottom: 5px; }
 
 /* ─── TIMELINE ─── */
 .timeline { display: flex; flex-direction: column; }
@@ -154,7 +151,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
   gap: 1.5rem; padding: 1.75rem 0;
   border-top: 1px solid var(--border); align-items: start;
 }
-.tl-era { font-family: var(--font-display); font-size: 12px;  color: var(--accent); padding-top: 3px; line-height: 1.4; }
+.tl-era { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12px;  color: var(--accent); padding-top: 3px; line-height: 1.4; }
 .tl-content p { font-size: 14.5px; color: var(--ink-muted); margin-top: 5px; }
 
 /* ─── PSYCH CARDS ─── */
@@ -183,7 +180,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
   display: grid; grid-template-columns: 36px 1fr; gap: 1.2rem;
   padding: 1.25rem 0; border-top: 1px solid var(--border); align-items: start;
 }
-.p-num { font-family: var(--font-display); font-size: 13px;  color: var(--accent); padding-top: 2px; }
+.p-num { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 13px;  color: var(--accent); padding-top: 2px; }
 .principle p { font-size: 14px; color: var(--ink-muted); line-height: 1.65; margin-top: 4px; }
 
 /* ─── CONV BARS ─── */
@@ -203,7 +200,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
 /* ─── MODEL GRID ─── */
 .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 1.5rem; }
 .model-card { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-.model-head { padding: 0.9rem 1.2rem; font-family: var(--font-display); font-size: 13.5px;  }
+.model-head { padding: 0.9rem 1.2rem; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 13.5px;  }
 .mh-blue { background: var(--accent-light); color: var(--accent); }
 .mh-green { background: var(--accent3-light); color: var(--accent3); }
 .mh-red { background: var(--accent2-light); color: var(--accent2); }
@@ -236,7 +233,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
   font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--ink-faint); margin-bottom: 6px;
 }
-.decision-card h3 { font-family: var(--font-display); font-size: 14px;  margin-bottom: 8px; color: var(--ink); }
+.decision-card h3 { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 14px;  margin-bottom: 8px; color: var(--ink); }
 .decision-card p { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
 .decision-card .d-examples {
   margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
@@ -250,7 +247,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
 .impact-card {
   background: #fff; border: 1px solid var(--border); border-radius: var(--r); padding: 1.4rem;
 }
-.impact-card h3 { font-family: var(--font-display); font-size: 14px;  color: var(--ink); margin-bottom: 0.8rem; }
+.impact-card h3 { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 14px;  color: var(--ink); margin-bottom: 0.8rem; }
 .impact-list { display: flex; flex-direction: column; gap: 0; }
 .impact-list li {
   font-size: 13.5px; color: var(--ink-muted); padding: 7px 0;
@@ -268,7 +265,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
   display: flex; align-items: flex-start; justify-content: space-between;
   padding: 1.75rem 1.75rem 0; gap: 1rem; flex-wrap: wrap;
 }
-.case-company { font-family: var(--font-display); font-size: 1.5rem;   color: var(--ink); }
+.case-company { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem;   color: var(--ink); }
 .case-tag {
   font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 4px 11px; border-radius: 20px; white-space: nowrap; margin-top: 4px;
@@ -276,7 +273,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
 .case-desc { padding: 0.7rem 1.75rem 1.5rem; font-size: 14.5px; color: var(--ink-muted); border-bottom: 1px solid var(--border); }
 .case-body { padding: 1.5rem 1.75rem; }
 .case-stats { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-.cs-num { font-family: var(--font-display); font-size: 1.85rem;  line-height: 1; margin-bottom: 3px; }
+.cs-num { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 1.85rem;  line-height: 1; margin-bottom: 3px; }
 .cs-label { font-size: 11.5px; color: var(--ink-faint); font-weight: 500; }
 .mechanics { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; }
 .mech { background: var(--surface); border-radius: 8px; padding: 12px 13px; }
@@ -287,8 +284,8 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
 .ai-months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 1.5rem; }
 @media (max-width: 600px) { .ai-months { grid-template-columns: 1fr; } }
 .ai-phase { background: #fff; border: 1px solid var(--border); border-radius: var(--r); padding: 1.2rem; }
-.ai-phase .phase-period { font-family: var(--font-display); font-size: 12px;  color: var(--accent2); margin-bottom: 6px; }
-.ai-phase h3 { font-family: var(--font-display); font-size: 13.5px;  margin-bottom: 6px; }
+.ai-phase .phase-period { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12px;  color: var(--accent2); margin-bottom: 6px; }
+.ai-phase h3 { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 13.5px;  margin-bottom: 6px; }
 .ai-phase p { font-size: 13px; color: var(--ink-muted); line-height: 1.6; }
 
 /* ─── FUTURE ─── */
@@ -299,7 +296,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
 /* ─── REFERENCES ─── */
 .refs { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
 .ref-item { padding: 1rem 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: 28px 1fr; gap: 1rem; }
-.ref-n { font-family: var(--font-display); font-size: 12px;  color: var(--accent); padding-top: 2px; }
+.ref-n { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: 12px;  color: var(--accent); padding-top: 2px; }
 .ref-text { font-size: 13.5px; color: var(--ink-muted); line-height: 1.6; }
 .ref-text em { font-style: italic; color: var(--ink); }
 
@@ -309,7 +306,7 @@ h3.sub { font-family: var(--font-display); font-size: 1rem;   color: var(--ink);
   margin: 3.5rem 0 0;
 }
 .conclusion-block .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem; }
-.conclusion-block h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2rem);   color: #fff; margin-bottom: 1.25rem; line-height: 1.15; }
+.conclusion-block h2 { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; font-size: clamp(1.5rem, 3.5vw, 2rem);   color: #fff; margin-bottom: 1.25rem; line-height: 1.15; }
 .conclusion-block p { font-size: 15.5px; color: rgba(255,255,255,0.65); line-height: 1.78; max-width: 680px; }
 
 /* ─── FOOTER ─── */
@@ -342,6 +339,9 @@ footer { border-top: 1px solid var(--border); padding: 2rem 0 3rem; }
   .future-grid { grid-template-columns: 1fr; }
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
