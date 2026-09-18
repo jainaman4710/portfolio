@@ -26,7 +26,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#FFF5F7" }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: "#FFF5F7" }}>
       <Header />
 
       {/* ── HERO ── */}
@@ -62,10 +62,10 @@ export default function Home() {
         </div>
 
         {/* content */}
-        <div className="relative z-10 px-20 py-16 max-w-[660px]">
+        <div className="relative z-10 px-6 sm:px-12 md:px-16 lg:px-20 py-16 max-w-[660px]">
           <h1
-            className="font-serif font-normal leading-none whitespace-nowrap mb-2"
-            style={{ fontSize: "clamp(3.8rem, 6vw, 6.5rem)" }}
+            className="font-serif font-normal leading-none whitespace-normal sm:whitespace-nowrap mb-2"
+            style={{ fontSize: "clamp(2.5rem, 9vw, 6.5rem)" }}
           >
             Aman <em className="italic" style={{ color: "#5C6BC0" }}>Tater</em>
           </h1>
@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* ── PROJECTS ── */}
-      <section id="projects" className="px-20 pb-20" style={{ backgroundColor: "#FFF5F7", paddingTop: 0 }}>
+      <section id="projects" className="px-6 sm:px-12 md:px-16 lg:px-20 pb-20" style={{ backgroundColor: "#FFF5F7", paddingTop: 0 }}>
         <p className="font-mono uppercase mb-1" style={{ fontSize: "11px", color: "#00BCD4", letterSpacing: "0.12em" }}>
           Proof of Work
         </p>
@@ -116,8 +116,8 @@ export default function Home() {
       {/* ── ABOUT ── */}
       <section
         id="about"
-        className="px-20 py-20 grid gap-16 items-start"
-        style={{ backgroundColor: "#FCE4EC", gridTemplateColumns: "1fr auto" }}
+        className="px-6 sm:px-12 md:px-16 lg:px-20 py-20 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-start"
+        style={{ backgroundColor: "#FCE4EC" }}
       >
         <div>
           <p className="font-mono uppercase mb-1" style={{ fontSize: "11px", color: "#00BCD4", letterSpacing: "0.12em" }}>
@@ -149,7 +149,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div style={{ paddingTop: "5.5rem" }}>
+        <div className="lg:pt-[5.5rem]">
           <a
             href="#"
             className="inline-flex items-center gap-2 font-medium rounded-full no-underline whitespace-nowrap"
@@ -167,17 +167,17 @@ export default function Home() {
       </section>
 
       {/* ── EDUCATION ── */}
-      <section id="education" className="px-20 py-20" style={{ backgroundColor: "#FFF5F7" }}>
+      <section id="education" className="px-6 sm:px-12 md:px-16 lg:px-20 py-20" style={{ backgroundColor: "#FFF5F7" }}>
         <p className="font-mono uppercase mb-1" style={{ fontSize: "11px", color: "#00BCD4", letterSpacing: "0.12em" }}>
           Academic Background
         </p>
         <h2 className="font-serif font-normal mb-10" style={{ fontSize: "clamp(1.9rem,2.8vw,2.6rem)", color: "#1a1a2e" }}>
           Education
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
           {/* Dual degree — full width */}
-          <div className="col-span-2 rounded-2xl p-8" style={{ background: "#fff", border: "1px solid #F8BBD9" }}>
+          <div className="sm:col-span-2 rounded-2xl p-8" style={{ background: "#fff", border: "1px solid #F8BBD9" }}>
             <span
               className="font-mono uppercase inline-block rounded-full mb-4"
               style={{ fontSize: "10px", color: "#303F9F", background: "#E8EAF6", border: "1px solid #9FA8DA", padding: "3px 10px", letterSpacing: "0.06em" }}
@@ -224,8 +224,8 @@ export default function Home() {
             <h3 className="font-serif font-normal mb-2" style={{ fontSize: "1.2rem", color: "#1a1a2e" }}>
               Senior Secondary
             </h3>
-            <p style={{ fontSize: "14px", color: "#6b5b6e" }}>&#x2022; School name here</p>
-            <p className="font-mono mt-1" style={{ fontSize: "11px", color: "#b0a0b4" }}>&#x2022; Year</p>
+            <p style={{ fontSize: "14px", color: "#6b5b6e" }}>&#x2022; H.R. Memorial Sr. Sec. School, Lunkaransar, Bikaner, Rajasthan</p>
+            <p className="font-mono mt-1" style={{ fontSize: "11px", color: "#b0a0b4" }}>&#x2022; 2021</p>
           </div>
 
           {/* Class X */}
@@ -239,22 +239,22 @@ export default function Home() {
             <h3 className="font-serif font-normal mb-2" style={{ fontSize: "1.2rem", color: "#1a1a2e" }}>
               Secondary
             </h3>
-            <p style={{ fontSize: "14px", color: "#6b5b6e" }}>&#x2022; School name here</p>
-            <p className="font-mono mt-1" style={{ fontSize: "11px", color: "#b0a0b4" }}>&#x2022; Year</p>
+            <p style={{ fontSize: "14px", color: "#6b5b6e" }}>&#x2022; Govt. Sr. Sec. School, Lunkaransar, Bikaner, Rajasthan</p>
+            <p className="font-mono mt-1" style={{ fontSize: "11px", color: "#b0a0b4" }}>&#x2022; 2019</p>
           </div>
 
         </div>
       </section>
 
       {/* ── SKILLS ── */}
-      <section id="skills" className="px-20 py-20" style={{ backgroundColor: "#FCE4EC" }}>
+      <section id="skills" className="px-6 sm:px-12 md:px-16 lg:px-20 py-20" style={{ backgroundColor: "#FCE4EC" }}>
         <p className="font-mono uppercase mb-1" style={{ fontSize: "11px", color: "#00BCD4", letterSpacing: "0.12em" }}>
           Toolkit
         </p>
         <h2 className="font-serif font-normal mb-10" style={{ fontSize: "clamp(1.9rem,2.8vw,2.6rem)", color: "#1a1a2e" }}>
           Skills
         </h2>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {skills.map((s) => (
             <div
               key={s.cat}
@@ -284,7 +284,7 @@ export default function Home() {
       </section>
 
       {/* ── CONTACT ── */}
-      <section id="contact" className="px-20 py-28 text-center" style={{ backgroundColor: "#FFF5F7" }}>
+      <section id="contact" className="px-6 sm:px-12 md:px-16 lg:px-20 py-28 text-center" style={{ backgroundColor: "#FFF5F7" }}>
         <p className="font-mono uppercase mb-1" style={{ fontSize: "11px", color: "#5C6BC0", letterSpacing: "0.12em" }}>
           Get in Touch
         </p>
@@ -325,7 +325,7 @@ export default function Home() {
 
       {/* ── FOOTER ── */}
       <footer
-        className="px-20 py-7 flex justify-between items-center"
+        className="px-6 sm:px-12 md:px-16 lg:px-20 py-7 flex flex-wrap justify-between items-center gap-4"
         style={{ borderTop: "1px solid #F8BBD9", backgroundColor: "#FFF5F7" }}
       >
         <div className="flex items-center gap-4">
@@ -351,7 +351,7 @@ export default function Home() {
             <GithubIcon className="h-3.5 w-3.5" />
           </a>
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
           {["home","projects","about","education","skills","contact"].map((l) => (
             <a
               key={l}
