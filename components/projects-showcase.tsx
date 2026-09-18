@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import type { Project } from "@/lib/projects"
 
 export function ProjectsShowcase({ projects }: { projects: Project[] }) {
@@ -19,15 +20,10 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
             <button
               key={cat}
               onClick={() => setActive(cat)}
-              className="font-mono uppercase rounded-full transition-colors"
-              style={{
-                fontSize: "10px",
-                letterSpacing: "0.06em",
-                padding: "6px 14px",
-                border: isActive ? "1px solid #5C6BC0" : "1px solid #F8BBD9",
-                background: isActive ? "#5C6BC0" : "#fff",
-                color: isActive ? "#fff" : "#6b5b6e",
-              }}
+              className={`font-mono uppercase rounded-full transition-colors border ${
+                isActive ? "border-primary bg-primary text-white" : "border-border bg-card text-fore2"
+              }`}
+              style={{ fontSize: "10px", letterSpacing: "0.06em", padding: "6px 14px" }}
             >
               {cat}
             </button>
@@ -37,50 +33,43 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filtered.map((p) => (
-          <a
+          <Link
             key={p.id}
             href={`/projects/${p.id}`}
-            className="relative block rounded-2xl no-underline transition-all"
-            style={{ background: "#fff", border: "1px solid #F8BBD9", padding: "2rem" }}
+            className="relative block rounded-2xl no-underline transition-all bg-card border border-border"
+            style={{ padding: "2rem" }}
           >
-            <span className="absolute top-6 right-6" style={{ color: "#b0a0b4" }}>
+            <span className="absolute top-6 right-6 text-fore3">
               &#x2197;
             </span>
             <span
-              className="font-mono uppercase inline-block rounded-full mb-4"
-              style={{
-                fontSize: "10px",
-                color: "#006064",
-                background: "#E0F7FA",
-                border: "1px solid #80DEEA",
-                padding: "3px 10px",
-                letterSpacing: "0.06em",
-              }}
+              className="font-mono uppercase inline-block rounded-full mb-4 text-teal-dark bg-teal-soft border border-teal-mid"
+              style={{ fontSize: "10px", padding: "3px 10px", letterSpacing: "0.06em" }}
             >
               {p.category}
             </span>
-            <h3 className="font-serif font-normal mb-1 leading-snug" style={{ fontSize: "1.2rem", color: "#1a1a2e" }}>
+            <h3 className="font-serif font-normal mb-1 leading-snug text-foreground" style={{ fontSize: "1.2rem" }}>
               {p.title}
             </h3>
-            <p className="font-mono mb-3" style={{ fontSize: "11px", color: "#b0a0b4" }}>
+            <p className="font-mono mb-3 text-fore3" style={{ fontSize: "11px" }}>
               {p.subtitle}
             </p>
-            <p className="leading-[1.75] mb-6" style={{ fontSize: "13px", color: "#6b5b6e" }}>
+            <p className="leading-[1.75] mb-6 text-fore2" style={{ fontSize: "13px" }}>
               {p.description}
             </p>
             <div className="flex flex-wrap gap-5">
               {p.stats.map((s) => (
                 <div key={s.label}>
-                  <span className="font-mono font-medium block" style={{ fontSize: "15px", color: "#006064" }}>
+                  <span className="font-mono font-medium block text-teal-dark" style={{ fontSize: "15px" }}>
                     {s.value}
                   </span>
-                  <span className="uppercase" style={{ fontSize: "10px", color: "#b0a0b4", letterSpacing: "0.05em" }}>
+                  <span className="uppercase text-fore3" style={{ fontSize: "10px", letterSpacing: "0.05em" }}>
                     {s.label}
                   </span>
                 </div>
               ))}
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

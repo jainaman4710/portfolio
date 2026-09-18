@@ -17,14 +17,13 @@ export function Header() {
 
   return (
     <header
-      className="fixed left-0 right-0 top-0 z-50 backdrop-blur-md"
-      style={{ borderBottom: "1px solid #F8BBD9", backgroundColor: "rgba(255,245,247,0.88)" }}
+      className="fixed left-0 right-0 top-0 z-50 backdrop-blur-md border-b border-border bg-background/88"
     >
       <div className="flex h-[60px] items-center justify-between px-4 sm:px-10">
         <Link
           href="/"
-          className="font-serif font-semibold no-underline"
-          style={{ fontSize: "1.15rem", color: "#1A237E" }}
+          className="font-serif font-semibold no-underline text-indigo-dark"
+          style={{ fontSize: "1.15rem" }}
           onClick={() => setIsMenuOpen(false)}
         >
           Aman Tater
@@ -35,8 +34,8 @@ export function Header() {
             <Link
               key={label}
               href={href}
-              className="no-underline transition-colors"
-              style={{ fontSize: "13px", color: "#6b5b6e", letterSpacing: "0.03em" }}
+              className="no-underline transition-colors text-fore2"
+              style={{ fontSize: "13px", letterSpacing: "0.03em" }}
             >
               {label}
             </Link>
@@ -49,8 +48,7 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="transition-colors"
-            style={{ color: "#b0a0b4" }}
+            className="transition-colors text-fore3"
           >
             <LinkedinIcon className="h-4 w-4" />
           </a>
@@ -59,15 +57,14 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="transition-colors"
-            style={{ color: "#b0a0b4" }}
+            className="transition-colors text-fore3"
           >
             <GithubIcon className="h-4 w-4" />
           </a>
           <a
             href="mailto:amantater026@gmail.com"
-            className="font-mono no-underline transition-colors hidden md:inline"
-            style={{ fontSize: "12px", color: "#b0a0b4" }}
+            className="font-mono no-underline transition-colors hidden md:inline text-fore3"
+            style={{ fontSize: "12px" }}
           >
             amantater026@gmail.com
           </a>
@@ -75,12 +72,11 @@ export function Header() {
           {/* Mobile menu toggle — only shown below the `sm` breakpoint */}
           <button
             type="button"
-            className="flex items-center justify-center sm:hidden"
+            className="flex items-center justify-center sm:hidden text-indigo"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav"
             onClick={() => setIsMenuOpen((open) => !open)}
-            style={{ color: "#303F9F" }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -105,16 +101,15 @@ export function Header() {
       {isMenuOpen && (
         <nav
           id="mobile-nav"
-          className="flex flex-col sm:hidden"
-          style={{ borderTop: "1px solid #F8BBD9", backgroundColor: "#FFF5F7" }}
+          className="flex flex-col sm:hidden border-t border-border bg-background"
         >
           {NAV_LINKS.map(({ label, href }) => (
             <Link
               key={label}
               href={href}
               onClick={() => setIsMenuOpen(false)}
-              className="no-underline"
-              style={{ fontSize: "14px", color: "#6b5b6e", padding: "14px 20px", borderBottom: "1px solid #F8BBD9" }}
+              className="no-underline text-fore2 border-b border-border"
+              style={{ fontSize: "14px", padding: "14px 20px" }}
             >
               {label}
             </Link>

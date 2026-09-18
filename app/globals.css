@@ -43,7 +43,17 @@
   --color-pink: var(--pink);
   --color-pink-soft: var(--pink-soft);
   --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-teal-mid: var(--teal-mid);
+  --color-teal-dark: var(--teal-dark);
   --color-purple: var(--purple);
+  --color-purple-soft: var(--purple-soft);
+  --color-purple-mid: var(--purple-mid);
+  --color-indigo: var(--indigo);
+  --color-indigo-dark: var(--indigo-dark);
+  --color-indigo-border: var(--indigo-border);
+  --color-fore2: var(--fore2);
+  --color-fore3: var(--fore3);
   --color-amber: var(--amber);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -103,6 +113,9 @@
   --purple:       #9C27B0;
   --purple-soft:  #F3E5F5;
   --purple-mid:   #CE93D8;
+  --pink:         #C2185B;
+  --pink-soft:    #FCE4EC;
+  --indigo-border: #9FA8DA;
   --fore2:        #6b5b6e;
   --fore3:        #b0a0b4;
 

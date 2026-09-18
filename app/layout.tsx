@@ -17,7 +17,6 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Aman Tater | Product, Analytics & Data Science',
   description: 'Portfolio of Aman Tater - M.Tech Dual Degree at IIT Kharagpur. Showcasing work in Product Management, Business Analytics, and Data Science.',
-  generator: 'v0.app',
 }
 
 export default function RootLayout({

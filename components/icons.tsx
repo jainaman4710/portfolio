@@ -4,7 +4,7 @@ import type { CSSProperties } from "react"
 
 export function GithubIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
       <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z" />
     </svg>
   )
@@ -12,7 +12,7 @@ export function GithubIcon({ className = "" }: { className?: string }) {
 
 export function LinkedinIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
       <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM1.78 1h20.44C22.75 1 23 1.24 23 1.56v20.88c0 .32-.25.56-.78.56H1.78c-.53 0-.78-.24-.78-.56V1.56C1 1.24 1.25 1 1.78 1Z" />
     </svg>
   )
@@ -20,7 +20,7 @@ export function LinkedinIcon({ className = "" }: { className?: string }) {
 
 export function GearIcon({ className = "" }: { className?: string }) {
   return (
-    <svg
+    <svg aria-hidden="true"
       viewBox="0 0 100 100"
       className={className}
       fill="currentColor"
@@ -34,7 +34,7 @@ export function GearIcon({ className = "" }: { className?: string }) {
 // Stress-Strain Curve (Mechanical Engineering)
 export function StressStrainCurve({ className = "", style }: { className?: string; style?: CSSProperties }) {
   return (
-    <svg viewBox="0 0 400 300" className={className} fill="none" style={style}>
+    <svg aria-hidden="true" viewBox="0 0 400 300" className={className} fill="none" style={style}>
       {/* Axes */}
       <line x1="50" y1="250" x2="380" y2="250" stroke="currentColor" strokeWidth="2" />
       <line x1="50" y1="250" x2="50" y2="20" stroke="currentColor" strokeWidth="2" />
@@ -80,7 +80,7 @@ export function StressStrainCurve({ className = "", style }: { className?: strin
 // Euler-Lagrange Equation (Mathematical/Engineering)
 export function EulerLagrangeEquation({ className = "", style }: { className?: string; style?: CSSProperties }) {
   return (
-    <svg viewBox="0 0 400 150" className={className} style={style}>
+    <svg aria-hidden="true" viewBox="0 0 400 150" className={className} style={style}>
       {/* Decorative box */}
       <rect x="20" y="20" width="360" height="110" rx="8" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.3" />
       
@@ -125,7 +125,7 @@ export function EulerLagrangeEquation({ className = "", style }: { className?: s
 // Neural Network Diagram (ML/Deep Learning)
 export function NeuralNetworkDiagram({ className = "", style }: { className?: string; style?: CSSProperties }) {
   return (
-    <svg viewBox="0 0 400 300" className={className} style={style}>
+    <svg aria-hidden="true" viewBox="0 0 400 300" className={className} style={style}>
       {/* Title */}
       <text x="200" y="25" textAnchor="middle" fontSize="14" fill="currentColor" fontFamily="serif">Neural Network</text>
       
@@ -192,7 +192,7 @@ export function NeuralNetworkDiagram({ className = "", style }: { className?: st
 // Product Roadmap / PM Diagram
 export function ProductRoadmapDiagram({ className = "", style }: { className?: string; style?: CSSProperties }) {
   return (
-    <svg viewBox="0 0 400 250" className={className} style={style}>
+    <svg aria-hidden="true" viewBox="0 0 400 250" className={className} style={style}>
       {/* Title */}
       <text x="200" y="25" textAnchor="middle" fontSize="14" fill="currentColor" fontFamily="serif">Product Lifecycle</text>
       
