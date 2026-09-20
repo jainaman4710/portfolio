@@ -4,11 +4,16 @@ import { useState } from "react"
 import Link from "next/link"
 import type { Project } from "@/lib/projects"
 
+const DEFAULT_VISIBLE_COUNT = 6
+
 export function ProjectsShowcase({ projects }: { projects: Project[] }) {
   const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))]
   const [active, setActive] = useState("All")
+  const [expanded, setExpanded] = useState(false)
 
   const filtered = active === "All" ? projects : projects.filter((p) => p.category === active)
+  const visible = expanded ? filtered : filtered.slice(0, DEFAULT_VISIBLE_COUNT)
+  const hasMore = filtered.length > DEFAULT_VISIBLE_COUNT
 
   return (
     <div>
@@ -19,7 +24,10 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
           return (
             <button
               key={cat}
-              onClick={() => setActive(cat)}
+              onClick={() => {
+                setActive(cat)
+                setExpanded(false)
+              }}
               className={`font-mono uppercase rounded-full transition-colors border ${
                 isActive ? "border-primary bg-primary text-white" : "border-border bg-card text-fore2"
               }`}
@@ -32,7 +40,7 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {filtered.map((p) => (
+        {visible.map((p) => (
           <Link
             key={p.id}
             href={`/projects/${p.id}`}
@@ -72,6 +80,18 @@ export function ProjectsShowcase({ projects }: { projects: Project[] }) {
           </Link>
         ))}
       </div>
+
+      {hasMore && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="font-mono uppercase rounded-full transition-colors border border-border bg-card text-fore2"
+            style={{ fontSize: "10px", letterSpacing: "0.06em", padding: "8px 20px" }}
+          >
+            {expanded ? "Show Less" : `Show All ${filtered.length} Projects`}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

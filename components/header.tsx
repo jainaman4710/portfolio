@@ -62,7 +62,9 @@ export function Header() {
             <GithubIcon className="h-4 w-4" />
           </a>
           <a
-            href="mailto:amantater026@gmail.com"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=amantater026@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-mono no-underline transition-colors hidden md:inline text-fore3"
             style={{ fontSize: "12px" }}
           >

@@ -293,7 +293,9 @@ export default function Home() {
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <a
-            href="mailto:amantater026@gmail.com"
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=amantater026@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-mono inline-block rounded-full no-underline text-indigo bg-accent border border-indigo-border"
             style={{ fontSize: "1rem", padding: "14px 32px" }}
           >

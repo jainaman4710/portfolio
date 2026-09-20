@@ -11,21 +11,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "mauritius-study",
-    title: "Mauritius Blended Learning Study",
-    subtitle: "Research Data Analysis",
-    description:
-      "A multivariate analysis of digital literacy, motivation constructs, and course experience across higher education students in Mauritius, using EFA, CFA, ANOVA, stepwise regression, and SEM.",
-    tags: ["EFA/CFA", "SEM", "ANOVA", "R", "lavaan"],
-    category: "Statistical Analysis",
-    stats: [
-      { label: "KMO Index", value: ">0.8" },
-      { label: "R\u00b2 (SEM)", value: "86.1%" },
-      { label: "Path Coef.", value: "\u03b2=0.928" },
-    ],
-    href: "/projects/mauritius_analysis_portfolio.html",
-  },
-  {
     id: "vr-adoption",
     title: "VR Adoption Divergence",
     subtitle: "Bachelor Thesis Project, 2025-26",
@@ -219,21 +204,6 @@ export const projects: Project[] = [
       { label: "Grammarly Freemium Valuation", value: "$13B" },
     ],
     href: "/projects/free-trials-dashboard.html",
-  },
-  {
-    id: "intimuse-strategy",
-    title: "Intimuse: Subscription Audio-Content Strategy",
-    subtitle: "BCG Bruce Henderson Competition 2025",
-    description:
-      "A market-entry and monetisation strategy for a subscription audio-content platform, covering market sizing, personas, product strategy, competitive positioning, and financial modelling.",
-    tags: ["Market Sizing", "Subscription Economics", "Competitive Strategy"],
-    category: "Business Strategy",
-    stats: [
-      { label: "SAM Revenue Potential", value: "$20.3B" },
-      { label: "Serviceable Users", value: "281.89M" },
-      { label: "Breakeven Users", value: "46K" },
-    ],
-    href: "/projects/intimuse_dashboard.html",
   },
   {
     id: "linguafly-roadmap",
